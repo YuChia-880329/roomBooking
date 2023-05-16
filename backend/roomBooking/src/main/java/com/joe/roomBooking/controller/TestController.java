@@ -21,10 +21,6 @@ public class TestController {
 	@GetMapping("/t")
 	public TestBean test() {
 		
-		Throwable thr = new RuntimeException("123Test");
-		LOG.error(thr.getMessage(), thr);
-		THROWABLE_LOG.error(thr.getMessage(), thr);
-		
 		return new TestBean("TestStr!!");
 	}
 }
