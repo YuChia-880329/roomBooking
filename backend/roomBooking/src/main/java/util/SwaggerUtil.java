@@ -1,4 +1,4 @@
-package util.config;
+package util;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -10,7 +10,7 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-public class SwaggerConfigUtil {
+public class SwaggerUtil {
 
 	public static final String SPLITOR = ";";
 	

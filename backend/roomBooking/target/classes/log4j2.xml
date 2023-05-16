@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="info">
+	
+	<properties>
+		<property name="LOG_HOME">/roomBooking/logs</property>
+		<property name="LOG_PATTERN">[%d{yyyy-MM-dd HH:mm:ss}][%p][%F::%M][%L]-%m%n</property>
+		<property name="DEL_DAY">7d</property>
+	</properties>
+	
+	
+	<appenders>
+		<Console name="csol" target="SYSTEM_OUT">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+		
+		<RollingFile name="file" fileName="${LOG_HOME}/roomBooking.log" filePattern="${LOG_HOME}/roomBooking.log.%d{yyyy-MM-dd}">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${LOG_HOME}/" maxDepth="1">
+					<IfFileName glob="roomBooking.log.*" />
+					<IfLastModified age="${DEL_DAY}" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+		
+		<RollingFile name="errorFile" fileName="${LOG_HOME}/Throwable/throwable.log" filePattern="${LOG_HOME}/Throwable/throwable.log.%d{yyyy-MM-dd}">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${LOG_HOME}/Throwable" maxDepth="1">
+					<IfFileName glob="throwable.log.*" />
+					<IfLastModified age="${DEL_DAY}" />
+				</Delete>
+			</DefaultRolloverStrategy>
+		</RollingFile>
+	</appenders>
+	
+	
+	<loggers>
+		<root level="info">
+			<AppenderRef ref="csol" />
+			<AppenderRef ref="file" />
+		</root>
+		<logger name="throwable-log" level="warn" additivity="false">
+			<AppenderRef ref="errorFile" />
+		</logger>
+	</loggers>
+	
+</Configuration>
