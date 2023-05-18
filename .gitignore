@@ -1,5 +1,5 @@
-/backend/roomBooking/.settings
-/backend/roomBooking/.classpath
-/backend/roomBooking/.factorypath
-/frontend/room-booking/build
-/frontend/room-booking/node_modules
+/react/room-booking/build
+/react/room-booking/node_modules
+/spring boot/roomBooking/.classpath
+/spring boot/roomBooking/.factorypath
+/spring boot/roomBooking/.settings
