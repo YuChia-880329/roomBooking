@@ -1,9 +1,9 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from './backend/navbar';
+import Backend from './backend';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(<Navbar />);
+root.render(<Backend />);
