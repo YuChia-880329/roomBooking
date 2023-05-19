@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 
-class LocalNavbar extends Component {
+class BackendNavbar extends Component {
 
     state = {
         hotelName : 'XXX飯店'
@@ -17,7 +17,7 @@ class LocalNavbar extends Component {
         };
 
         return (
-            <Navbar className='navbar-dark bg-secondary bg-gradient' expand='lg' collapseOnSelect>
+            <Navbar className='navbar-dark bg-secondary bg-gradient' expand='lg' fixed='top' collapseOnSelect>
                 <Container fluid className='px-5'>
                     <Navbar.Brand style={brandStyle}>
                         歡迎<span>{hotelName}</span>
@@ -44,4 +44,4 @@ class LocalNavbar extends Component {
     }
 }
 
-export default LocalNavbar;
+export default BackendNavbar;

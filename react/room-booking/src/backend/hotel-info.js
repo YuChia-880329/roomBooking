@@ -5,11 +5,9 @@ import LocalForm from './hotel_info/local-form';
 class HotelInfo extends Component {
     render() {
         return (
-            <div>
-                <Container className='w-75'>
-                    <LocalForm />
-                </Container>
-            </div>
+            <Container className='w-75'>
+                <LocalForm />
+            </Container>
         );
     }
 }
