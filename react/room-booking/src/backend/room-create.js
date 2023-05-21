@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import BorderForm from '../hoc/form/border-form';
-import InfoForm from './hotel_info/info-form';
+import CreateForm from './room_create/create-form';
 
-class HotelInfo extends Component {
+class RoomCreate extends Component {
     render() {
         return (
             <Container className='w-75'>
-                <BorderForm Content={InfoForm}/>
+                <BorderForm Content={CreateForm} />
             </Container>
         );
     }
 }
 
-export default HotelInfo;
+export default RoomCreate;
