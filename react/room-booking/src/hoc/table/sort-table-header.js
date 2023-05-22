@@ -25,10 +25,10 @@ class SortTableHeader extends Component {
                 <div>
                     <Stack>
                         <div>
-                            <Button variant='outline-secondary' size='sm' className='sort-btn'>▲</Button>
+                            <Button variant='outline-secondary' size='sm' className='little-btn'>▲</Button>
                         </div>
                         <div>
-                            <Button variant='outline-secondary' size='sm' className='sort-btn'>▼</Button>
+                            <Button variant='outline-secondary' size='sm' className='little-btn'>▼</Button>
                         </div>
                     </Stack>
                 </div>

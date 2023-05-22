@@ -1,18 +1,38 @@
-import React, { Component } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import '../../../css/custom.css';
+import React, { Component, Fragment } from 'react';
+import { Form, Row, Col, Button, Stack } from 'react-bootstrap';
 import HorizontalFormInput from '../../../hoc/form/horizontal-form-input';
 import CheckboxFormInput from '../../../hoc/form/checkbox-form-input';
 
 
 class Feature extends Component {
 
-    addCtrl = () => {
+
+    render() {
+
+        const checks = ['房內免費Wi-Fi', '停車場', '可寄放行李', '房內免費Wi-Fi', 
+                '停車場', '可寄放行李', '房內免費Wi-Fi', '停車場', '可寄放行李'];
 
         return (
-            <HorizontalFormInput text='新增選項' Ctrl={this.ctrlNew} />
+            <Fragment>
+                <CheckboxFormInput text='飯店特色' rowColsNum={4} checks={checks} AddCtrl={this.AddCtrl} />
+            </Fragment>
+            
+        );
+    }
+
+
+    
+    AddCtrl = () => {
+
+        return (
+            <Fragment>
+                <this.NewCheckTable />
+                <HorizontalFormInput text='新增選項' Ctrl={this.CtrlNew} />
+            </Fragment>
         );
     };
-    ctrlNew = () => {
+    CtrlNew = () => {
         return (
             <Row>
                 <Col xs='auto'>
@@ -24,15 +44,32 @@ class Feature extends Component {
             </Row>
         );
     };
-    render() {
+    NewCheckTable = () => {
 
-        const checks = ['房內免費Wi-Fi', '停車場', '可寄放行李', '房內免費Wi-Fi', 
-                '停車場', '可寄放行李', '房內免費Wi-Fi', '停車場', '可寄放行李'];
+        const newChecks = ['房內免費Wi-Fi', '停車場',  '房內免費Wi-Fi', 
+        '停車場', '可寄放行李', '可寄放行李', '房內免費Wi-Fi', '停車場', '可寄放行李'];
+
+        // style
+        const checkboxStyle = {
+            margin : '0'
+        };
 
         return (
-            <CheckboxFormInput text='飯店特色' rowColsNum={4} checks={checks} AddCtrl={this.addCtrl} />
+            <Row xs={3}>
+                {newChecks.map(newCheck => (
+                    <Col>
+                        <Stack direction='horizontal' gap={4}>
+                            <Form.Check type='checkbox' label={newCheck} style={checkboxStyle} />
+                            <div>
+                                <Button variant='outline-primary' size='sm' className='little-btn'>-</Button>
+                            </div>
+                        </Stack>
+                    </Col>
+                ))}
+                
+            </Row>
         );
-    }
+    };
 }
 
 export default Feature;

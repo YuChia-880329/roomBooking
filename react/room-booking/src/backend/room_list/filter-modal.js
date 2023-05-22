@@ -14,7 +14,15 @@ class FilterModal extends Component {
     filterBtnClicked = () => {
         this.filterModal.current.handleShow();
     }
-    filterBodyContent = () => {
+ 
+    render() {
+        return (
+            <TwoBtnModal ref={this.filterModal} title='篩選表單' BodyContent={this.FilterBodyContent} OkBtn={this.OkBtn} />
+        );
+    }
+
+
+    FilterBodyContent = () => {
         return (
             <Container className='my-3'>
                 <Stack gap={4}>
@@ -27,16 +35,11 @@ class FilterModal extends Component {
             </Container>
         );
     };
-    okBtn = () => {
+    OkBtn = () => {
         return (
             <Button variant='primary'>篩選</Button>
         );
     };
-    render() {
-        return (
-            <TwoBtnModal ref={this.filterModal} title='篩選表單' BodyContent={this.filterBodyContent} OkBtn={this.okBtn} />
-        );
-    }
 }
 
 export default FilterModal;

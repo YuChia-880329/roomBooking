@@ -4,7 +4,13 @@ import HorizontalFormInput from '../../../hoc/form/horizontal-form-input';
 
 class UpdateImage extends Component {
 
-    ctrl = () => {
+    render() {
+        return (
+            <HorizontalFormInput text='更新照片' Ctrl={this.Ctrl} />
+        );
+    }
+
+    Ctrl = () => {
         return (
             <Row>
                 <Col xs='auto'>
@@ -16,11 +22,6 @@ class UpdateImage extends Component {
             </Row>
         );
     };
-    render() {
-        return (
-            <HorizontalFormInput text='更新照片' Ctrl={this.ctrl} />
-        );
-    }
 }
 
 export default UpdateImage;
