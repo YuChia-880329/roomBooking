@@ -4,14 +4,8 @@ import HorizontalFormInput from '../../../hoc/form/horizontal-form-input';
 
 class ImageOrder extends Component {
 
- 
-    render() {
-        return (
-            <HorizontalFormInput text='照片順序' Ctrl={this.Ctrl} />
-        );
-    }
-
     Ctrl = () => {
+
         return (
             <Row>
                 <Col>
@@ -30,6 +24,13 @@ class ImageOrder extends Component {
             
         );
     };
+ 
+    render() {
+        
+        return (
+            <HorizontalFormInput text='照片順序' Ctrl={this.Ctrl} />
+        );
+    }
 }
 
 export default ImageOrder;

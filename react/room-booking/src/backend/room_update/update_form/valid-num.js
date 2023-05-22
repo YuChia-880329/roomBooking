@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Form, Row } from 'react-bootstrap';
 
 class ValidNum extends Component {
+    
     render() {
+
         return (
            <Form.Group as={Row}>
                 <Form.Label column xs='auto' >開放空房數 : </Form.Label>

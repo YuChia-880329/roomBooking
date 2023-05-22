@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Pagination } from 'react-bootstrap';
 
 class Pagn extends Component {
+    
     render() {
 
         // props
@@ -13,7 +14,10 @@ class Pagn extends Component {
                 <Pagination.Prev />
                 {
                     pages.map(
-                        page => (<Pagination.Item>{page}</Pagination.Item>))}
+                        page => (
+                            <Pagination.Item>{page}</Pagination.Item>
+                        )
+                    )}
                 <Pagination.Next />
                 <Pagination.Last />
             </Pagination>

@@ -4,6 +4,7 @@ import { Table } from 'react-bootstrap';
 import SortTableHeader from '../../hoc/table/sort-table-header';
 
 class RoomTable extends Component {
+    
     render() {
 
         // style

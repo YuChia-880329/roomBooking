@@ -6,7 +6,8 @@ import BackendHoc from '../hoc/backend-hoc';
 
 class RoomCreate extends Component {
 
-    content = () => {
+    Content = () => {
+
         return (
             <Container className='w-75'>
                 <BorderForm Content={CreateForm} />
@@ -15,8 +16,9 @@ class RoomCreate extends Component {
     };
 
     render() {
+        
         return (
-            <BackendHoc titleText='新增房型' Content={this.content} />
+            <BackendHoc titleText='新增房型' Content={this.Content} />
         );
     }
 }

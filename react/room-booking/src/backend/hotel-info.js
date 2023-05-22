@@ -6,7 +6,8 @@ import BackendHoc from '../hoc/backend-hoc';
 
 class HotelInfo extends Component {
 
-    content = () => {
+    Content = () => {
+
         return (
             <Container className='w-75'>
                 <BorderForm Content={InfoForm}/>
@@ -14,8 +15,9 @@ class HotelInfo extends Component {
         );
     };
     render() {
+        
         return (
-            <BackendHoc titleText='飯店資料' Content={this.content} />
+            <BackendHoc titleText='飯店資料' Content={this.Content} />
         );
     }
 }

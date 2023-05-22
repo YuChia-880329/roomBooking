@@ -4,7 +4,7 @@ import HorizontalFormInput from './horizontal-form-input';
 
 class SimpleFormInput extends Component {
 
-    ctrl = () => {
+    Ctrl = () => {
 
         // props
         const {id, type, min, placeholder} = this.props;
@@ -19,7 +19,7 @@ class SimpleFormInput extends Component {
         const {id, text, AddCtrl} = this.props;
 
         return (
-            <HorizontalFormInput id={id} text={text} Ctrl={this.ctrl} AddCtrl={AddCtrl} />
+            <HorizontalFormInput id={id} text={text} Ctrl={this.Ctrl} AddCtrl={AddCtrl} />
         );
     }
 }

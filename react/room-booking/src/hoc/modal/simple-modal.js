@@ -8,11 +8,13 @@ class SimpleModal extends Component {
     }
 
     handleShow = () =>{
+
         this.setState({
             show : true
         });
     }
     handleClose = () => {
+        
         this.setState({
             show : false
         });

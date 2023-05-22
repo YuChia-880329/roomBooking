@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 
-class CheckinDate extends Component {
+class CheckinTime extends Component {
 
     render() {
-        
+
         return (
             <Form.Group>
-                <Form.Label htmlFor='filter_checkinDateMin'>預定入住日期 : </Form.Label>
+                <Form.Label htmlFor='filter_checkinTimeMin'>預定入住時辰 : </Form.Label>
                 <Row>
                     <Col>
-                        <Form.Control id='filter_checkinDateMin' type='date'  />
+                        <Form.Control id='filter_checkinTimeMin' type='time'  />
                     </Col>
                     <Col xs='auto' className='px-3 align-self-center'>
                         <p className='mb-0'>~</p>
                     </Col>
                     <Col>
-                        <Form.Control id='filter_checkinDateMax' type='date'  />
+                        <Form.Control id='filter_checkinTimeMax' type='time'  />
                     </Col>
                 </Row>
             </Form.Group>
@@ -24,4 +24,4 @@ class CheckinDate extends Component {
     }
 }
 
-export default CheckinDate;
+export default CheckinTime;

@@ -4,16 +4,18 @@ import HorizontalFormInput from './horizontal-form-input';
 
 class SelectFormInput extends Component {
     
-    ctrl = () => {
+    Ctrl = () => {
 
         // props
         const {options} = this.props;
 
         return (
             <Form.Select>
-                {options.map(opt => (
-                    <option>{opt}</option>
-                ))}
+                {options.map(
+                    opt => (
+                        <option>{opt}</option>
+                    )
+                )}
             </Form.Select>
         );
     };
@@ -23,7 +25,7 @@ class SelectFormInput extends Component {
         const {text, AddCtrl} = this.props;
 
         return (
-            <HorizontalFormInput text={text} Ctrl={this.ctrl} AddCtrl={AddCtrl} />
+            <HorizontalFormInput text={text} Ctrl={this.Ctrl} AddCtrl={AddCtrl} />
         );
     }
 }

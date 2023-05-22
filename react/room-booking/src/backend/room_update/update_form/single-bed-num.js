@@ -4,8 +4,9 @@ import SimpleFormInput from '../../../hoc/form/simple-form-input';
 class SingleBedNum extends Component {
 
     render() {
+        
         return (
-            <SimpleFormInput id='singleBed' text='單人床數' type='number' min={0} />
+            <SimpleFormInput id='form_singleBed' text='單人床數' type='number' min={0} />
         );
     }
 }

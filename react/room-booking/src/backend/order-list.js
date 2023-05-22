@@ -7,13 +7,15 @@ import BackendHoc from '../hoc/backend-hoc';
 
 class OrderList extends Component {
 
-    filterModal = createRef();
+    filterModalRef = createRef();
 
     filterBtnClicked = () => {
-        this.filterModal.current.filterBtnClicked();
+
+        this.filterModalRef.current.filterBtnClicked();
     }
 
-    content = () => {
+    Content = () => {
+
         return (
             <Fragment>
                 <Container className='w-75'>
@@ -27,14 +29,15 @@ class OrderList extends Component {
                         </div>
                     </Stack>
                 </Container>
-                <FilterModal ref={this.filterModal} />
+                <FilterModal ref={this.filterModalRef} />
             </Fragment>
         );
     };
     
     render() {
+        
         return (
-            <BackendHoc titleText='訂房訂單' Content={this.content} />
+            <BackendHoc titleText='訂房訂單' Content={this.Content} />
         );
     }
 }

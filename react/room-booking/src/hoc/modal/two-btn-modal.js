@@ -7,13 +7,15 @@ class TwoBtnModal extends Component {
     simpleModal = createRef();
 
     handleShow = () => {
+
         this.simpleModal.current.handleShow();
     };
     handleClose = () => {
+
         this.simpleModal.current.handleClose();
     };
 
-    footerContent = () => {
+    FooterContent = () => {
 
         // props
         const {OkBtn} = this.props;
@@ -31,7 +33,7 @@ class TwoBtnModal extends Component {
         const {title, BodyContent} = this.props;
 
         return (
-            <SimpleModal ref={this.simpleModal} title={title} BodyContent={BodyContent} FooterContent={this.footerContent}  />
+            <SimpleModal ref={this.simpleModal} title={title} BodyContent={BodyContent} FooterContent={this.FooterContent}  />
         );
     }
 }

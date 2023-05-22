@@ -4,14 +4,6 @@ import HorizontalFormInput from '../../../hoc/form/horizontal-form-input';
 
 class HotelImage extends Component {
 
-    render() {
-
-        return (
-            <HorizontalFormInput text='飯店照片' Ctrl={this.Ctrl} />
-        );
-    }
-
-
     Ctrl = () => {
         
         // style
@@ -34,6 +26,13 @@ class HotelImage extends Component {
             </Row>
         );
     };
+    
+    render() {
+
+        return (
+            <HorizontalFormInput text='飯店照片' Ctrl={this.Ctrl} />
+        );
+    }
 }
 
 export default HotelImage;

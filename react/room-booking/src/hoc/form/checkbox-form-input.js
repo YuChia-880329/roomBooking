@@ -4,7 +4,7 @@ import HorizontalFormInput from './horizontal-form-input';
 
 class CheckboxFormInput extends Component {
     
-    ctrl = () => {
+    Ctrl = () => {
 
         // props
         const {rowColsNum, checks} = this.props;
@@ -20,11 +20,13 @@ class CheckboxFormInput extends Component {
         return (
             <Row xs={rowColsNum} className='g-3' style={rowStyle}>
                 
-                {checks.map(check => (
-                    <Col>
-                        <Form.Check type='checkbox' label={check} style={checkboxStyle} />
-                    </Col>
-                ))}
+                {checks.map(
+                    check => (
+                        <Col>
+                            <Form.Check type='checkbox' label={check} style={checkboxStyle} />
+                        </Col>
+                    )
+                )}
             </Row>
         );
     };
@@ -34,7 +36,7 @@ class CheckboxFormInput extends Component {
         const {text, AddCtrl} = this.props;
 
         return (
-            <HorizontalFormInput text={text} Ctrl={this.ctrl} AddCtrl={AddCtrl} />
+            <HorizontalFormInput text={text} Ctrl={this.Ctrl} AddCtrl={AddCtrl} />
         );
     }
 }

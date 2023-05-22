@@ -7,36 +7,21 @@ import CheckboxFormInput from '../../../hoc/form/checkbox-form-input';
 
 class Feature extends Component {
 
-
-    render() {
-
-        const checks = ['房內免費Wi-Fi', '停車場', '可寄放行李', '房內免費Wi-Fi', 
-                '停車場', '可寄放行李', '房內免費Wi-Fi', '停車場', '可寄放行李'];
-
-        return (
-            <Fragment>
-                <CheckboxFormInput text='飯店特色' rowColsNum={4} checks={checks} AddCtrl={this.AddCtrl} />
-            </Fragment>
-            
-        );
-    }
-
-
-    
     AddCtrl = () => {
 
         return (
             <Fragment>
                 <this.NewCheckTable />
-                <HorizontalFormInput text='新增選項' Ctrl={this.CtrlNew} />
+                <HorizontalFormInput id='form_newFeature' text='新增選項' Ctrl={this.CtrlNew} />
             </Fragment>
         );
     };
     CtrlNew = () => {
+        
         return (
             <Row>
                 <Col xs='auto'>
-                    <Form.Control  id='newFeature' htmlSize={15} />
+                    <Form.Control id='form_newFeature' htmlSize={15} />
                 </Col>
                 <Col xs='auto' className='align-self-center'>
                     <Button variant='outline-primary' size='sm'>+</Button>
@@ -56,20 +41,34 @@ class Feature extends Component {
 
         return (
             <Row xs={3}>
-                {newChecks.map(newCheck => (
-                    <Col>
-                        <Stack direction='horizontal' gap={4}>
-                            <Form.Check type='checkbox' label={newCheck} style={checkboxStyle} />
-                            <div>
-                                <Button variant='outline-primary' size='sm' className='little-btn'>-</Button>
-                            </div>
-                        </Stack>
-                    </Col>
-                ))}
-                
+                {newChecks.map(
+                    newCheck => (
+                        <Col>
+                            <Stack direction='horizontal' gap={4}>
+                                <Form.Check type='checkbox' label={newCheck} style={checkboxStyle} />
+                                <div>
+                                    <Button variant='outline-primary' size='sm' className='little-btn'>-</Button>
+                                </div>
+                            </Stack>
+                        </Col>
+                    )
+                )}
             </Row>
         );
     };
+
+    render() {
+
+        const checks = ['房內免費Wi-Fi', '停車場', '可寄放行李', '房內免費Wi-Fi', 
+                '停車場', '可寄放行李', '房內免費Wi-Fi', '停車場', '可寄放行李'];
+
+        return (
+            <Fragment>
+                <CheckboxFormInput text='飯店特色' rowColsNum={4} checks={checks} AddCtrl={this.AddCtrl} />
+            </Fragment>
+            
+        );
+    }
 }
 
 export default Feature;

@@ -13,6 +13,7 @@ import NewImage from './create_form/new-image'
 
 
 class CreateForm extends Component {
+    
     render() {
 
         return (

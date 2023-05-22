@@ -9,24 +9,21 @@ import RoomNum from './filter_modal/room-num';
 import Price from './filter_modal/price';
 import TotalPrice from './filter_modal/total-price';
 import CheckinDate from './filter_modal/checkin-date';
-import CheckouDate from './filter_modal/checkout-date';
+import CheckoutDate from './filter_modal/checkout-date';
+import PayMethod from './filter_modal/payMethod';
+import CheckinTime from './filter_modal/checkin-time';
 
 class FilterModal extends Component {
 
-    filterModal = createRef();
+    filterModalRef = createRef();
 
     filterBtnClicked = () => {
-        this.filterModal.current.handleShow();
-    }
 
-    render() {
-        return (
-            <TwoBtnModal ref={this.filterModal} title='篩選表單' BodyContent={this.FilterBodyContent} OkBtn={this.OkBtn} />
-        );
+        this.filterModalRef.current.handleShow();
     }
-
 
     FilterBodyContent = () => {
+
         return (
             <Container className='my-3'>
                 <Stack gap={4}>
@@ -37,17 +34,31 @@ class FilterModal extends Component {
                     <RoomNum />
                     <Price />
                     <TotalPrice />
+                    <PayMethod />
                     <CheckinDate />
-                    <CheckouDate />
+                    <CheckinTime />
+                    <CheckoutDate />
                 </Stack>
             </Container>
         );
     };
     OkBtn = () => {
+
         return (
             <Button variant='primary'>篩選</Button>
         );
     };
+
+    
+    render() {
+        
+        return (
+            <TwoBtnModal ref={this.filterModalRef} title='篩選表單' BodyContent={this.FilterBodyContent} OkBtn={this.OkBtn} />
+        );
+    }
+
+
+ 
 }
 
 export default FilterModal;

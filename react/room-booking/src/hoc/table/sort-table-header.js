@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Stack, Button } from 'react-bootstrap';
 
 class SortTableHeader extends Component {
+    
     render() {
 
         // props

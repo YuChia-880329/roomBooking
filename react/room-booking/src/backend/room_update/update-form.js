@@ -16,6 +16,7 @@ import ImageOrder from './update_form/image-order';
 import NewImage from './update_form/new-image';
 
 class UpdateForm extends Component {
+    
     render() {
 
         // style

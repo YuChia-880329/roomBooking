@@ -5,7 +5,7 @@ import HorizontalFormInput from './horizontal-form-input';
 
 class RangeFormInput extends Component {
 
-    ctrl = () => {
+    Ctrl = () => {
 
         // props
         const {id1, id2, type, min1, min2} = this.props;
@@ -24,13 +24,14 @@ class RangeFormInput extends Component {
             </Row>
         );
     };
+    
     render() {
 
         // props
         const {id1, text, AddCtrl} = this.props;
 
         return (
-            <HorizontalFormInput id={id1} text={text} Ctrl={this.ctrl} AddCtrl={AddCtrl} />
+            <HorizontalFormInput id={id1} text={text} Ctrl={this.Ctrl} AddCtrl={AddCtrl} />
         );
     }
 }

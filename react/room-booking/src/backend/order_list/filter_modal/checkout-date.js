@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 
-class CheckouDate extends Component {
+class CheckoutDate extends Component {
+
     render() {
+        
         return (
             <Form.Group>
                 <Form.Label htmlFor='filter_checkoutDateMin'>預定退房日期 : </Form.Label>
@@ -22,4 +24,4 @@ class CheckouDate extends Component {
     }
 }
 
-export default CheckouDate;
+export default CheckoutDate;

@@ -3,7 +3,11 @@ import { Table } from 'react-bootstrap';
 import SortTableHeader from '../../hoc/table/sort-table-header';
 
 class OrderTable extends Component {
-    render() {
+    
+    TableHeader = (props) => {
+
+        // local props
+        const {text} = props;
 
         // style
         const headerStyle = {
@@ -12,93 +16,62 @@ class OrderTable extends Component {
         };
 
         return (
+            <th style={headerStyle}>
+                <SortTableHeader text={text} />
+            </th>
+        );
+    };
+
+    render() {
+
+        const headerTexts = ['訂單編號', '客人姓名', '客人手機', '預定房型', '預定房間數', 
+            '房型單價', '總金額', '付款方式', '預定入住日期', '預定入住時辰', '預定退房日期'];
+        const example = ['黃小明', '0910123456', '標準雙人房', 1, 1000, 1000, '現金', 
+            '2023/05/14', '16:00', '2023/05/15'];
+
+        return (
             <Table striped bordered responsive hover>
                 <thead>
                     <tr>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='訂單編號' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='客人姓名' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='客人手機' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='預定房型' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='預定房間數' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='房型單價' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='總金額' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='預定入住日期' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='預定退房日期' />
-                        </th>
+                        {headerTexts.map(
+                            text => (
+                                <this.TableHeader text={text} />
+                            )
+                        )}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>黃小明</td>
-                        <td>0910123456</td>
-                        <td>標準雙人房</td>
-                        <td>1</td>
-                        <td>1000</td>
-                        <td>1000</td>
-                        <td>2023/05/14</td>
-                        <td>2023/05/15</td>
+                        {example.map(
+                            val => (
+                                <td>{val}</td>
+                            )
+                        )}
                     </tr>
                     <tr>
-                        <td>1</td>
-                        <td>黃小明</td>
-                        <td>0910123456</td>
-                        <td>標準雙人房</td>
-                        <td>1</td>
-                        <td>1000</td>
-                        <td>1000</td>
-                        <td>2023/05/14</td>
-                        <td>2023/05/15</td>
+                        <td>2</td>
+                        {example.map(
+                            val => (
+                                <td>{val}</td>
+                            )
+                        )}
                     </tr>
                     <tr>
-                        <td>1</td>
-                        <td>黃小明</td>
-                        <td>0910123456</td>
-                        <td>標準雙人房</td>
-                        <td>1</td>
-                        <td>1000</td>
-                        <td>1000</td>
-                        <td>2023/05/14</td>
-                        <td>2023/05/15</td>
+                        <td>3</td>
+                        {example.map(
+                            val => (
+                                <td>{val}</td>
+                            )
+                        )}
                     </tr>
                     <tr>
-                        <td>1</td>
-                        <td>黃小明</td>
-                        <td>0910123456</td>
-                        <td>標準雙人房</td>
-                        <td>1</td>
-                        <td>1000</td>
-                        <td>1000</td>
-                        <td>2023/05/14</td>
-                        <td>2023/05/15</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>黃小明</td>
-                        <td>0910123456</td>
-                        <td>標準雙人房</td>
-                        <td>1</td>
-                        <td>1000</td>
-                        <td>1000</td>
-                        <td>2023/05/14</td>
-                        <td>2023/05/15</td>
+                        <td>4</td>
+                        {example.map(
+                            val => (
+                                <td>{val}</td>
+                            )
+                        )}
                     </tr>
                 </tbody>
             </Table>

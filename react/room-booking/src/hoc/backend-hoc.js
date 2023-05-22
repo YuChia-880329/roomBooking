@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 
 class BackendHoc extends Component {
+    
     render() {
 
         // props

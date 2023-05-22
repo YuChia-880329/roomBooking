@@ -9,20 +9,15 @@ import Price from './filter_modal/price';
 
 class FilterModal extends Component {
 
-    filterModal = createRef();
+    filterModalRef = createRef();
 
     filterBtnClicked = () => {
-        this.filterModal.current.handleShow();
+
+        this.filterModalRef.current.handleShow();
     }
  
-    render() {
-        return (
-            <TwoBtnModal ref={this.filterModal} title='篩選表單' BodyContent={this.FilterBodyContent} OkBtn={this.OkBtn} />
-        );
-    }
-
-
     FilterBodyContent = () => {
+
         return (
             <Container className='my-3'>
                 <Stack gap={4}>
@@ -36,10 +31,18 @@ class FilterModal extends Component {
         );
     };
     OkBtn = () => {
+
         return (
             <Button variant='primary'>篩選</Button>
         );
     };
+
+    render() {
+
+        return (
+            <TwoBtnModal ref={this.filterModalRef} title='篩選表單' BodyContent={this.FilterBodyContent} OkBtn={this.OkBtn} />
+        );
+    }
 }
 
 export default FilterModal;

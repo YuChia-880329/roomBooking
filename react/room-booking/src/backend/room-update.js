@@ -6,7 +6,8 @@ import BackendHoc from '../hoc/backend-hoc';
 
 class RoomUpdate extends Component {
 
-    content = () => {
+    Content = () => {
+
         return (
             <Container className='w-75'>
                 <BorderForm Content={UpdateForm} />
@@ -15,8 +16,9 @@ class RoomUpdate extends Component {
     };
 
     render() {
+        
         return (
-            <BackendHoc titleText='房型更新' Content={this.content} />
+            <BackendHoc titleText='房型更新' Content={this.Content} />
         );
     }
 }

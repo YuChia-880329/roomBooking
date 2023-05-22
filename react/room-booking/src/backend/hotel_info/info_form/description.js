@@ -4,8 +4,9 @@ import TextAreaFormInput from '../../../hoc/form/text-area-form-input';
 class Description extends Component {
 
     render() {
+        
         return (
-            <TextAreaFormInput id='description' text='飯店介紹'/>
+            <TextAreaFormInput id='form_description' text='飯店介紹'/>
         );
     }
 }

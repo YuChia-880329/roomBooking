@@ -4,17 +4,12 @@ import HorizontalFormInput from '../../../hoc/form/horizontal-form-input';
 
 class UpdateImage extends Component {
 
-    render() {
-        return (
-            <HorizontalFormInput text='更新照片' Ctrl={this.Ctrl} />
-        );
-    }
-
     Ctrl = () => {
+
         return (
             <Row>
                 <Col xs='auto'>
-                    <Form.Control id='updateImage' type='file' />
+                    <Form.Control id='form_updateImage' type='file' />
                 </Col>
                 <Col xs='auto' className='ms-4 align-self-center'>
                     <Button variant='outline-primary' size='sm'>更新</Button>
@@ -22,6 +17,13 @@ class UpdateImage extends Component {
             </Row>
         );
     };
+
+    render() {
+        
+        return (
+            <HorizontalFormInput id='form_updateImage' text='更新照片' Ctrl={this.Ctrl} />
+        );
+    }
 }
 
 export default UpdateImage;
