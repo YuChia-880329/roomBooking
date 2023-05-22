@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import SimpleFormInput from '../../../hoc/form/simple-form-input';
 
-class TotalNumber extends Component {
-
+class ClientName extends Component {
     render() {
         return (
-            <SimpleFormInput id='totalNumber' text='總房數' type='number' min={1} />
+            <SimpleFormInput id='filter_clientName' text='客人姓名' />
         );
     }
 }
 
-export default TotalNumber;
+export default ClientName;

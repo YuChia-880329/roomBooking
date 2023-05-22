@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Row } from 'react-bootstrap';
 
-class ValidNumber extends Component {
+class ValidNum extends Component {
     render() {
         return (
            <Form.Group as={Row}>
@@ -14,4 +14,4 @@ class ValidNumber extends Component {
     }
 }
 
-export default ValidNumber;
+export default ValidNum;

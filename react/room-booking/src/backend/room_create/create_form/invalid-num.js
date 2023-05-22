@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SelectFormInput from '../../../hoc/form/select-form-input';
 
-class InvalidNumber extends Component {
+class InvalidNum extends Component {
 
     render() {
         
@@ -13,4 +13,4 @@ class InvalidNumber extends Component {
     }
 }
 
-export default InvalidNumber;
+export default InvalidNum;

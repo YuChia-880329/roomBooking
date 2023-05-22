@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SimpleFormInput from '../../../hoc/form/simple-form-input';
 
-class DoubleBedNumber extends Component {
+class DoubleBedNum extends Component {
 
     render() {
         return (
@@ -10,4 +10,4 @@ class DoubleBedNumber extends Component {
     }
 }
 
-export default DoubleBedNumber;
+export default DoubleBedNum;

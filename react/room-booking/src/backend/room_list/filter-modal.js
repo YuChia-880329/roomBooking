@@ -1,15 +1,11 @@
 import React, { Component, createRef } from 'react';
 import { Button, Container, Stack } from 'react-bootstrap';
 import TwoBtnModal from '../../hoc/modal/two-btn-modal';
-import Id from './filter_modal/id';
-import ClientName from './filter_modal/client-name';
-import Phone from './filter_modal/phone';
-import RoomType from './filter_modal/room-type';
-import RoomNum from './filter_modal/room-num';
+import Type from './filter_modal/type';
+import TotalRoomNum from './filter_modal/total-room-num';
+import ValidRoomNum from './filter_modal/valid-room-num';
+import InvalidRoomNum from './filter_modal/invalid-room-num';
 import Price from './filter_modal/price';
-import TotalPrice from './filter_modal/total-price';
-import CheckinDate from './filter_modal/checkin-date';
-import CheckouDate from './filter_modal/checkout-date';
 
 class FilterModal extends Component {
 
@@ -22,15 +18,11 @@ class FilterModal extends Component {
         return (
             <Container className='my-3'>
                 <Stack gap={4}>
-                    <Id />
-                    <ClientName />
-                    <Phone />
-                    <RoomType />
-                    <RoomNum />
+                    <Type />
+                    <TotalRoomNum />
+                    <ValidRoomNum />
+                    <InvalidRoomNum />
                     <Price />
-                    <TotalPrice />
-                    <CheckinDate />
-                    <CheckouDate />
                 </Stack>
             </Container>
         );

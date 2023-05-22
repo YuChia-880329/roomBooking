@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
+import { Button, Col, Row, Stack } from 'react-bootstrap';
 import Name from './create_form/name';
-import TotalNumber from './create_form/total-number';
-import InvalidNumber from './create_form/invalid-number';
+import TotalNum from './create_form/total-num';
+import InvalidNum from './create_form/invalid-num';
 import Price from './create_form/price';
-import SingleBedNumber from './create_form/single-bed-number';
-import DoubleBedNumber from './create_form/double-bed-number';
+import SingleBedNum from './create_form/single-bed-num';
+import DoubleBedNum from './create_form/double-bed-num';
 import Area from './create_form/area';
 import Scene from './create_form/scene';
 import Shower from './create_form/shower';
@@ -15,36 +15,31 @@ import NewImage from './create_form/new-image'
 class CreateForm extends Component {
     render() {
 
-        // style
-        const formRowStyle = {
-            marginTop : '3rem'
-        };
-
         return (
-            <Form>
+            <Stack gap={5}>
                 <Row>
                     <Col>
                         <Name />
                     </Col>
                     <Col>
-                        <TotalNumber />
+                        <TotalNum />
                     </Col>
                     <Col>
-                        <InvalidNumber />
+                        <InvalidNum />
                     </Col>
                 </Row>
-                <Row style={formRowStyle}>
+                <Row>
                     <Col>
                         <Price />
                     </Col>
                     <Col>
-                        <SingleBedNumber />
+                        <SingleBedNum />
                     </Col>
                     <Col>
-                        <DoubleBedNumber />
+                        <DoubleBedNum />
                     </Col>
                 </Row>
-                <Row style={formRowStyle}>
+                <Row>
                     <Col>
                         <Area />
                     </Col>
@@ -52,20 +47,12 @@ class CreateForm extends Component {
                         <Scene />
                     </Col>
                 </Row>
-                <Row style={formRowStyle}>
-                    <Col>
-                        <Shower />
-                    </Col>
-                </Row>
-                <Row style={formRowStyle}>
-                    <Col>
-                        <NewImage />
-                    </Col>
-                </Row>
-                <Stack direction='horizontal' style={formRowStyle}>
+                <Shower />
+                <NewImage />
+                <Stack direction='horizontal'>
                     <Button variant='outline-primary' className='ms-auto'>新增房型</Button>
                 </Stack>
-            </Form>
+            </Stack>
         );
     }
 }
