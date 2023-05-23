@@ -1,8 +1,8 @@
 package springboot.bean.model;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,15 +13,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@SuperBuilder
+@Data
+@ToString(exclude = "room")
 @Entity
 @Table(name = "ROOM_IMG", schema = "ROOM_BOOKING")
 public class RoomImg {
@@ -40,6 +38,6 @@ public class RoomImg {
 	
 	@JsonIgnore
 	@JoinColumn(name = "ROOM_ID", insertable = false, updatable = false)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Room room;
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,15 +18,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@SuperBuilder
+@Data
+@ToString(exclude = {"hotel", "bookingOrders"})
 @Entity
 @Table(name = "ROOM", schema = "ROOM_BOOKING")
 public class Room {
@@ -60,27 +57,27 @@ public class Room {
 	
 	
 	@JoinColumn(name = "SCENE_ID", insertable = false, updatable = false)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private Scene scene;
 	
 	
 	@JsonIgnore
 	@JoinColumn(name = "HOTEL_ID", insertable = false, updatable = false)
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Hotel hotel;
 	
 	
 	@JoinTable(name = "ROOM_SHOWER_JOIN", joinColumns = @JoinColumn(name = "SHOWER_ID"), 
 			inverseJoinColumns = @JoinColumn(name = "ROOM_ID"))
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	private List<Shower> showers;
 	
 	
-	@OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RoomImg> roomImgs;
 	
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "room")
 	private List<BookingOrder> bookingOrders;
 }

@@ -10,15 +10,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@SuperBuilder
+@Data
+@ToString(exclude = "bookingOrders")
 @Entity
 @Table(name = "PAY_METHOD", schema = "ROOM_BOOKING")
 public class PayMethod {

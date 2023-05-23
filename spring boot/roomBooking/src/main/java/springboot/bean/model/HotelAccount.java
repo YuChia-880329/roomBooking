@@ -2,7 +2,6 @@ package springboot.bean.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,15 +11,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@SuperBuilder
+@Data
+@ToString(exclude = "hotel")
 @Entity
 @Table(name = "HOTEL_ACCOUNT", schema = "ROOM_BOOKING")
 public class HotelAccount {
@@ -36,6 +33,6 @@ public class HotelAccount {
 	private String password;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy = "account", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "account")
 	private Hotel hotel;
 }

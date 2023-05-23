@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,15 +17,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@SuperBuilder
+@Data
 @Entity
 @Table(name = "HOTEL", schema = "ROOM_BOOKING")
 public class Hotel {
@@ -50,19 +45,19 @@ public class Hotel {
 	private int accountId;
 	
 	@JoinColumn(name = "SECTION_CODE", insertable = false, updatable = false)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private Section section;
 	
 	@JoinColumn(name = "ACCOUNT_ID", insertable = false, updatable = false)
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
 	private HotelAccount account;
 	
 	@JoinTable(name = "HOTEL_FEATURE_JOIN", joinColumns = @JoinColumn(name = "FEATURE_ID"), 
 			inverseJoinColumns = @JoinColumn(name = "HOTEL_ID"))
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
 	private List<HotelFeature> features;
 	
 	
-	@OneToMany(mappedBy = "hotel", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Room> rooms;
 }

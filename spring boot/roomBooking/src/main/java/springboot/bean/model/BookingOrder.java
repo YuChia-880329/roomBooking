@@ -5,21 +5,16 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@SuperBuilder
+@Data
 @Entity
 @Table(name = "BOOKING_ORDER", schema = "ROOM_BOOKING")
 public class BookingOrder {
@@ -46,15 +41,15 @@ public class BookingOrder {
 	
 	
 	@JoinColumn(name = "CLIENT_ID", insertable = false, updatable = false)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private Member member;
 	
 	@JoinColumn(name = "ROOM_ID", insertable = false, updatable = false)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private Room room;
 	
 	
 	@JoinColumn(name = "PAY_METHOD_ID", insertable = false, updatable = false)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	private PayMethod payMethod;
 }
