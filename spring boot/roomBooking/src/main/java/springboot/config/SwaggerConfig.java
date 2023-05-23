@@ -14,7 +14,7 @@ public class SwaggerConfig {
     @Bean
     Docket testDocket() {
 		
-		return SwaggerUtil.createDocket("Test", testApiInfo(), "com.joe.roomBooking.controller");
+		return SwaggerUtil.createDocket("Test", testApiInfo(), "springboot.controller");
 	}
 
 	private ApiInfo testApiInfo() {

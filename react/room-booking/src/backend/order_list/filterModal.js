@@ -12,6 +12,7 @@ import CheckinDate from './filter_modal/checkin-date';
 import CheckoutDate from './filter_modal/checkout-date';
 import PayMethod from './filter_modal/payMethod';
 import CheckinTime from './filter_modal/checkin-time';
+import UseDay from './filter_modal/use-day';
 
 class FilterModal extends Component {
 
@@ -33,11 +34,12 @@ class FilterModal extends Component {
                     <RoomType />
                     <RoomNum />
                     <Price />
-                    <TotalPrice />
                     <PayMethod />
                     <CheckinDate />
                     <CheckinTime />
                     <CheckoutDate />
+                    <UseDay />
+                    <TotalPrice />
                 </Stack>
             </Container>
         );

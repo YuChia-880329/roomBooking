@@ -1,14 +1,12 @@
-package bean.model;
+package springboot.bean.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,18 +21,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "SECTION", schema = "ROOM_BOOKING")
-public class Section {
+@Table(name = "SHOWER", schema = "ROOM_BOOKING")
+public class Shower {
 
 	@Id
-	@Column(name = "CODE")
-	private String code;
+	@Column(name = "ID")
+	private int id;
 	@Column(name = "NAME")
 	private String name;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "section", fetch = FetchType.LAZY, 
-			cascade = CascadeType.ALL, orphanRemoval = false)
-	@OrderBy(value = "id")
-	private List<Hotel> hotels;
+	@ManyToMany(mappedBy = "showers", fetch = FetchType.LAZY)
+	private List<Room> rooms;
 }

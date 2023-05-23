@@ -1,6 +1,5 @@
-package bean.model;
+package springboot.bean.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,6 +36,6 @@ public class HotelAccount {
 	private String password;
 	
 	@JsonIgnore
-	@OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+	@OneToOne(mappedBy = "account", fetch = FetchType.LAZY)
 	private Hotel hotel;
 }

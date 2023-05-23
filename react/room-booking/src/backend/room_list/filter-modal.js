@@ -3,9 +3,9 @@ import { Button, Container, Stack } from 'react-bootstrap';
 import TwoBtnModal from '../../hoc/modal/two-btn-modal';
 import Type from './filter_modal/type';
 import TotalRoomNum from './filter_modal/total-room-num';
-import ValidRoomNum from './filter_modal/valid-room-num';
 import InvalidRoomNum from './filter_modal/invalid-room-num';
 import Price from './filter_modal/price';
+import UsedRoomNum from './filter_modal/used-room-num';
 
 class FilterModal extends Component {
 
@@ -23,7 +23,7 @@ class FilterModal extends Component {
                 <Stack gap={4}>
                     <Type />
                     <TotalRoomNum />
-                    <ValidRoomNum />
+                    <UsedRoomNum />
                     <InvalidRoomNum />
                     <Price />
                 </Stack>

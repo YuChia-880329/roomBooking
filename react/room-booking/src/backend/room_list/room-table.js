@@ -2,80 +2,68 @@ import '../../css/custom.css';
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import SortTableHeader from '../../hoc/table/sort-table-header';
+import SortTableTd from '../../hoc/table/sort-table-td';
 
 class RoomTable extends Component {
     
     render() {
-
-        // style
-        const headerStyle = {
-            paddingLeft : '1rem',
-            paddingRight : '1rem'
-        };
+        
+        const headerTexts = ['房型名稱', '總房數', '使用中房數', '不開放房數', '房間單價'];
+        const example = ['標準雙人房', 10, 2, 5, 1000];
 
         return (
             <Table striped bordered responsive hover>
                 <thead>
                     <tr>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='房型名稱' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='總房數' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='開放空房數' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='不開放房數' />
-                        </th>
-                        <th style={headerStyle}>
-                            <SortTableHeader text='房間單價' />
-                        </th>
+                        {headerTexts.map(
+                            text => (
+                                <SortTableHeader text={text} />
+                            )
+                        )}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>標準雙人房</td>
-                        <td>10</td>
-                        <td>2</td>
-                        <td>5</td>
-                        <td>1000</td>
+                        {example.map(
+                            val => (
+                                <SortTableTd text={val} />
+                            )
+                        )}
                     </tr>
                     <tr>
-                        <td>標準雙人房</td>
-                        <td>10</td>
-                        <td>2</td>
-                        <td>5</td>
-                        <td>1000</td>
+                        {example.map(
+                            val => (
+                                <SortTableTd text={val} />
+                            )
+                        )}
                     </tr>
                     <tr>
-                        <td>標準雙人房</td>
-                        <td>10</td>
-                        <td>2</td>
-                        <td>5</td>
-                        <td>1000</td>
+                        {example.map(
+                            val => (
+                                <SortTableTd text={val} />
+                            )
+                        )}
                     </tr>
                     <tr>
-                        <td>標準雙人房</td>
-                        <td>10</td>
-                        <td>2</td>
-                        <td>5</td>
-                        <td>1000</td>
+                        {example.map(
+                            val => (
+                                <SortTableTd text={val} />
+                            )
+                        )}
                     </tr>
                     <tr>
-                        <td>標準雙人房</td>
-                        <td>10</td>
-                        <td>2</td>
-                        <td>5</td>
-                        <td>1000</td>
+                        {example.map(
+                            val => (
+                                <SortTableTd text={val} />
+                            )
+                        )}
                     </tr>
                     <tr>
-                        <td>標準雙人房</td>
-                        <td>10</td>
-                        <td>2</td>
-                        <td>5</td>
-                        <td>1000</td>
+                        {example.map(
+                            val => (
+                                <SortTableTd text={val} />
+                            )
+                        )}
                     </tr>
                 </tbody>
             </Table>

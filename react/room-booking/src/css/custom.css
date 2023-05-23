@@ -3,3 +3,15 @@
     --bs-btn-padding-x: 0.3rem; 
     --bs-btn-font-size: 0.5rem;
 }
+.caretBtn {
+    border: 1px solid #BCB3B3;
+    border-radius: 3px;
+    background-color: inherit;
+    padding: 0;
+    font-size: 0;
+    cursor: pointer;
+}
+
+.caretBtn:hover {
+    background-color: #e7e7e7;
+}

@@ -3,7 +3,6 @@ import { Button, Col, Row, Stack } from 'react-bootstrap';
 import Type from './update_form/type';
 import Name from './update_form/name';
 import TotalNum from './update_form/total-num';
-import ValidNum from './update_form/valid-num';
 import InvalidNum from './update_form/invalid-num';
 import Price from './update_form/price';
 import SingleBedNum from './update_form/single-bed-num';
@@ -14,6 +13,7 @@ import Shower from './update_form/shower';
 import RoomImage from './update_form/room-image';
 import ImageOrder from './update_form/image-order';
 import NewImage from './update_form/new-image';
+import UsedNum from './update_form/used-num';
 
 class UpdateForm extends Component {
     
@@ -38,8 +38,8 @@ class UpdateForm extends Component {
                     <Col>
                         <TotalNum />
                     </Col>
-                    <Col xs='auto' className='px-5'>
-                        <ValidNum />
+                    <Col>
+                        <UsedNum />
                     </Col>
                     <Col>
                         <InvalidNum />
