@@ -1,24 +1,36 @@
 package springboot.trans.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.HotelAccountDto;
 import springboot.bean.model.HotelAccount;
-import tmpl.trans.bean.model.ModelRiTrans;
-import tmpl.trans.bean.model.ModelWoTrans;
+import springboot.trans.model.inner.HotelAccountTransInner;
 
 @Component
-public class HotelAccountTrans implements ModelRiTrans<HotelAccount, HotelAccountDto>, ModelWoTrans<HotelAccount, HotelAccountDto> {
+public class HotelAccountTrans extends ModelTrans<HotelAccount, HotelAccountDto> {
 
+	@Autowired
+	private HotelAccountTransInner hotelAccountTransInner;
+	
+	@Autowired
+	private HotelTrans hotelTrans;
+	
+	
 	@Override
-	public HotelAccount dtoToModelImpl(HotelAccountDto dto) {
+	HotelAccount toModelRecrs(HotelAccountDto dto, ToModelRecrsCache cache) {
 		
-		return null;
+		return toModelRecrs(dto, hotelAccountTransInner::dtoToModel, cache::getHotelAccountCache, cache::setHotelAccountCache, model -> {
+			
+			model.setHotel(hotelTrans.toModelRecrs(dto.getHotel(), cache));
+		});
 	}
-
 	@Override
-	public HotelAccountDto modelToDtoImpl(HotelAccount model) {
+	HotelAccountDto toDtoRecrs(HotelAccount model, ToDtoRecrsCache cache) {
 		
-		return null;
+		return toDtoRecrs(model, hotelAccountTransInner::modelToDto, cache::getHotelAccountCache, cache::setHotelAccountCache, dto -> {
+			
+			dto.setHotel(hotelTrans.toDtoRecrs(model.getHotel(), cache));
+		});
 	}
 }

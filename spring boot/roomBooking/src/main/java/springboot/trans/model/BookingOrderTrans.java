@@ -4,43 +4,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.BookingOrderDto;
-import springboot.bean.dto.model.MemberDto;
 import springboot.bean.model.BookingOrder;
-import springboot.bean.model.Member;
 import springboot.trans.model.inner.BookingOrderTransInner;
-import springboot.trans.model.inner.MemberTransInner;
-import tmpl.trans.bean.model.ModelRiTrans;
-import tmpl.trans.bean.model.ModelWoTrans;
 
 @Component
-public class BookingOrderTrans implements ModelRiTrans<BookingOrder, BookingOrderDto>, ModelWoTrans<BookingOrder, BookingOrderDto> {
+public class BookingOrderTrans extends ModelTrans<BookingOrder, BookingOrderDto> {
 
 	@Autowired
 	private BookingOrderTransInner bookingOrderTransInner;
+	
 	@Autowired
-	private MemberTransInner memberTransInner;
+	private MemberTrans memberTrans;
+	@Autowired
+	private RoomTrans roomTrans;
+	@Autowired
+	private PayMethodTrans payMethodTrans;
 	
 	
 	@Override
-	public BookingOrder dtoToModelImpl(BookingOrderDto dto) {
+	BookingOrder toModelRecrs(BookingOrderDto dto, ToModelRecrsCache cache) {
 		
-		BookingOrder model = bookingOrderTransInner.dtoToModel(dto);
-		
-		model.setMember(null);
-		model.setRoom(null);
-		model.setPayMethod(null);
-		
-		return model;
+		return toModelRecrs(dto, bookingOrderTransInner::dtoToModel, cache::getBookingOrderCache, cache::setBookingOrderCache, model -> {
+			
+			model.setMember(memberTrans.toModelRecrs(dto.getMember(), cache));
+			model.setRoom(roomTrans.toModelRecrs(dto.getRoom(), cache));
+			model.setPayMethod(payMethodTrans.toModelRecrs(dto.getPayMethod(), cache));
+		});
 	}
-
 	@Override
-	public BookingOrderDto modelToDtoImpl(BookingOrder model) {
+	BookingOrderDto toDtoRecrs(BookingOrder model, ToDtoRecrsCache cache) {
 		
-		return null;
-	}
-	
-	private Member toModel(MemberDto dto) {
-		
-		dto.getBookingOrders();
+		return toDtoRecrs(model, bookingOrderTransInner::modelToDto, cache::getBookingOrderCache, cache::setBookingOrderCache, dto -> {
+			
+			dto.setMember(memberTrans.toDtoRecrs(model.getMember(), cache));
+			dto.setRoom(roomTrans.toDtoRecrs(model.getRoom(), cache));
+			dto.setPayMethod(payMethodTrans.toDtoRecrs(model.getPayMethod(), cache));
+		});
 	}
 }

@@ -1,11 +1,17 @@
 package springboot.bean.dto.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 @ToString(exclude = "room")
 public class RoomImgDto {
 
@@ -13,5 +19,6 @@ public class RoomImgDto {
 	private String imageName;
 	private int imageOrder;
 	private int roomId;
+	@JsonIgnore
 	private RoomDto room;
 }

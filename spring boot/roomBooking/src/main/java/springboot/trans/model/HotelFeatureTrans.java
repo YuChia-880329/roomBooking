@@ -1,24 +1,36 @@
 package springboot.trans.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.HotelFeatureDto;
 import springboot.bean.model.HotelFeature;
-import tmpl.trans.bean.model.ModelRiTrans;
-import tmpl.trans.bean.model.ModelWoTrans;
+import springboot.trans.model.inner.HotelFeatureTransInner;
 
 @Component
-public class HotelFeatureTrans implements ModelRiTrans<HotelFeature, HotelFeatureDto>, ModelWoTrans<HotelFeature, HotelFeatureDto> {
+public class HotelFeatureTrans extends ModelTrans<HotelFeature, HotelFeatureDto> {
 
+	@Autowired
+	private HotelFeatureTransInner hotelFeatureTransInner;
+	
+	@Autowired
+	private HotelTrans hotelTrans;
+	
+	
 	@Override
-	public HotelFeature dtoToModelImpl(HotelFeatureDto dto) {
+	HotelFeature toModelRecrs(HotelFeatureDto dto, ToModelRecrsCache cache) {
 		
-		return null;
+		return toModelRecrs(dto, hotelFeatureTransInner::dtoToModel, cache::getHotelFeatureCache, cache::setHotelFeatureCache, model -> {
+			
+			model.setHotels(hotelTrans.toModelRecrs(dto.getHotels(), cache));
+		});
 	}
-
 	@Override
-	public HotelFeatureDto modelToDtoImpl(HotelFeature model) {
+	HotelFeatureDto toDtoRecrs(HotelFeature model, ToDtoRecrsCache cache) {
 		
-		return null;
+		return toDtoRecrs(model, hotelFeatureTransInner::modelToDto, cache::getHotelFeatureCache, cache::setHotelFeatureCache, dto -> {
+			
+			dto.setHotels(hotelTrans.toDtoRecrs(model.getHotels(), cache));
+		});
 	}
 }

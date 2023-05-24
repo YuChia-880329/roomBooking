@@ -1,11 +1,15 @@
 package springboot.bean.dto.model;
 
 import java.util.List;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class HotelDto {
 
 	private int id;

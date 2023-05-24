@@ -1,24 +1,36 @@
 package springboot.trans.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.MemberDto;
 import springboot.bean.model.Member;
-import tmpl.trans.bean.model.ModelRiTrans;
-import tmpl.trans.bean.model.ModelWoTrans;
+import springboot.trans.model.inner.MemberTransInner;
 
 @Component
-public class MemberTrans implements ModelRiTrans<Member, MemberDto>, ModelWoTrans<Member, MemberDto> {
+public class MemberTrans extends ModelTrans<Member, MemberDto> {
 
+	@Autowired
+	private MemberTransInner memberTransInner;
+	
+	@Autowired
+	private BookingOrderTrans bookingOrderTrans;
+	
+	
 	@Override
-	public Member dtoToModelImpl(MemberDto dto) {
+	Member toModelRecrs(MemberDto dto, ToModelRecrsCache cache) {
 		
-		return null;
+		return toModelRecrs(dto, memberTransInner::dtoToModel, cache::getMemberCache, cache::setMemberCache, model -> {
+			
+			model.setBookingOrders(bookingOrderTrans.toModelRecrs(dto.getBookingOrders(), cache));
+		});
 	}
-
 	@Override
-	public MemberDto modelToDtoImpl(Member model) {
+	MemberDto toDtoRecrs(Member model, ToDtoRecrsCache cache) {
 		
-		return null;
+		return toDtoRecrs(model, memberTransInner::modelToDto, cache::getMemberCache, cache::setMemberCache, dto -> {
+			
+			dto.setBookingOrders(bookingOrderTrans.toDtoRecrs(model.getBookingOrders(), cache));
+		});
 	}
 }

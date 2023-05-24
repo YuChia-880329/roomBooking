@@ -1,25 +1,36 @@
 package springboot.trans.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.SectionDto;
 import springboot.bean.model.Section;
-import tmpl.trans.bean.model.ModelRiTrans;
-import tmpl.trans.bean.model.ModelWoTrans;
+import springboot.trans.model.inner.SectionTransInner;
 
 @Component
-public class SectionTrans implements ModelRiTrans<Section, SectionDto>, ModelWoTrans<Section, SectionDto> {
+public class SectionTrans extends ModelTrans<Section, SectionDto> {
 
+	@Autowired
+	private SectionTransInner sectionTransInner;
+	
+	@Autowired
+	private HotelTrans hotelTrans;
+	
+	
 	@Override
-	public Section dtoToModelImpl(SectionDto dto) {
+	Section toModelRecrs(SectionDto dto, ToModelRecrsCache cache) {
 		
-		return null;
+		return toModelRecrs(dto, sectionTransInner::dtoToModel, cache::getSectionCache, cache::setSectionCache, model -> {
+			
+			model.setHotels(hotelTrans.toModelRecrs(dto.getHotels(), cache));
+		});
 	}
-
 	@Override
-	public SectionDto modelToDtoImpl(Section model) {
+	SectionDto toDtoRecrs(Section model, ToDtoRecrsCache cache) {
 		
-		return null;
+		return toDtoRecrs(model, sectionTransInner::modelToDto, cache::getSectionCache, cache::setSectionCache, dto -> {
+			
+			dto.setHotels(hotelTrans.toDtoRecrs(model.getHotels(), cache));
+		});
 	}
-
 }

@@ -2,12 +2,18 @@ package springboot.bean.dto.model;
 
 import java.util.List;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 @ToString(exclude = {"hotel", "bookingOrders"})
 public class RoomDto {
 
@@ -23,8 +29,10 @@ public class RoomDto {
 	private int sceneId;
 	private int hotelId;
 	private SceneDto scene;
+	@JsonIgnore
 	private HotelDto hotel;
 	private List<ShowerDto> showers;
 	private List<RoomImgDto> roomImgs;
+	@JsonIgnore
 	private List<BookingOrderDto> bookingOrders;
 }

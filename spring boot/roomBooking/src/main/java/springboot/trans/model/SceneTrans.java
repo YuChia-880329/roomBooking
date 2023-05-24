@@ -1,25 +1,37 @@
 package springboot.trans.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.SceneDto;
 import springboot.bean.model.Scene;
-import tmpl.trans.bean.model.ModelRiTrans;
-import tmpl.trans.bean.model.ModelWoTrans;
+import springboot.trans.model.inner.SceneTransInner;
 
 @Component
-public class SceneTrans implements ModelRiTrans<Scene, SceneDto>, ModelWoTrans<Scene, SceneDto> {
+public class SceneTrans extends ModelTrans<Scene, SceneDto> {
 
+	@Autowired
+	private SceneTransInner sceneTransInner;
+	
+	@Autowired
+	private RoomTrans roomTrans;
+	
+	
 	@Override
-	public Scene dtoToModelImpl(SceneDto dto) {
+	Scene toModelRecrs(SceneDto dto, ToModelRecrsCache cache) {
 		
-		return null;
+		return toModelRecrs(dto, sceneTransInner::dtoToModel, cache::getSceneCache, cache::setSceneCache, model -> {
+			
+			model.setRooms(roomTrans.toModelRecrs(dto.getRooms(), cache));
+		});
 	}
-
 	@Override
-	public SceneDto modelToDtoImpl(Scene model) {
+	SceneDto toDtoRecrs(Scene model, ToDtoRecrsCache cache) {
 		
-		return null;
+		return toDtoRecrs(model, sceneTransInner::modelToDto, cache::getSceneCache, cache::setSceneCache, dto -> {
+			
+			dto.setRooms(roomTrans.toDtoRecrs(model.getRooms(), cache));
+		});
 	}
 
 }

@@ -1,9 +1,9 @@
 package tmpl.trans.bean.vo;
 
 import tmpl.checker.Checker;
-import tmpl.exception.RiCheckerException;
+import tmpl.exception.CheckerException;
 
-public interface VoRiTransChecked<V, D, E extends RiCheckerException, C extends Checker<V, E>> extends VoRiTransEx<V, D, E> {
+public interface VoRiTransChecked<V, D, E extends CheckerException, C extends Checker<V, E>> extends VoRiTransEx<V, D, E> {
 	
 
 	@Override

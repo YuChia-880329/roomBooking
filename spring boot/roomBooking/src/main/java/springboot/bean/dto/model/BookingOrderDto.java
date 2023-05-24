@@ -3,11 +3,15 @@ package springboot.bean.dto.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-@Data
+@NoArgsConstructor
+@Getter
+@Setter
 public class BookingOrderDto {
 
 	private int id;

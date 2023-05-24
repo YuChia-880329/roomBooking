@@ -14,13 +14,15 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
-@Data
-@ToString(exclude = "hotels")
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "HOTEL_FEATURE", schema = "ROOM_BOOKING")
 public class HotelFeature {
