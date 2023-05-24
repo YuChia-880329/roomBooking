@@ -1,292 +1,155 @@
 package util;
 
-import tmpl.exception.RiCheckerException;
+import exception.check.NegativeNumberException;
+import exception.check.NonIntegerNumberException;
+import exception.check.NonNumberStringException;
+import exception.check.NonPositiveNumberException;
+import exception.check.NullException;
+import exception.check.StringIsNotOneOfException;
 
 public class CheckUtil {
-
-
-	private static final String NOT_NULL_ERROR_MSG = "請填寫 %s";
-
-	private static final String IS_INTEGER_NUMBER_ERROR_MSG = "%s 必須是整數";
-	private static final String IS_POSITIVE_NUMBER_ERROR_MSG = "%s 必須是正整數";
-	private static final String IS_NON_NEGATIVE_NUMBER_ERROR_MSG = "%s 必須是非負整數";
-
-	private static final String STRING_IS_ONE_OF_ERROR_MSG = "%s : 無此選項";
-	private static final String IS_NUMBER_STRING_ERROR_MSG_STRING = "%s 必須是數字";
-		
 	
-	
-	private static <I> boolean notNull(I input) {
+	private static <I> void notNull(I input) {
 		
-		return (input != null);
+		if(input == null)
+			throw new NullException();
 	}
-
-	private static <I extends Number> boolean isIntegerNumber(I input) {
+	private static <I extends Number> void isIntegerNumber(I input) {
 		
-		return ((input.doubleValue()-input.intValue()) == 0);
+		if((input.doubleValue()-input.intValue()) != 0)
+			throw new NonIntegerNumberException();
 	}
-	private static <I extends Number> boolean isPositiveNumber(I input) {
+	private static <I extends Number> void isPositiveNumber(I input) {
 		
-		return (input.doubleValue() > 0);
+		if(input.doubleValue() <= 0)
+			throw new NonPositiveNumberException();
 	}
-	private static <I extends Number> boolean isNonNegativeNumber(I input) {
+	private static <I extends Number> void isNonNegativeNumber(I input) {
 		
-		return (input.doubleValue() >= 0);
+		if(input.doubleValue() < 0)
+			throw new NegativeNumberException();
 	}
 	
-	private static boolean stringIsOneOf(String input, String... options) {
+	private static void stringIsOneOf(String input, String... options) {
 		
 		for(int i=0; i<options.length; i++) {
 			
 			if(input.equals(options[i]))
-				return true;
+				return;
 		}
-		return false;
+		throw new StringIsNotOneOfException();
 	}
-	private static boolean isNumberString(String input) {
+	private static void isNumberString(String input) {
 		
 		try {
 			
 			double number = Double.parseDouble(input);
-			return (number!=Double.NaN && number!=Double.POSITIVE_INFINITY && number!=Double.NEGATIVE_INFINITY);
+			if(number==Double.NaN || number==Double.POSITIVE_INFINITY || number==Double.NEGATIVE_INFINITY)
+				throw new NonNumberStringException();
 		}catch(NumberFormatException ex) {
 			
-			return false;
+			throw new NonNumberStringException();
 		}
 	}
 	
 	
-
-
-	private static <I> void notNull(I input, String inputName) throws RiCheckerException {
+	
+	public static <N extends Number> void checkNumber(N number) {
 		
-		if(!notNull(input))
-			throw new RiCheckerException(String.format(NOT_NULL_ERROR_MSG, inputName));
+		notNull(number);
 	}
-
-	private static <I extends Number> void isIntegerNumber(I input, String inputName) throws RiCheckerException {
+	public static <N extends Number> void checkNumberIsInteger(N number) {
 		
-		if(!isIntegerNumber(input))
-			throw new RiCheckerException(String.format(IS_INTEGER_NUMBER_ERROR_MSG, inputName, inputName, input));
+		notNull(number);
+		isIntegerNumber(number);
 	}
-	private static <I extends Number> void isPositiveNumber(I input, String inputName) throws RiCheckerException {
+	public static <N extends Number> void checkNumberIsPositive(N number) {
 		
-		if(!isPositiveNumber(input))
-			throw new RiCheckerException(String.format(IS_POSITIVE_NUMBER_ERROR_MSG, inputName, inputName, input));
+		notNull(number);
+		isPositiveNumber(number);
 	}
-	private static <I extends Number> void isNonNegativeNumber(I input, String inputName) throws RiCheckerException {
+	public static <N extends Number> void checkNumberIsNonNegative(N number) {
 		
-		if(!isNonNegativeNumber(input))
-			throw new RiCheckerException(String.format(IS_NON_NEGATIVE_NUMBER_ERROR_MSG, inputName, inputName, input));
+		notNull(number);
+		isNonNegativeNumber(number);
 	}
-
-	private static void stringIsOneOf(String input, String inputName, String... options) throws RiCheckerException {
+	public static <N extends Number> void checkNumberIsPositiveInteger(N number) {
 		
-		if(!stringIsOneOf(input, options))
-			throw new RiCheckerException(String.format(STRING_IS_ONE_OF_ERROR_MSG, inputName, inputName, input));
+		notNull(number);
+		isIntegerNumber(number);
+		isPositiveNumber(number);
 	}
-	private static void isNumberString(String input, String inputName) throws RiCheckerException {
+	public static <N extends Number> void checkNumberIsNonNegativeInteger(N number) {
 		
-		if(!isNumberString(input))
-			throw new RiCheckerException(String.format(IS_NUMBER_STRING_ERROR_MSG_STRING, inputName, inputName, input));
+		notNull(number);
+		isIntegerNumber(number);
+		isNonNegativeNumber(number);
 	}
 	
-	
-	
-	
-	public static <N extends Number> boolean checkNumber(N number) {
+	public static void checkString(String str) {
 		
-		return notNull(number);
+		notNull(str);
 	}
-	public static <N extends Number> boolean checkNumberIsInteger(N number) {
+	public static void checkStringWithOptions(String str, String... options) {
 		
-		return notNull(number)
-				&& isIntegerNumber(number);
+		notNull(str);
+		stringIsOneOf(str, options);
 	}
-	public static <N extends Number> boolean checkNumberIsPositive(N number) {
+	public static void checkStringIsNumberString(String str) {
 		
-		return notNull(number)
-				&& isPositiveNumber(number);
+		notNull(str);
+		isNumberString(str);
 	}
-	public static <N extends Number> boolean checkNumberIsNonNegative(N number) {
+	public static void checkStringIsIntegerNumberString(String str) {
 		
-		return notNull(number)
-				&& isNonNegativeNumber(number);
-	}
-	public static <N extends Number> boolean checkNumberIsPositiveInteger(N number) {
-		
-		return notNull(number)
-				&& isIntegerNumber(number)
-				&& isPositiveNumber(number);
-	}
-	public static <N extends Number> boolean checkNumberIsNonNegativeInteger(N number) {
-		
-		return notNull(number)
-				&& isIntegerNumber(number)
-				&& isNonNegativeNumber(number);
-	}
-	
-	public static boolean checkString(String str) {
-		
-		return notNull(str);
-	}
-	public static boolean checkStringWithOptions(String str, String... options) {
-		
-		return notNull(str)
-				&& stringIsOneOf(str, options);
-	}
-	public static boolean checkStringIsNumberString(String str) {
-		
-		return notNull(str)
-				&& isNumberString(str);
-	}
-	public static boolean checkStringIsIntegerNumberString(String str) {
-		
-		if(notNull(str) && isNumberString(str))
-			return false;
-		double number = Double.parseDouble(str);
-		return isIntegerNumber(number);
-	}
-	public static boolean checkStringIsPositiveNumberString(String str) {
-		
-		if(notNull(str) && isNumberString(str))
-			return false;
-		double number = Double.parseDouble(str);
-		return isPositiveNumber(number);
-	}
-	public static boolean checkStringIsNonNegativeNumberString(String str) {
-		
-		if(notNull(str) && isNumberString(str))
-			return false;
-		double number = Double.parseDouble(str);
-		return isNonNegativeNumber(number);
-	}
-	public static boolean checkStringIsPositiveIntegerNumberString(String str) {
-		
-		if(notNull(str) && isNumberString(str))
-			return false;
-		double number = Double.parseDouble(str);
-		return isIntegerNumber(number)
-				&& isPositiveNumber(number);
-	}
-	public static boolean checkStringIsNonNegativeIntegerNumberString(String str) {
-		
-		if(notNull(str) && isNumberString(str))
-			return false;
-		double number = Double.parseDouble(str);
-		return isIntegerNumber(number)
-				&& isNonNegativeNumber(number);
-	}
-	
-	public static boolean checkBoolean(Boolean b) {
-		
-		return notNull(b);
-	}
-	
-	public static <I> boolean checkOther(I input) {
-		
-		return notNull(input);
-	}
-	
-	
-	
-	
-	public static <N extends Number> void checkNumber(N number, String numberName) throws RiCheckerException {
-		
-		notNull(number, numberName);
-	}
-	public static <N extends Number> void checkNumberIsInteger(N number, String numberName) throws RiCheckerException {
-		
-		notNull(number, numberName);
-		isIntegerNumber(number, numberName);
-	}
-	public static <N extends Number> void checkNumberIsPositive(N number, String numberName) throws RiCheckerException {
-		
-		notNull(number, numberName);
-		isPositiveNumber(number, numberName);
-	}
-	public static <N extends Number> void checkNumberIsNonNegative(N number, String numberName) throws RiCheckerException {
-		
-		notNull(number, numberName);
-		isNonNegativeNumber(number, numberName);
-	}
-	public static <N extends Number> void checkNumberIsPositiveInteger(N number, String numberName) throws RiCheckerException {
-		
-		notNull(number, numberName);
-		isIntegerNumber(number, numberName);
-		isPositiveNumber(number, numberName);
-	}
-	public static <N extends Number> void checkNumberIsNonNegativeInteger(N number, String numberName) throws RiCheckerException {
-		
-		notNull(number, numberName);
-		isIntegerNumber(number, numberName);
-		isNonNegativeNumber(number, numberName);
-	}
-	
-	public static void checkString(String str, String stringName) throws RiCheckerException {
-		
-		notNull(str, stringName);
-	}
-	public static void checkStringWithOptions(String str, String stringName, String... options) throws RiCheckerException {
-		
-		notNull(str, stringName);
-		stringIsOneOf(str, stringName, options);
-	}
-	public static void checkStringIsNumberString(String str, String stringName) throws RiCheckerException {
-		
-		notNull(str, stringName);
-		isNumberString(str, stringName);
-	}
-	public static void checkStringIsIntegerNumberString(String str, String stringName) throws RiCheckerException {
-		
-		notNull(str, stringName);
-		isNumberString(str, stringName);
+		notNull(str);
+		isNumberString(str);
 
 		double number = Double.parseDouble(str);
-		isIntegerNumber(number, stringName);
+		isIntegerNumber(number);
 	}
-	public static void checkStringIsPositiveNumberString(String str, String stringName) throws RiCheckerException {
+	public static void checkStringIsPositiveNumberString(String str) {
 		
-		notNull(str, stringName);
-		isNumberString(str, stringName);
+		notNull(str);
+		isNumberString(str);
 
 		double number = Double.parseDouble(str);
-		isPositiveNumber(number, stringName);
+		isPositiveNumber(number);
 	}
-	public static void checkStringIsNonNegativeNumberString(String str, String stringName) throws RiCheckerException {
+	public static void checkStringIsNonNegativeNumberString(String str) {
 		
-		notNull(str, stringName);
-		isNumberString(str, stringName);
+		notNull(str);
+		isNumberString(str);
 
 		double number = Double.parseDouble(str);
-		isNonNegativeNumber(number, stringName);
+		isNonNegativeNumber(number);
 	}
-	public static void checkStringIsPositiveIntegerNumberString(String str, String stringName) throws RiCheckerException {
+	public static void checkStringIsPositiveIntegerNumberString(String str) {
 		
-		notNull(str, stringName);
-		isNumberString(str, stringName);
+		notNull(str);
+		isNumberString(str);
 
 		double number = Double.parseDouble(str);
-		isIntegerNumber(number, stringName);
-		isPositiveNumber(number, stringName);
+		isIntegerNumber(number);
+		isPositiveNumber(number);
 	}
-	public static void checkStringIsNonNegativeIntegerNumberString(String str, String stringName) throws RiCheckerException {
+	public static void checkStringIsNonNegativeIntegerNumberString(String str) {
 		
-		notNull(str, stringName);
-		isNumberString(str, stringName);
+		notNull(str);
+		isNumberString(str);
 
 		double number = Double.parseDouble(str);
-		isIntegerNumber(number, stringName);
-		isNonNegativeNumber(number, stringName);
+		isIntegerNumber(number);
+		isNonNegativeNumber(number);
 	}
 	
-	public static void checkBoolean(Boolean b, String bName) throws RiCheckerException {
+	public static void checkBoolean(Boolean b) {
 		
-		notNull(b, bName);
+		notNull(b);
 	}
 	
-	public static <I> void checkOther(I input, String bName) throws RiCheckerException {
+	public static <I> void checkOther(I input) {
 		
-		notNull(input, bName);
+		notNull(input);
 	}
 }

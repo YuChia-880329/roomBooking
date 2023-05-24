@@ -1,17 +1,16 @@
 package tmpl.trans.bean.obj;
 
 import tmpl.checker.Checker;
-import tmpl.exception.RiCheckerException;
 
-public interface ObjRiTransChecked<O, D, E extends RiCheckerException, C extends Checker<O, E>> extends ObjRiTransEx<O, D, E> {
+public interface ObjRiTransChecked<O, D, C extends Checker<O>> extends ObjRiTrans<O, D> {
 	
 
 	@Override
-	public default D beanToDtoImpl(O obj) throws E {
+	public default D beanToDtoImpl(O obj) {
 		
 		C checker = getChecker();
 		checker.check(obj);
-		return ObjRiTransEx.super.beanToDtoImpl(obj);
+		return ObjRiTrans.super.beanToDtoImpl(obj);
 	}
 
 

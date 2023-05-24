@@ -4,16 +4,13 @@ import org.springframework.stereotype.Component;
 
 import springboot.bean.vo.bk.login.ri.LoginForm;
 import tmpl.checker.Checker;
-import tmpl.exception.RiCheckerException;
 import util.CheckUtil;
 
 @Component
-public class LoginFormChecker implements Checker<LoginForm, RiCheckerException> {
-	
-	private static final String VO_PREFIX = "登入表單";
+public class LoginFormChecker implements Checker<LoginForm> {
 
 	@Override
-	public void check(LoginForm vo) throws RiCheckerException {
+	public void check(LoginForm vo) {
 		
 		checkVO(vo);
 		
@@ -21,9 +18,9 @@ public class LoginFormChecker implements Checker<LoginForm, RiCheckerException> 
 		checkPassword(vo);
 	}
 
-	public void checkVO(LoginForm vo) throws RiCheckerException {
+	public void checkVO(LoginForm vo) {
 		
-		CheckUtil.checkOther(vo, VO_PREFIX);
+		CheckUtil.checkOther(vo);
 	}
 	
 	public void checkAccount(LoginForm vo) {

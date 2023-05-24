@@ -1,17 +1,16 @@
 package tmpl.trans.bean.model;
 
 import tmpl.checker.Checker;
-import tmpl.exception.RiCheckerException;
 
-public interface ModelRiTransChecked<M, D, E extends RiCheckerException, C extends Checker<M, E>> extends ModelRiTransEx<M, D, E> {
+public interface ModelRiTransChecked<M, D, C extends Checker<M>> extends ModelRiTrans<M, D> {
 	
 
 	@Override
-	public default D beanToDtoImpl(M model) throws E {
+	public default D beanToDtoImpl(M model) {
 		
 		C checker = getChecker();
 		checker.check(model);
-		return ModelRiTransEx.super.beanToDtoImpl(model);
+		return ModelRiTrans.super.beanToDtoImpl(model);
 	}
 
 

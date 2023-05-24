@@ -1,17 +1,16 @@
 package tmpl.trans.bean.vo;
 
 import tmpl.checker.Checker;
-import tmpl.exception.WoCheckerException;
 
-public interface VoWoTransChecked<V, D, E extends WoCheckerException, C extends Checker<D, E>> extends VoWoTransEx<V, D, E> {
+public interface VoWoTransChecked<V, D, C extends Checker<D>> extends VoWoTrans<V, D> {
 	
 	
 	@Override
-	public default V dtoToBeanImpl(D dto) throws E {
+	public default V dtoToBeanImpl(D dto) {
 		
 		C checker = getChecker();
 		checker.check(dto);
-		return VoWoTransEx.super.dtoToBeanImpl(dto);
+		return VoWoTrans.super.dtoToBeanImpl(dto);
 	}
 
 

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-abstract class ModelTrans<M, D>  implements ModelRiTrans<M, D>, ModelWoTrans<M, D> {
+public abstract class ModelTrans<M, D>  implements ModelRiTrans<M, D>, ModelWoTrans<M, D> {
 
 	@Override
 	public M dtoToModelImpl(D dto) {
