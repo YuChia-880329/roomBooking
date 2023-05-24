@@ -1,18 +1,18 @@
 package util;
 
-import tmpl.exception.CheckerException;
+import tmpl.exception.RiCheckerException;
 
 public class CheckUtil {
 
 
-	private static final String NOT_NULL_ERROR_MSG = "no %s";
+	private static final String NOT_NULL_ERROR_MSG = "請填寫 %s";
 
-	private static final String IS_INTEGER_NUMBER_ERROR_MSG = "%s is not an integer, %s : %s";
-	private static final String IS_POSITIVE_NUMBER_ERROR_MSG = "%s is not positive, %s : %s";
-	private static final String IS_NON_NEGATIVE_NUMBER_ERROR_MSG = "%s is negative, %s : %s";
+	private static final String IS_INTEGER_NUMBER_ERROR_MSG = "%s 必須是整數";
+	private static final String IS_POSITIVE_NUMBER_ERROR_MSG = "%s 必須是正整數";
+	private static final String IS_NON_NEGATIVE_NUMBER_ERROR_MSG = "%s 必須是非負整數";
 
-	private static final String STRING_IS_ONE_OF_ERROR_MSG = "%s is not one of the options, %s : %s";
-	private static final String IS_NUMBER_STRING_ERROR_MSG_STRING = "%s is not a number string, %s : %s";
+	private static final String STRING_IS_ONE_OF_ERROR_MSG = "%s : 無此選項";
+	private static final String IS_NUMBER_STRING_ERROR_MSG_STRING = "%s 必須是數字";
 		
 	
 	
@@ -58,37 +58,37 @@ public class CheckUtil {
 	
 
 
-	private static <I> void notNull(I input, String inputName) throws CheckerException {
+	private static <I> void notNull(I input, String inputName) throws RiCheckerException {
 		
 		if(!notNull(input))
-			throw new CheckerException(String.format(NOT_NULL_ERROR_MSG, inputName));
+			throw new RiCheckerException(String.format(NOT_NULL_ERROR_MSG, inputName));
 	}
 
-	private static <I extends Number> void isIntegerNumber(I input, String inputName) throws CheckerException {
+	private static <I extends Number> void isIntegerNumber(I input, String inputName) throws RiCheckerException {
 		
 		if(!isIntegerNumber(input))
-			throw new CheckerException(String.format(IS_INTEGER_NUMBER_ERROR_MSG, inputName, inputName, input));
+			throw new RiCheckerException(String.format(IS_INTEGER_NUMBER_ERROR_MSG, inputName, inputName, input));
 	}
-	private static <I extends Number> void isPositiveNumber(I input, String inputName) throws CheckerException {
+	private static <I extends Number> void isPositiveNumber(I input, String inputName) throws RiCheckerException {
 		
 		if(!isPositiveNumber(input))
-			throw new CheckerException(String.format(IS_POSITIVE_NUMBER_ERROR_MSG, inputName, inputName, input));
+			throw new RiCheckerException(String.format(IS_POSITIVE_NUMBER_ERROR_MSG, inputName, inputName, input));
 	}
-	private static <I extends Number> void isNonNegativeNumber(I input, String inputName) throws CheckerException {
+	private static <I extends Number> void isNonNegativeNumber(I input, String inputName) throws RiCheckerException {
 		
 		if(!isNonNegativeNumber(input))
-			throw new CheckerException(String.format(IS_NON_NEGATIVE_NUMBER_ERROR_MSG, inputName, inputName, input));
+			throw new RiCheckerException(String.format(IS_NON_NEGATIVE_NUMBER_ERROR_MSG, inputName, inputName, input));
 	}
 
-	private static void stringIsOneOf(String input, String inputName, String... options) throws CheckerException {
+	private static void stringIsOneOf(String input, String inputName, String... options) throws RiCheckerException {
 		
 		if(!stringIsOneOf(input, options))
-			throw new CheckerException(String.format(STRING_IS_ONE_OF_ERROR_MSG, inputName, inputName, input));
+			throw new RiCheckerException(String.format(STRING_IS_ONE_OF_ERROR_MSG, inputName, inputName, input));
 	}
-	private static void isNumberString(String input, String inputName) throws CheckerException {
+	private static void isNumberString(String input, String inputName) throws RiCheckerException {
 		
 		if(!isNumberString(input))
-			throw new CheckerException(String.format(IS_NUMBER_STRING_ERROR_MSG_STRING, inputName, inputName, input));
+			throw new RiCheckerException(String.format(IS_NUMBER_STRING_ERROR_MSG_STRING, inputName, inputName, input));
 	}
 	
 	
@@ -191,53 +191,53 @@ public class CheckUtil {
 	
 	
 	
-	public static <N extends Number> void checkNumber(N number, String numberName) throws CheckerException {
+	public static <N extends Number> void checkNumber(N number, String numberName) throws RiCheckerException {
 		
 		notNull(number, numberName);
 	}
-	public static <N extends Number> void checkNumberIsInteger(N number, String numberName) throws CheckerException {
+	public static <N extends Number> void checkNumberIsInteger(N number, String numberName) throws RiCheckerException {
 		
 		notNull(number, numberName);
 		isIntegerNumber(number, numberName);
 	}
-	public static <N extends Number> void checkNumberIsPositive(N number, String numberName) throws CheckerException {
+	public static <N extends Number> void checkNumberIsPositive(N number, String numberName) throws RiCheckerException {
 		
 		notNull(number, numberName);
 		isPositiveNumber(number, numberName);
 	}
-	public static <N extends Number> void checkNumberIsNonNegative(N number, String numberName) throws CheckerException {
+	public static <N extends Number> void checkNumberIsNonNegative(N number, String numberName) throws RiCheckerException {
 		
 		notNull(number, numberName);
 		isNonNegativeNumber(number, numberName);
 	}
-	public static <N extends Number> void checkNumberIsPositiveInteger(N number, String numberName) throws CheckerException {
+	public static <N extends Number> void checkNumberIsPositiveInteger(N number, String numberName) throws RiCheckerException {
 		
 		notNull(number, numberName);
 		isIntegerNumber(number, numberName);
 		isPositiveNumber(number, numberName);
 	}
-	public static <N extends Number> void checkNumberIsNonNegativeInteger(N number, String numberName) throws CheckerException {
+	public static <N extends Number> void checkNumberIsNonNegativeInteger(N number, String numberName) throws RiCheckerException {
 		
 		notNull(number, numberName);
 		isIntegerNumber(number, numberName);
 		isNonNegativeNumber(number, numberName);
 	}
 	
-	public static void checkString(String str, String stringName) throws CheckerException {
+	public static void checkString(String str, String stringName) throws RiCheckerException {
 		
 		notNull(str, stringName);
 	}
-	public static void checkStringWithOptions(String str, String stringName, String... options) throws CheckerException {
+	public static void checkStringWithOptions(String str, String stringName, String... options) throws RiCheckerException {
 		
 		notNull(str, stringName);
 		stringIsOneOf(str, stringName, options);
 	}
-	public static void checkStringIsNumberString(String str, String stringName) throws CheckerException {
+	public static void checkStringIsNumberString(String str, String stringName) throws RiCheckerException {
 		
 		notNull(str, stringName);
 		isNumberString(str, stringName);
 	}
-	public static void checkStringIsIntegerNumberString(String str, String stringName) throws CheckerException {
+	public static void checkStringIsIntegerNumberString(String str, String stringName) throws RiCheckerException {
 		
 		notNull(str, stringName);
 		isNumberString(str, stringName);
@@ -245,7 +245,7 @@ public class CheckUtil {
 		double number = Double.parseDouble(str);
 		isIntegerNumber(number, stringName);
 	}
-	public static void checkStringIsPositiveNumberString(String str, String stringName) throws CheckerException {
+	public static void checkStringIsPositiveNumberString(String str, String stringName) throws RiCheckerException {
 		
 		notNull(str, stringName);
 		isNumberString(str, stringName);
@@ -253,7 +253,7 @@ public class CheckUtil {
 		double number = Double.parseDouble(str);
 		isPositiveNumber(number, stringName);
 	}
-	public static void checkStringIsNonNegativeNumberString(String str, String stringName) throws CheckerException {
+	public static void checkStringIsNonNegativeNumberString(String str, String stringName) throws RiCheckerException {
 		
 		notNull(str, stringName);
 		isNumberString(str, stringName);
@@ -261,7 +261,7 @@ public class CheckUtil {
 		double number = Double.parseDouble(str);
 		isNonNegativeNumber(number, stringName);
 	}
-	public static void checkStringIsPositiveIntegerNumberString(String str, String stringName) throws CheckerException {
+	public static void checkStringIsPositiveIntegerNumberString(String str, String stringName) throws RiCheckerException {
 		
 		notNull(str, stringName);
 		isNumberString(str, stringName);
@@ -270,7 +270,7 @@ public class CheckUtil {
 		isIntegerNumber(number, stringName);
 		isPositiveNumber(number, stringName);
 	}
-	public static void checkStringIsNonNegativeIntegerNumberString(String str, String stringName) throws CheckerException {
+	public static void checkStringIsNonNegativeIntegerNumberString(String str, String stringName) throws RiCheckerException {
 		
 		notNull(str, stringName);
 		isNumberString(str, stringName);
@@ -280,12 +280,12 @@ public class CheckUtil {
 		isNonNegativeNumber(number, stringName);
 	}
 	
-	public static void checkBoolean(Boolean b, String bName) throws CheckerException {
+	public static void checkBoolean(Boolean b, String bName) throws RiCheckerException {
 		
 		notNull(b, bName);
 	}
 	
-	public static <I> void checkOther(I input, String bName) throws CheckerException {
+	public static <I> void checkOther(I input, String bName) throws RiCheckerException {
 		
 		notNull(input, bName);
 	}

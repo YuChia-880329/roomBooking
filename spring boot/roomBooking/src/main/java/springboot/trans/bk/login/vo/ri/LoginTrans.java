@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 import springboot.bean.dto.bk.login.vo.ri.LoginDto;
 import springboot.bean.vo.bk.login.ri.Login;
 import springboot.checker.bk.login.vo.ri.LoginChecker;
-import tmpl.exception.CheckerException;
+import tmpl.exception.RiCheckerException;
 import tmpl.trans.bean.vo.VoRiTransChecked;
 
 @Component
-public class LoginTrans implements VoRiTransChecked<Login, LoginDto, CheckerException, LoginChecker> {
+public class LoginTrans implements VoRiTransChecked<Login, LoginDto, RiCheckerException, LoginChecker> {
 
 	@Autowired
 	private LoginChecker checker;
@@ -19,7 +19,7 @@ public class LoginTrans implements VoRiTransChecked<Login, LoginDto, CheckerExce
 	private LoginFormTrans loginFormTrans;
 	
 	@Override
-	public LoginDto voToDtoImpl(Login vo) throws CheckerException {
+	public LoginDto voToDtoImpl(Login vo) throws RiCheckerException {
 		
 		return LoginDto.builder()
 				.loginForm(loginFormTrans.voToDto(vo.getLoginForm()))
