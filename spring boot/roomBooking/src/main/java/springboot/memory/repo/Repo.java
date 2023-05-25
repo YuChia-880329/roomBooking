@@ -1,4 +1,4 @@
-package tmpl.memory.repo;
+package springboot.memory.repo;
 
 public abstract class Repo<I, O> {
 

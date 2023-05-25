@@ -1,4 +1,4 @@
-package tmpl.memory.cache;
+package springboot.memory.cache;
 
 import tmpl.trans.bean.obj.ObjRiTrans;
 import tmpl.trans.bean.obj.ObjWoTrans;

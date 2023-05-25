@@ -1,4 +1,4 @@
-package tmpl.memory.repo;
+package springboot.memory.repo;
 
 import java.util.List;
 

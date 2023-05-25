@@ -1,4 +1,4 @@
-package tmpl.memory.db;
+package springboot.memory.db;
 
 import java.util.HashMap;
 import java.util.HashSet;

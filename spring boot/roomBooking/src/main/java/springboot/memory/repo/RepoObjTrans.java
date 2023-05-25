@@ -1,4 +1,4 @@
-package tmpl.memory.repo;
+package springboot.memory.repo;
 
 import java.util.List;
 
@@ -19,9 +19,9 @@ public abstract class RepoObjTrans<O, D> implements Trans<O, D> {
 	@Override
 	public D aToBImpl(O obj) {
 		
-		return objToDtoTransform(obj);
+		return objToDtoImpl(obj);
 	}
 	
 	
-	protected abstract D objToDtoTransform(O obj);
+	protected abstract D objToDtoImpl(O obj);
 }

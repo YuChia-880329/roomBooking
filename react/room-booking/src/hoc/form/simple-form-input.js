@@ -32,12 +32,25 @@ class SimpleFormInput extends Component {
         const {ctrlVal} = this.state;
 
         // props
-        const {id, type, min, placeholder, size} = this.props;
+        const {id, type, min, placeholder, size, required} = this.props;
 
         return (
-            <Form.Control ref={this.ctrlRef} val={ctrlVal} id={id} type={type} min={min} placeholder={placeholder} htmlSize={size} onChange={this.ctrlOnChange} />
+            <div>
+                <Form.Control ref={this.ctrlRef} required={required} val={ctrlVal} id={id} type={type} min={min} placeholder={placeholder} htmlSize={size} onChange={this.ctrlOnChange} />
+                {required ? <this.Feedback /> : null}
+            </div>
         );
     };
+
+    Feedback = () => {
+
+        // props
+        const {feedBackText} = this.props;
+        return (
+            <Form.Control.Feedback type='invalid'>{feedBackText}</Form.Control.Feedback>
+        );
+    };
+
     render() {
 
         // props

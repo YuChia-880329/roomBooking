@@ -1,4 +1,4 @@
-package tmpl.memory.cache;
+package springboot.memory.cache;
 
 import java.util.ArrayList;
 import java.util.List;

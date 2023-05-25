@@ -30,7 +30,9 @@ class SimpleModal extends Component {
         return (
             <Modal show={show} onHide={this.handleClose} className={className}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{title}</Modal.Title>
+                    <Modal.Title>
+                        <h3 className='mb-0'>{title}</h3>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <BodyContent />

@@ -1,4 +1,4 @@
-package tmpl.memory.cache;
+package springboot.memory.cache;
 
 import java.util.List;
 
@@ -10,7 +10,6 @@ public abstract class CacheDao<O, D, C extends Cache<O>, T extends CacheTrans<O,
 	protected CacheDao(C cache) {
 		
 		this.cache = cache;
-		this.trans = getTrans();
 	}
 	
 	public void save(D dto) {
@@ -27,5 +26,5 @@ public abstract class CacheDao<O, D, C extends Cache<O>, T extends CacheTrans<O,
 	}
 	
 	
-	protected abstract T getTrans();
+	protected abstract void setTrans(T trans);
 }

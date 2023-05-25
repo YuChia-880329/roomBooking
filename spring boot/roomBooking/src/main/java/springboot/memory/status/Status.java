@@ -1,10 +1,10 @@
-package tmpl.memory.statusCache;
+package springboot.memory.status;
 
-public abstract class StatusCache<O> {
+public abstract class Status<O> {
 
 	private O status;
 	
-	protected StatusCache() {
+	protected Status() {
 		
 		status = null;
 	}

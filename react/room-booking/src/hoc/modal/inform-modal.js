@@ -29,15 +29,18 @@ class InformModal extends Component {
         const {msg} = this.props;
 
         return (
-            <Container>
-                <p style={msgPStyle}>{msg}</p>
+            <Container className='px-4'>
+                <p className='fs-5' style={msgPStyle}>{msg}</p>
             </Container>
         );
     };
     render() {
 
+        // props
+        const {okBtnOnClick} = this.props;
+
         return (
-            <OneBtnModal className='inform-modal' ref={this.oneBtnModalRef} title='訊息' BodyContent={this.BodyContent} OkBtnText='確認'  />
+            <OneBtnModal className='inform-modal' ref={this.oneBtnModalRef} title='訊息' BodyContent={this.BodyContent} okBtnText='確認' okBtnOnClick={okBtnOnClick} />
         );
     }
 }

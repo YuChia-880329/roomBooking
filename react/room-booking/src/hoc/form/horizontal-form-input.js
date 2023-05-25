@@ -14,7 +14,7 @@ class HorizontalFormInput extends Component {
                 <Col>
                     <Stack gap={4}>
                         <Ctrl />
-                        {(AddCtrl!==undefined) && <AddCtrl /> }
+                        {AddCtrl ? <AddCtrl /> : null }
                     </Stack>
                 </Col>
             </Form.Group>

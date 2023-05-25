@@ -13,7 +13,7 @@ class Account extends Component {
     render() {
 
         return (
-            <SimpleFormInput ref={this.ctrlRef} id='form_account' text='帳號' size='30' />
+            <SimpleFormInput ref={this.ctrlRef} id='form_account' text='帳號' size='30' required={true} feedBackText='請填寫帳號' />
         );
     }
 }

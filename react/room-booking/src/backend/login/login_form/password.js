@@ -13,7 +13,7 @@ class Password extends Component {
     render() {
 
         return (
-            <SimpleFormInput ref={this.ctrlRef} id='form_password' text='密碼' type='password' size='30' />
+            <SimpleFormInput ref={this.ctrlRef} id='form_password' text='密碼' type='password' size='30' required={true} feedBackText='請填寫密碼' />
         );
     }
 }

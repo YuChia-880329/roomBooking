@@ -1,14 +1,13 @@
-package tmpl.memory.statusCache;
+package springboot.memory.status;
 
-public abstract class StatusCacheDao<O, D, C extends StatusCache<O>, T extends StatusCacheTrans<O, D>> {
+public abstract class StatusDao<O, D, C extends Status<O>, T extends StatusTrans<O, D>> {
 
 	protected C cache;
 	protected T trans;
 	
-	protected StatusCacheDao(C cache) {
+	protected StatusDao(C cache) {
 		
 		this.cache = cache;
-		this.trans = getTrans();
 	}
 	
 	
@@ -26,6 +25,5 @@ public abstract class StatusCacheDao<O, D, C extends StatusCache<O>, T extends S
 	}
 	
 	
-	
-	protected abstract T getTrans();
+	protected abstract void setTrans(T trans);
 }

@@ -7,7 +7,9 @@ import springboot.bean.dto.bk.login.vo.ri.LoginFormDto;
 import springboot.bean.dto.bk.login.vo.ri.LoginReqDto;
 import springboot.bean.dto.bk.login.vo.wo.LoginRespDto;
 import springboot.bean.dto.bk.login.vo.wo.LoginResultDto;
+import springboot.bean.dto.bk.obj.status.LoginDto;
 import springboot.bean.dto.model.MemberDto;
+import springboot.dao.bk.obj.status.LoginStatusDao;
 import springboot.dao.model.inner.MemberDaoInner;
 
 @Service
@@ -20,6 +22,8 @@ public class LoginService {
 
 	@Autowired
 	private MemberDaoInner memberDaoInner;
+	@Autowired
+	private LoginStatusDao loginStatusDao;
 	
 	
 	public LoginRespDto login(LoginReqDto loginReq) {
@@ -46,6 +50,10 @@ public class LoginService {
 			success = false;
 			msg = WRONG_PWD_MSG;
 		}
+		
+		loginStatusDao.setStatus(LoginDto.builder()
+				.isLogin(success)
+				.build());
 		
 		return LoginResultDto.builder()
 				.success(success)

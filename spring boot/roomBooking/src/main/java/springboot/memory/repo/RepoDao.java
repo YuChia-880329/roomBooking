@@ -1,4 +1,4 @@
-package tmpl.memory.repo;
+package springboot.memory.repo;
 
 public abstract class RepoDao<I, O, P, D, R extends Repo<I, O>, T extends RepoInputTrans<I, P>, S extends RepoObjTrans<O, D>> {
 
@@ -9,8 +9,6 @@ public abstract class RepoDao<I, O, P, D, R extends Repo<I, O>, T extends RepoIn
 	protected RepoDao(R repository) {
 		
 		this.repo = repository;
-		inputTrans = getInputTrans();
-		objTrans = getObjTrans();
 	}
 	
 	public D getObjDto(P inputDto) {
@@ -21,6 +19,6 @@ public abstract class RepoDao<I, O, P, D, R extends Repo<I, O>, T extends RepoIn
 	}
 	
 
-	protected abstract T getInputTrans();
-	protected abstract S getObjTrans();
+	protected abstract void setInputTrans(T inputTrans);
+	protected abstract void setObjTrans(S objTrans);
 }

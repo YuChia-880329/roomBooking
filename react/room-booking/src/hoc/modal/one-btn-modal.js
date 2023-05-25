@@ -18,11 +18,11 @@ class OneBtnModal extends Component {
     FooterContent = () => {
 
         // props
-        const {OkBtnText} = this.props;
+        const {okBtnText, okBtnOnClick} = this.props;
 
         return (
             <Fragment>
-                <Button variant="primary" onClick={this.handleClose}>{OkBtnText}</Button>
+                <Button variant="primary" onClick={okBtnOnClick ? okBtnOnClick : this.handleClose}>{okBtnText}</Button>
             </Fragment>
         );
     }

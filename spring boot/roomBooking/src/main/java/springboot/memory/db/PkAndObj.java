@@ -1,4 +1,4 @@
-package tmpl.memory.db;
+package springboot.memory.db;
 
 public class PkAndObj<P, O> {
 
