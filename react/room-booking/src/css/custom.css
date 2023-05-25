@@ -15,3 +15,25 @@
 .caretBtn:hover {
     background-color: #e7e7e7;
 }
+
+
+.inform-modal .modal-dialog {
+
+	width:30rem;
+}
+.inform-modal .modal-content {
+
+	background-color:#D1D2D1;
+}
+.inform-modal .modal-header {
+
+	border-bottom:0;
+}
+.inform-modal .modal-body {
+	
+	min-height : 5rem;
+}
+.inform-modal .modal-footer {
+
+	border-top:0;
+}

@@ -25,10 +25,10 @@ class SimpleModal extends Component {
         const {show} = this.state;
 
         // props
-        const {title, BodyContent, FooterContent} = this.props;
+        const {title, BodyContent, FooterContent, className} = this.props;
 
         return (
-            <Modal show={show} onHide={this.handleClose}>
+            <Modal show={show} onHide={this.handleClose} className={className}>
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>

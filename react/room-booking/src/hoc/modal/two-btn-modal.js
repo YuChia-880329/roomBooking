@@ -4,26 +4,26 @@ import { Button } from 'react-bootstrap';
 
 class TwoBtnModal extends Component {
 
-    simpleModal = createRef();
+    simpleModalRef = createRef();
 
     handleShow = () => {
 
-        this.simpleModal.current.handleShow();
+        this.simpleModalRef.current.handleShow();
     };
     handleClose = () => {
 
-        this.simpleModal.current.handleClose();
+        this.simpleModalRef.current.handleClose();
     };
 
     FooterContent = () => {
 
         // props
-        const {OkBtn} = this.props;
+        const {OkBtnText, OkBtnOnClick} = this.props;
 
         return (
             <Fragment>
                 <Button variant="secondary" onClick={this.handleClose}>關閉</Button>
-                <OkBtn />
+                <Button variant="primary" onClick={OkBtnOnClick ? OkBtnOnClick : null}>{OkBtnText}</Button>
             </Fragment>
         );
     }
@@ -33,7 +33,7 @@ class TwoBtnModal extends Component {
         const {title, BodyContent} = this.props;
 
         return (
-            <SimpleModal ref={this.simpleModal} title={title} BodyContent={BodyContent} FooterContent={this.FooterContent}  />
+            <SimpleModal ref={this.simpleModalRef} title={title} BodyContent={BodyContent} FooterContent={this.FooterContent}  />
         );
     }
 }

@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 
 public class LocalUtil {
 
-	public String getLocalIp() throws UnknownHostException {
+	public static String getLocalIp() throws UnknownHostException {
 		
 		String hostName = InetAddress.getLocalHost().getHostName();
 		InetAddress[] addresses =  InetAddress.getAllByName(hostName);

@@ -1,27 +1,26 @@
 package springboot.dao.model.inner;
 
-import springboot.bean.dto.model.BookingOrderDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import springboot.bean.dto.model.HotelAccountDto;
-import springboot.bean.model.BookingOrder;
 import springboot.bean.model.HotelAccount;
-import springboot.dao.model.BookingOrderDao;
 import springboot.dao.model.HotelAccountDao;
-import springboot.trans.model.BookingOrderTrans;
 import springboot.trans.model.HotelAccountTrans;
 
+@Repository
 public class HotelAccountDaoInner extends DaoInner<HotelAccount, Integer, HotelAccountDto, HotelAccountTrans, HotelAccountDao> {
 
-	private HotelAccountDao dao;
-	private HotelAccountTrans trans;
-	
+	@Autowired
 	@Override
-	protected HotelAccountDao getDao() {
+	public void setDao(HotelAccountDao dao) {
 		
-		return dao;
+		this.dao = dao;
 	}
+	@Autowired
 	@Override
-	protected HotelAccountTrans getTrans() {
+	public void setTrans(HotelAccountTrans trans) {
 		
-		return trans;
+		this.trans = trans;
 	}
 }

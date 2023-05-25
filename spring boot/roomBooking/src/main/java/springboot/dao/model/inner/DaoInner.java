@@ -12,7 +12,6 @@ public abstract class DaoInner<M, ID, D, T extends ModelTrans<M, D>, A extends J
 	protected T trans;
 
 	
-	
 	public Optional<D> findById(ID id) {
 		
 		Optional<M> modelOp = dao.findById(id);
@@ -21,6 +20,6 @@ public abstract class DaoInner<M, ID, D, T extends ModelTrans<M, D>, A extends J
 	}
 	
 	
-	protected abstract A getDao();
-	protected abstract T getTrans();
+	public abstract void setDao(A dao);
+	public abstract void setTrans(T trans);
 }

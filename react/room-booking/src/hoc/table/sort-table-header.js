@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Stack, Button } from 'react-bootstrap';
+import { Stack } from 'react-bootstrap';
 import { IconCaretUp, IconCaretDown } from '@tabler/icons-react';
 
 class SortTableHeader extends Component {

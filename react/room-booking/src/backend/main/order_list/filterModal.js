@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import { Button, Container, Stack } from 'react-bootstrap';
+import { Container, Stack } from 'react-bootstrap';
 import TwoBtnModal from '../../../hoc/modal/two-btn-modal';
 import Id from './filter_modal/id';
 import ClientName from './filter_modal/client-name';
@@ -44,18 +44,13 @@ class FilterModal extends Component {
             </Container>
         );
     };
-    OkBtn = () => {
 
-        return (
-            <Button variant='primary'>篩選</Button>
-        );
-    };
 
     
     render() {
         
         return (
-            <TwoBtnModal ref={this.filterModalRef} title='篩選表單' BodyContent={this.FilterBodyContent} OkBtn={this.OkBtn} />
+            <TwoBtnModal ref={this.filterModalRef} title='篩選表單' BodyContent={this.FilterBodyContent} OkBtnText='篩選' />
         );
     }
 
