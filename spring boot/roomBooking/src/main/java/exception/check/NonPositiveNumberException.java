@@ -1,7 +1,7 @@
 package exception.check;
 
 @SuppressWarnings("serial")
-public class NonPositiveNumberException extends RuntimeException {
+public class NonPositiveNumberException extends InvalidInputException {
 
 	public static final String MSG_FORMAT_STR = "%s 必須大於0";
 	

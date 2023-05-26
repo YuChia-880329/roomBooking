@@ -58,7 +58,10 @@ class LoginForm extends Component {
 
         const fetchConfig =  config.fetch;
 
-        const {serverInfo, data} = await axios.post(loginUrls.login, req, {timeout : fetchConfig.timeout})
+        const {serverInfo, data} = await axios.post(loginUrls.login, req, {
+                timeout : fetchConfig.timeout,
+                withCredentials: true
+            })
             .then(rs => rs.data)
             .catch(error => console.error(error));
 
@@ -74,14 +77,13 @@ class LoginForm extends Component {
         // props
         const {fctn} = this.props;
 
-        const loginResult = data.loginResult;
+        const {loginResult} = data;
 
         if(loginResult.result)
             this.informModalShow(loginResult.msg, () => {
 
                 this.informModalClose();
                 fctn.setIsLogin(true);
-                console.log("fctn.setIsLogin : ", fctn.setIsLogin);
             });
         else
             this.informModalShow(loginResult.msg, null);

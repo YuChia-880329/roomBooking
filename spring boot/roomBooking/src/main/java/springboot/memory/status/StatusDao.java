@@ -2,26 +2,26 @@ package springboot.memory.status;
 
 public abstract class StatusDao<O, D, C extends Status<O>, T extends StatusTrans<O, D>> {
 
-	protected C cache;
+	protected C memory;
 	protected T trans;
 	
-	protected StatusDao(C cache) {
+	protected StatusDao(C memory) {
 		
-		this.cache = cache;
+		this.memory = memory;
 	}
 	
 	
 	public D getStatus() {
 		
-		return trans.objToDto(cache.getStatus());
+		return trans.objToDto(memory.getStatus());
 	}
 	public void setStatus(D dto) {
 		
-		cache.setStatus(trans.dtoToObj(dto));
+		memory.setStatus(trans.dtoToObj(dto));
 	}
 	public void clearStatus() {
 		
-		cache.clearStatus();
+		memory.clearStatus();
 	}
 	
 	

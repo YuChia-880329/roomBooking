@@ -3,14 +3,14 @@ package springboot.service.bk.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import springboot.bean.dto.bk.login.obj.status.login.LoginDto;
 import springboot.bean.dto.bk.login.vo.ri.LoginFormDto;
 import springboot.bean.dto.bk.login.vo.ri.LoginReqDto;
 import springboot.bean.dto.bk.login.vo.wo.LoginRespDto;
 import springboot.bean.dto.bk.login.vo.wo.LoginResultDto;
-import springboot.bean.dto.bk.obj.status.LoginDto;
-import springboot.bean.dto.model.MemberDto;
-import springboot.dao.bk.obj.status.LoginStatusDao;
-import springboot.dao.model.inner.MemberDaoInner;
+import springboot.bean.dto.model.HotelAccountDto;
+import springboot.dao.bk.login.memory.status.LoginStatusDao;
+import springboot.dao.model.inner.HotelAccountDaoInner;
 
 @Service
 public class LoginService {
@@ -21,7 +21,7 @@ public class LoginService {
 	
 
 	@Autowired
-	private MemberDaoInner memberDaoInner;
+	private HotelAccountDaoInner hotelAccountDaoInner;
 	@Autowired
 	private LoginStatusDao loginStatusDao;
 	
@@ -29,23 +29,23 @@ public class LoginService {
 	public LoginRespDto login(LoginReqDto loginReq) {
 		
 		LoginFormDto loginForm = loginReq.getLoginForm();
-		MemberDto member = memberDaoInner.findFirstByAccount(loginForm.getAccount());
+		HotelAccountDto hotelAccount = hotelAccountDaoInner.findFirstByAccount(loginForm.getAccount());
 		
 		return LoginRespDto.builder()
-				.loginResult(login(loginForm, member))
+				.loginResult(login(loginForm, hotelAccount))
 				.build();
 	}
 	
-	private LoginResultDto login(LoginFormDto loginForm, MemberDto member) {
+	private LoginResultDto login(LoginFormDto loginForm, HotelAccountDto hotelAccount) {
 		
 		boolean success = true;
 		String msg = SUCCESS_MSG;
 		
-		if(member == null) {
+		if(hotelAccount == null) {
 			
 			success = false;
 			msg = NO_ACCOUNT_MSG;
-		}else if(!member.getPassword().equals(loginForm.getPassword())) {
+		}else if(!hotelAccount.getPassword().equals(loginForm.getPassword())) {
 			
 			success = false;
 			msg = WRONG_PWD_MSG;
@@ -53,6 +53,7 @@ public class LoginService {
 		
 		loginStatusDao.setStatus(LoginDto.builder()
 				.isLogin(success)
+				.HotelId(hotelAccount.getHotel().getId())
 				.build());
 		
 		return LoginResultDto.builder()

@@ -1,7 +1,7 @@
 package exception.check;
 
 @SuppressWarnings("serial")
-public class NegativeNumberException extends RuntimeException {
+public class NegativeNumberException extends InvalidInputException {
 
 	public static final String MSG_FORMAT_STR = "%s 不可為負數";
 	

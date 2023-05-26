@@ -1,7 +1,7 @@
 package exception.check;
 
 @SuppressWarnings("serial")
-public class NonIntegerNumberException extends RuntimeException {
+public class NonIntegerNumberException extends InvalidInputException {
 
 	public static final String MSG_FORMAT_STR = "%s 必須是整數";
 	

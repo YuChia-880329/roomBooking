@@ -11,6 +11,14 @@ import springboot.trans.model.HotelAccountTrans;
 @Repository
 public class HotelAccountDaoInner extends DaoInner<HotelAccount, Integer, HotelAccountDto, HotelAccountTrans, HotelAccountDao> {
 
+	
+	
+	public HotelAccountDto findFirstByAccount(String account){
+		
+		return trans.modelToDto(dao.findFirstByAccount(account));
+	}
+	
+	
 	@Autowired
 	@Override
 	public void setDao(HotelAccountDao dao) {

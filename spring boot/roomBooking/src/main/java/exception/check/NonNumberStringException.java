@@ -1,7 +1,7 @@
 package exception.check;
 
 @SuppressWarnings("serial")
-public class NonNumberStringException extends RuntimeException {
+public class NonNumberStringException extends InvalidInputException {
 
 	public static final String MSG_FORMAT_STR = "%s 必須是數字";
 	

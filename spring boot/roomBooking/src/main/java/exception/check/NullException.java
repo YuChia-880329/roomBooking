@@ -1,7 +1,7 @@
 package exception.check;
 
 @SuppressWarnings("serial")
-public class NullException extends RuntimeException {
+public class NullException extends InvalidInputException {
 
 	public static final String MSG_FORMAT_STR = "請填寫 %s";
 	

@@ -17,8 +17,12 @@ public abstract class RepoDao<I, O, P, D, R extends Repo<I, O>, T extends RepoIn
 				repo.getObj(
 						inputTrans.dtoToInput(inputDto)));
 	}
+	public P getLastInput() {
+		
+		return inputTrans.inputToDto(repo.getLastInput());
+	}
 	
 
-	protected abstract void setInputTrans(T inputTrans);
-	protected abstract void setObjTrans(S objTrans);
+	public abstract void setInputTrans(T inputTrans);
+	public abstract void setObjTrans(S objTrans);
 }

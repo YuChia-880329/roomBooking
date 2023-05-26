@@ -6,7 +6,7 @@ import java.util.List;
 import util.StringConcatUtil;
 
 @SuppressWarnings("serial")
-public class StringIsNotOneOfException extends RuntimeException {
+public class StringIsNotOneOfException extends InvalidInputException {
 
 	public static final String MSG_FORMAT_STR = "%s 必須為 : %s 的其中之一";
 	

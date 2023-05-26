@@ -2,19 +2,26 @@ package springboot.memory.repo;
 
 public abstract class Repo<I, O> {
 
+	protected I lastInput;
 	protected O obj;
 	
 	protected Repo() {
 		
 		init();
-		obj = update(initialInput());
+		this.lastInput = initialInput();
+		this.obj = update(lastInput);
 	}
 	
-	public O getObj(I i) {
+	public O getObj(I input) {
 		
-		if(isNeedUpdate(i))
-			obj = update(i);
+		lastInput = input;
+		if(isNeedUpdate(input))
+			obj = update(input);
 		return obj;
+	}
+	public I getLastInput() {
+		
+		return lastInput;
 	}
 	
 	protected void init() {
@@ -22,6 +29,6 @@ public abstract class Repo<I, O> {
 	}
 	
 	protected abstract I initialInput();
-	protected abstract boolean isNeedUpdate(I i);
-	protected abstract O update(I i);
+	protected abstract boolean isNeedUpdate(I input);
+	protected abstract O update(I input);
 }

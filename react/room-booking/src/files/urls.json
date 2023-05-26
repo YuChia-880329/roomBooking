@@ -1,7 +1,8 @@
 {
     "backend" : {
         "login" : {
-            "login" : "http://localhost:8086/roomBooking/backend/login"
+            "login" : "http://localhost:8086/roomBooking/backend/login",
+            "checkLogin" : "http://localhost:8086/roomBooking/backend/checkLogin"
         }
     }
 }
