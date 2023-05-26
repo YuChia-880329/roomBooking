@@ -6,9 +6,9 @@ public abstract class RepoDao<I, O, P, D, R extends Repo<I, O>, T extends RepoIn
 	protected T inputTrans;
 	protected S objTrans;
 	
-	protected RepoDao(R repository) {
+	protected RepoDao(R repo) {
 		
-		this.repo = repository;
+		this.repo = repo;
 	}
 	
 	public D getObjDto(P inputDto) {

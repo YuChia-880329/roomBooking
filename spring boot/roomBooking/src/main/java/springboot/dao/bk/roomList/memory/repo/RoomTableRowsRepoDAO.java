@@ -18,9 +18,9 @@ import springboot.trans.bk.roomList.obj.repo.roomTableRows.RoomTableRowsTrans;
 public class RoomTableRowsRepoDAO extends RepoDao<Input, RoomTableRows, InputDto, RoomTableRowsDto, 
 		RoomTableRowsRepo, InputTrans, RoomTableRowsTrans> {
 
-	protected RoomTableRowsRepoDAO(RoomTableRowsRepo repository) {
+	public RoomTableRowsRepoDAO(RoomTableRowsRepo repo) {
 		
-		super(repository);
+		super(repo);
 	}
 
 	@Autowired

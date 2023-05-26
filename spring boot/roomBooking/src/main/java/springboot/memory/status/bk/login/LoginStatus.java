@@ -10,6 +10,10 @@ import springboot.memory.status.Status;
 @SessionScope
 public class LoginStatus extends Status<Login> {
 
+	public LoginStatus() {
+		
+		System.out.println("test");
+	}
 	@Override
 	protected Login ifNull() {
 		
