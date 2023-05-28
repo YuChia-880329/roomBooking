@@ -1,15 +1,23 @@
+import urls from './files/urls.json';
+import config from './files/config.json';
 import React, { Component } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from './backend/login';
 import Main from './backend/main';
 import axios from 'axios';
-import urls from './files/urls.json';
-import config from './files/config.json'
 
-const checkLoginUrl = urls.backend.login.checkLogin;
-
+const constant = {
+    fetch : {
+        url : {
+            checkLogin : urls.backend.login.checkLogin
+        },
+        config : {
+            timeout : config.fetch.timeout
+        }
+    }
+}
 class Backend extends Component {
-    
+
     constructor(props){
 
         super(props);
@@ -18,18 +26,45 @@ class Backend extends Component {
         };
     }
 
-    setIsLogin = (isLogin) => {
+    componentDidMount(){
 
-        this.setState({
-            isLogin : isLogin
-        });
+        this.onLoad();
+    }
+    
+    render() {
+
+        const {isLogin} = this.state;
+        const fctn = {
+            login : {
+                setIsLogin : this.setIsLogin
+            }
+        };
+        
+        return (
+            <Routes>
+                {/* <Route path='/backend/login' element={<Login fctn={fctn.login} />} />
+                <Route path='/backend/*' element={<Main />} /> */}
+                <Route path='/backend/login' element={isLogin ? <Navigate to='/backend/' /> : <Login fctn={fctn.login} />} />
+                <Route path='/backend/*' element={isLogin ? <Main /> : <Navigate to='/backend/login' />} />
+            </Routes>
+        );
     }
 
+    // on
+    onLoad = () => {
+
+        this.checkLogin();
+    }
+
+    // fetch
     checkLogin = async () => {
 
-        const fetchConfig = config.fetch;
-        const {serverInfo, data} = await axios.get(checkLoginUrl, {
-                timeout : fetchConfig.timeout, 
+        const {fetch} =  constant;
+        const url = fetch.url.checkLogin;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
                 withCredentials: true
             })
             .then(rs => rs.data)
@@ -40,39 +75,26 @@ class Backend extends Component {
 
             this.afterCheckLogin(data);
         }
-    }
+    };
+
+
+    // after fetch
     afterCheckLogin = (data) => {
 
-        const {checkLoginResult} = data;
+        const {result} = data;
+
         this.setState({
-            isLogin : checkLoginResult.login
+            isLogin : result.login
         });
     }
 
+    // getter setter
+    setIsLogin = (isLogin) => {
 
-    componentDidMount(){
-
-        // this.checkLogin();
-    }
-
-    render() {
-
-        // state
-        const {isLogin} = this.state;
-
-        const fctn = {
-            setIsLogin : this.setIsLogin
-        }
-        
-        return (
-            <Routes>
-                <Route path='/backend/login' element={<Login fctn={fctn} />} />
-                <Route path='/backend/*' element={<Main />} />
-                {/* <Route path='/backend/login' element={isLogin ? <Navigate to='/backend/' /> : <Login fctn={fctn} />} />
-                <Route path='/backend/*' element={isLogin ? <Main /> : <Navigate to='/backend/login' />} /> */}
-            </Routes>
-        );
-    }
+        this.setState({
+            isLogin : isLogin
+        });
+    };
 }
 
 

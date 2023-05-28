@@ -5,40 +5,40 @@ import java.util.List;
 import tmpl.trans.bean.obj.ObjRiTrans;
 import tmpl.trans.bean.obj.ObjWoTrans;
 
-public abstract class RepoInputTrans<I, P> implements ObjRiTrans<I, P>, ObjWoTrans<I, P> {
+public abstract class RepoInputTrans<I, D> implements ObjRiTrans<I, D>, ObjWoTrans<I, D> {
 
-	public I dtoToInput(P dto) {
+	public I dtoToInput(D dto) {
 		
 		return dtoToObj(dto);
 	}
-	public P inputToDto(I inputObj) {
+	public D inputToDto(I input) {
 		
-		return objToDto(inputObj);
+		return objToDto(input);
 	}
 	
-	public List<I> dtoListToInputList(List<P> dtoList){
+	public List<I> dtoListToInputList(List<D> dtoList){
 		
 		return dtoListToObjList(dtoList);
 	}
-	public List<P> inputListToDtoList(List<I> inputObjList){
+	public List<D> inputListToDtoList(List<I> inputList){
 		
-		return objListToDtoList(inputObjList);
+		return objListToDtoList(inputList);
 	}
 
 	
 	
 	@Override
-	public I dtoToObjImpl(P dto) {
+	public I dtoToObjImpl(D dto) {
 		
 		return dtoToInputImpl(dto);
 	}
 	@Override
-	public P objToDtoImpl(I inputObj) {
+	public D objToDtoImpl(I input) {
 		
-		return inputToDtoImpl(inputObj);
+		return inputToDtoImpl(input);
 	}
 	
 	
-	protected abstract I dtoToInputImpl(P dto);
-	protected abstract P inputToDtoImpl(I inputObj);
+	protected abstract I dtoToInputImpl(D dto);
+	protected abstract D inputToDtoImpl(I input);
 }

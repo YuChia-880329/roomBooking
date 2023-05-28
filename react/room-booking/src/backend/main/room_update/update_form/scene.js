@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SelectFormInput from '../../../../hoc/form/select-form-input';
+import { Col, Form, Row } from 'react-bootstrap';
 
 class Scene extends Component {
 
@@ -8,7 +8,18 @@ class Scene extends Component {
         const options = ['---- 請選擇 ----', '市景', '山景', '海景', '無窗', '其他'];
 
         return (
-            <SelectFormInput text='景觀' options={options} />
+            <Form.Group as={Row}>
+                <Form.Label column xs='auto'>景觀 : </Form.Label>
+                <Col>
+                    <Form.Select>
+                        {options.map(
+                            opt => (
+                                <option key={opt}>{opt}</option>
+                            )
+                        )}
+                    </Form.Select>
+                </Col>
+            </Form.Group>
         );
     }
 }

@@ -1,19 +1,22 @@
 package springboot.trans.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.RoomImgDto;
 import springboot.bean.model.RoomImg;
 import springboot.trans.model.inner.RoomImgTransInner;
 
-@Component
+@Component("model.RoomImgTrans")
 public class RoomImgTrans extends ModelTrans<RoomImg, RoomImgDto> {
 
 	@Autowired
+	@Qualifier("model.inner.RoomImgTransInner")
 	private RoomImgTransInner roomImgTransInner;
 	
 	@Autowired
+	@Qualifier("model.RoomTrans")
 	private RoomTrans roomTrans;
 	
 	

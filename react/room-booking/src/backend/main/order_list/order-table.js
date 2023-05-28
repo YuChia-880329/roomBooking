@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
-import SortTableHeader from '../../../hoc/table/sort-table-header';
-import SortTableTd from '../../../hoc/table/sort-table-td';
+import SortTh from '../../../hoc/table/sort-th';
+import SortTd from '../../../hoc/table/sort-td';
 
 class OrderTable extends Component {
     
@@ -19,41 +19,41 @@ class OrderTable extends Component {
                     <tr>
                         {headerTexts.map(
                             text => (
-                                <SortTableHeader text={text} />
+                                <SortTh text={text} />
                             )
                         )}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <SortTableTd text='1' />
+                        <SortTd text='1' />
                         {example.map(
                             val => (
-                                <SortTableTd text={val} />
+                                <SortTd text={val} />
                             )
                         )}
                     </tr>
                     <tr>
-                        <SortTableTd text='2' />
+                        <SortTd text='2' />
                         {example.map(
                             val => (
-                                <SortTableTd text={val} />
+                                <SortTd text={val} />
                             )
                         )}
                     </tr>
                     <tr>
-                        <SortTableTd text='3' />
+                        <SortTd text='3' />
                         {example.map(
                             val => (
-                                <SortTableTd text={val} />
+                                <SortTd text={val} />
                             )
                         )}
                     </tr>
                     <tr>
-                        <SortTableTd text='4' />
+                        <SortTd text='4' />
                         {example.map(
                             val => (
-                                <SortTableTd text={val} />
+                                <SortTd text={val} />
                             )
                         )}
                     </tr>

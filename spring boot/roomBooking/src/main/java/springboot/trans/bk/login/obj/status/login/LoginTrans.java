@@ -6,24 +6,24 @@ import springboot.bean.dto.bk.login.obj.status.login.LoginDto;
 import springboot.bean.obj.bk.login.status.login.Login;
 import springboot.memory.status.StatusTrans;
 
-@Component
+@Component("bk.login.obj.status.login.LoginTrans")
 public class LoginTrans extends StatusTrans<Login, LoginDto> {
 
 	@Override
-	public LoginDto objToDtoImpl(Login obj) {
-		
-		return LoginDto.builder()
-				.isLogin(obj.isLogin())
-				.HotelId(obj.getHotelId())
-				.build();
-	}
-
-	@Override
-	public Login dtoToObjImpl(LoginDto dto) {
+	protected Login dtoToStatusImpl(LoginDto dto) {
 		
 		return Login.builder()
 				.isLogin(dto.isLogin())
 				.HotelId(dto.getHotelId())
+				.build();
+	}
+
+	@Override
+	protected LoginDto statusToDtoImpl(Login status) {
+		
+		return LoginDto.builder()
+				.isLogin(status.isLogin())
+				.HotelId(status.getHotelId())
 				.build();
 	}
 }

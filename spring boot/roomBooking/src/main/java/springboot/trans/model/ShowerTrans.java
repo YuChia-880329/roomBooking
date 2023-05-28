@@ -1,19 +1,22 @@
 package springboot.trans.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.ShowerDto;
 import springboot.bean.model.Shower;
 import springboot.trans.model.inner.ShowerTransInner;
 
-@Component
+@Component("model.ShowerTrans")
 public class ShowerTrans extends ModelTrans<Shower, ShowerDto> {
 
 	@Autowired
+	@Qualifier("model.inner.ShowerTransInner")
 	private ShowerTransInner showerTransInner;
 	
 	@Autowired
+	@Qualifier("model.RoomTrans")
 	private RoomTrans roomTrans;
 	
 	

@@ -7,7 +7,7 @@ import springboot.bean.model.Member;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-@Component
+@Component("model.inner.MemberTransInner")
 public class MemberTransInner implements ModelRiTrans<Member, MemberDto>, ModelWoTrans<Member, MemberDto> {
 
 	@Override

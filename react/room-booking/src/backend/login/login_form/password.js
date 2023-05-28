@@ -1,20 +1,21 @@
-import React, { Component, createRef } from 'react';
-import SimpleFormInput from '../../../hoc/form/simple-form-input';
+import React, { Component } from 'react';
+import { Col, Form, Row } from 'react-bootstrap';
 
 class Password extends Component {
 
-    ctrlRef = createRef();
-
-    getCtrlVal = () => {
-
-        return this.ctrlRef.current.getCtrlVal();
-    }
-
     render() {
 
+        const {value, onChange} = this.props;
+
         return (
-            <SimpleFormInput ref={this.ctrlRef} id='form_password' text='密碼' type='password' size='30' required={true} feedBackText='請填寫密碼' />
-        );
+            <Form.Group as={Row}>
+                <Form.Label column xs='auto' htmlFor='form_account'>密碼 : </Form.Label>
+                <Col>
+                    <Form.Control id='form_password' type='password' htmlSize='30' value={value || ''} onChange={onChange} required />
+                    <Form.Control.Feedback type='invalid'>請填寫密碼</Form.Control.Feedback>
+                </Col>
+            </Form.Group>
+       );
     }
 }
 

@@ -8,7 +8,7 @@ import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 import util.DateTimeUtil;
 
-@Component
+@Component("model.inner.BookingOrderTransInner")
 public class BookingOrderTransInner implements ModelRiTrans<BookingOrder, BookingOrderDto>, ModelWoTrans<BookingOrder, BookingOrderDto> {
 
 	@Override

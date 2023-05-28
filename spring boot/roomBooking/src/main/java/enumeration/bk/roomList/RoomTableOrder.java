@@ -1,20 +1,28 @@
 package enumeration.bk.roomList;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import enumeration.OrderDirection;
+
 public enum RoomTableOrder {
 
-	NAME_ASC("NAME", "ASC", 1), NAME_DESC("NAME", "DESC", 2),
-	TOTAL_NUM_ASC("TOTAL_NUM", "ASC", 3), TOTAL_NUM_DESC("TOTAL_NUM", "DESC", 4),
-	USED_NUM_ASC("USED_NUM", "ASC", 5), USED_NUM_DESC("USED_NUM", "DESC", 6),
-	INVALID_NUM_ASC("INVALID_NUM", "ASC", 7), INVALID_NUM_DESC("INVALID_NUM", "DESC", 8),
-	PRICE_ASC("PRICE", "ASC", 9), PRICE_DESC("PRICE", "DESC", 10);
+	NAME_ASC("NAME", "name", OrderDirection.ASC, 1), NAME_DESC("NAME", "name", OrderDirection.DESC, 2),
+	TOTAL_NUM_ASC("TOTAL_NUM", "totalNum", OrderDirection.ASC, 3), TOTAL_NUM_DESC("TOTAL_NUM", "totalNum", OrderDirection.DESC, 4),
+	USED_NUM_ASC("USED_NUM", "usedNum", OrderDirection.ASC, 5), USED_NUM_DESC("USED_NUM", "usedNum", OrderDirection.DESC, 6),
+	INVALID_NUM_ASC("INVALID_NUM", "invalidNum", OrderDirection.ASC, 7), INVALID_NUM_DESC("INVALID_NUM", "invalidNum", OrderDirection.DESC, 8),
+	PRICE_ASC("PRICE", "price", OrderDirection.ASC, 9), PRICE_DESC("PRICE", "price", OrderDirection.DESC, 10);
 	
 	private String colName;
-	private String direction;
+	private String attributeName;
+	private OrderDirection direction;
 	private int code;
 	
-	private RoomTableOrder(String colName, String direction, int code) {
+	private RoomTableOrder(String colName, String attributeName, OrderDirection direction, int code) {
 		
 		this.colName = colName;
+		this.attributeName = attributeName;
 		this.direction = direction;
 		this.code = code;
 	}
@@ -22,7 +30,10 @@ public enum RoomTableOrder {
 	public String getColName() {
 		return colName;
 	}
-	public String getDirection() {
+	public String getAttributeName() {
+		return attributeName;
+	}
+	public OrderDirection getDirection() {
 		return direction;
 	}
 	public int getCode() {
@@ -37,5 +48,14 @@ public enum RoomTableOrder {
 				return order;
 		}
 		return null;
+	}
+	
+	public static String[] getCodeStrsArray() {
+		
+		List<String> strList = Arrays.stream(RoomTableOrder.values())
+				.map(rto -> String.valueOf(rto.getCode()))
+				.collect(Collectors.toList());
+		
+		return strList.toArray(new String[strList.size()]);
 	}
 }

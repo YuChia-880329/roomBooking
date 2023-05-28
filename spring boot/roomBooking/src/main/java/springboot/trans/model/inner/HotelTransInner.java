@@ -7,7 +7,7 @@ import springboot.bean.model.Hotel;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-@Component
+@Component("model.inner.HotelTransInner")
 public class HotelTransInner implements ModelRiTrans<Hotel, HotelDto>, ModelWoTrans<Hotel, HotelDto> {
 
 	@Override

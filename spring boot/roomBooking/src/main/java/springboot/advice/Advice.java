@@ -6,14 +6,16 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
-import springboot.bean.vo.wo.Data;
-import springboot.bean.vo.wo.Response;
+import springboot.bean.vo.Data;
+import springboot.bean.vo.Response;
+import springboot.exception.AppException;
 import tmpl.checker.exception.CheckerException;
 import util.LogsUtil;
 import util.ResponseUtil;
+import util.ThrowableUtil;
 
 @Aspect
-@Component
+@Component("Advice")
 public class Advice {
 	
 	private Logger errorLog = LogsUtil.getThrowableLog();
@@ -26,13 +28,26 @@ public class Advice {
 			
 			response = (Response)joinPoint.proceed();
 			
-		} catch(CheckerException ex) {
+		} catch(CheckerException | AppException ex) {
 			
 			response = ResponseUtil.response400(new Data() {}, ex.getMessage());
 		} catch (Throwable ex) {
 			
-			errorLog.error(ex.getMessage(), ex);
-			throw ex;
+			CheckerException cex = ThrowableUtil.getNestedThrowable(ex, th -> th instanceof CheckerException);
+			AppException aex = ThrowableUtil.getNestedThrowable(ex, th -> th instanceof AppException);
+			
+			
+			if(cex != null) {
+				
+				response = ResponseUtil.response400(new Data() {}, cex.getMessage());
+			}else if(aex != null) {
+				
+				response = ResponseUtil.response400(new Data() {}, aex.getMessage());
+			}else {
+				
+				errorLog.error(ex.getMessage(), ex);
+				throw ex;
+			}
 		}
 		
 		return response;

@@ -1,19 +1,22 @@
 package springboot.trans.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.SectionDto;
 import springboot.bean.model.Section;
 import springboot.trans.model.inner.SectionTransInner;
 
-@Component
+@Component("model.SectionTrans")
 public class SectionTrans extends ModelTrans<Section, SectionDto> {
 
 	@Autowired
+	@Qualifier("model.inner.SectionTransInner")
 	private SectionTransInner sectionTransInner;
 	
 	@Autowired
+	@Qualifier("model.HotelTrans")
 	private HotelTrans hotelTrans;
 	
 	

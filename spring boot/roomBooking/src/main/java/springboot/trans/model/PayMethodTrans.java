@@ -1,19 +1,22 @@
 package springboot.trans.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.PayMethodDto;
 import springboot.bean.model.PayMethod;
 import springboot.trans.model.inner.PayMethodTransInner;
 
-@Component
+@Component("model.PayMethodTrans")
 public class PayMethodTrans extends ModelTrans<PayMethod, PayMethodDto> {
 
 	@Autowired
+	@Qualifier("model.inner.PayMethodTransInner")
 	private PayMethodTransInner payMethodTransInner;
 	
 	@Autowired
+	@Qualifier("model.BookingOrderTrans")
 	private BookingOrderTrans bookingOrderTrans;
 	
 

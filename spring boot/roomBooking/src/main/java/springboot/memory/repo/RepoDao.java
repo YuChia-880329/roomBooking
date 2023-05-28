@@ -1,28 +1,25 @@
 package springboot.memory.repo;
 
-public abstract class RepoDao<I, O, P, D, R extends Repo<I, O>, T extends RepoInputTrans<I, P>, S extends RepoObjTrans<O, D>> {
+public abstract class RepoDao<I, S, O, DI, DO, R extends Repo<I, S, O>, TI extends RepoInputTrans<I, DI>, TO extends RepoOutputTrans<O, DO>> {
 
 	protected R repo;
-	protected T inputTrans;
-	protected S objTrans;
+	protected TI inputTrans;
+	protected TO outputTrans;
 	
 	protected RepoDao(R repo) {
 		
 		this.repo = repo;
 	}
 	
-	public D getObjDto(P inputDto) {
+	public DO getObj(DI input) {
 		
-		return objTrans.objToDto(
+		return outputTrans.outputToDto(
 				repo.getObj(
-						inputTrans.dtoToInput(inputDto)));
+						inputTrans.dtoToInput(input)));
 	}
-	public P getLastInput() {
-		
-		return inputTrans.inputToDto(repo.getLastInput());
-	}
+
 	
 
-	public abstract void setInputTrans(T inputTrans);
-	public abstract void setObjTrans(S objTrans);
+	public abstract void setInputTrans(TI inputTrans);
+	public abstract void setOutputTrans(TO outputTrans);
 }

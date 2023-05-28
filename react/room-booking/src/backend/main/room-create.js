@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import BorderForm from '../../hoc/form/border-form';
 import CreateForm from './room_create/create-form';
-import BackendHoc from '../../hoc/backend-hoc';
+import BackendMain from '../../hoc/backend-main';
 
 class RoomCreate extends Component {
 
+    render() {
+        
+        return (
+            <BackendMain titleText='新增房型' Content={this.Content} />
+        );
+    }
+
+    // jsx
     Content = () => {
 
         return (
@@ -14,13 +22,6 @@ class RoomCreate extends Component {
             </Container>
         );
     };
-
-    render() {
-        
-        return (
-            <BackendHoc titleText='新增房型' Content={this.Content} />
-        );
-    }
 }
 
 export default RoomCreate;

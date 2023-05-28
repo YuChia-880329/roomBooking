@@ -3,23 +3,23 @@ package springboot.service.bk.roomList.memory.repo.roomTableRow;
 import org.springframework.stereotype.Service;
 
 import enumeration.bk.roomList.RoomTableOrder;
-import springboot.bean.obj.bk.roomList.repo.roomTableRows.SearchParam;
+import springboot.bean.obj.bk.roomList.repo.tablePages.SearchParam;
 import util.SearchParamUtil;
 
-@Service
+@Service("bk.roomList.memory.repo.roomTableRow.SearchParamService")
 public class SearchParamService {
 
 	public boolean equals(SearchParam searchParam1, SearchParam searchParam2) {
 
 		return nameEquals(searchParam1.getName(), searchParam2.getName()) && 
-				totalNumMinEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMax()) &&
-				totalNumMaxEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMax()) &&
-				usedNumMinEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMax()) &&
-				usedNumMaxEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMax()) &&
-				invalidNumMinEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMax()) &&
-				invalidNumMaxEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMax()) &&
-				priceMinEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMax()) &&
-				priceMaxEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMax()) &&
+				totalNumMinEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMin()) &&
+				totalNumMaxEquals(searchParam1.getTotalNumMax(), searchParam2.getTotalNumMax()) &&
+				usedNumMinEquals(searchParam1.getUsedNumMin(), searchParam2.getUsedNumMin()) &&
+				usedNumMaxEquals(searchParam1.getUsedNumMax(), searchParam2.getUsedNumMin()) &&
+				invalidNumMinEquals(searchParam1.getInvalidNumMin(), searchParam2.getInvalidNumMin()) &&
+				invalidNumMaxEquals(searchParam1.getInvalidNumMax(), searchParam2.getInvalidNumMax()) &&
+				priceMinEquals(searchParam1.getPriceMin(), searchParam2.getPriceMin()) &&
+				priceMaxEquals(searchParam1.getPriceMax(), searchParam2.getPriceMax()) &&
 				roomTableOrderEquals(searchParam1.getRoomTableOrder(), searchParam2.getRoomTableOrder());	
 	}
 	
@@ -66,7 +66,7 @@ public class SearchParamService {
 	
 	private boolean nameEquals(String name1, String name2) {
 		
-		return name1.equals(name2);
+		return SearchParamUtil.equals(name1, name2, (t1, t2) -> t1.equals(t2));
 	}
 	private boolean totalNumMinEquals(Integer totalNumMin1, Integer totalNumMin2) {
 		

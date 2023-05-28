@@ -1,31 +1,37 @@
 package springboot.service.bk.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import springboot.bean.vo.bk.login.ri.LoginReq;
-import springboot.bean.vo.bk.login.wo.CheckLoginResp;
-import springboot.bean.vo.bk.login.wo.LoginResp;
-import springboot.bean.vo.wo.Response;
-import springboot.trans.bk.login.vo.ri.LoginReqTrans;
-import springboot.trans.bk.login.vo.wo.CheckLoginRespTrans;
-import springboot.trans.bk.login.vo.wo.LoginRespTrans;
+import springboot.bean.vo.Response;
+import springboot.bean.vo.bk.login.checkLogin.CheckLoginResp;
+import springboot.bean.vo.bk.login.login.LoginReq;
+import springboot.bean.vo.bk.login.login.LoginResp;
+import springboot.trans.bk.login.vo.checkLogin.CheckLoginRespTrans;
+import springboot.trans.bk.login.vo.login.LoginReqTrans;
+import springboot.trans.bk.login.vo.login.LoginRespTrans;
 import util.ResponseUtil;
 
-@Service
+@Service("bk.login.LoginControllerService")
 public class LoginControllerService {
 	
 	@Autowired
+	@Qualifier("bk.login.LoginService")
 	private LoginService loginService;
 	@Autowired
+	@Qualifier("bk.login.CheckLoginService")
 	private CheckLoginService checkLoginService;
 	
 	
 	@Autowired
+	@Qualifier("bk.login.vo.login.LoginReqTrans")
 	private LoginReqTrans loginReqTrans;
 	@Autowired
+	@Qualifier("bk.login.vo.login.LoginRespTrans")
 	private LoginRespTrans loginRespTrans;
 	@Autowired
+	@Qualifier("bk.login.vo.checkLogin.CheckLoginRespTrans")
 	private CheckLoginRespTrans checkLoginRespTrans;
 	
 	

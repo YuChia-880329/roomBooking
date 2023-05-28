@@ -7,7 +7,7 @@ import springboot.bean.model.RoomImg;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-@Component
+@Component("model.inner.RoomImgTransInner")
 public class RoomImgTransInner implements ModelRiTrans<RoomImg, RoomImgDto>, ModelWoTrans<RoomImg, RoomImgDto> {
 
 	@Override

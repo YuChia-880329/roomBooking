@@ -1,23 +1,28 @@
 package springboot.trans.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.BookingOrderDto;
 import springboot.bean.model.BookingOrder;
 import springboot.trans.model.inner.BookingOrderTransInner;
 
-@Component
+@Component("model.BookingOrderTrans")
 public class BookingOrderTrans extends ModelTrans<BookingOrder, BookingOrderDto> {
 
 	@Autowired
+	@Qualifier("model.inner.BookingOrderTransInner")
 	private BookingOrderTransInner bookingOrderTransInner;
 	
 	@Autowired
+	@Qualifier("model.MemberTrans")
 	private MemberTrans memberTrans;
 	@Autowired
+	@Qualifier("model.RoomTrans")
 	private RoomTrans roomTrans;
 	@Autowired
+	@Qualifier("model.PayMethodTrans")
 	private PayMethodTrans payMethodTrans;
 	
 	

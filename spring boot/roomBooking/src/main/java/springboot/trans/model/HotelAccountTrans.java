@@ -1,19 +1,22 @@
 package springboot.trans.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.model.HotelAccountDto;
 import springboot.bean.model.HotelAccount;
 import springboot.trans.model.inner.HotelAccountTransInner;
 
-@Component
+@Component("model.HotelAccountTrans")
 public class HotelAccountTrans extends ModelTrans<HotelAccount, HotelAccountDto> {
 
 	@Autowired
+	@Qualifier("model.inner.HotelAccountTransInner")
 	private HotelAccountTransInner hotelAccountTransInner;
 	
 	@Autowired
+	@Qualifier("model.HotelTrans")
 	private HotelTrans hotelTrans;
 	
 	

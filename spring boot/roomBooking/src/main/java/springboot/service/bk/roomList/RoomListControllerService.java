@@ -3,25 +3,31 @@ package springboot.service.bk.roomList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import springboot.bean.dto.bk.roomList.obj.repo.roomTableRows.RoomTableRowsDto;
-import springboot.bean.vo.bk.roomList.ri.SearchTableSearchParam;
-import springboot.trans.bk.roomList.vo.ri.SearchTableSearchParamTrans;
+import springboot.bean.vo.Response;
+import springboot.bean.vo.bk.roomList.searchTable.SearchParam;
+import springboot.bean.vo.bk.roomList.searchTable.SearchTableReq;
+import springboot.trans.bk.roomList.vo.searchTable.SearchTableReqTrans;
+import springboot.trans.bk.roomList.vo.searchTable.SearchTableRespTrans;
+import util.ResponseUtil;
 
 @Service
 public class RoomListControllerService {
 
 	@Autowired
 	private SearchTableService searchTableService;
+	
+	
 	@Autowired
-	private SearchTableSearchParamTrans searchTableSearchParamTrans;
+	private SearchTableReqTrans searchTableReqTrans;
+	@Autowired
+	private SearchTableRespTrans searchTableRespTrans;
 	
 	
-	public RoomTableRowsDto searchTable(String page, String name, String totalNumMin, String totalNumMax, 
+	public Response searchTable(String name, String totalNumMin, String totalNumMax, 
 			String usedNumMin, String usedNumMax, String invalidNumMin, String invalidNumMax,
-			String priceMin, String priceMax, String order) {
+			String priceMin, String priceMax) {
 		
-		SearchTableSearchParam searchTableSearchParam = SearchTableSearchParam.builder()
-				.page(page)
+		SearchParam searchParam = SearchParam.builder()
 				.name(name)
 				.totalNumMin(totalNumMin)
 				.totalNumMax(totalNumMax)
@@ -31,10 +37,13 @@ public class RoomListControllerService {
 				.invalidNumMax(invalidNumMax)
 				.priceMin(priceMin)
 				.priceMax(priceMax)
-				.order(order)
 				.build();
 		
-		return searchTableService.searchTable(
-				searchTableSearchParamTrans.voToDto(searchTableSearchParam));
+		return ResponseUtil.response200(
+				searchTableRespTrans.dtoToVo(
+						searchTableService.searchTable(
+								searchTableReqTrans.voToDto(SearchTableReq.builder()
+										.searchParam(searchParam)
+										.build()))));
 	}
 }

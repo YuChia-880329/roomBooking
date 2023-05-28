@@ -1,14 +1,17 @@
 import React, { Component, Fragment } from 'react';
-import BackendNavbar from './main/backend-navbar';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import OrderList from './main/order-list';
+import HotelInfo from './main/hotel-info';
+import RoomList from './main/room-list';
 import RoomCreate from './main/room-create';
 import RoomUpdate from './main/room-update';
-import RoomList from './main/room-list';
-import HotelInfo from './main/hotel-info';
+import OrderList from './main/order-list';
+import { Navigate, Route, Routes } from 'react-router';
+import BackendNavbar from './main/backend-navbar';
+
 
 class Main extends Component {
+
     render() {
+        
         return (
             <Fragment>
                 <div>

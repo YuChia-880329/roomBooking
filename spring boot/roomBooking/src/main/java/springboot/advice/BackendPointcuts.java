@@ -3,13 +3,13 @@ package springboot.advice;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("BackendPointcuts")
 public class BackendPointcuts {
 
-	@Pointcut("execution(public springboot.bean.vo.wo.Response springboot.service.bk.login.LoginControllerService.*(..))")
+	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.bk.login.LoginControllerService.*(..))")
 	public void loginControllerService() {}
 	
-	@Pointcut("execution(public springboot.bean.vo.wo.Response springboot.service.bk.roomList.RoomListControllerService.*(..))")
+	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.bk.roomList.RoomListControllerService.*(..))")
 	public void roomListControllerService() {}
 	
 	

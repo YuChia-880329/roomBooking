@@ -1,11 +1,11 @@
 package springboot.memory.status;
 
-public abstract class StatusDao<O, D, C extends Status<O>, T extends StatusTrans<O, D>> {
+public abstract class StatusDao<O, D, M extends Status<O>, T extends StatusTrans<O, D>> {
 
-	protected C memory;
+	protected M memory;
 	protected T trans;
 	
-	protected StatusDao(C memory) {
+	protected StatusDao(M memory) {
 		
 		this.memory = memory;
 	}

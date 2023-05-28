@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import BorderForm from '../../hoc/form/border-form';
 import UpdateForm from './room_update/update-form';
-import BackendHoc from '../../hoc/backend-hoc';
+import BackendMain from '../../hoc/backend-main';
 
 class RoomUpdate extends Component {
 
+    render() {
+        
+        return (
+            <BackendMain titleText='房型更新' Content={this.Content} />
+        );
+    }
+
+    // jsx
     Content = () => {
 
         return (
@@ -14,13 +22,6 @@ class RoomUpdate extends Component {
             </Container>
         );
     };
-
-    render() {
-        
-        return (
-            <BackendHoc titleText='房型更新' Content={this.Content} />
-        );
-    }
 }
 
 export default RoomUpdate;

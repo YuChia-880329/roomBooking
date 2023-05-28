@@ -5,21 +5,21 @@ class Pagn extends Component {
     
     render() {
 
-        // props
-        const {pages} = this.props;
+        const {showFirst, showPrev, pages, showNext, showLast, currentPage} = this.props;
 
         return (
             <Pagination className='mb-0'>
-                <Pagination.First />
-                <Pagination.Prev />
+                {showFirst && <Pagination.First />}
+                {showPrev && <Pagination.Prev />}
                 {
                     pages.map(
                         page => (
-                            <Pagination.Item>{page}</Pagination.Item>
+                            <Pagination.Item key={page} active={page===currentPage}>{page}</Pagination.Item>
                         )
-                    )}
-                <Pagination.Next />
-                <Pagination.Last />
+                    )
+                }
+                {showNext && <Pagination.Next />}
+                {showLast && <Pagination.Last />}
             </Pagination>
         );
     }

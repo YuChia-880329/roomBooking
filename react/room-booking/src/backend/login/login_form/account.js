@@ -1,19 +1,20 @@
-import React, { Component, createRef } from 'react';
-import SimpleFormInput from '../../../hoc/form/simple-form-input';
+import React, { Component } from 'react';
+import { Col, Form, Row } from 'react-bootstrap';
 
 class Account extends Component {
 
-    ctrlRef = createRef();
-
-    getCtrlVal = () => {
-
-        return this.ctrlRef.current.getCtrlVal();
-    }
-
     render() {
 
+        const {value, onChange} = this.props;
+
         return (
-            <SimpleFormInput ref={this.ctrlRef} id='form_account' text='帳號' size='30' required={true} feedBackText='請填寫帳號' />
+            <Form.Group as={Row}>
+                <Form.Label column xs='auto' htmlFor='form_account'>帳號 : </Form.Label>
+                <Col>
+                    <Form.Control id='form_account' htmlSize='30' value={value || ''} onChange={onChange} required />
+                    <Form.Control.Feedback type='invalid'>請填寫帳號</Form.Control.Feedback>
+                </Col>
+            </Form.Group>
         );
     }
 }

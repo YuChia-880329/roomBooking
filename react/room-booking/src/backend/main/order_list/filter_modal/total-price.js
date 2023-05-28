@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-import RangeFormInput from '../../../../hoc/form/range-form-input';
+import { Col, Form, Row } from 'react-bootstrap';
 
 class TotalPrice extends Component {
 
     render() {
         
+        const {valueMin, valueMax, onChangeMin, onChangeMax} = this.props;
+        
         return (
-            <RangeFormInput type='number' text='總金額' id1='filter_totalPriceMin' id2='filter_totalPriceMax' min1={0} min2={0} />
+            <Form.Group as={Row}>
+                <Form.Label column xs='auto' htmlFor='filter_totalPriceMin'>總金額 : </Form.Label>
+                <Col>
+                    <Form.Control id='filter_totalPriceMin' type='number' value={valueMin || ''} onChange={onChangeMin} />
+                </Col>
+                <Col xs='auto' className='px-3 align-self-center'>
+                    <p className='mb-0'>~</p>
+                </Col>
+                <Col>
+                    <Form.Control id='filter_totalPriceMax' type='number' value={valueMax || ''} onChange={onChangeMax} />
+                </Col>
+            </Form.Group>
         );
     }
 }

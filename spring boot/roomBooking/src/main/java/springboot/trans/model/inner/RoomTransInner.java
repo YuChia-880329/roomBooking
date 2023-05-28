@@ -7,7 +7,7 @@ import springboot.bean.model.Room;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-@Component
+@Component("model.inner.RoomTransInner")
 public class RoomTransInner implements ModelRiTrans<Room, RoomDto>, ModelWoTrans<Room, RoomDto> {
 
 	@Override

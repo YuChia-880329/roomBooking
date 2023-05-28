@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-import RangeFormInput from '../../../../hoc/form/range-form-input';
+import { Col, Form, Row } from 'react-bootstrap';
 
 class Id extends Component {
 
     render() {
         
+        const {valueMin, valueMax, onChangeMin, onChangeMax} = this.props;
+        
         return (
-            <RangeFormInput text='訂單編號' type='number' id1='filter_idMin' id2='filter_idMax' min1={0} min2={0} />
+            <Form.Group as={Row}>
+                <Form.Label column xs='auto' htmlFor='filter_idMin'>訂單編號 : </Form.Label>
+                <Col>
+                    <Form.Control id='filter_idMin' type='number' value={valueMin || ''} onChange={onChangeMin} />
+                </Col>
+                <Col xs='auto' className='px-3 align-self-center'>
+                    <p className='mb-0'>~</p>
+                </Col>
+                <Col>
+                    <Form.Control id='filter_idMax' type='number' value={valueMax || ''} onChange={onChangeMax} />
+                </Col>
+            </Form.Group>
         );
     }
 }

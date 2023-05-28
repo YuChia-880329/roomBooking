@@ -7,7 +7,7 @@ import springboot.bean.model.Shower;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-@Component
+@Component("model.inner.ShowerTransInner")
 public class ShowerTransInner implements ModelRiTrans<Shower, ShowerDto>, ModelWoTrans<Shower, ShowerDto> {
 
 	@Override

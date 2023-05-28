@@ -8,10 +8,10 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spring.web.plugins.Docket;
 import util.SwaggerUtil;
 
-@Configuration
+@Configuration("SwaggerConfig")
 public class SwaggerConfig {
 
-    @Bean
+    @Bean("Docket")
     Docket testDocket() {
 		
 		return SwaggerUtil.createDocket("Test", testApiInfo(), "springboot.controller");

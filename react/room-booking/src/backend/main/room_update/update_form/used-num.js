@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SelectFormInput from '../../../../hoc/form/select-form-input';
+import { Col, Form, Row } from 'react-bootstrap';
 
 class UsedNum extends Component {
     
@@ -8,7 +8,18 @@ class UsedNum extends Component {
         const options = ['---- 請選擇 ----', '1', '2', '3', '4'];
 
         return (
-            <SelectFormInput text='使用中房數' options={options} />
+            <Form.Group as={Row}>
+                <Form.Label column xs='auto'>使用中房數 : </Form.Label>
+                <Col>
+                    <Form.Select>
+                        {options.map(
+                            opt => (
+                                <option key={opt}>{opt}</option>
+                            )
+                        )}
+                    </Form.Select>
+                </Col>
+            </Form.Group>
         );
     }
 }

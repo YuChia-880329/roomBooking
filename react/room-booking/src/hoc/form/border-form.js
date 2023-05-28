@@ -4,10 +4,7 @@ class BorderForm extends Component {
     
     render() {
 
-        // props
         const {Content} = this.props;
-
-        // style
         const borderStyle = {
             padding : '4.5rem 4.5rem 3rem'
         };

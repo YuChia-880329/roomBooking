@@ -1,9 +1,9 @@
 package util;
 
 import springboot.Application;
-import springboot.bean.vo.wo.Data;
-import springboot.bean.vo.wo.Response;
-import springboot.bean.vo.wo.ServerInfo;
+import springboot.bean.vo.Data;
+import springboot.bean.vo.Response;
+import springboot.bean.vo.ServerInfo;
 
 public class ResponseUtil {
 
@@ -36,6 +36,17 @@ public class ResponseUtil {
 				.serverIp(Application.SERVER_IP)
 				.statusCode(500)
 				.msg(throwable.getMessage())
+				.build();
+		
+		return response(serverInfo, data);
+	}
+	
+	public static Response response500(Data data, String msg) {
+		
+		ServerInfo serverInfo = ServerInfo.builder()
+				.serverIp(Application.SERVER_IP)
+				.statusCode(500)
+				.msg(msg)
 				.build();
 		
 		return response(serverInfo, data);

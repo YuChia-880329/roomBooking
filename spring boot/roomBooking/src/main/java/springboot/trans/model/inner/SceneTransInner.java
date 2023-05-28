@@ -7,7 +7,7 @@ import springboot.bean.model.Scene;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-@Component
+@Component("model.inner.SceneTransInner")
 public class SceneTransInner implements ModelRiTrans<Scene, SceneDto>, ModelWoTrans<Scene, SceneDto> {
 
 	@Override

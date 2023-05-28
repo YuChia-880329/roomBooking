@@ -7,7 +7,7 @@ import springboot.bean.model.PayMethod;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-@Component
+@Component("model.inner.PayMethodTransInner")
 public class PayMethodTransInner implements ModelRiTrans<PayMethod, PayMethodDto>, ModelWoTrans<PayMethod, PayMethodDto> {
 
 	@Override

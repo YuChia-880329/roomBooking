@@ -1,70 +1,42 @@
 import '../../../css/custom.css';
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
-import SortTableHeader from '../../../hoc/table/sort-table-header';
-import SortTableTd from '../../../hoc/table/sort-table-td';
+import SortTh from '../../../hoc/table/sort-th';
+import SortTd from '../../../hoc/table/sort-td';
 
+const constant = {
+    headerTexts : ['房型名稱', '總房數', '使用中房數', '不開放房數', '房間單價']
+}
 class RoomTable extends Component {
     
     render() {
-        
-        const headerTexts = ['房型名稱', '總房數', '使用中房數', '不開放房數', '房間單價'];
-        const example = ['標準雙人房', 10, 2, 5, 1000];
 
+        const {headerTexts} = constant;
+        const {fctn} = this.props;
+    
         return (
             <Table striped bordered responsive hover>
                 <thead>
                     <tr>
                         {headerTexts.map(
                             text => (
-                                <SortTableHeader text={text} />
+                                <SortTh key={text} text={text} />
                             )
                         )}
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        {example.map(
-                            val => (
-                                <SortTableTd text={val} />
-                            )
-                        )}
-                    </tr>
-                    <tr>
-                        {example.map(
-                            val => (
-                                <SortTableTd text={val} />
-                            )
-                        )}
-                    </tr>
-                    <tr>
-                        {example.map(
-                            val => (
-                                <SortTableTd text={val} />
-                            )
-                        )}
-                    </tr>
-                    <tr>
-                        {example.map(
-                            val => (
-                                <SortTableTd text={val} />
-                            )
-                        )}
-                    </tr>
-                    <tr>
-                        {example.map(
-                            val => (
-                                <SortTableTd text={val} />
-                            )
-                        )}
-                    </tr>
-                    <tr>
-                        {example.map(
-                            val => (
-                                <SortTableTd text={val} />
-                            )
-                        )}
-                    </tr>
+                    {
+                        fctn.getTableRows().map((tableRow, index) => (
+                            <tr key={index}>
+                                <SortTd text={tableRow.name} />
+                                <SortTd text={tableRow.totalNum} />
+                                <SortTd text={tableRow.usedNum} />
+                                <SortTd text={tableRow.invalidNum} />
+                                <SortTd text={tableRow.price} />
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </Table>
         );

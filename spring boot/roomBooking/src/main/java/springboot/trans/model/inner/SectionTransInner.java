@@ -7,7 +7,7 @@ import springboot.bean.model.Section;
 import tmpl.trans.bean.model.ModelRiTrans;
 import tmpl.trans.bean.model.ModelWoTrans;
 
-@Component
+@Component("model.inner.SectionTransInner")
 public class SectionTransInner implements ModelRiTrans<Section, SectionDto>, ModelWoTrans<Section, SectionDto> {
 
 	@Override
