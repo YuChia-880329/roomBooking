@@ -17,6 +17,10 @@ public abstract class RepoDao<I, S, O, DI, DO, R extends Repo<I, S, O>, TI exten
 				repo.getObj(
 						inputTrans.dtoToInput(input)));
 	}
+	public DI getLastInput() {
+		
+		return inputTrans.objToDto(repo.getLastInput());
+	}
 
 	
 

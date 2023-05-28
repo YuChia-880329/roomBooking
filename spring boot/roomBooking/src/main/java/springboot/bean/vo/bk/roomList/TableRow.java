@@ -1,4 +1,4 @@
-package springboot.bean.vo.bk.roomList.searchTable;
+package springboot.bean.vo.bk.roomList;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class TableRow {
 
+	private int index;
 	private String name;
 	private int totalNum;
 	private int usedNum;

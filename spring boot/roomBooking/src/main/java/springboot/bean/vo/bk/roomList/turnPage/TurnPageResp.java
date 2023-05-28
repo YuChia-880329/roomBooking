@@ -1,4 +1,4 @@
-package springboot.bean.vo.bk.roomList.searchTable;
+package springboot.bean.vo.bk.roomList.turnPage;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import springboot.bean.vo.bk.roomList.Table;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SearchTableResp extends Data {
+public class TurnPageResp extends Data {
 
 	private Table table;
 	private Pagination pagination;

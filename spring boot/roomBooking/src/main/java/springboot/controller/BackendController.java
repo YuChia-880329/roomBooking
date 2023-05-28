@@ -1,6 +1,7 @@
 package springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,10 @@ import springboot.service.bk.roomList.RoomListControllerService;
 public class BackendController {
 
 	@Autowired
+	@Qualifier("bk.login.LoginControllerService")
 	private LoginControllerService loginService;
 	@Autowired
+	@Qualifier("bk.roomList.RoomListControllerService")
 	private RoomListControllerService roomListService;
 	
 	
@@ -49,6 +52,12 @@ public class BackendController {
 		
 
 		Response response = roomListService.searchTable(name, totalNumMin, totalNumMax, usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax);
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/roomList/turnPage")
+	public ResponseEntity<Response> turnPage(@RequestParam(name = "page") String page){
+		
+		Response response = roomListService.turnPage(page);
 		return ResponseEntity.ok(response);
 	}
 }

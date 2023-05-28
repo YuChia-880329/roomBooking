@@ -1,4 +1,4 @@
-package springboot.bean.dto.bk.roomList.vo.searchTable;
+package springboot.bean.dto.bk.roomList.vo.turnPage;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import springboot.bean.dto.vo.PaginationDto;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SearchTableRespDto {
+public class TurnPageRespDto {
 
 	private TableDto table;
 	private PaginationDto pagination;

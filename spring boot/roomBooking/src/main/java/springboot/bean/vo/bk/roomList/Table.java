@@ -1,4 +1,4 @@
-package springboot.bean.vo.bk.roomList.searchTable;
+package springboot.bean.vo.bk.roomList;
 
 import java.util.List;
 

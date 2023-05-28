@@ -1,6 +1,4 @@
-package springboot.bean.dto.bk.roomList.vo.searchTable;
-
-import java.util.List;
+package springboot.bean.vo.bk.roomList.turnPage;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TableDto {
+public class TurnPageReq {
 
-	private List<TableRowDto> tableRows;
+	private String page;
 }

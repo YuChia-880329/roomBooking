@@ -27,8 +27,8 @@ class RoomTable extends Component {
                 </thead>
                 <tbody>
                     {
-                        fctn.getTableRows().map((tableRow, index) => (
-                            <tr key={index}>
+                        fctn.getTableRows().map(tableRow => (
+                            <tr key={tableRow.index}>
                                 <SortTd text={tableRow.name} />
                                 <SortTd text={tableRow.totalNum} />
                                 <SortTd text={tableRow.usedNum} />
