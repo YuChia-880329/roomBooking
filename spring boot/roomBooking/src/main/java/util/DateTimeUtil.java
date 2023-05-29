@@ -38,6 +38,10 @@ public class DateTimeUtil {
 		
 		return localDate.format(JAVA_DATE_FORMATTER);
 	}
+	public static String toString(LocalDateTime localDateTime) {
+		
+		return localDateTime.format(JAVA_DATE_TIME_FORMATTER);
+	}
 	public static String toStringDate(LocalDateTime localDateTime) {
 		
 		return localDateTime.format(JAVA_DATE_FORMATTER);

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import enumeration.PayMethod;
 import enumeration.bk.bookingOderList.BookingOrderTableOrder;
 import springboot.bean.model.BookingOrder;
+import util.DateTimeUtil;
 import util.StringConcatUtil;
 
 @Repository("model.BookingOrderDao")
@@ -100,14 +101,19 @@ public class BookingOrderDao {
 				" O JOIN ", ROOM_TABLE_SQL_NAME, " R ON O.", ROOM_ID_SQL_NAME, "=R.", ROOM_TABLE_ID_SQL_NAME, 
 				" WHERE R.", ROOM_TABLE_HOTEL_ID_SQL_NAME, "=", String.valueOf(hotelId));
 		
-		sql = StringConcatUtil.concate(sql, 
+		return StringConcatUtil.concate(sql, 
 				ifNotNull(idMin, ID_SQL_NAME, String.format(">=%d", idMin)),
 				ifNotNull(idMax, ID_SQL_NAME, String.format(">=%d", idMax)),
 				ifNotNull(roomNumMin, ROOM_NUM_SQL_NAME, String.format(">=%d", roomNumMin)),
 				ifNotNull(roomNumMax, ROOM_NUM_SQL_NAME, String.format(">=%d", roomNumMax)),
-				ifNotNull(checkinDateTimeFrom, CHECKIN_DATETIME_SQL_NAME, String.format(">=TO_DATE(%s, %s)", checkinDateTimeFrom, )),
-				ifNotNull(checkinDateTimeTo, CHECKIN_DATETIME_SQL_NAME, String.format("<=TO_DATE(%s, %s)", checkinDateTimeTo))
-				);
+				ifNotNull(checkinDateTimeFrom, CHECKIN_DATETIME_SQL_NAME, String.format(">=TO_DATE(%s, %s)", DateTimeUtil.toString(checkinDateTimeFrom), DATE_TIME_SQL_FORMAT)),
+				ifNotNull(checkinDateTimeTo, CHECKIN_DATETIME_SQL_NAME, String.format("<=TO_DATE(%s, %s)", DateTimeUtil.toString(checkinDateTimeTo), DATE_TIME_SQL_FORMAT)),
+				ifNotNull(checkoutDateFrom, CHECKOUT_DATE_SQL_NAME, String.format(">=TO_DATE(%s, %s)", DateTimeUtil.toString(checkoutDateFrom), DATE_SQL_FORMAT)),
+				ifNotNull(checkoutDateTo, CHECKOUT_DATE_SQL_NAME, String.format("<=TO_DATE(%s, %s)", DateTimeUtil.toString(checkoutDateTo), DATE_SQL_FORMAT)),
+				ifNotNull(useDayMin, USE_DAY_SQL_NAME, String.format(">=%d", useDayMin)),
+				ifNotNull(useDayMax, USE_DAY_SQL_NAME, String.format(">=%d", useDayMax)),
+				ifNotNull(totalPriceMin, TOTAL_MONEY_SQL_NAME, String.format(">=%d", totalPriceMin)),
+				ifNotNull(totalPriceMax, TOTAL_MONEY_SQL_NAME, String.format(">=%d", totalPriceMax)));
 	}
 	
 	
@@ -128,7 +134,7 @@ public class BookingOrderDao {
 	private <T> String ifNotNull(T t, String colName, String condition) {
 		
 		if(t == null)
-			return StringConcatUtil.concate(" AND ", colName, "IS NOT NULL") ;
+			return "" ;
 		else
 			return StringConcatUtil.concate(" AND ", colName, condition);
 	}
