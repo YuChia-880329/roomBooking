@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import springboot.bean.vo.Response;
-import springboot.bean.vo.bk.roomList.searchTable.SearchParam;
+import springboot.bean.vo.bk.roomList.changeOrder.ChangeOrderReq;
 import springboot.bean.vo.bk.roomList.searchTable.SearchTableReq;
 import springboot.bean.vo.bk.roomList.turnPage.TurnPageReq;
+import springboot.trans.bk.roomList.vo.changeOrder.ChangeOrderReqTrans;
+import springboot.trans.bk.roomList.vo.changeOrder.ChangeOrderRespTrans;
 import springboot.trans.bk.roomList.vo.searchTable.SearchTableReqTrans;
 import springboot.trans.bk.roomList.vo.searchTable.SearchTableRespTrans;
 import springboot.trans.bk.roomList.vo.turnPage.TurnPageReqTrans;
@@ -23,6 +25,9 @@ public class RoomListControllerService {
 	@Autowired
 	@Qualifier("bk.roomList.TurnPageService")
 	private TurnPageService turnPageService;
+	@Autowired
+	@Qualifier("bk.roomList.ChangeOrderService")
+	private ChangeOrderService changeOrderService;
 	
 	
 	@Autowired
@@ -37,13 +42,19 @@ public class RoomListControllerService {
 	@Autowired
 	@Qualifier("bk.roomList.vo.turnPage.TurnPageRespTrans")
 	private TurnPageRespTrans turnPageRespTrans;
+	@Autowired
+	@Qualifier("bk.roomList.vo.changeOrder.ChangeOrderReqTrans")
+	private ChangeOrderReqTrans changeOrderReqTrans;
+	@Autowired
+	@Qualifier("bk.roomList.vo.changeOrder.ChangeOrderRespTrans")
+	private ChangeOrderRespTrans changeOrderRespTrans;
 	
 	
 	public Response searchTable(String name, String totalNumMin, String totalNumMax, 
 			String usedNumMin, String usedNumMax, String invalidNumMin, String invalidNumMax,
 			String priceMin, String priceMax) {
 		
-		SearchParam searchParam = SearchParam.builder()
+		SearchTableReq searchTableReq = SearchTableReq.builder()
 				.name(name)
 				.totalNumMin(totalNumMin)
 				.totalNumMax(totalNumMax)
@@ -58,9 +69,7 @@ public class RoomListControllerService {
 		return ResponseUtil.response200(
 				searchTableRespTrans.dtoToVo(
 						searchTableService.searchTable(
-								searchTableReqTrans.voToDto(SearchTableReq.builder()
-										.searchParam(searchParam)
-										.build()))));
+								searchTableReqTrans.voToDto(searchTableReq))));
 	}
 	
 	public Response turnPage(String page) {
@@ -73,5 +82,17 @@ public class RoomListControllerService {
 				turnPageRespTrans.dtoToVo(
 						turnPageService.turnPage(
 								turnPageReqTrans.voToDto(turnPageReq))));
+	}
+	
+	public Response changeOrder(String order) {
+		
+		ChangeOrderReq changeOrderReq = ChangeOrderReq.builder()
+				.order(order)
+				.build();
+		
+		return ResponseUtil.response200(
+				changeOrderRespTrans.dtoToVo(
+						changeOrderService.changeOrder(
+								changeOrderReqTrans.voToDto(changeOrderReq))));
 	}
 }

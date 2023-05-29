@@ -5,7 +5,9 @@
             "checkLogin" : "http://localhost:8086/roomBooking/backend/login/checkLogin"
         },
         "roomList" : {
-            "searchTable" : "http://localhost:8086/roomBooking/backend/roomList/searchTable"
+            "searchTable" : "http://localhost:8086/roomBooking/backend/roomList/searchTable",
+            "turnPage" : "http://localhost:8086/roomBooking/backend/roomList/turnPage",
+            "changeOrder" : "http://localhost:8086/roomBooking/backend/roomList/changeOrder"
         }
     }
 }

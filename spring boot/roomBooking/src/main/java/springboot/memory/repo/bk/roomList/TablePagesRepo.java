@@ -27,17 +27,17 @@ import springboot.exception.IllegalPageException;
 import springboot.exception.NotLoginException;
 import springboot.memory.repo.Repo;
 import springboot.service.bk.roomList.SearchTableService;
-import springboot.service.bk.roomList.memory.repo.roomTableRow.SearchParamService;
+import springboot.service.bk.roomList.memory.repo.tablePages.SearchParamService;
 import springboot.trans.bk.roomList.obj.repo.tablePages.TableRowTrans;
 import util.LogsUtil;
 import util.PageUtil;
 
-@Component("bk.roomList.RoomTableRowsRepo")
+@Component("bk.roomList.TablePagesRepo")
 @SessionScope
-public class RoomTableRowsRepo extends Repo<Input, TablePages, Output> {
+public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 	
 	@Autowired
-	@Qualifier("bk.roomList.memory.repo.roomTableRow.SearchParamService")
+	@Qualifier("bk.roomList.memory.repo.tablePages.SearchParamService")
 	private SearchParamService searchParamService;
 	@Autowired
 	@Qualifier("model.inner.RoomDaoInner")
@@ -51,10 +51,10 @@ public class RoomTableRowsRepo extends Repo<Input, TablePages, Output> {
 	
 	
 	private boolean needUpdate;
-	private Logger log = LogsUtil.getLogger(RoomTableRowsRepo.class);
+	private Logger log = LogsUtil.getLogger(TablePagesRepo.class);
 	
 	
-	public RoomTableRowsRepo() {
+	public TablePagesRepo() {
 		
 		this.needUpdate = false;
 	}

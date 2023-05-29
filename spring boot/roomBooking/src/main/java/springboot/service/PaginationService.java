@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import springboot.bean.dto.vo.PaginationDto;
+import springboot.bean.dto.vo.PaginationItemDto;
 
 @Service("PaginationService")
 public class PaginationService {
@@ -13,24 +14,32 @@ public class PaginationService {
 	public PaginationDto getPagination(int currentPage, int pagesPerPageGroup, int maxPage) {
 		
 		return PaginationDto.builder()
-				.showFirst(showFirst(currentPage))
-				.showPrev(showPrev(currentPage))
+				.first(first(currentPage))
+				.prev(prev(currentPage))
 				.pages(pages(currentPage, pagesPerPageGroup, maxPage))
-				.showNext(showNext(currentPage, maxPage))
-				.showLast(showLast(currentPage, maxPage))
+				.next(next(currentPage, maxPage))
+				.last(last(currentPage, maxPage))
 				.currentPage(currentPage)
 				.build();
 	}
 
-	public boolean showFirst(int currentPage) {
+	private PaginationItemDto first(int currentPage) {
 		
-		return currentPage > 1;
+		return PaginationItemDto.builder()
+				.show(currentPage > 1)
+				.toPage(1)
+				.build();
 	}
-	public boolean showPrev(int currentPage) {
+	private PaginationItemDto prev(int currentPage) {
 		
-		return currentPage > 1;
+		boolean show = currentPage > 1;
+		
+		return PaginationItemDto.builder()
+				.show(show)
+				.toPage(show ? currentPage-1 : 1)
+				.build();
 	}
-	public List<Integer> pages(int currentPage, int pagesPerPageGroup, int maxPage){
+	private List<Integer> pages(int currentPage, int pagesPerPageGroup, int maxPage){
 		
 		int basePage = (currentPage-1) / pagesPerPageGroup * pagesPerPageGroup;
 		List<Integer> pages = new ArrayList<>();
@@ -40,12 +49,20 @@ public class PaginationService {
 		}
 		return pages;
 	}
-	public boolean showNext(int currentPage, int maxPage) {
+	private PaginationItemDto next(int currentPage, int maxPage) {
 		
-		return currentPage < maxPage;
+		boolean show = currentPage < maxPage;
+		
+		return PaginationItemDto.builder()
+				.show(show)
+				.toPage(show ? currentPage+1 : maxPage)
+				.build();
 	}
-	public boolean showLast(int currentPage, int maxPage) {
+	private PaginationItemDto last(int currentPage, int maxPage) {
 		
-		return currentPage < maxPage;
+		return PaginationItemDto.builder()
+				.show(currentPage < maxPage)
+				.toPage(maxPage)
+				.build();
 	}
 }

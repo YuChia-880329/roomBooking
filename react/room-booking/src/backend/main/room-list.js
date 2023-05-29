@@ -9,10 +9,12 @@ import FilterModal from './room_list/filter-modal';
 import axios from 'axios';
 
 
-const constant ={
+const constant = {
     fetch : {
         url : {
-            searchTable : urls.backend.roomList.searchTable
+            searchTable : urls.backend.roomList.searchTable,
+            turnPage : urls.backend.roomList.turnPage,
+            changeOrder : urls.backend.roomList.changeOrder
         },
         config : {
             timeout : config.fetch.timeout
@@ -28,8 +30,36 @@ const constant ={
                 invalidNumMax : undefined,
                 priceMin : undefined,
                 priceMax : undefined,
+            },
+            turnPage : {
+                page : 1
+            },
+            changeOrder : {
+                order : 1
             }
         }
+    },
+    orderCode : {
+        name : {
+            asc : 1,
+            desc : 2
+        },
+        totalNum : {
+            asc : 3,
+            desc : 4
+        },
+        usedNum : {
+            asc : 5,
+            desc : 6
+        },
+        invalidNum : {
+            asc : 7,
+            desc : 8
+        },
+        price : {
+            asc : 9,
+            desc : 10
+        },
     }
 }
 class RoomList extends Component {
@@ -58,11 +88,23 @@ class RoomList extends Component {
                 show : false
             },
             pagination : {
-                showFirst : true,
-                showPrev : true,
+                first : {
+                    show : false,
+                    toPage : 1
+                },
+                prev : {
+                    show : false,
+                    toPage : 1
+                },
                 pages : [1],
-                showNext : true,
-                showLast : true,
+                next : {
+                    show : false,
+                    toPage : 1
+                },
+                last : {
+                    show : false,
+                    toPage : 1 
+                },
                 currentPage : 1
             }
         };
@@ -85,16 +127,28 @@ class RoomList extends Component {
 
         const fctn = {
             roomTable : {
-                getTableRows : this.getTableRows
+                getTableRows : this.getTableRows,
+                orderOnClick : this.orderOnClick
             },
             filterModal : {
                 getFilterModalVal : this.getFilterModalVal,
                 setFilterModalVal : this.setFilterModalVal,
                 tableUpdate : this.tableUpdate
+            },
+            pagn : {
+                pageOnClick : this.pageOnClick
             }
         }
-        const {filterModal} = this.state;
-        const {pagination} = this.state;
+        const {filterModal, pagination} = this.state;
+
+        const pagn = {
+            first : pagination.first,
+            prev : pagination.prev,
+            pages : pagination.pages,
+            next : pagination.next,
+            last : pagination.last,
+            currentPage : pagination.currentPage
+        };
 
         return (
             <Fragment>
@@ -105,8 +159,7 @@ class RoomList extends Component {
                             <Button variant='outline-primary' onClick={() => this.showFilterModal()}>篩選</Button>
                         </div>
                         <div className='ms-auto'>
-                            <Pagn showFirst={pagination.showFirst} showPrev={pagination.showPrev} pages={pagination.pages} 
-                                    showNext={pagination.showNext} showLast={pagination.showLast} currentPage={pagination.currentPage} />
+                            <Pagn pagn={pagn} fctn={fctn.pagn} />
                         </div>
                     </Stack>
                 </Container>
@@ -167,6 +220,22 @@ class RoomList extends Component {
             }
         });
     }
+    pageOnClick = (page) => {
+
+        const req = constant.fetch.req.turnPage;
+
+        req.page = page;
+        this.turnPage(req);
+    }
+    orderOnClick = (colName, direction) => {
+
+        const req = constant.fetch.req.changeOrder;
+        const orderCode = constant.orderCode;
+
+        req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
+        this.changeOrder(req);
+    }
+
 
     // fetch
     searchTable = async (params) => {
@@ -189,13 +258,70 @@ class RoomList extends Component {
             this.afterSearchTable(data);
         }
     };
+    turnPage = async (params) => {
+
+        const {fetch} =  constant;
+        const url = fetch.url.turnPage;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterTurnPage(data);
+        }
+    };
+    changeOrder = async (params) => {
+
+        const {fetch} =  constant;
+        const url = fetch.url.changeOrder;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterChangeOrder(data);
+        }
+    };
 
 
     // after fetch
     afterSearchTable = (data) => {
 
-        const {roomTable} = this.state;
         const {table, pagination} = data;
+
+        this.updateState(table, pagination);
+    }
+    afterTurnPage = (data) => {
+
+        const {table, pagination} = data;
+
+        this.updateState(table, pagination);
+    };
+    afterChangeOrder = (data) => {
+
+        const {table, pagination} = data;
+
+        this.updateState(table, pagination);
+    }
+    updateState = (table, pagination) => {
+
+        const {roomTable, p} = this.state;
 
         this.setState({
             roomTable : {
@@ -203,15 +329,28 @@ class RoomList extends Component {
                 tableRows : table.tableRows
             },
             pagination : {
-                showFirst : pagination.showFirst,
-                showPrev : pagination.showPrev,
+                ...p,
+                first : {
+                    show : pagination.first.show,
+                    toPage : pagination.first.toPage
+                },
+                prev : {
+                    show : pagination.prev.show,
+                    toPage : pagination.prev.toPage
+                },
                 pages : pagination.pages,
-                showNext : pagination.showNext,
-                showLast : pagination.showLast,
+                next : {
+                    show : pagination.next.show,
+                    toPage : pagination.next.toPage
+                },
+                last : {
+                    show : pagination.last.show,
+                    toPage : pagination.last.toPage
+                },
                 currentPage : pagination.currentPage
             }
         });
-    }
+    };
 
 
     // getter setter

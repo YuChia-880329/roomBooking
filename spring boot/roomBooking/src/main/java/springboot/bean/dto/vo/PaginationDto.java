@@ -13,10 +13,10 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class PaginationDto {
 
-	private boolean showFirst;
-	private boolean showPrev;
+	private PaginationItemDto first;
+	private PaginationItemDto prev;
 	private List<Integer> pages;
-	private boolean showNext;
-	private boolean showLast;
+	private PaginationItemDto next;
+	private PaginationItemDto last;
 	private int currentPage;
 }

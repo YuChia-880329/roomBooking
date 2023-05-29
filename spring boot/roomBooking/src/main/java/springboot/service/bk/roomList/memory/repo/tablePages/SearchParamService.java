@@ -1,4 +1,4 @@
-package springboot.service.bk.roomList.memory.repo.roomTableRow;
+package springboot.service.bk.roomList.memory.repo.tablePages;
 
 import org.springframework.stereotype.Service;
 
@@ -6,7 +6,7 @@ import enumeration.bk.roomList.RoomTableOrder;
 import springboot.bean.obj.bk.roomList.repo.tablePages.SearchParam;
 import util.SearchParamUtil;
 
-@Service("bk.roomList.memory.repo.roomTableRow.SearchParamService")
+@Service("bk.roomList.memory.repo.tablePages.SearchParamService")
 public class SearchParamService {
 
 	public boolean equals(SearchParam searchParam1, SearchParam searchParam2) {
@@ -22,47 +22,6 @@ public class SearchParamService {
 				priceMaxEquals(searchParam1.getPriceMax(), searchParam2.getPriceMax()) &&
 				roomTableOrderEquals(searchParam1.getRoomTableOrder(), searchParam2.getRoomTableOrder());	
 	}
-	
-	
-	public String nameQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStr(searchParam.getName());
-	}
-	public String totalNumMinQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStrMin(searchParam.getTotalNumMin());
-	}
-	public String totalNumMaxQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStrMax(searchParam.getTotalNumMax());
-	}
-	public String usedNumMinQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStrMin(searchParam.getUsedNumMin());
-	}
-	public String usedNumMaxQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStrMax(searchParam.getUsedNumMax());
-	}
-	public String invalidNumMinQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStrMin(searchParam.getInvalidNumMin());
-	}
-	public String invalidNumMaxQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStrMax(searchParam.getInvalidNumMax());
-	}
-	public String priceMinQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStrMin(searchParam.getPriceMin());
-	}
-	public String priceMaxQueryStr(SearchParam searchParam) {
-		
-		return SearchParamUtil.queryStrMax(searchParam.getPriceMax());
-	}
-	
-	
-	
 	
 	private boolean nameEquals(String name1, String name2) {
 		

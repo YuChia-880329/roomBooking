@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import enumeration.bk.roomList.RoomTableOrder;
 import springboot.bean.dto.bk.roomList.obj.repo.tablePages.InputDto;
 import springboot.bean.dto.bk.roomList.obj.repo.tablePages.OutputDto;
+import springboot.bean.dto.bk.roomList.obj.repo.tablePages.SearchParamDto;
 import springboot.bean.dto.bk.roomList.obj.repo.tablePages.TablePageDto;
-import springboot.bean.dto.bk.roomList.vo.searchTable.SearchParamDto;
 import springboot.bean.dto.bk.roomList.vo.searchTable.SearchTableReqDto;
 import springboot.bean.dto.bk.roomList.vo.searchTable.SearchTableRespDto;
-import springboot.dao.bk.roomList.memory.repo.RoomTableRowsRepoDAO;
+import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDAO;
 import springboot.service.PaginationService;
 
 @Service("bk.roomList.SearchTableService")
@@ -22,8 +22,8 @@ public class SearchTableService {
 	
 	
 	@Autowired
-	@Qualifier("bk.roomList.memory.repo.RoomTableRowsRepoDAO")
-	private RoomTableRowsRepoDAO roomTableRowsRepoDAO;
+	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDAO")
+	private TablePagesRepoDAO roomTableRowsRepoDAO;
 	@Autowired
 	@Qualifier("PaginationService")
 	private PaginationService paginationService;
@@ -36,7 +36,7 @@ public class SearchTableService {
 		
 		
 		InputDto input = InputDto.builder()
-				.searchParam(toSearchParamObj(searchTableReq.getSearchParam()))
+				.searchParam(toSearchParamObj(searchTableReq))
 				.build();
 		OutputDto output = roomTableRowsRepoDAO.getObj(input);
 		TablePageDto tablePageDto = output.getTablePage();
@@ -48,19 +48,19 @@ public class SearchTableService {
 	}
 	
 	
-	public springboot.bean.dto.bk.roomList.obj.repo.tablePages.SearchParamDto toSearchParamObj(SearchParamDto searchParam) {
+	public SearchParamDto toSearchParamObj(SearchTableReqDto searchTableReq) {
 		
-		return springboot.bean.dto.bk.roomList.obj.repo.tablePages.SearchParamDto.builder()
+		return SearchParamDto.builder()
 				.page(1)
-				.name(searchParam.getName())
-				.totalNumMin(searchParam.getTotalNumMin())
-				.totalNumMax(searchParam.getTotalNumMax())
-				.usedNumMin(searchParam.getUsedNumMin())
-				.usedNumMax(searchParam.getUsedNumMax())
-				.invalidNumMin(searchParam.getInvalidNumMin())
-				.invalidNumMax(searchParam.getInvalidNumMax())
-				.priceMin(searchParam.getPriceMin())
-				.priceMax(searchParam.getPriceMax())
+				.name(searchTableReq.getName())
+				.totalNumMin(searchTableReq.getTotalNumMin())
+				.totalNumMax(searchTableReq.getTotalNumMax())
+				.usedNumMin(searchTableReq.getUsedNumMin())
+				.usedNumMax(searchTableReq.getUsedNumMax())
+				.invalidNumMin(searchTableReq.getInvalidNumMin())
+				.invalidNumMax(searchTableReq.getInvalidNumMax())
+				.priceMin(searchTableReq.getPriceMin())
+				.priceMax(searchTableReq.getPriceMax())
 				.roomTableOrder(RoomTableOrder.NAME_ASC)
 				.build();
 	}

@@ -5,21 +5,21 @@ class Pagn extends Component {
     
     render() {
 
-        const {showFirst, showPrev, pages, showNext, showLast, currentPage} = this.props;
+        const {pagn, fctn} = this.props;
 
         return (
             <Pagination className='mb-0'>
-                {showFirst && <Pagination.First />}
-                {showPrev && <Pagination.Prev />}
+                {pagn.first.show && <Pagination.First onClick={() => fctn.pageOnClick(pagn.first.toPage)} />}
+                {pagn.prev.show && <Pagination.Prev onClick={() => fctn.pageOnClick(pagn.prev.toPage)} />}
                 {
-                    pages.map(
+                    pagn.pages.map(
                         page => (
-                            <Pagination.Item key={page} active={page===currentPage}>{page}</Pagination.Item>
+                            <Pagination.Item key={page} active={page===pagn.currentPage} onClick={page===pagn.currentPage ? undefined : () => fctn.pageOnClick(page)}>{page}</Pagination.Item>
                         )
                     )
                 }
-                {showNext && <Pagination.Next />}
-                {showLast && <Pagination.Last />}
+                {pagn.next.show && <Pagination.Next onClick={() => fctn.pageOnClick(pagn.next.toPage)} />}
+                {pagn.last.show && <Pagination.Last onClick={() => fctn.pageOnClick(pagn.last.toPage)} />}
             </Pagination>
         );
     }

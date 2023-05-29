@@ -26,8 +26,7 @@ class OrderList extends Component {
                             <Button variant='outline-primary'>篩選</Button>
                         </div>
                         <div className='ms-auto'>
-                        <Pagn showFirst={true} showPrev={true} pages={[1, 2, 3]} 
-                                    showNext={true} showLast={true} currentPage={1} />
+                        <Pagn pagn={{first : {}, prev : {}, pages : [], next : {}, last : {}, currentPage : {}}} />
                         </div>
                     </Stack>
                 </Container>

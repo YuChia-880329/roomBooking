@@ -6,10 +6,7 @@ class SortTh extends Component {
     
     render() {
 
-        // props
         const {text, ascOnClick, descOnClick} = this.props;
-
-        // style
         const headerStyle = {
             paddingLeft : '1rem',
             paddingRight : '1rem'
@@ -31,10 +28,10 @@ class SortTh extends Component {
                     </div>
                     <div>
                         <Stack gap={1}>
-                            <button type='button' className='caretBtn' onClick={ascOnClick} >
+                            <button type='button' className='caretBtn' onClick={descOnClick} >
                                 <IconCaretUp width={20} height={14} />
                             </button>
-                            <button type='button' className='caretBtn' onClick={descOnClick} >
+                            <button type='button' className='caretBtn' onClick={ascOnClick} >
                                 <IconCaretDown width={20} height={14} />
                             </button>
                         </Stack>

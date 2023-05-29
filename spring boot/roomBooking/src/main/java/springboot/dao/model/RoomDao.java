@@ -30,8 +30,8 @@ public class RoomDao {
 	public static final String SINGLE_BED_NUM_COL_NAME = "singleBedNum";
 	public static final String DOUBLE_BED_NUM_COL_NAME = "doubleBedNum";
 	public static final String AREA_COL_NAME = "area";
-	public static final String SCENE_COL_NAME = "sceneId";
-	public static final String HOTEL_COL_NAME = "hotelId";
+	public static final String SCENE_ID_COL_NAME = "sceneId";
+	public static final String HOTEL_ID_COL_NAME = "hotelId";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -89,7 +89,7 @@ public class RoomDao {
 			CriteriaBuilder criteriaBuilder, Root<Room> root) {
 		
 		List<Predicate> predicateList = new ArrayList<>();
-		predicateList.add(criteriaBuilder.equal(root.get(HOTEL_COL_NAME), hotelId));
+		predicateList.add(criteriaBuilder.equal(root.get(HOTEL_ID_COL_NAME), hotelId));
 		
 		if(name != null)
 			predicateList.add(criteriaBuilder.like(root.get(NAME_COL_NAME), StringConcatUtil.concate("%", name, "%")));

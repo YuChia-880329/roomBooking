@@ -11,16 +11,16 @@ import springboot.bean.obj.bk.roomList.repo.tablePages.Input;
 import springboot.bean.obj.bk.roomList.repo.tablePages.Output;
 import springboot.bean.obj.bk.roomList.repo.tablePages.TablePages;
 import springboot.memory.repo.RepoDao;
-import springboot.memory.repo.bk.roomList.RoomTableRowsRepo;
+import springboot.memory.repo.bk.roomList.TablePagesRepo;
 import springboot.trans.bk.roomList.obj.repo.tablePages.InputTrans;
 import springboot.trans.bk.roomList.obj.repo.tablePages.OutputTrans;
 
-@Repository("bk.roomList.memory.repo.RoomTableRowsRepoDAO")
+@Repository("bk.roomList.memory.repo.TablePagesRepoDAO")
 @SessionScope
-public class RoomTableRowsRepoDAO extends RepoDao<Input, TablePages, Output, InputDto, OutputDto, 
-		RoomTableRowsRepo, InputTrans, OutputTrans> {
+public class TablePagesRepoDAO extends RepoDao<Input, TablePages, Output, InputDto, OutputDto, 
+		TablePagesRepo, InputTrans, OutputTrans> {
 
-	public RoomTableRowsRepoDAO(RoomTableRowsRepo repo) {
+	public TablePagesRepoDAO(TablePagesRepo repo) {
 		
 		super(repo);
 	}

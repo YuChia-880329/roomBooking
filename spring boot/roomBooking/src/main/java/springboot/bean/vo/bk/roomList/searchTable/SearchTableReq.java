@@ -11,5 +11,13 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class SearchTableReq {
 
-	private SearchParam searchParam;
+	private String name;
+	private String totalNumMin;
+	private String totalNumMax;
+	private String usedNumMin;
+	private String usedNumMax;
+	private String invalidNumMin;
+	private String invalidNumMax;
+	private String priceMin;
+	private String priceMax;
 }
