@@ -36,7 +36,7 @@ public class RoomDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public Long queryBkRoomListRoomTableRowsRowNum(
+	public Long queryBkRoomListTablePagesRowNum(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
 			Integer usedNumMin, Integer usedNumMax,
@@ -49,13 +49,13 @@ public class RoomDao {
 		Root<Room> root = criteriaQuery.from(Room.class);
 		criteriaQuery.select(criteriaBuilder.count(root));
 		
-		Predicate[] predicates = queryBkRoomListRoomTableRowsPredicate(hotelId, name, totalNumMin, totalNumMax, 
+		Predicate[] predicates = queryBkRoomListTablePagesPredicate(hotelId, name, totalNumMin, totalNumMax, 
 				usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, criteriaBuilder, root);
 		criteriaQuery.where(predicates);
 		
 		return entityManager.createQuery(criteriaQuery).getSingleResult();
 	}
-	public List<Room> queryBkRoomListRoomTableRows(
+	public List<Room> queryBkRoomListTablePages(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
 			Integer usedNumMin, Integer usedNumMax,
@@ -68,11 +68,11 @@ public class RoomDao {
 		CriteriaQuery<Room> criteriaQuery = criteriaBuilder.createQuery(Room.class);
 		Root<Room> root =  criteriaQuery.from(Room.class);
 		
-		Predicate[] predicates = queryBkRoomListRoomTableRowsPredicate(hotelId, name, totalNumMin, totalNumMax, 
+		Predicate[] predicates = queryBkRoomListTablePagesPredicate(hotelId, name, totalNumMin, totalNumMax, 
 				usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, criteriaBuilder, root);
 		criteriaQuery.where(predicates);
 
-		criteriaQuery.orderBy(queryBkRoomListRoomTableRowsOrder(roomTableOrder, criteriaBuilder, root));
+		criteriaQuery.orderBy(queryBkRoomListTablePagesOrder(roomTableOrder, criteriaBuilder, root));
 		
 		return entityManager.createQuery(criteriaQuery)
 				.setFirstResult(startRow)
@@ -80,7 +80,7 @@ public class RoomDao {
 				.getResultList();
 	}
 	
-	private Predicate[] queryBkRoomListRoomTableRowsPredicate(
+	private Predicate[] queryBkRoomListTablePagesPredicate(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
 			Integer usedNumMin, Integer usedNumMax,
@@ -113,7 +113,7 @@ public class RoomDao {
 		return predicateList.toArray(new Predicate[predicateList.size()]); 
 	}
 	
-	private Order queryBkRoomListRoomTableRowsOrder(RoomTableOrder roomTableOrder, 
+	private Order queryBkRoomListTablePagesOrder(RoomTableOrder roomTableOrder, 
 			CriteriaBuilder criteriaBuilder, Root<Room> root) {
 		
 		if(roomTableOrder == null)

@@ -19,7 +19,7 @@ public class BookingOrderDto {
 	private int roomId;
 	private int roomNum;
 	private int payMethodId;
-	private LocalDateTime checkinDatetime;
+	private LocalDateTime checkinDateTime;
 	private LocalDate checkoutDate;
 	private int useDay;
 	private int totalMoney;

@@ -28,7 +28,6 @@ import springboot.exception.NotLoginException;
 import springboot.memory.repo.Repo;
 import springboot.service.bk.roomList.SearchTableService;
 import springboot.service.bk.roomList.memory.repo.tablePages.SearchParamService;
-import springboot.trans.bk.roomList.obj.repo.tablePages.TableRowTrans;
 import util.LogsUtil;
 import util.PageUtil;
 
@@ -42,9 +41,6 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 	@Autowired
 	@Qualifier("model.inner.RoomDaoInner")
 	private RoomDaoInner roomDaoInner;
-	@Autowired
-	@Qualifier("bk.roomList.obj.repo.tablePages.TableRowTrans")
-	private TableRowTrans roomTableRowTrans;
 	@Autowired
 	@Qualifier("bk.login.memory.status.LoginStatusDao")
 	private LoginStatusDao loginStatusDao;
@@ -101,7 +97,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 		RoomTableOrder roomTableOrder = searchParam.getRoomTableOrder();
 		int page = searchParam.getPage();
 		
-		long totalRows = roomDaoInner.queryBkRoomListRoomTableRowsRowNum(hotelId, searchParam.getName(), searchParam.getTotalNumMin(), searchParam.getTotalNumMax(), 
+		long totalRows = roomDaoInner.queryBkRoomListTablePagesRowNum(hotelId, searchParam.getName(), searchParam.getTotalNumMin(), searchParam.getTotalNumMax(), 
 				searchParam.getUsedNumMin(), searchParam.getUsedNumMax(), 
 				searchParam.getInvalidNumMin(), searchParam.getInvalidNumMax(), 
 				searchParam.getPriceMin(), searchParam.getPriceMax());
@@ -124,7 +120,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 			int[] rowBounds = PageUtil.countRow(SearchTableService.ROWS_PER_PAGE, p);
 			
 			
-			List<RoomDto> rooms = roomDaoInner.queryBkRoomListRoomTableRows(hotelId, searchParam.getName(), 
+			List<RoomDto> rooms = roomDaoInner.queryBkRoomListTablePages(hotelId, searchParam.getName(), 
 					searchParam.getTotalNumMin(), searchParam.getTotalNumMax(), 
 					searchParam.getUsedNumMin(), searchParam.getUsedNumMax(), 
 					searchParam.getInvalidNumMin(), searchParam.getInvalidNumMax(), 

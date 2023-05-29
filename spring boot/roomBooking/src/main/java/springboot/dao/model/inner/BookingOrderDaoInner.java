@@ -26,29 +26,29 @@ public class BookingOrderDaoInner {
 	private BookingOrderTrans trans;
 	
 	
-	public Long queryBkRoomListRoomTableRowsRowNum(
+	public Long queryBkBookingOrderListTablePagesRowNum(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, String roomName, Integer roomNumMin, Integer roomNumMax,
 			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
 		
-		return dao.queryBkRoomListRoomTableRowsRowNum(hotelId, idMin, idMax, clientName, clientPhone, roomName, 
+		return dao.queryBkBookingOrderListTablePagesRowNum(hotelId, idMin, idMax, clientName, clientPhone, roomName, 
 				roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 	}
 	
-	public List<BookingOrderDto> queryBkRoomListRoomTableRows(
+	public List<BookingOrderDto> queryBkBookingOrderListTablePages(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, String roomName, Integer roomNumMin, Integer roomNumMax,
 			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
-			BookingOrderTableOrder bookingOrderTableOrder, int startRow, int maxRowNum){
+			BookingOrderTableOrder bookingOrderTableOrder, int minRow, int maxRow){
 		
-		return trans.modelListToDtoList(dao.queryBkRoomListRoomTableRows(hotelId, idMin, idMax, clientName, clientPhone, 
+		return trans.modelListToDtoList(dao.queryBkBookingOrderListTablePages(hotelId, idMin, idMax, clientName, clientPhone, 
 				roomName, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax, bookingOrderTableOrder, 
-				startRow, maxRowNum));
+				minRow, maxRow));
 	}
 }

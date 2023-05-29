@@ -1,9 +1,9 @@
 package springboot.memory.repo.bk.bookingOrderList;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import springboot.bean.obj.bk.bookingOrderList.repo.tablePages.SearchParam;
 import springboot.bean.obj.bk.bookingOrderList.repo.tablePages.Table;
 import springboot.bean.obj.bk.bookingOrderList.repo.tablePages.TablePage;
 import springboot.bean.obj.bk.bookingOrderList.repo.tablePages.TablePages;
+import springboot.bean.obj.bk.bookingOrderList.repo.tablePages.TableRow;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
 import springboot.dao.model.inner.BookingOrderDaoInner;
 import springboot.exception.IllegalPageException;
@@ -40,9 +41,6 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 	@Autowired
 	@Qualifier("model.inner.BookingOrderDaoInner")
 	private BookingOrderDaoInner bookingOrderDaoInner;
-//	@Autowired
-//	@Qualifier("bk.roomList.obj.repo.tablePages.TableRowTrans")
-//	private TableRowTrans roomTableRowTrans;
 	@Autowired
 	@Qualifier("bk.login.memory.status.LoginStatusDao")
 	private LoginStatusDao loginStatusDao;
@@ -108,7 +106,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 		BookingOrderTableOrder bookingOrderTableOrder = searchParam.getBookingOrderTableOrder();
 		int page = searchParam.getPage();
 		
-		long totalRows = bookingOrderDaoInner.queryBkRoomListRoomTableRowsRowNum(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
+		long totalRows = bookingOrderDaoInner.queryBkBookingOrderListTablePagesRowNum(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
 				searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomName(), searchParam.getRoomNumMin(),
 				searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethods(),
 				searchParam.getCheckinDateTimeFrom(), searchParam.getCheckinDateTimeTo(), searchParam.getCheckoutDateFrom(),
@@ -133,26 +131,19 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 			int[] rowBounds = PageUtil.countRow(SearchTableService.ROWS_PER_PAGE, p);
 			
 			
-			List<BookingOrderDto> rooms = bookingOrderDaoInner.queryBkRoomListRoomTableRows(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
+			List<BookingOrderDto> bookingOrders = bookingOrderDaoInner.queryBkBookingOrderListTablePages(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
 					searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomName(), searchParam.getRoomNumMin(),
 					searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethods(),
 					searchParam.getCheckinDateTimeFrom(), searchParam.getCheckinDateTimeTo(), searchParam.getCheckoutDateFrom(),
 					searchParam.getCheckoutDateTo(), searchParam.getUseDayMin(), searchParam.getUseDayMax(), searchParam.getTotalPriceMin(), 
-					searchParam.getTotalPriceMax(), bookingOrderTableOrder, rowBounds[0], SearchTableService.ROWS_PER_PAGE);
+					searchParam.getTotalPriceMax(), bookingOrderTableOrder, rowBounds[0], rowBounds[1]);
 			
-			tablePageMap.put(p, toTablePage(rooms, p));
+			tablePageMap.put(p, toTablePage(bookingOrders, p));
 		}
-//		
-//		return TablePages.builder()
-//				.maxPage(maxPage)
-//				.tablePageMap(tablePageMap)
-//				.build();
 		
-		Map<Integer, TablePage> map = new HashMap<>();
-		map.put(1, TablePage.builder().currentPage(1).table(Table.builder().tableRows(new ArrayList<>()).build()).build());
 		return TablePages.builder()
-				.maxPage(1)
-				.tablePageMap(map)
+				.maxPage(maxPage)
+				.tablePageMap(tablePageMap)
 				.build();
 	}
 	
@@ -165,35 +156,41 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 				.build();
 	}
 	
-//	private TablePage toTablePage(List<RoomDto> rooms, int currentPage) {
-//		
-//		return TablePage.builder()
-//				.table(toTable(rooms))
-//				.currentPage(currentPage)
-//				.build();
-//	}
-//	private Table toTable(List<RoomDto> rooms) {
-//		
-//		return Table.builder()
-//				.tableRows(toTableRows(rooms))
-//				.build();
-//	}
-//	private List<TableRow> toTableRows(List<RoomDto> rooms) {
-//		
-//		return rooms.stream()
-//				.map(room -> toTableRows(room))
-//				.collect(Collectors.toList());
-//	}
-//	private TableRow toTableRows(RoomDto room) {
-//		
-//		return TableRow.builder()
-//				.name(room.getName())
-//				.totalNum(room.getTotalNum())
-//				.usedNum(room.getUsedNum())
-//				.invalidNum(room.getInvalidNum())
-//				.price(room.getPrice())
-//				.build();
-//	}
+	private TablePage toTablePage(List<BookingOrderDto> bookingOrders, int currentPage) {
+		
+		return TablePage.builder()
+				.table(toTable(bookingOrders))
+				.currentPage(currentPage)
+				.build();
+	}
+	private Table toTable(List<BookingOrderDto> bookingOrders) {
+		
+		return Table.builder()
+				.tableRows(toTableRows(bookingOrders))
+				.build();
+	}
+	private List<TableRow> toTableRows(List<BookingOrderDto> bookingOrders) {
+		
+		return bookingOrders.stream()
+				.map(bookingOrder -> toTableRows(bookingOrder))
+				.collect(Collectors.toList());
+	}
+	private TableRow toTableRows(BookingOrderDto bookingOrder) {
+		
+		return TableRow.builder()
+				.id(bookingOrder.getId())
+				.clientName(bookingOrder.getMember().getName())
+				.clientPhone(bookingOrder.getMember().getPhone())
+				.roomName(bookingOrder.getRoom().getName())
+				.roomNum(bookingOrder.getRoomNum())
+				.price(bookingOrder.getRoom().getPrice())
+				.payMethod(bookingOrder.getPayMethod().getName())
+				.checkinDateTime(bookingOrder.getCheckinDateTime())
+				.checkoutDate(bookingOrder.getCheckoutDate())
+				.useDay(bookingOrder.getUseDay())
+				.totalPrice(bookingOrder.getTotalMoney())
+				.build();
+	}
 	
 
 }
