@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import springboot.bean.dto.bk.bookingOderList.vo.TableDto;
-import springboot.bean.dto.bk.bookingOderList.vo.TableRowDto;
+import springboot.bean.dto.bk.bookingOrderList.vo.TableDto;
+import springboot.bean.dto.bk.bookingOrderList.vo.TableRowDto;
 
 @Service("bk.bookingOrderList.RepoService")
 public class RepoService {

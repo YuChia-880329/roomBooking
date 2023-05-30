@@ -1,4 +1,4 @@
-package springboot.bean.dto.bk.bookingOderList.vo;
+package springboot.bean.dto.bk.bookingOrderList.vo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

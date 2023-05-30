@@ -2,7 +2,7 @@ package springboot.trans.bk.bookingOrderList.vo;
 
 import org.springframework.stereotype.Component;
 
-import springboot.bean.dto.bk.bookingOderList.vo.TableRowDto;
+import springboot.bean.dto.bk.bookingOrderList.vo.TableRowDto;
 import springboot.bean.vo.bk.bookingOrderList.TableRow;
 import tmpl.trans.bean.vo.VoWoTrans;
 import util.DateTimeUtil;

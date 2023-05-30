@@ -21,17 +21,17 @@ import util.StringConcatUtil;
 @Repository("model.RoomDao")
 public class RoomDao {
 	
-	public static final String ID_COL_NAME = "id";
-	public static final String NAME_COL_NAME = "name";
-	public static final String TOTAL_NUM_COL_NAME = "totalNum";
-	public static final String INVALID_NUM_COL_NAME = "invalidNum";
-	public static final String USED_NUM_COL_NAME = "usedNum";
-	public static final String PRICE_COL_NAME = "price";
-	public static final String SINGLE_BED_NUM_COL_NAME = "singleBedNum";
-	public static final String DOUBLE_BED_NUM_COL_NAME = "doubleBedNum";
-	public static final String AREA_COL_NAME = "area";
-	public static final String SCENE_ID_COL_NAME = "sceneId";
-	public static final String HOTEL_ID_COL_NAME = "hotelId";
+	public static final String ID_ATTRIBUTE_NAME = "id";
+	public static final String NAME_ATTRIBUTE_NAME = "name";
+	public static final String TOTAL_NUM_ATTRIBUTE_NAME = "totalNum";
+	public static final String INVALID_NUM_ATTRIBUTE_NAME = "invalidNum";
+	public static final String USED_NUM_ATTRIBUTE_NAME = "usedNum";
+	public static final String PRICE_ATTRIBUTE_NAME = "price";
+	public static final String SINGLE_BED_NUM_ATTRIBUTE_NAME = "singleBedNum";
+	public static final String DOUBLE_BED_NUM_ATTRIBUTE_NAME = "doubleBedNum";
+	public static final String AREA_ATTRIBUTE_NAME = "area";
+	public static final String SCENE_ID_ATTRIBUTE_NAME = "sceneId";
+	public static final String HOTEL_ID_ATTRIBUTE_NAME = "hotelId";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -80,6 +80,23 @@ public class RoomDao {
 				.getResultList();
 	}
 	
+	public List<Room> queryAllRooms(int hotelId){
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Room> criteriaQuery = criteriaBuilder.createQuery(Room.class);
+		Root<Room> root =  criteriaQuery.from(Room.class);
+		
+		Predicate predicate = criteriaBuilder.equal(root.get(HOTEL_ID_ATTRIBUTE_NAME), hotelId);
+		criteriaQuery.where(predicate);
+		
+		Order order = criteriaBuilder.asc(root.get(RoomTableOrder.NAME_ASC.getAttributeName()));
+		criteriaQuery.orderBy(order);
+		
+		return entityManager.createQuery(criteriaQuery).getResultList();
+	}
+	
+	
+	
 	private Predicate[] queryBkRoomListTablePagesPredicate(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
@@ -89,26 +106,26 @@ public class RoomDao {
 			CriteriaBuilder criteriaBuilder, Root<Room> root) {
 		
 		List<Predicate> predicateList = new ArrayList<>();
-		predicateList.add(criteriaBuilder.equal(root.get(HOTEL_ID_COL_NAME), hotelId));
+		predicateList.add(criteriaBuilder.equal(root.get(HOTEL_ID_ATTRIBUTE_NAME), hotelId));
 		
 		if(name != null)
-			predicateList.add(criteriaBuilder.like(root.get(NAME_COL_NAME), StringConcatUtil.concate("%", name, "%")));
+			predicateList.add(criteriaBuilder.like(root.get(NAME_ATTRIBUTE_NAME), StringConcatUtil.concate("%", name, "%")));
 		if(totalNumMin != null)
-			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(TOTAL_NUM_COL_NAME), totalNumMin));
+			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(TOTAL_NUM_ATTRIBUTE_NAME), totalNumMin));
 		if(totalNumMax != null)
-			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(TOTAL_NUM_COL_NAME), totalNumMax));
+			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(TOTAL_NUM_ATTRIBUTE_NAME), totalNumMax));
 		if(usedNumMin != null)
-			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(USED_NUM_COL_NAME), usedNumMin));
+			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(USED_NUM_ATTRIBUTE_NAME), usedNumMin));
 		if(usedNumMax != null)
-			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(USED_NUM_COL_NAME), usedNumMax));
+			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(USED_NUM_ATTRIBUTE_NAME), usedNumMax));
 		if(invalidNumMin != null)
-			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(INVALID_NUM_COL_NAME), invalidNumMin));
+			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(INVALID_NUM_ATTRIBUTE_NAME), invalidNumMin));
 		if(invalidNumMax != null)
-			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(INVALID_NUM_COL_NAME), invalidNumMax));
+			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(INVALID_NUM_ATTRIBUTE_NAME), invalidNumMax));
 		if(priceMin != null)
-			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(PRICE_COL_NAME), priceMin));
+			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(PRICE_ATTRIBUTE_NAME), priceMin));
 		if(priceMax != null)
-			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(PRICE_COL_NAME), priceMax));
+			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(PRICE_ATTRIBUTE_NAME), priceMax));
 	
 		return predicateList.toArray(new Predicate[predicateList.size()]); 
 	}

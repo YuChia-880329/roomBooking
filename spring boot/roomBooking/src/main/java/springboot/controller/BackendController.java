@@ -59,13 +59,13 @@ public class BackendController {
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/roomList/turnPage")
-	public ResponseEntity<Response> turnPage(@RequestParam(name = "page") String page){
+	public ResponseEntity<Response> turnPageRoomList(@RequestParam(name = "page") String page){
 		
 		Response response = roomListService.turnPage(page);
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/roomList/changeOrder")
-	public ResponseEntity<Response> changeOrder(@RequestParam(name = "order") String order){
+	public ResponseEntity<Response> changeOrderRoomList(@RequestParam(name = "order") String order){
 		
 		Response response = roomListService.changeOrder(order);
 		return ResponseEntity.ok(response);
@@ -73,6 +73,18 @@ public class BackendController {
 	
 	
 	// bookingOrderList
+	@GetMapping("/bookingOrderList/allRooms")
+	public ResponseEntity<Response> allRooms(){
+		
+		Response response = bookingOrderListService.allRooms();
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/bookingOrderList/allPayMethods")
+	public ResponseEntity<Response> allPayMethods(){
+		
+		Response response = bookingOrderListService.allPayMethods();
+		return ResponseEntity.ok(response);
+	}
 	@GetMapping("/bookingOrderList/searchTable")
 	public ResponseEntity<Response> searchTableBookingOrderList(@RequestParam(name = "idMin", required = false) String idMin, 
 			@RequestParam(name = "idMax", required = false) String idMax, @RequestParam(name = "clientName", required = false) String clientName, 
@@ -88,6 +100,18 @@ public class BackendController {
 
 		Response response = bookingOrderListService.searchTable(idMin, idMax, clientName, clientPhone, roomName, roomNumMin, roomNumMax, priceMin, priceMax, 
 				payMethods, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/bookingOrderList/turnPage")
+	public ResponseEntity<Response> turnPageBookingOrderList(@RequestParam(name = "page") String page){
+		
+		Response response = bookingOrderListService.turnPage(page);
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/bookingOrderList/changeOrder")
+	public ResponseEntity<Response> changeOrderBookingOrderList(@RequestParam(name = "order") String order){
+		
+		Response response = bookingOrderListService.changeOrder(order);
 		return ResponseEntity.ok(response);
 	}
 }

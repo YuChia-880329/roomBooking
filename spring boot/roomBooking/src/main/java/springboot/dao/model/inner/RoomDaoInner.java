@@ -48,4 +48,10 @@ public class RoomDaoInner {
 						invalidNumMin, invalidNumMax, priceMin, priceMax, 
 						roomTableOrder, startRow, maxRowNum));
 	}
+	
+	public List<RoomDto> queryAllRooms(int hotelId){
+		
+		return trans.modelListToDtoList(
+				dao.queryAllRooms(hotelId));
+	}
 }

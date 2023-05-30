@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import springboot.bean.dto.bk.bookingOderList.vo.TableDto;
+import springboot.bean.dto.bk.bookingOrderList.vo.TableDto;
 import springboot.bean.vo.bk.bookingOrderList.Table;
 import tmpl.trans.bean.vo.VoWoTrans;
 
