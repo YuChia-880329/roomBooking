@@ -321,7 +321,7 @@ class RoomList extends Component {
     }
     updateState = (table, pagination) => {
 
-        const {roomTable, p} = this.state;
+        const {roomTable} = this.state;
 
         this.setState({
             roomTable : {
@@ -329,7 +329,7 @@ class RoomList extends Component {
                 tableRows : table.tableRows
             },
             pagination : {
-                ...p,
+                ...this.state.pagination,
                 first : {
                     show : pagination.first.show,
                     toPage : pagination.first.toPage

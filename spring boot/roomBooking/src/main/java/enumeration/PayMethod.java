@@ -8,29 +8,29 @@ public enum PayMethod {
 
 	CASH(1, "現金"), CREDIT_CARD(2, "信用卡");
 	
-	private int code;
+	private int id;
 	private String name;
 	
 	
-	private PayMethod(int code, String name) {
-		this.code = code;
+	private PayMethod(int id, String name) {
+		this.id = id;
 		this.name = name;
 	}
 
 
-	public int getCode() {
-		return code;
+	public int getId() {
+		return id;
 	}
 	public String getName() {
 		return name;
 	}
 	
-	public static PayMethod getByCode(int code) {
+	public static PayMethod getById(int id) {
 		
 		PayMethod[] payMethods = PayMethod.values();
 		for(PayMethod payMethod : payMethods) {
 			
-			if(payMethod.code == code)
+			if(payMethod.id == id)
 				return payMethod;
 		}
 		return null;
@@ -38,7 +38,7 @@ public enum PayMethod {
 	public static String[] getCodeStrs() {
 		
 		List<String> list = Arrays.stream(PayMethod.values())
-				.map(pm -> String.valueOf(pm.getCode()))
+				.map(pm -> String.valueOf(pm.getId()))
 				.collect(Collectors.toList());
 		
 		return list.toArray(new String[list.size()]);

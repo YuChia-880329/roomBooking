@@ -8,6 +8,9 @@
             "searchTable" : "http://localhost:8086/roomBooking/backend/roomList/searchTable",
             "turnPage" : "http://localhost:8086/roomBooking/backend/roomList/turnPage",
             "changeOrder" : "http://localhost:8086/roomBooking/backend/roomList/changeOrder"
+        },
+        "bookingOrderList" : {
+            "searchTable" : "http://localhost:8086/roomBooking/backend/bookingOrderList/searchTable"
         }
     }
 }

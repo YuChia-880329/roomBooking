@@ -19,14 +19,14 @@ import springboot.trans.model.BookingOrderTrans;
 public class BookingOrderDaoInner {
 
 	@Autowired
-	@Qualifier("model.RoomDao")
+	@Qualifier("model.BookingOrderDao")
 	private BookingOrderDao dao;
 	@Autowired
-	@Qualifier("model.RoomTrans")
+	@Qualifier("model.BookingOrderTrans")
 	private BookingOrderTrans trans;
 	
 	
-	public Long queryBkBookingOrderListTablePagesRowNum(
+	public long queryBkBookingOrderListTablePagesRowNum(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, String roomName, Integer roomNumMin, Integer roomNumMax,
 			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 

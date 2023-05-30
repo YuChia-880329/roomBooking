@@ -3,7 +3,7 @@ import HotelInfo from './main/hotel-info';
 import RoomList from './main/room-list';
 import RoomCreate from './main/room-create';
 import RoomUpdate from './main/room-update';
-import OrderList from './main/order-list';
+import BookingOrderList from './main/booking-order-list';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import BackendNavbar from './main/backend-navbar';
 
@@ -23,7 +23,7 @@ class Main extends Component {
                     <Route path='/roomList' element={<RoomList />} />
                     <Route path='/roomUpdate' element={<RoomUpdate />} />
                     <Route path='/roomCreate' element={<RoomCreate />} />
-                    <Route path='/orderList' element={<OrderList />} />
+                    <Route path='/orderList' element={<BookingOrderList />} />
                 </Routes>
             </Fragment>
         );

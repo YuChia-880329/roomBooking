@@ -5,29 +5,46 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import enumeration.OrderDirection;
+import springboot.bean.model.BookingOrder;
+import springboot.bean.model.Member;
+import springboot.bean.model.PayMethod;
+import springboot.bean.model.Room;
 
 public enum BookingOrderTableOrder {
 
-	ID_ASC("ID", "id", OrderDirection.ASC, 1), ID_DESC("ID", "id", OrderDirection.DESC, 2),
-	CLIENT_NAME_ASC("", "clientName", OrderDirection.ASC, 3), CLIENT_NAME_DESC("", "clientName", OrderDirection.DESC, 4),
-	CLIENT_PHONE_ASC("", "clientPhone", OrderDirection.ASC, 3), CLIENT_PHONE_DESC("", "clientPhone", OrderDirection.DESC, 4),
-	ROOM_NAME_ASC("", "roomName", OrderDirection.ASC, 5), ROOM_NAME_DESC("", "roomName", OrderDirection.DESC, 6),
-	ROOM_NUM_ASC("ROOM_NUM", "roomNum", OrderDirection.ASC, 7), ROOM_NUM_DESC("ROOM_NUM", "roomNum", OrderDirection.DESC, 8),
-	PRICE_ASC("", "price", OrderDirection.ASC, 9), PRICE_DESC("", "price", OrderDirection.DESC, 10),
-	PAY_METHOD_ASC("", "payMethod", OrderDirection.ASC, 9), PAY_METHOD_DESC("", "payMethod", OrderDirection.DESC, 10),
-	CHECKIN_DATETIME_ASC("CHECKIN_DATETIME", "checkinDateTime", OrderDirection.ASC, 11), CHECKIN_DATETIME_DESC("CHECKIN_DATETIME", "checkinDateTime", OrderDirection.DESC, 12),
-	CHECKOUT_DATE_ASC("CHECKOUT_DATE", "checkoutDate", OrderDirection.ASC, 13), CHECKOUT_DATE_DESC("CHECKOUT_DATE", "checkoutDate", OrderDirection.DESC, 14),
-	USE_DAY_ASC("USE_DAY", "useDay", OrderDirection.ASC, 15), USE_DAY_DESC("USE_DAY", "useDay", OrderDirection.DESC, 16),
-	TOTAL_MONEY_ASC("TOTAL_MONEY", "totalPrice", OrderDirection.ASC, 17), TOTAL_MONEY_DESC("TOTAL_MONEY", "totalPrice", OrderDirection.DESC, 18);
+	ID_ASC("ID", BookingOrder.class, "id", OrderDirection.ASC, 1), 
+	ID_DESC("ID", BookingOrder.class, "id", OrderDirection.DESC, 2),
+	CLIENT_NAME_ASC("NAME", Member.class, "clientName", OrderDirection.ASC, 3), 
+	CLIENT_NAME_DESC("NAME", Member.class, "clientName", OrderDirection.DESC, 4),
+	CLIENT_PHONE_ASC("PHONE", Member.class, "clientPhone", OrderDirection.ASC, 5), 
+	CLIENT_PHONE_DESC("PHONE", Member.class, "clientPhone", OrderDirection.DESC, 6),
+	ROOM_NAME_ASC("NAME", Room.class, "roomName", OrderDirection.ASC, 7), 
+	ROOM_NAME_DESC("NAME", Room.class, "roomName", OrderDirection.DESC, 8),
+	ROOM_NUM_ASC("ROOM_NUM", BookingOrder.class, "roomNum", OrderDirection.ASC, 9), 
+	ROOM_NUM_DESC("ROOM_NUM", BookingOrder.class, "roomNum", OrderDirection.DESC, 10),
+	PRICE_ASC("PRICE", Room.class, "price", OrderDirection.ASC, 11), 
+	PRICE_DESC("PRICE", Room.class, "price", OrderDirection.DESC, 12),
+	PAY_METHOD_ASC("NAME", PayMethod.class, "payMethod", OrderDirection.ASC, 13), 
+	PAY_METHOD_DESC("NAME", PayMethod.class, "payMethod", OrderDirection.DESC, 14),
+	CHECKIN_DATETIME_ASC("CHECKIN_DATETIME", BookingOrder.class, "checkinDateTime", OrderDirection.ASC, 15), 
+	CHECKIN_DATETIME_DESC("CHECKIN_DATETIME", BookingOrder.class, "checkinDateTime", OrderDirection.DESC, 16),
+	CHECKOUT_DATE_ASC("CHECKOUT_DATE", BookingOrder.class, "checkoutDate", OrderDirection.ASC, 17), 
+	CHECKOUT_DATE_DESC("CHECKOUT_DATE", BookingOrder.class, "checkoutDate", OrderDirection.DESC, 18),
+	USE_DAY_ASC("USE_DAY", BookingOrder.class, "useDay", OrderDirection.ASC, 19), 
+	USE_DAY_DESC("USE_DAY", BookingOrder.class, "useDay", OrderDirection.DESC, 20),
+	TOTAL_MONEY_ASC("TOTAL_MONEY", BookingOrder.class, "totalPrice", OrderDirection.ASC, 21), 
+	TOTAL_MONEY_DESC("TOTAL_MONEY", BookingOrder.class, "totalPrice", OrderDirection.DESC, 22);
 	
 	private String colName;
+	private Class<?> belongModel;
 	private String attributeName;
 	private OrderDirection direction;
 	private int code;
 	
-	private BookingOrderTableOrder(String colName, String attributeName, OrderDirection direction, int code) {
+	private BookingOrderTableOrder(String colName, Class<?> belongModel, String attributeName, OrderDirection direction, int code) {
 		
 		this.colName = colName;
+		this.belongModel = belongModel;
 		this.attributeName = attributeName;
 		this.direction = direction;
 		this.code = code;
@@ -35,6 +52,9 @@ public enum BookingOrderTableOrder {
 
 	public String getColName() {
 		return colName;
+	}
+	public Class<?> getBelongModel() {
+		return belongModel;
 	}
 	public String getAttributeName() {
 		return attributeName;

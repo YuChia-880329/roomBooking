@@ -63,7 +63,7 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 	private PayMethod[] toPayMethods(String[] payMethods) {
 		
 		List<PayMethod> list = Arrays.stream(payMethods)
-				.map(payMethod -> PayMethod.getByCode(Integer.parseInt(payMethod)))
+				.map(payMethod -> PayMethod.getById(Integer.parseInt(payMethod)))
 				.collect(Collectors.toList());
 		
 		return list.toArray(new PayMethod[list.size()]);
