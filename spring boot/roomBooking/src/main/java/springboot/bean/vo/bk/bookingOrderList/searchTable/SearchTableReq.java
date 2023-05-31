@@ -15,7 +15,7 @@ public class SearchTableReq {
 	private String idMax;
 	private String clientName;
 	private String clientPhone;
-	private String roomName;
+	private String roomType;
 	private String roomNumMin;
 	private String roomNumMax;
 	private String priceMin;

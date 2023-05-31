@@ -12,7 +12,9 @@ import axios from 'axios';
 const constant = {
     fetch : {
         url : {
-            searchTable : urls.backend.bookingOrderList.searchTable
+            searchTable : urls.backend.bookingOrderList.searchTable,
+            changeOrder : urls.backend.bookingOrderList.changeOrder,
+            turnPage : urls.backend.bookingOrderList.turnPage
         },
         config : {
             timeout : config.fetch.timeout
@@ -23,7 +25,7 @@ const constant = {
                 idMax : undefined,
                 clientName : undefined,
                 clientPhone : undefined,
-                roomName : undefined,
+                roomType : undefined,
                 roomNumMin : undefined,
                 roomNumMax : undefined,
                 priceMin : undefined,
@@ -109,7 +111,7 @@ class BookingOrderList extends Component {
                         idMax : '',
                         clientName : '',
                         clientPhone : '',
-                        roomName : '',
+                        roomType : '',
                         roomNumMin : '',
                         roomNumMax : '',
                         priceMin : '',
@@ -150,10 +152,10 @@ class BookingOrderList extends Component {
         };
     }
 
-    // componentDidMount(){
+    componentDidMount(){
 
-    //     this.tableUpdate();
-    // }
+        this.tableUpdate();
+    }
 
     render() {
         
@@ -166,10 +168,17 @@ class BookingOrderList extends Component {
     Content = () => {
 
         const fctn = {
+            bookingOrderTable : {
+                getTableRows : this.getTableRows,
+                orderOnClick : this.orderOnClick
+            },
             filterModal : {
                 getFilterModalVal : this.getFilterModalVal,
                 setFilterModalVal : this.setFilterModalVal,
                 tableUpdate : this.tableUpdate
+            },
+            pagn : {
+                pageOnClick : this.pageOnClick
             }
         }
         const {filterModal, pagination} = this.state;
@@ -186,13 +195,13 @@ class BookingOrderList extends Component {
         return (
             <Fragment>
                 <Container className='w-75'>
-                    <BookingOrderTable />
+                    <BookingOrderTable fctn={fctn.bookingOrderTable} />
                     <Stack direction='horizontal' className='mt-5'>
                         <div>
                             <Button variant='outline-primary' onClick={() => this.showFilterModal()}>篩選</Button>
                         </div>
                         <div className='ms-auto'>
-                        <Pagn pagn={{first : {}, prev : {}, pages : [], next : {}, last : {}, currentPage : {}}} />
+                        <Pagn pagn={pagn} fctn={fctn.pagn} />
                         </div>
                     </Stack>
                 </Container>
@@ -222,7 +231,7 @@ class BookingOrderList extends Component {
         const idMax = filterModal.form.value.idMax;
         const clientName = filterModal.form.value.clientName;
         const clientPhone = filterModal.form.value.clientPhone;
-        const roomName = filterModal.form.value.roomName;
+        const roomType = filterModal.form.value.roomType;
         const roomNumMin = filterModal.form.value.roomNumMin;
         const roomNumMax = filterModal.form.value.roomNumMax;
         const priceMin = filterModal.form.value.priceMin;
@@ -241,12 +250,12 @@ class BookingOrderList extends Component {
         req.idMax = (idMax==='' ? undefined : idMax);
         req.clientName = (clientName==='' ? undefined : clientName);
         req.clientPhone = (clientPhone==='' ? undefined : clientPhone);
-        req.roomName = (roomName==='' ? undefined : roomName);
+        req.roomType = (roomType==='' ? undefined : roomType);
         req.roomNumMin = (roomNumMin==='' ? undefined : roomNumMin);
         req.roomNumMax = (roomNumMax==='' ? undefined : roomNumMax);
         req.priceMin = (priceMin==='' ? undefined : priceMin);
         req.priceMax = (priceMax==='' ? undefined : priceMax);
-        req.payMethod = (payMethod==='' ? undefined : payMethod);
+        req.payMethod = (payMethod===[] ? undefined : payMethod);
         req.checkinDateTimeFrom = (checkinDateTimeFrom==='' ? undefined : checkinDateTimeFrom);
         req.checkinDateTimeTo = (checkinDateTimeTo==='' ? undefined : checkinDateTimeTo);
         req.checkoutDateFrom = (checkoutDateFrom==='' ? undefined : checkoutDateFrom);
@@ -271,30 +280,34 @@ class BookingOrderList extends Component {
             }
         });
     }
-    // pageOnClick = (page) => {
+    pageOnClick = (page) => {
 
-    //     const req = constant.fetch.req.turnPage;
+        const req = constant.fetch.req.turnPage;
 
-    //     req.page = page;
-    //     this.turnPage(req);
-    // }
-    // orderOnClick = (colName, direction) => {
+        req.page = page;
+        this.turnPage(req);
+    }
+    orderOnClick = (colName, direction) => {
 
-    //     const req = constant.fetch.req.changeOrder;
-    //     const orderCode = constant.orderCode;
+        const req = constant.fetch.req.changeOrder;
+        const orderCode = constant.orderCode;
 
-    //     req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
-    //     this.changeOrder(req);
-    // }
+        req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
+        this.changeOrder(req);
+    }
     
     // fetch
     searchTable = async (params) => {
 
+        const Qs = require('qs');
         const {fetch} =  constant;
         const url = fetch.url.searchTable;
         const config = fetch.config;
 
-        const {serverInfo, data} = await axios.get(url, {
+        const myAxios = axios.create({
+            paramsSerializer: params => Qs.stringify(params, {arrayFormat: 'repeat'})
+        });
+        const {serverInfo, data} = await myAxios.get(url, {
                 timeout : config.timeout,
                 withCredentials: true,
                 params : params
@@ -308,68 +321,67 @@ class BookingOrderList extends Component {
             this.afterSearchTable(data);
         }
     };
-    // turnPage = async (params) => {
+    turnPage = async (params) => {
 
-    //     const {fetch} =  constant;
-    //     const url = fetch.url.turnPage;
-    //     const config = fetch.config;
+        const {fetch} =  constant;
+        const url = fetch.url.turnPage;
+        const config = fetch.config;
 
-    //     const {serverInfo, data} = await axios.get(url, {
-    //             timeout : config.timeout,
-    //             withCredentials: true,
-    //             params : params
-    //         })
-    //         .then(rs => rs.data)
-    //         .catch(error => console.error(error));
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
 
-    //     const statusCode = serverInfo.statusCode;
-    //     if(statusCode === 200){
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
 
-    //         this.afterTurnPage(data);
-    //     }
-    // };
-    // changeOrder = async (params) => {
+            this.afterTurnPage(data);
+        }
+    };
+    changeOrder = async (params) => {
 
-    //     const {fetch} =  constant;
-    //     const url = fetch.url.changeOrder;
-    //     const config = fetch.config;
+        const {fetch} =  constant;
+        const url = fetch.url.changeOrder;
+        const config = fetch.config;
 
-    //     const {serverInfo, data} = await axios.get(url, {
-    //             timeout : config.timeout,
-    //             withCredentials: true,
-    //             params : params
-    //         })
-    //         .then(rs => rs.data)
-    //         .catch(error => console.error(error));
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
 
-    //     const statusCode = serverInfo.statusCode;
-    //     if(statusCode === 200){
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
 
-    //         this.afterChangeOrder(data);
-    //     }
-    // };
+            this.afterChangeOrder(data);
+        }
+    };
 
 
      // after fetch
      afterSearchTable = (data) => {
 
-        // const {table, pagination} = data;
+        const {table, pagination} = data;
 
-        // this.updateState(table, pagination);
-        console.log('data : ', data);
+        this.updateState(table, pagination);
     };
-    // afterTurnPage = (data) => {
+    afterTurnPage = (data) => {
 
-    //     const {table, pagination} = data;
+        const {table, pagination} = data;
 
-    //     this.updateState(table, pagination);
-    // };
-    // afterChangeOrder = (data) => {
+        this.updateState(table, pagination);
+    };
+    afterChangeOrder = (data) => {
 
-    //     const {table, pagination} = data;
+        const {table, pagination} = data;
 
-    //     this.updateState(table, pagination);
-    // }
+        this.updateState(table, pagination);
+    }
     updateState = (table, pagination) => {
 
         const {bookingOrderTable} = this.state;
@@ -425,12 +437,12 @@ class BookingOrderList extends Component {
             }
         });
     }
-    // getTableRows = () => {
+    getTableRows = () => {
 
-    //     const {roomTable} = this.state;
+        const {bookingOrderTable} = this.state;
 
-    //     return roomTable.tableRows;
-    // }
+        return bookingOrderTable.tableRows;
+    }
 }
 
 export default BookingOrderList;

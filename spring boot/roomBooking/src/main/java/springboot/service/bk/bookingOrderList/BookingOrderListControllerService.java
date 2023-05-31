@@ -78,7 +78,7 @@ public class BookingOrderListControllerService {
 						allPayMethodsService.allPayMethods()));
 	}
 	public Response searchTable(String idMin, String idMax, String clientName, String clientPhone, 
-			String roomName, String roomNumMin, String roomNumMax, String priceMin, String priceMax, 
+			String roomType, String roomNumMin, String roomNumMax, String priceMin, String priceMax, 
 			String[] payMethods, String checkinDateTimeFrom, String checkinDateTimeTo, String checkoutDateFrom, 
 			String checkoutDateTo, String useDayMin, String useDayMax, String totalPriceMin, String totalPriceMax) {
 		
@@ -87,7 +87,7 @@ public class BookingOrderListControllerService {
 				.idMax(idMax)
 				.clientName(clientName)
 				.clientPhone(clientPhone)
-				.roomName(roomName)
+				.roomType(roomType)
 				.roomNumMin(roomNumMin)
 				.roomNumMax(roomNumMax)
 				.priceMin(priceMin)

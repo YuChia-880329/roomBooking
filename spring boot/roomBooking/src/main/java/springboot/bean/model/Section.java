@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @Entity
-@Table(name = "SECTION", schema = "ROOM_BOOKING")
+@Table(name = "SECTION")
 public class Section {
 
 	@Id
@@ -32,6 +31,5 @@ public class Section {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "section")
-	@OrderBy("id")
 	private List<Hotel> hotels;
 }

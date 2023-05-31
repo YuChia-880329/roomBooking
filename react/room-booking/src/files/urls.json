@@ -10,7 +10,11 @@
             "changeOrder" : "http://localhost:8086/roomBooking/backend/roomList/changeOrder"
         },
         "bookingOrderList" : {
-            "searchTable" : "http://localhost:8086/roomBooking/backend/bookingOrderList/searchTable"
+            "allRooms" : "http://localhost:8086/roomBooking/backend/bookingOrderList/allRooms",
+            "allPayMethods" : "http://localhost:8086/roomBooking/backend/bookingOrderList/allPayMethods",
+            "searchTable" : "http://localhost:8086/roomBooking/backend/bookingOrderList/searchTable",
+            "turnPage" : "http://localhost:8086/roomBooking/backend/bookingOrderList/turnPage",
+            "changeOrder" : "http://localhost:8086/roomBooking/backend/bookingOrderList/changeOrder"
         }
     }
 }

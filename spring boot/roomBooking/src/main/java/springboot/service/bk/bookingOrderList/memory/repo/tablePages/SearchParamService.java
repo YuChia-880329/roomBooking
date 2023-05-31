@@ -19,7 +19,7 @@ public class SearchParamService {
 				idMaxEquals(searchParam1.getIdMax(), searchParam2.getIdMax()) &&
 				clientNameEquals(searchParam1.getClientName(), searchParam2.getClientName()) &&
 				clientPhoneEquals(searchParam1.getClientPhone(), searchParam2.getClientPhone()) &&
-				roomNameEquals(searchParam1.getRoomName(), searchParam2.getRoomName()) &&
+				roomTypeEquals(searchParam1.getRoomType(), searchParam2.getRoomType()) &&
 				roomNumMinEquals(searchParam1.getRoomNumMin(), searchParam2.getRoomNumMin()) &&
 				roomNumMaxEquals(searchParam1.getRoomNumMax(), searchParam2.getRoomNumMax()) &&
 				priceMinEquals(searchParam1.getPriceMin(), searchParam2.getPriceMin()) &&
@@ -53,9 +53,9 @@ public class SearchParamService {
 		
 		return SearchParamUtil.equals(clientPhone1, clientPhone2, (t1, t2) -> t1.equals(t2));
 	}
-	private boolean roomNameEquals(String roomName1, String roomName2) {
+	private boolean roomTypeEquals(Integer roomType1, Integer roomType2) {
 		
-		return SearchParamUtil.equals(roomName1, roomName2, (t1, t2) -> t1.equals(t2));
+		return SearchParamUtil.equals(roomType1, roomType2, (t1, t2) -> t1.intValue()==t2.intValue());
 	}
 	private boolean roomNumMinEquals(Integer roomNumMin1, Integer roomNumMin2) {
 		

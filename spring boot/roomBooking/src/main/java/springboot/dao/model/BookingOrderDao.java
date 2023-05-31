@@ -70,7 +70,7 @@ public class BookingOrderDao {
 	
 	public long queryBkBookingOrderListTablePagesRowNum(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
-			String clientPhone, String roomName, Integer roomNumMin, Integer roomNumMax,
+			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
 			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
@@ -79,7 +79,7 @@ public class BookingOrderDao {
 		String sqlSelectFrom = sqlSelectFrom(sqlSelect, BOOKING_ORDER_TABLE_SQL_LABEL);
 		String sqlSelectFromJoin = sqlSelectFromJoin(sqlSelectFrom);
 		String sqlSelectFromJoinWhere = sqlSelectFromJoinWhere(sqlSelectFromJoin, hotelId, idMin, idMax, clientName, clientPhone, 
-				roomName, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
+				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		
 		String sql = String.format("SELECT COUNT(%s) CT FROM (%s)", BOOKING_ORDER_ID_SQL_NAME, sqlSelectFromJoinWhere);
@@ -93,13 +93,13 @@ public class BookingOrderDao {
 	@SuppressWarnings("unchecked")
 	public List<BookingOrder> queryBkBookingOrderListTablePages(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
-			String clientPhone, String roomName, Integer roomNumMin, Integer roomNumMax,
+			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
 			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
 			BookingOrderTableOrder bookingOrderTableOrder, int minRow, int maxRow){
 		
-		String sql = sqlRowWhere(hotelId, idMin, idMax, clientName, clientPhone, roomName, roomNumMin, roomNumMax, 
+		String sql = sqlRowWhere(hotelId, idMin, idMax, clientName, clientPhone, roomType, roomNumMin, roomNumMax, 
 				priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, 
 				useDayMin, useDayMax, totalPriceMin, totalPriceMax, bookingOrderTableOrder, minRow, maxRow);
 		
@@ -110,7 +110,7 @@ public class BookingOrderDao {
 	
 	private String sqlRowWhere(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
-			String clientPhone, String roomName, Integer roomNumMin, Integer roomNumMax,
+			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
 			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
@@ -120,7 +120,7 @@ public class BookingOrderDao {
 		String sqlSelectFrom = sqlSelectFrom(sqlSelect, BOOKING_ORDER_TABLE_SQL_LABEL, bookingOrderTableOrder);
 		String sqlSelectFromJoin = sqlSelectFromJoin(sqlSelectFrom);
 		String sqlSelectFromJoinWhere = sqlSelectFromJoinWhere(sqlSelectFromJoin, hotelId, idMin, idMax, clientName, clientPhone, 
-				roomName, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
+				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		String sql = String.format("%s FROM (%s)", sqlSelect(), sqlSelectFromJoinWhere);
 	
@@ -129,7 +129,7 @@ public class BookingOrderDao {
 	
 	private String sqlSelectFromJoinWhere(String sqlSelectFromJoin,
 			int hotelId, Integer idMin, Integer idMax, String clientName,
-			String clientPhone, String roomName, Integer roomNumMin, Integer roomNumMax,
+			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
 			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
@@ -141,7 +141,7 @@ public class BookingOrderDao {
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_ID_SQL_NAME, () -> String.format("<=%d", idMax), idMax),
 				ifNotNull(MEMBER_TABLE_SQL_LABEL, MEMBER_TABLE_NAME_SQL_NAME, () -> String.format(" LIKE '%%%s%%'", clientName), clientName),
 				ifNotNull(MEMBER_TABLE_SQL_LABEL, MEMBER_TABLE_PHONE_SQL_NAME, () -> String.format(" LIKE '%%%s%%'", clientPhone), clientPhone),
-				ifNotNull(ROOM_TABLE_SQL_LABEL, ROOM_TABLE_NAME_SQL_NAME, () -> String.format(" LIKE '%%%s%%'", roomName), roomName),
+				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_ROOM_ID_SQL_NAME, () -> String.format("=%d", roomType), roomType),
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_ROOM_NUM_SQL_NAME, () -> String.format(">=%d", roomNumMin), roomNumMin),
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_ROOM_NUM_SQL_NAME, () -> String.format("<=%d", roomNumMax), roomNumMax),
 				ifNotNull(ROOM_TABLE_SQL_LABEL, ROOM_TABLE_PRICE_SQL_NAME, () -> String.format(">=%d", priceMin), priceMin),

@@ -19,7 +19,7 @@ public class SearchTableReqDto {
 	private Integer idMax;
 	private String clientName;
 	private String clientPhone;
-	private String roomName;
+	private Integer roomType;
 	private Integer roomNumMin;
 	private Integer roomNumMax;
 	private Integer priceMin;

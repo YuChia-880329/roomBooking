@@ -64,7 +64,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 				.idMax(null)
 				.clientName(null)
 				.clientPhone(null)
-				.roomName(null)
+				.roomType(null)
 				.roomNumMin(null)
 				.roomNumMax(null)
 				.priceMin(null)
@@ -107,7 +107,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 		int page = searchParam.getPage();
 		
 		long totalRows = bookingOrderDaoInner.queryBkBookingOrderListTablePagesRowNum(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
-				searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomName(), searchParam.getRoomNumMin(),
+				searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomType(), searchParam.getRoomNumMin(),
 				searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethods(),
 				searchParam.getCheckinDateTimeFrom(), searchParam.getCheckinDateTimeTo(), searchParam.getCheckoutDateFrom(),
 				searchParam.getCheckoutDateTo(), searchParam.getUseDayMin(), searchParam.getUseDayMax(), searchParam.getTotalPriceMin(), 
@@ -132,7 +132,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 			
 			
 			List<BookingOrderDto> bookingOrders = bookingOrderDaoInner.queryBkBookingOrderListTablePages(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
-					searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomName(), searchParam.getRoomNumMin(),
+					searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomType(), searchParam.getRoomNumMin(),
 					searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethods(),
 					searchParam.getCheckinDateTimeFrom(), searchParam.getCheckinDateTimeTo(), searchParam.getCheckoutDateFrom(),
 					searchParam.getCheckoutDateTo(), searchParam.getUseDayMin(), searchParam.getUseDayMax(), searchParam.getTotalPriceMin(), 

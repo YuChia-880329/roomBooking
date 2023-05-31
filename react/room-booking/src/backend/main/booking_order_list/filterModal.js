@@ -20,7 +20,7 @@ const constant = {
             idMax : 'idMax',
             clientName : 'clientName',
             clientPhone : 'clientPhone',
-            roomName : 'roomName',
+            roomType : 'roomType',
             roomNumMin : 'roomNumMin',
             roomNumMax : 'roomNumMax',
             priceMin : 'priceMin',
@@ -60,7 +60,7 @@ class FilterModal extends Component {
                                     onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.idMax, e)} />
                             <ClientName value={this.getValue(filterModal.colName.clientName)} onChange={(e) => this.ctrlOnChange(filterModal.colName.clientName, e)} />
                             <Phone value={this.getValue(filterModal.colName.clientPhone)} onChange={(e) => this.ctrlOnChange(filterModal.colName.clientPhone, e)} />
-                            <RoomType />
+                            <RoomType value={this.getValue(filterModal.colName.roomType)} onChange={(e) => this.ctrlOnChange(filterModal.colName.roomType, e)} />
                             <RoomNum valueMin={this.getValue(filterModal.colName.roomNumMin)} 
                                     valueMax={this.getValue(filterModal.colName.roomNumMax)} 
                                     onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.roomNumMin, e)} 
@@ -69,9 +69,15 @@ class FilterModal extends Component {
                                     valueMax={this.getValue(filterModal.colName.priceMax)} 
                                     onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.priceMin, e)} 
                                     onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.priceMax, e)} />
-                            <PayMethod />
-                            <CheckinDateTime />
-                            <CheckoutDate />
+                            <PayMethod values={this.getValue(filterModal.colName.payMethod)} onChange={(e) => this.ctrlCheckOnChange(filterModal.colName.payMethod, e)} />
+                            <CheckinDateTime valueFrom={this.getValue(filterModal.colName.checkinDateTimeFrom)} 
+                                    valueTo={this.getValue(filterModal.colName.checkinDateTimeTo)} 
+                                    onChangeFrom={(e) => this.ctrlOnChange(filterModal.colName.checkinDateTimeFrom, e)} 
+                                    onChangeTo={(e) => this.ctrlOnChange(filterModal.colName.checkinDateTimeTo, e)} />
+                            <CheckoutDate valueFrom={this.getValue(filterModal.colName.checkoutDateFrom)} 
+                                    valueTo={this.getValue(filterModal.colName.checkoutDateTo)} 
+                                    onChangeFrom={(e) => this.ctrlOnChange(filterModal.colName.checkoutDateFrom, e)} 
+                                    onChangeTo={(e) => this.ctrlOnChange(filterModal.colName.checkoutDateTo, e)} />
                             <UseDay valueMin={this.getValue(filterModal.colName.useDayMin)} 
                                     valueMax={this.getValue(filterModal.colName.useDayMax)} 
                                     onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.useDayMin, e)} 
@@ -98,6 +104,19 @@ class FilterModal extends Component {
 
         fctn.setFilterModalVal(colName, event.target.value);
     }
+    ctrlCheckOnChange = (colName, event) => {
+
+        const {fctn} = this.props;
+        const checks = fctn.getFilterModalVal(colName);
+        let newChecks = [];
+
+        if(event.target.checked === true)
+            newChecks = [...checks, event.target.value];
+        else
+            newChecks = checks.filter(element => element!==event.target.value);
+
+        fctn.setFilterModalVal(colName, newChecks);
+    };
     okBtnOnClick = () => {
 
         const {fctn} = this.props;

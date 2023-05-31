@@ -55,7 +55,7 @@ public class SearchTableService {
 				.idMax(searchTableReq.getIdMax())
 				.clientName(searchTableReq.getClientName())
 				.clientPhone(searchTableReq.getClientPhone())
-				.roomName(searchTableReq.getRoomName())
+				.roomType(searchTableReq.getRoomType())
 				.roomNumMin(searchTableReq.getRoomNumMin())
 				.roomNumMax(searchTableReq.getRoomNumMax())
 				.priceMin(searchTableReq.getPriceMin())

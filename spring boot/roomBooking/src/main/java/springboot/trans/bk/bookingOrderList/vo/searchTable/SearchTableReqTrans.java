@@ -23,6 +23,7 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 		
 		String idMin = vo.getIdMin();
 		String idMax = vo.getIdMax();
+		String roomType = vo.getRoomType();
 		String roomNumMin = vo.getRoomNumMin();
 		String roomNumMax = vo.getRoomNumMax();
 		String priceMin = vo.getPriceMin();
@@ -43,16 +44,16 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 				.idMax(idMax==null ? null : Integer.parseInt(idMax))
 				.clientName(vo.getClientName())
 				.clientPhone(vo.getClientPhone())
-				.roomName(vo.getRoomName())
+				.roomType(roomType==null ? null : Integer.parseInt(roomType))
 				.roomNumMin(roomNumMin==null ? null : Integer.parseInt(roomNumMin))
 				.roomNumMax(roomNumMax==null ? null : Integer.parseInt(roomNumMax))
 				.priceMin(priceMin==null ? null : Integer.parseInt(priceMin))
 				.priceMax(priceMax==null ? null : Integer.parseInt(priceMax))
 				.payMethods(payMethods==null ? null : toPayMethods(payMethods))
-				.checkinDateTimeFrom(checkinDateTimeFrom==null ? null : DateTimeUtil.toLocalDateTime(checkinDateTimeFrom))
-				.checkinDateTimeTo(checkinDateTimeTo==null ? null : DateTimeUtil.toLocalDateTime(checkinDateTimeTo))
-				.checkoutDateFrom(checkoutDateFrom==null ? null : DateTimeUtil.toLocalDate(checkoutDateFrom))
-				.checkoutDateTo(checkoutDateTo==null ? null : DateTimeUtil.toLocalDate(checkoutDateTo))
+				.checkinDateTimeFrom(checkinDateTimeFrom==null ? null : DateTimeUtil.toLocalDateTimeFront(checkinDateTimeFrom))
+				.checkinDateTimeTo(checkinDateTimeTo==null ? null : DateTimeUtil.toLocalDateTimeFront(checkinDateTimeTo))
+				.checkoutDateFrom(checkoutDateFrom==null ? null : DateTimeUtil.toLocalDateFront(checkoutDateFrom))
+				.checkoutDateTo(checkoutDateTo==null ? null : DateTimeUtil.toLocalDateFront(checkoutDateTo))
 				.useDayMin(useDayMin==null ? null : Integer.parseInt(useDayMin))
 				.useDayMax(useDayMax==null ? null : Integer.parseInt(useDayMax))
 				.totalPriceMin(totalPriceMin==null ? null : Integer.parseInt(totalPriceMin))

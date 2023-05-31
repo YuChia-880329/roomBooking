@@ -88,7 +88,7 @@ public class BackendController {
 	@GetMapping("/bookingOrderList/searchTable")
 	public ResponseEntity<Response> searchTableBookingOrderList(@RequestParam(name = "idMin", required = false) String idMin, 
 			@RequestParam(name = "idMax", required = false) String idMax, @RequestParam(name = "clientName", required = false) String clientName, 
-			@RequestParam(name = "clientPhone", required = false) String clientPhone, @RequestParam(name = "roomName", required = false) String roomName, 
+			@RequestParam(name = "clientPhone", required = false) String clientPhone, @RequestParam(name = "roomType", required = false) String roomType, 
 			@RequestParam(name = "roomNumMin", required = false) String roomNumMin, @RequestParam(name = "roomNumMax", required = false) String roomNumMax, 
 			@RequestParam(name = "priceMin", required = false) String priceMin, @RequestParam(name = "priceMax", required = false) String priceMax, 
 			@RequestParam(name = "payMethod", required = false) String[] payMethods, @RequestParam(name = "checkinDateTimeFrom", required = false) String checkinDateTimeFrom, 
@@ -98,7 +98,7 @@ public class BackendController {
 			@RequestParam(name = "totalPriceMax", required = false) String totalPriceMax) {
 		
 
-		Response response = bookingOrderListService.searchTable(idMin, idMax, clientName, clientPhone, roomName, roomNumMin, roomNumMax, priceMin, priceMax, 
+		Response response = bookingOrderListService.searchTable(idMin, idMax, clientName, clientPhone, roomType, roomNumMin, roomNumMax, priceMin, priceMax, 
 				payMethods, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		return ResponseEntity.ok(response);
 	}

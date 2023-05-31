@@ -16,6 +16,7 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 
 	public static final String ID_MIN_FIELD_NAME = "訂單編號(最小值)";
 	public static final String ID_MAX_FIELD_NAME = "訂單編號(最大值)";
+	public static final String ROOM_TYPE_FIELD_NAME = "預定房型";
 	public static final String ROOM_NUM_MIN_FIELD_NAME = "預定房間數(最小值)";
 	public static final String ROOM_NUM_MAX_FIELD_NAME = "預定房間數(最大值)";
 	public static final String PRICE_MIN_FIELD_NAME = "房型單價(最小值)";
@@ -39,7 +40,7 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 		checkIdMax(vo);
 		checkClientName(vo);
 		checkClientPhone(vo);
-		checkRoomName(vo);
+		checkRoomType(vo);
 		checkRoomNumMin(vo);
 		checkRoomNumMax(vo);
 		checkPriceMin(vo);
@@ -98,7 +99,22 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 	}
 	private void checkClientPhone(SearchTableReq vo) {
 	}
-	private void checkRoomName(SearchTableReq vo) {
+	private void checkRoomType(SearchTableReq vo) {
+		
+		String roomType = vo.getRoomType();
+		if(roomType == null)
+			return;
+		
+		try {
+			
+			CheckUtil.checkStringIsIntegerNumberString(roomType);
+		}catch(NonNumberStringException ex) {
+			
+			throw new RiCheckerException(NonNumberStringException.getMsgStr(ROOM_TYPE_FIELD_NAME));
+		}catch(NonIntegerNumberException ex) {
+			
+			throw new RiCheckerException(NonIntegerNumberException.getMsgStr(ROOM_TYPE_FIELD_NAME));
+		}
 	}
 	private void checkRoomNumMin(SearchTableReq vo) {
 		

@@ -55,10 +55,7 @@ const constant = {
 class OrderTable extends Component {
     
     render() {
-
-        const example = ['黃小明', '0910123456', '標準雙人房', 1, 1000, '現金', 
-            '2023/05/14 16:00', '2023/05/15', 1, 1000];
-
+        
         const {header} = constant;
         const {fctn} = this.props;
 
@@ -91,38 +88,23 @@ class OrderTable extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <SortTd text='1' />
-                        {example.map(
-                            val => (
-                                <SortTd text={val} />
-                            )
-                        )}
-                    </tr>
-                    <tr>
-                        <SortTd text='2' />
-                        {example.map(
-                            val => (
-                                <SortTd text={val} />
-                            )
-                        )}
-                    </tr>
-                    <tr>
-                        <SortTd text='3' />
-                        {example.map(
-                            val => (
-                                <SortTd text={val} />
-                            )
-                        )}
-                    </tr>
-                    <tr>
-                        <SortTd text='4' />
-                        {example.map(
-                            val => (
-                                <SortTd text={val} />
-                            )
-                        )}
-                    </tr>
+                    {
+                        fctn.getTableRows().map(tableRow => (
+                            <tr key={tableRow.id}>
+                                <SortTd text={tableRow.id} />
+                                <SortTd text={tableRow.clientName} />
+                                <SortTd text={tableRow.clientPhone} />
+                                <SortTd text={tableRow.roomName} />
+                                <SortTd text={tableRow.roomNum} />
+                                <SortTd text={tableRow.price} />
+                                <SortTd text={tableRow.payMethod} />
+                                <SortTd text={tableRow.checkinDateTime} />
+                                <SortTd text={tableRow.checkoutDate} />
+                                <SortTd text={tableRow.useDay} />
+                                <SortTd text={tableRow.totalPrice} />
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </Table>
         );

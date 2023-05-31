@@ -125,7 +125,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 					searchParam.getUsedNumMin(), searchParam.getUsedNumMax(), 
 					searchParam.getInvalidNumMin(), searchParam.getInvalidNumMax(), 
 					searchParam.getPriceMin(), searchParam.getPriceMax(),
-					roomTableOrder, rowBounds[0], SearchTableService.ROWS_PER_PAGE);
+					roomTableOrder, rowBounds[0]-1, SearchTableService.ROWS_PER_PAGE);
 			
 			tablePageMap.put(p, toTablePage(rooms, p));
 		}
