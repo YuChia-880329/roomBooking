@@ -6,7 +6,7 @@ server:
     
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    url: jdbc:oracle:thin:@localhost:1521:xe
     username: ROOM_BOOKING
     password: root
     driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -20,10 +20,5 @@ spring:
     properties:
       hibernate:
         "[format_sql]": true
-    
-mybatis:
-  mapper-locations: clasaspath:/mapper/*.xml
-  configuration:
-    map-underscore-to-camel-case: true
     
   

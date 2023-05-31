@@ -15,8 +15,11 @@ public class BackendPointcuts {
 	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.bk.bookingOrderList.BookingOrderListControllerService.*(..))")
 	public void bookingOrderListControllerService() {}
 	
+	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.bk.hotelInfo.HotelInfoControllerService.*(..))")
+	public void hotelInfoControllerService() {}
+	
 	
 
-	@Pointcut("loginControllerService() || roomListControllerService() || bookingOrderListControllerService()")
+	@Pointcut("loginControllerService() || roomListControllerService() || bookingOrderListControllerService() || hotelInfoControllerService()")
 	public void controllerService() {}
 }

@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import springboot.bean.dto.model.SectionDto;
-import springboot.dao.model.SectionMapper;
+import springboot.dao.model.SectionDao;
 import springboot.trans.model.SectionTrans;
 
 @Repository("model.inner.SectionDaoInner")
 public class SectionDaoInner {
 
 	@Autowired
-	@Qualifier("model.SectionMapper")
-	private SectionMapper mapper;
+	@Qualifier("model.SectionDao")
+	private SectionDao dao;
 	@Autowired
 	@Qualifier("model.SectionTrans")
 	private SectionTrans trans;
@@ -23,6 +23,6 @@ public class SectionDaoInner {
 	
 	public List<SectionDto> queryAll(){
 		
-		return trans.modelListToDtoList(mapper.queryAll());
+		return trans.modelListToDtoList(dao.findAll());
 	}
 }

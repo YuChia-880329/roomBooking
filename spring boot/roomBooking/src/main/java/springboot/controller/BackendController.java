@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springboot.bean.vo.Response;
 import springboot.bean.vo.bk.login.login.LoginReq;
 import springboot.service.bk.bookingOrderList.BookingOrderListControllerService;
+import springboot.service.bk.hotelInfo.HotelInfoControllerService;
 import springboot.service.bk.login.LoginControllerService;
 import springboot.service.bk.roomList.RoomListControllerService;
 
@@ -30,6 +31,9 @@ public class BackendController {
 	@Autowired
 	@Qualifier("bk.bookingOrderList.BookingOrderListControllerService")
 	private BookingOrderListControllerService bookingOrderListService;
+	@Autowired
+	@Qualifier("bk.hotelInfo.HotelInfoControllerService")
+	private HotelInfoControllerService hotelInfoService;
 	
 	
 	// login
@@ -112,6 +116,15 @@ public class BackendController {
 	public ResponseEntity<Response> changeOrderBookingOrderList(@RequestParam(name = "order") String order){
 		
 		Response response = bookingOrderListService.changeOrder(order);
+		return ResponseEntity.ok(response);
+	}
+	
+	
+	// hotelInfo
+	@GetMapping("/hotelInfo/allSections")
+	public ResponseEntity<Response> allSections(){
+		
+		Response response = hotelInfoService.allSections();
 		return ResponseEntity.ok(response);
 	}
 }
