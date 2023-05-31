@@ -21,7 +21,7 @@ public class AllSectionService {
 	public AllSectionsRespDto allSections() {
 		
 		return AllSectionsRespDto.builder()
-				.sections(toSectionsVo(sectionDaoInner.queryAll()))
+				.sections(toSectionsVo(sectionDaoInner.findAll()))
 				.build();
 	}
 	

@@ -7,4 +7,6 @@ import springboot.bean.model.HotelFeature;
 
 @Repository("model.HotelFeatureDao")
 public interface HotelFeatureDao extends JpaRepository<HotelFeature, Integer> {
+
+	
 }

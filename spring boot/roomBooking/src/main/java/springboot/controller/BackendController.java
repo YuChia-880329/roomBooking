@@ -127,4 +127,10 @@ public class BackendController {
 		Response response = hotelInfoService.allSections();
 		return ResponseEntity.ok(response);
 	}
+	@GetMapping("/hotelInfo/allHotelFeatures")
+	public ResponseEntity<Response> allHotelFeatures(){
+		
+		Response response = hotelInfoService.allHotelFeatures();
+		return ResponseEntity.ok(response);
+	}
 }

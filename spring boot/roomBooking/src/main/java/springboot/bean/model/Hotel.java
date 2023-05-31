@@ -56,8 +56,8 @@ public class Hotel {
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
 	private HotelAccount account;
 	
-	@JoinTable(name = "HOTEL_FEATURE_JOIN", joinColumns = @JoinColumn(name = "FEATURE_ID"), 
-			inverseJoinColumns = @JoinColumn(name = "HOTEL_ID"))
+	@JoinTable(name = "HOTEL_FEATURE_JOIN", joinColumns = @JoinColumn(name = "HOTEL_ID"), 
+			inverseJoinColumns = @JoinColumn(name = "FEATURE_ID"))
 	@ManyToMany
 	private List<HotelFeature> features;
 	

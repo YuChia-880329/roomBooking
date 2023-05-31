@@ -15,6 +15,10 @@
             "searchTable" : "http://localhost:8086/roomBooking/backend/bookingOrderList/searchTable",
             "turnPage" : "http://localhost:8086/roomBooking/backend/bookingOrderList/turnPage",
             "changeOrder" : "http://localhost:8086/roomBooking/backend/bookingOrderList/changeOrder"
+        },
+        "hotelInfo" : {
+            "allSections" : "http://localhost:8086/roomBooking/backend/hotelInfo/allSections",
+            "allHotelFeatures" : "http://localhost:8086/roomBooking/backend/hotelInfo/allHotelFeatures"
         }
     }
 }

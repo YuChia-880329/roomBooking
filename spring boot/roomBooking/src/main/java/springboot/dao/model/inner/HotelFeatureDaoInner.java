@@ -12,6 +12,9 @@ import springboot.trans.model.HotelFeatureTrans;
 @Repository("model.inner.HotelFeatureDaoInner")
 public class HotelFeatureDaoInner extends DaoInner<HotelFeature, Integer, HotelFeatureDto, HotelFeatureTrans, HotelFeatureDao> {
 
+	
+	
+	
 	@Autowired
 	@Qualifier("model.HotelFeatureDao")
 	@Override

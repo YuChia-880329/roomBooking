@@ -69,8 +69,8 @@ public class Room {
 	private Hotel hotel;
 	
 	
-	@JoinTable(name = "ROOM_SHOWER_JOIN", joinColumns = @JoinColumn(name = "SHOWER_ID"), 
-			inverseJoinColumns = @JoinColumn(name = "ROOM_ID"))
+	@JoinTable(name = "ROOM_SHOWER_JOIN", joinColumns = @JoinColumn(name = "ROOM_ID"), 
+			inverseJoinColumns = @JoinColumn(name = "SHOWER_ID"))
 	@ManyToMany
 	private List<Shower> showers;
 	
