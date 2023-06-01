@@ -13,5 +13,4 @@ public class HotelFeature {
 
 	private int id;
 	private String name;
-	private boolean checked;
 }

@@ -1,4 +1,4 @@
-package springboot.bean.dto.bk.hotelInfo.vo.allHotelFeatures;
+package springboot.bean.dto.bk.hotelInfo.vo.checkNewHotelFeature;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +9,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class HotelFeatureDto {
+public class CheckNewHotelFeatureRespDto {
 
-	private int id;
-	private String name;
+	private boolean pass;
+	private String msg;
 }

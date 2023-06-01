@@ -1,9 +1,41 @@
+import urls from '../../../../files/urls.json';
+import config from '../../../../files/config.json';
 import '../../../../css/custom.css';
 import React, { Component } from 'react';
 import { Form, Row, Col, Button, Stack } from 'react-bootstrap';
+import axios from 'axios';
 
+const constant = {
+    fetch : {
+        url : {
+            allHotelInfos : urls.backend.hotelInfo.allHotelFeatures,
+            checkNewHotelFeature : urls.backend.hotelInfo.checkNewHotelFeature
+        },
+        config : {
+            timeout : config.fetch.timeout
+        },
+        req : {
+            checkNewHotelFeature : {
+                name : ''
+            }
+        }
+    }
+}
 class Feature extends Component {
 
+    constructor(props){
+
+        super(props);
+        this.state = {
+            hotelFeatures : [],
+            newHotelFeatures : []
+        };
+    }
+
+    componentDidMount(){
+
+        this.getAllHotelInfos();
+    }
     render() {
 
         const rowStyle = {
@@ -13,8 +45,7 @@ class Feature extends Component {
             margin : '0'
         };
 
-        const checks = ['房內免費Wi-Fi', '停車場', '可寄放行李', '房內免費Wi-Fi', 
-                '停車場', '可寄放行李', '房內免費Wi-Fi', '停車場', '可寄放行李'];
+        const {hotelFeatures, newHotelFeatures} = this.state;
 
         return (
             <Form.Group as={Row}>
@@ -23,19 +54,19 @@ class Feature extends Component {
                     <Stack gap={5}>
                         <Row xs={4} className='g-3' style={rowStyle}>
                             {
-                                checks.map((check, index) => (
-                                    <Col key={index}>
-                                        <Form.Check type='checkbox' label={check} style={checkboxStyle} />
+                                hotelFeatures.map(hotelFeature => (
+                                    <Col key={hotelFeature.id}>
+                                        <Form.Check type='checkbox' label={hotelFeature.name} value={hotelFeature.id} style={checkboxStyle} />
                                     </Col>
                                 ))
                             }
                         </Row>
                         <Row xs={3} className='g-3' style={rowStyle}>
                             {
-                                checks.map((check, index) => (
-                                    <Col key={index}>
+                                newHotelFeatures.map(newHotelFeature => (
+                                    <Col key={newHotelFeature.id}>
                                         <Stack direction='horizontal' gap={4}>
-                                            <Form.Check type='checkbox' label={check} style={checkboxStyle} />
+                                            <Form.Check type='checkbox' label={newHotelFeature.name} value={newHotelFeature.id} style={checkboxStyle} />
                                             <div>
                                                 <Button variant='outline-primary' size='sm' className='little-btn'>-</Button>
                                             </div>
@@ -58,6 +89,76 @@ class Feature extends Component {
             </Form.Group>
         );
     }
+
+
+    // other
+    getAllHotelInfos = () => {
+
+        this.allHotelInfos();
+    };
+
+
+    // on
+    plusBtnOnClick = () => {
+
+        const req = constant.fetch.req.checkNewHotelFeature;
+        
+        this.checkNewHotelFeature();
+    }
+
+
+    // fetch
+    allHotelInfos = async () => {
+
+        const {fetch} =  constant;
+        const url = fetch.url.allHotelInfos;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials : true
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterAllHotelInfos(data);
+        }
+    };
+    checkNewHotelFeature = async (params) => {
+
+        const {fetch} =  constant;
+        const url = fetch.url.checkNewHotelFeature;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterCheckNewHotelFeature(data);
+        }
+    };
+
+
+    // after fetch
+    afterAllHotelInfos = (data) => {
+
+        this.setState({
+            hotelFeatures : data.hotelFeatures
+        });
+    };
+    afterCheckNewHotelFeature = (data) => {
+
+        console.log('data : ', data);
+    };
 }
 
 export default Feature;

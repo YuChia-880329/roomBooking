@@ -13,7 +13,10 @@ import springboot.trans.model.HotelFeatureTrans;
 public class HotelFeatureDaoInner extends DaoInner<HotelFeature, Integer, HotelFeatureDto, HotelFeatureTrans, HotelFeatureDao> {
 
 	
-	
+	public HotelFeatureDto queryByName(String name) {
+		
+		return trans.modelToDto(dao.queryByName(name));
+	}
 	
 	@Autowired
 	@Qualifier("model.HotelFeatureDao")

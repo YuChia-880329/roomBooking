@@ -133,4 +133,10 @@ public class BackendController {
 		Response response = hotelInfoService.allHotelFeatures();
 		return ResponseEntity.ok(response);
 	}
+	@GetMapping("/hotelInfo/checkNewHotelFeature")
+	public ResponseEntity<Response> checkNewHotelFeature(@RequestParam(name = "name") String name){
+		
+		Response response = hotelInfoService.checkNewHotelFeature(name);
+		return ResponseEntity.ok(response);
+	}
 }

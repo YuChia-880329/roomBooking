@@ -16,7 +16,6 @@ public class HotelFeatureTrans implements VoWoTrans<HotelFeature, HotelFeatureDt
 		return HotelFeature.builder()
 				.id(dto.getId())
 				.name(dto.getName())
-				.checked(dto.isChecked())
 				.build();
 	}
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import springboot.bean.dto.bk.hotelInfo.vo.allHotelFeatures.AllHotelFeaturesRespDto;
 import springboot.bean.dto.bk.hotelInfo.vo.allHotelFeatures.HotelFeatureDto;
 import springboot.bean.dto.bk.login.obj.status.login.LoginDto;
-import springboot.bean.dto.model.HotelDto;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
 import springboot.dao.model.inner.HotelFeatureDaoInner;
 import springboot.exception.NotLoginException;
@@ -49,18 +48,6 @@ public class AllHotelFeaturesService {
 		return HotelFeatureDto.builder()
 				.id(hotelFeature.getId())
 				.name(hotelFeature.getName())
-				.checked(isChecked(hotelFeature.getHotels(), hotelId))
 				.build();
-	}
-	
-	private boolean isChecked(List<HotelDto> hotels, int hotelId) {
-		
-		for(HotelDto hotel : hotels) {
-			
-			if(hotel.getId() == hotelId)
-				return true;
-		}
-		
-		return false;
 	}
 }
