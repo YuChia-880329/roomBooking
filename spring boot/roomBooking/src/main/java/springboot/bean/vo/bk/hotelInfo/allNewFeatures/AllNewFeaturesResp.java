@@ -1,4 +1,4 @@
-package springboot.bean.vo.bk.hotelInfo.allHotelFeatures;
+package springboot.bean.vo.bk.hotelInfo.allNewFeatures;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import springboot.bean.vo.Data;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AllHotelFeaturesResp extends Data {
+public class AllNewFeaturesResp extends Data {
 
-	private List<HotelFeature> hotelFeatures;
+	private List<NewFeature> newFeatures;
 }

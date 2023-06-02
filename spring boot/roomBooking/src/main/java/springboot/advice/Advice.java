@@ -18,6 +18,7 @@ import util.ThrowableUtil;
 @Component("Advice")
 public class Advice {
 	
+	private Logger log = LogsUtil.getLogger(Advice.class);
 	private Logger errorLog = LogsUtil.getThrowableLog();
 
 	@Around("springboot.advice.BackendPointcuts.controllerService()")
@@ -45,8 +46,9 @@ public class Advice {
 				response = ResponseUtil.response400(new Data() {}, aex.getMessage());
 			}else {
 				
+				log.error(ex.getMessage(), ex);
 				errorLog.error(ex.getMessage(), ex);
-				throw ex;
+				response = ResponseUtil.response500(new Data() {});
 			}
 		}
 		

@@ -7,6 +7,7 @@ import Pagn from '../../hoc/pagn';
 import FilterModal from './booking_order_list/filterModal';
 import BackendMain from '../../hoc/backend-main';
 import axios from 'axios';
+import InformModal from '../../hoc/modal/inform-modal';
 
 
 const constant = {
@@ -148,6 +149,11 @@ class BookingOrderList extends Component {
                     toPage : 1 
                 },
                 currentPage : 1
+            },
+            informModal : {
+                show : false,
+                msg : '',
+                onHide : () => {}
             }
         };
     }
@@ -159,8 +165,13 @@ class BookingOrderList extends Component {
 
     render() {
         
+        const {informModal} = this.state;
+
         return (
-            <BackendMain titleText='訂房訂單' Content={this.Content} />
+            <Fragment>
+                <BackendMain titleText='訂房訂單' Content={this.Content} />
+                <InformModal show={informModal.show} msg={informModal.msg} onHide={informModal.onHide} />
+            </Fragment>
         );
     }
 
@@ -266,6 +277,28 @@ class BookingOrderList extends Component {
         req.totalPriceMax = (totalPriceMax==='' ? undefined : totalPriceMax);
 
         this.searchTable(req);
+    };
+    showInformModal = (msg, onHide) => {
+
+        const {informModal} = this.state;
+        this.setState({
+            informModal : {
+                ...informModal,
+                show : true,
+                msg : msg,
+                onHide : onHide
+            }
+        });
+    };
+    closeInformModal = () => {
+
+        const {informModal} = this.state;
+        this.setState({
+            informModal : {
+                ...informModal,
+                show : false
+            }
+        });
     };
 
     // on

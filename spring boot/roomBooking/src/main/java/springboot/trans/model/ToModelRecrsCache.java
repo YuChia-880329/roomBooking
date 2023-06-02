@@ -9,8 +9,9 @@ import lombok.Setter;
 import springboot.bean.dto.model.BookingOrderDto;
 import springboot.bean.dto.model.HotelAccountDto;
 import springboot.bean.dto.model.HotelDto;
-import springboot.bean.dto.model.HotelFeatureDto;
+import springboot.bean.dto.model.FeatureDto;
 import springboot.bean.dto.model.MemberDto;
+import springboot.bean.dto.model.NewFeatureDto;
 import springboot.bean.dto.model.PayMethodDto;
 import springboot.bean.dto.model.RoomDto;
 import springboot.bean.dto.model.RoomImgDto;
@@ -20,8 +21,9 @@ import springboot.bean.dto.model.ShowerDto;
 import springboot.bean.model.BookingOrder;
 import springboot.bean.model.Hotel;
 import springboot.bean.model.HotelAccount;
-import springboot.bean.model.HotelFeature;
+import springboot.bean.model.Feature;
 import springboot.bean.model.Member;
+import springboot.bean.model.NewFeature;
 import springboot.bean.model.PayMethod;
 import springboot.bean.model.Room;
 import springboot.bean.model.RoomImg;
@@ -36,7 +38,7 @@ class ToModelRecrsCache {
 
 	private Map<BookingOrderDto, BookingOrder> bookingOrderCache;
 	private Map<HotelAccountDto, HotelAccount> hotelAccountCache;
-	private Map<HotelFeatureDto, HotelFeature> hotelFeatureCache;
+	private Map<FeatureDto, Feature> hotelFeatureCache;
 	private Map<HotelDto, Hotel> hotelCache;
 	private Map<MemberDto, Member> memberCache;
 	private Map<PayMethodDto, PayMethod> payMethodCache;
@@ -45,4 +47,5 @@ class ToModelRecrsCache {
 	private Map<SceneDto, Scene> sceneCache;
 	private Map<SectionDto, Section> sectionCache;
 	private Map<ShowerDto, Shower> showerCache;
+	private Map<NewFeatureDto, NewFeature> newFeatureCache;
 }

@@ -21,6 +21,7 @@ public class HotelDto {
 	private int accountId;
 	private SectionDto section;
 	private HotelAccountDto account;
-	private List<HotelFeatureDto> features;
+	private List<FeatureDto> features;
+	private List<NewFeatureDto> newFeatures;
 	private List<RoomDto> rooms;
 }

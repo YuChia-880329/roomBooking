@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service;
 
 import springboot.bean.vo.Response;
 import springboot.bean.vo.bk.hotelInfo.checkNewHotelFeature.CheckNewHotelFeatureReq;
-import springboot.trans.bk.hotelInfo.vo.allHotelFeatures.AllHotelFeaturesRespTrans;
+import springboot.trans.bk.hotelInfo.vo.allFeatures.AllFeaturesRespTrans;
+import springboot.trans.bk.hotelInfo.vo.allNewFeatures.AllNewFeaturesRespTrans;
 import springboot.trans.bk.hotelInfo.vo.allSections.AllSectionsRespTrans;
 import springboot.trans.bk.hotelInfo.vo.checkNewHotelFeature.CheckNewHotelFeatureReqTrans;
 import springboot.trans.bk.hotelInfo.vo.checkNewHotelFeature.CheckNewHotelFeatureRespTrans;
@@ -19,8 +20,11 @@ public class HotelInfoControllerService {
 	@Qualifier("bk.hotelInfo.AllSectionService")
 	private AllSectionService allSectionService;
 	@Autowired
-	@Qualifier("bk.hotelInfo.AllHotelFeaturesService")
-	private AllHotelFeaturesService allHotelFeaturesService;
+	@Qualifier("bk.hotelInfo.AllFeaturesService")
+	private AllFeaturesService allFeaturesService;
+	@Autowired
+	@Qualifier("bk.hotelInfo.AllNewFeaturesService")
+	private AllNewFeaturesService allNewFeaturesService;
 	@Autowired
 	@Qualifier("bk.hotelInfo.CheckNewHotelFeatureService")
 	private CheckNewHotelFeatureService checkNewHotelFeatureService;
@@ -30,8 +34,11 @@ public class HotelInfoControllerService {
 	@Qualifier("bk.hotelInfo.vo.allSections.AllSectionsRespTrans")
 	private AllSectionsRespTrans allSectionsRespTrans;
 	@Autowired
-	@Qualifier("bk.hotelInfo.vo.allHotelFeatures.AllHotelFeaturesRespTrans")
-	private AllHotelFeaturesRespTrans allHotelFeaturesRespTrans;
+	@Qualifier("bk.hotelInfo.vo.allHotelFeatures.AllFeaturesRespTrans")
+	private AllFeaturesRespTrans allHotelFeaturesRespTrans;
+	@Autowired
+	@Qualifier("bk.hotelInfo.vo.allNewFeatures.AllNewFeaturesRespTrans")
+	private AllNewFeaturesRespTrans allNewFeaturesRespTrans;
 	@Autowired
 	@Qualifier("bk.hotelInfo.vo.checkNewHotelFeature.CheckNewHotelFeatureReqTrans")
 	private CheckNewHotelFeatureReqTrans checkNewHotelFeatureReqTrans;
@@ -46,11 +53,17 @@ public class HotelInfoControllerService {
 				allSectionsRespTrans.dtoToVo(
 						allSectionService.allSections()));
 	}
-	public Response allHotelFeatures() {
+	public Response allFeatures() {
 		
 		return ResponseUtil.response200(
 				allHotelFeaturesRespTrans.dtoToVo(
-						allHotelFeaturesService.allHotelFeatures()));
+						allFeaturesService.allFeatures()));
+	}
+	public Response allNewFeatures() {
+		
+		return ResponseUtil.response200(
+				allNewFeaturesRespTrans.dtoToVo(
+						allNewFeaturesService.allNewFeatures()));
 	}
 	public Response checkNewHotelFeature(String name) {
 		

@@ -24,6 +24,7 @@ public class HotelTransInner implements ModelRiTrans<Hotel, HotelDto>, ModelWoTr
 				.section(null)
 				.account(null)
 				.features(null)
+				.newFeatures(null)
 				.rooms(null)
 				.build();
 	}

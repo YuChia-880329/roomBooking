@@ -25,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @Entity
 @Table(name = "HOTEL_FEATURE", schema = "ROOM_BOOKING")
-public class HotelFeature {
+public class Feature {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HOTEL_FEATURE_SEQ_GEN")

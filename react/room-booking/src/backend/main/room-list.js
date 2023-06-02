@@ -7,6 +7,7 @@ import BackendMain from '../../hoc/backend-main';
 import Pagn from '../../hoc/pagn';
 import FilterModal from './room_list/filter-modal';
 import axios from 'axios';
+import InformModal from '../../hoc/modal/inform-modal';
 
 
 const constant = {
@@ -106,6 +107,11 @@ class RoomList extends Component {
                     toPage : 1 
                 },
                 currentPage : 1
+            },
+            informModal : {
+                show : false,
+                msg : '',
+                onHide : () => {}
             }
         };
     }
@@ -117,8 +123,13 @@ class RoomList extends Component {
 
     render() {
 
+        const {informModal} = this.state;
+
         return (
-            <BackendMain titleText='房型列表' Content={this.Content} />
+            <Fragment>
+                <BackendMain titleText='房型列表' Content={this.Content} />
+                <InformModal show={informModal.show} msg={informModal.msg} onHide={informModal.onHide} />
+            </Fragment>
         );
     }
 
@@ -207,6 +218,28 @@ class RoomList extends Component {
 
         this.searchTable(req);
     };
+    showInformModal = (msg, onHide) => {
+
+        const {informModal} = this.state;
+        this.setState({
+            informModal : {
+                ...informModal,
+                show : true,
+                msg : msg,
+                onHide : onHide
+            }
+        });
+    };
+    closeInformModal = () => {
+
+        const {informModal} = this.state;
+        this.setState({
+            informModal : {
+                ...informModal,
+                show : false
+            }
+        });
+    };
 
     // on
     filterModalOnHide = () => {
@@ -256,6 +289,12 @@ class RoomList extends Component {
         if(statusCode === 200){
 
             this.afterSearchTable(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            this.showInformModal(serverInfo.msg, () => {
+
+                this.closeInformModal();
+            });
         }
     };
     turnPage = async (params) => {
@@ -276,6 +315,12 @@ class RoomList extends Component {
         if(statusCode === 200){
 
             this.afterTurnPage(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            this.showInformModal(serverInfo.msg, () => {
+
+                this.closeInformModal();
+            });
         }
     };
     changeOrder = async (params) => {
@@ -296,6 +341,12 @@ class RoomList extends Component {
         if(statusCode === 200){
 
             this.afterChangeOrder(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            this.showInformModal(serverInfo.msg, () => {
+
+                this.closeInformModal();
+            });
         }
     };
 

@@ -18,7 +18,7 @@
         },
         "hotelInfo" : {
             "allSections" : "http://localhost:8086/roomBooking/backend/hotelInfo/allSections",
-            "allHotelFeatures" : "http://localhost:8086/roomBooking/backend/hotelInfo/allHotelFeatures",
+            "allFeatures" : "http://localhost:8086/roomBooking/backend/hotelInfo/allFeatures",
             "checkNewHotelFeature" : "http://localhost:8086/roomBooking/backend/hotelInfo/checkNewHotelFeature"
         }
     }

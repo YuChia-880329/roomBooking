@@ -6,6 +6,8 @@ import springboot.bean.vo.Response;
 import springboot.bean.vo.ServerInfo;
 
 public class ResponseUtil {
+	
+	public static final String RESPONSE500_MSG = "伺服器異常，維修中。請稍後再試";
 
 	
 	public static Response response200(Data data) {
@@ -30,12 +32,12 @@ public class ResponseUtil {
 		return response(serverInfo, data);
 	}
 	
-	public static Response response500(Data data, Throwable throwable) {
+	public static Response response500(Data data) {
 		
 		ServerInfo serverInfo = ServerInfo.builder()
 				.serverIp(Application.SERVER_IP)
 				.statusCode(500)
-				.msg(throwable.getMessage())
+				.msg(RESPONSE500_MSG)
 				.build();
 		
 		return response(serverInfo, data);

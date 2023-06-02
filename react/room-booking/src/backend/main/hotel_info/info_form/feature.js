@@ -8,7 +8,7 @@ import axios from 'axios';
 const constant = {
     fetch : {
         url : {
-            allHotelInfos : urls.backend.hotelInfo.allHotelFeatures,
+            allFeatures : urls.backend.hotelInfo.allFeatures,
             checkNewHotelFeature : urls.backend.hotelInfo.checkNewHotelFeature
         },
         config : {
@@ -111,7 +111,7 @@ class Feature extends Component {
     allHotelInfos = async () => {
 
         const {fetch} =  constant;
-        const url = fetch.url.allHotelInfos;
+        const url = fetch.url.allFeatures;
         const config = fetch.config;
 
         const {serverInfo, data} = await axios.get(url, {

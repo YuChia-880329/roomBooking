@@ -85,10 +85,21 @@ class Login extends Component {
                 ...informModal,
                 msg : msg,
                 show : true,
-                onHide : (onHide ? onHide : informModal.onHide)
+                onHide : (onHide ? onHide : this.closeInformModal)
             }
         });
     }
+    closeInformModal = () => {
+
+        const {informModal} = this.state;
+
+        this.setState({
+            informModal : {
+                ...informModal,
+                show : false
+            }
+        });
+    };
 
     // on function
     loginFormOnSubmit = (event) => {
@@ -113,18 +124,6 @@ class Login extends Component {
                 req.form.password = loginForm.value.password;
         
                 this.login(req);
-            }
-        });
-    }
-
-    informModalOnHide = () => {
-
-        const {informModal} = this.state;
-
-        this.setState({
-            informModal : {
-                ...informModal,
-                show : false
             }
         });
     }

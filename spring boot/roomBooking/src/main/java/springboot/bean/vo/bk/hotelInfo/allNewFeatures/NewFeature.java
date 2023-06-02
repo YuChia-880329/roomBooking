@@ -1,6 +1,4 @@
-package springboot.bean.dto.bk.hotelInfo.vo.allHotelFeatures;
-
-import java.util.List;
+package springboot.bean.vo.bk.hotelInfo.allNewFeatures;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AllHotelFeaturesRespDto {
+public class NewFeature {
 
-	private List<HotelFeatureDto> hotelFeatures;
+	private String name;
 }

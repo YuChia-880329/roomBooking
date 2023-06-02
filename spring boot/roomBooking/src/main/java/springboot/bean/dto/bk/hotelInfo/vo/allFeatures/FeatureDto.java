@@ -1,4 +1,4 @@
-package springboot.bean.vo.bk.hotelInfo.allHotelFeatures;
+package springboot.bean.dto.bk.hotelInfo.vo.allFeatures;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class HotelFeature {
+public class FeatureDto {
 
 	private int id;
 	private String name;
