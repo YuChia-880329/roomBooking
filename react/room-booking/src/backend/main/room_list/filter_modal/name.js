@@ -11,7 +11,7 @@ class Name extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='filter_name'>房型名稱 : </Form.Label>
                 <Col>
-                    <Form.Control id='filter_name' value={value || ''} onChange={onChange} />
+                    <Form.Control id='filter_name' value={value} onChange={onChange} />
                 </Col>
             </Form.Group>
         );

@@ -7,7 +7,6 @@ import BackendMain from '../../hoc/backend-main';
 import Pagn from '../../hoc/pagn';
 import FilterModal from './room_list/filter-modal';
 import axios from 'axios';
-import InformModal from '../../hoc/modal/inform-modal';
 
 
 const constant = {
@@ -107,29 +106,25 @@ class RoomList extends Component {
                     toPage : 1 
                 },
                 currentPage : 1
-            },
-            informModal : {
-                show : false,
-                msg : '',
-                onHide : () => {}
             }
         };
     }
 
     componentDidMount(){
 
-        this.tableUpdate();
+        const {fctn} = this.props;
+
+        fctn.checkLogin(() => {
+
+            this.searchTable();
+        });
+        
     }
 
     render() {
 
-        const {informModal} = this.state;
-
         return (
-            <Fragment>
-                <BackendMain titleText='房型列表' Content={this.Content} />
-                <InformModal show={informModal.show} msg={informModal.msg} onHide={informModal.onHide} />
-            </Fragment>
+            <BackendMain titleText='房型列表' Content={this.Content} />
         );
     }
 
@@ -144,7 +139,7 @@ class RoomList extends Component {
             filterModal : {
                 getFilterModalVal : this.getFilterModalVal,
                 setFilterModalVal : this.setFilterModalVal,
-                tableUpdate : this.tableUpdate
+                searchTable : this.searchTable
             },
             pagn : {
                 pageOnClick : this.pageOnClick
@@ -191,7 +186,7 @@ class RoomList extends Component {
             }
         });
     };
-    tableUpdate = () => {
+    searchTable = (onSuccess) => {
 
         const req = constant.fetch.req.searchTable;
         const {filterModal} = this.state;
@@ -216,30 +211,24 @@ class RoomList extends Component {
         req.priceMin = (priceMin==='' ? undefined : priceMin);
         req.priceMax = (priceMax==='' ? undefined : priceMax);
 
-        this.searchTable(req);
+        this.searchTableFetch(req, onSuccess);
     };
-    showInformModal = (msg, onHide) => {
+    turnPage = (page, onSuccess) => {
 
-        const {informModal} = this.state;
-        this.setState({
-            informModal : {
-                ...informModal,
-                show : true,
-                msg : msg,
-                onHide : onHide
-            }
-        });
-    };
-    closeInformModal = () => {
+        const req = constant.fetch.req.turnPage;
 
-        const {informModal} = this.state;
-        this.setState({
-            informModal : {
-                ...informModal,
-                show : false
-            }
-        });
+        req.page = page;
+        this.turnPageFetch(req, onSuccess);
     };
+    changeOrder = (colName, direction, onSuccess) => {
+
+        const req = constant.fetch.req.changeOrder;
+        const orderCode = constant.orderCode;
+
+        req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
+        this.changeOrderFetch(req, onSuccess);
+    };
+
 
     // on
     filterModalOnHide = () => {
@@ -255,24 +244,18 @@ class RoomList extends Component {
     }
     pageOnClick = (page) => {
 
-        const req = constant.fetch.req.turnPage;
-
-        req.page = page;
-        this.turnPage(req);
+        this.turnPage(page);
     }
     orderOnClick = (colName, direction) => {
 
-        const req = constant.fetch.req.changeOrder;
-        const orderCode = constant.orderCode;
-
-        req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
-        this.changeOrder(req);
+        this.changeOrder(colName, direction);
     }
 
 
     // fetch
-    searchTable = async (params) => {
+    searchTableFetch = async (params, onSuccess) => {
 
+        const {fctn} = this.props;
         const {fetch} =  constant;
         const url = fetch.url.searchTable;
         const config = fetch.config;
@@ -288,17 +271,15 @@ class RoomList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterSearchTable(data);
+            this.afterSearchTable(data, onSuccess);
         }else if(statusCode===400 || statusCode===500){
 
-            this.showInformModal(serverInfo.msg, () => {
-
-                this.closeInformModal();
-            });
+            fctn.showInformModal(serverInfo.msg);
         }
     };
-    turnPage = async (params) => {
+    turnPageFetch = async (params, onSuccess) => {
 
+        const {fctn} = this.props;
         const {fetch} =  constant;
         const url = fetch.url.turnPage;
         const config = fetch.config;
@@ -314,17 +295,15 @@ class RoomList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterTurnPage(data);
+            this.afterTurnPage(data, onSuccess);
         }else if(statusCode===400 || statusCode===500){
 
-            this.showInformModal(serverInfo.msg, () => {
-
-                this.closeInformModal();
-            });
+            fctn.showInformModal(serverInfo.msg);
         }
     };
-    changeOrder = async (params) => {
+    changeOrderFetch = async (params, onSuccess) => {
 
+        const {fctn} = this.props;
         const {fetch} =  constant;
         const url = fetch.url.changeOrder;
         const config = fetch.config;
@@ -340,37 +319,34 @@ class RoomList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterChangeOrder(data);
+            this.afterChangeOrder(data, onSuccess);
         }else if(statusCode===400 || statusCode===500){
 
-            this.showInformModal(serverInfo.msg, () => {
-
-                this.closeInformModal();
-            });
+            fctn.showInformModal(serverInfo.msg);
         }
     };
 
 
     // after fetch
-    afterSearchTable = (data) => {
+    afterSearchTable = (data, onSuccess) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination);
+        this.updateState(table, pagination, onSuccess);
     }
-    afterTurnPage = (data) => {
+    afterTurnPage = (data, onSuccess) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination);
+        this.updateState(table, pagination, onSuccess);
     };
-    afterChangeOrder = (data) => {
+    afterChangeOrder = (data, onSuccess) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination);
+        this.updateState(table, pagination, onSuccess);
     }
-    updateState = (table, pagination) => {
+    updateState = (table, pagination, onSuccess) => {
 
         const {roomTable} = this.state;
 
@@ -400,6 +376,9 @@ class RoomList extends Component {
                 },
                 currentPage : pagination.currentPage
             }
+        }, () => {
+
+            onSuccess && onSuccess();
         });
     };
 

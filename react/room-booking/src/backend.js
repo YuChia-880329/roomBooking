@@ -1,98 +1,110 @@
-import urls from './files/urls.json';
-import config from './files/config.json';
-import React, { Component } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import Login from './backend/login';
 import Main from './backend/main';
-import axios from 'axios';
+import InformModal from './hoc/modal/inform-modal';
+import ConfirmModal from './hoc/modal/confirm-modal';
 
-const constant = {
-    fetch : {
-        url : {
-            checkLogin : urls.backend.login.checkLogin
-        },
-        config : {
-            timeout : config.fetch.timeout
-        }
-    }
-}
 class Backend extends Component {
 
     constructor(props){
 
         super(props);
         this.state = {
-            isLogin : true
+            informModal : {
+                msg : '',
+                show : false, 
+                onHide : () => {}
+            },
+            confirmModal : {
+                msg : '',
+                show : false, 
+                onHide : () => {},
+                onConfirm : () => {}
+            }
         };
-    }
-
-    componentDidMount(){
-
-        this.onLoad();
     }
     
     render() {
 
-        const {isLogin} = this.state;
+        const {informModal, confirmModal} = this.state;
         const fctn = {
             login : {
-                setIsLogin : this.setIsLogin
+                showInformModal : this.showInformModal,
+                closeInformModal : this.closeInformModal
+            },
+            main : {
+                showInformModal : this.showInformModal,
+                closeInformModal : this.closeInformModal,
+                showConfirmModal : this.showConfirmModal,
+                closeConfirmModal : this.closeConfirmModal
             }
         };
         
         return (
-            <Routes>
-                {/* <Route path='/backend/login' element={<Login fctn={fctn.login} />} />
-                <Route path='/backend/*' element={<Main />} /> */}
-                <Route path='/backend/login' element={isLogin ? <Navigate to='/backend/' /> : <Login fctn={fctn.login} />} />
-                <Route path='/backend/*' element={isLogin ? <Main /> : <Navigate to='/backend/login' />} />
-            </Routes>
+            <Fragment>
+                <Routes>
+                    <Route path='/backend/login' element={<Login fctn={fctn.login} />} />
+                    <Route path='/backend/*' element={<Main fctn={fctn.main} />} />
+                </Routes>
+                <InformModal msg={informModal.msg} show={informModal.show} onHide={informModal.onHide} />
+                <ConfirmModal msg={confirmModal.msg} show={confirmModal.show} onHide={confirmModal.onHide} 
+                        onConfirm={confirmModal.onConfirm} />
+            </Fragment>
         );
     }
 
-    // on
-    onLoad = () => {
 
-        this.checkLogin();
-    }
+    // other
+    showInformModal = (msg, onHide) => {
 
-    // fetch
-    checkLogin = async () => {
-
-        const {fetch} =  constant;
-        const url = fetch.url.checkLogin;
-        const config = fetch.config;
-
-        const {serverInfo, data} = await axios.get(url, {
-                timeout : config.timeout,
-                withCredentials: true
-            })
-            .then(rs => rs.data)
-            .catch(error => console.error(error));
-
-        const statusCode = serverInfo.statusCode;
-        if(statusCode === 200){
-
-            this.afterCheckLogin(data);
-        }
-    };
-
-
-    // after fetch
-    afterCheckLogin = (data) => {
-
-        const {result} = data;
-
+        const {informModal} = this.state;
         this.setState({
-            isLogin : result.login
+            informModal : {
+                ...informModal,
+                show : true,
+                msg : msg,
+                onHide : onHide ? onHide : () => {
+
+                    this.closeInformModal();
+                }
+            }
         });
-    }
+    };
+    closeInformModal = () => {
 
-    // getter setter
-    setIsLogin = (isLogin) => {
-
+        const {informModal} = this.state;
         this.setState({
-            isLogin : isLogin
+            informModal : {
+                ...informModal,
+                show : false
+            }
+        });
+    };
+    showConfirmModal = (msg, onConfirm, onHide) => {
+
+        const {confirmModal} = this.state;
+        this.setState({
+            confirmModal : {
+                ...confirmModal,
+                show : true,
+                msg : msg,
+                onConfirm : onConfirm,
+                onHide : onHide ? onHide : () => {
+
+                    this.closeConfirmModal();
+                }
+            }
+        });
+    };
+    closeConfirmModal = () => {
+
+        const {confirmModal} = this.state;
+        this.setState({
+            confirmModal : {
+                ...confirmModal,
+                show : false
+            }
         });
     };
 }

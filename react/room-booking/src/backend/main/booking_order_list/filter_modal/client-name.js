@@ -11,7 +11,7 @@ class ClientName extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='filter_clientName'>客人姓名 : </Form.Label>
                 <Col>
-                    <Form.Control id='filter_clientName' value={value || ''} onChange={onChange} />
+                    <Form.Control id='filter_clientName' value={value} onChange={onChange} />
                 </Col>
             </Form.Group>
         );

@@ -5,12 +5,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import springboot.bean.vo.Response;
-import springboot.bean.vo.bk.hotelInfo.checkNewHotelFeature.CheckNewHotelFeatureReq;
+import springboot.bean.vo.bk.hotelInfo.checkNewFeature.CheckNewFeatureReq;
 import springboot.trans.bk.hotelInfo.vo.allFeatures.AllFeaturesRespTrans;
 import springboot.trans.bk.hotelInfo.vo.allNewFeatures.AllNewFeaturesRespTrans;
 import springboot.trans.bk.hotelInfo.vo.allSections.AllSectionsRespTrans;
-import springboot.trans.bk.hotelInfo.vo.checkNewHotelFeature.CheckNewHotelFeatureReqTrans;
-import springboot.trans.bk.hotelInfo.vo.checkNewHotelFeature.CheckNewHotelFeatureRespTrans;
+import springboot.trans.bk.hotelInfo.vo.checkNewFeature.CheckNewFeatureReqTrans;
+import springboot.trans.bk.hotelInfo.vo.checkNewFeature.CheckNewFeatureRespTrans;
+import springboot.trans.bk.hotelInfo.vo.hotelInfo.HotelInfoRespTrans;
 import util.ResponseUtil;
 
 @Service("bk.hotelInfo.HotelInfoControllerService")
@@ -26,8 +27,11 @@ public class HotelInfoControllerService {
 	@Qualifier("bk.hotelInfo.AllNewFeaturesService")
 	private AllNewFeaturesService allNewFeaturesService;
 	@Autowired
-	@Qualifier("bk.hotelInfo.CheckNewHotelFeatureService")
-	private CheckNewHotelFeatureService checkNewHotelFeatureService;
+	@Qualifier("bk.hotelInfo.CheckNewFeatureService")
+	private CheckNewFeatureService checkNewFeatureService;
+	@Autowired
+	@Qualifier("bk.hotelInfo.HotelInfoService")
+	private HotelInfoService hotelInfoService;
 	
 	
 	@Autowired
@@ -40,11 +44,14 @@ public class HotelInfoControllerService {
 	@Qualifier("bk.hotelInfo.vo.allNewFeatures.AllNewFeaturesRespTrans")
 	private AllNewFeaturesRespTrans allNewFeaturesRespTrans;
 	@Autowired
-	@Qualifier("bk.hotelInfo.vo.checkNewHotelFeature.CheckNewHotelFeatureReqTrans")
-	private CheckNewHotelFeatureReqTrans checkNewHotelFeatureReqTrans;
+	@Qualifier("bk.hotelInfo.vo.checkNewFeature.CheckNewFeatureReqTrans")
+	private CheckNewFeatureReqTrans checkNewFeatureReqTrans;
 	@Autowired
-	@Qualifier("bk.hotelInfo.vo.checkNewHotelFeature.CheckNewHotelFeatureRespTrans")
-	private CheckNewHotelFeatureRespTrans checkNewHotelFeatureRespTrans;
+	@Qualifier("bk.hotelInfo.vo.checkNewFeature.CheckNewFeatureRespTrans")
+	private CheckNewFeatureRespTrans checkNewFeatureRespTrans;
+	@Autowired
+	@Qualifier("bk.hotelInfo.vo.hotelInfo.HotelInfoRespTrans")
+	private HotelInfoRespTrans hotelInfoRespTrans;
 	
 	
 	public Response allSections() {
@@ -65,14 +72,20 @@ public class HotelInfoControllerService {
 				allNewFeaturesRespTrans.dtoToVo(
 						allNewFeaturesService.allNewFeatures()));
 	}
-	public Response checkNewHotelFeature(String name) {
+	public Response checkNewFeature(String name) {
 		
-		CheckNewHotelFeatureReq checkNewHotelFeatureReq = CheckNewHotelFeatureReq.builder()
+		CheckNewFeatureReq checkNewFeatureReq = CheckNewFeatureReq.builder()
 				.name(name)
 				.build();
 		return ResponseUtil.response200(
-				checkNewHotelFeatureRespTrans.dtoToVo(
-						checkNewHotelFeatureService.checkNewHotelFeature(
-								checkNewHotelFeatureReqTrans.voToDto(checkNewHotelFeatureReq))));
+				checkNewFeatureRespTrans.dtoToVo(
+						checkNewFeatureService.checkNewFeature(
+								checkNewFeatureReqTrans.voToDto(checkNewFeatureReq))));
+	}
+	public Response hotelInfo() {
+		
+		return ResponseUtil.response200(
+				hotelInfoRespTrans.dtoToVo(
+						hotelInfoService.hotelInfo()));
 	}
 }

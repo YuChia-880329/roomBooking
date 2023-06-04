@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springboot.bean.vo.Response;
 import springboot.bean.vo.bk.login.login.LoginReq;
+import springboot.service.bk.BkControllerService;
 import springboot.service.bk.bookingOrderList.BookingOrderListControllerService;
 import springboot.service.bk.hotelInfo.HotelInfoControllerService;
 import springboot.service.bk.login.LoginControllerService;
@@ -22,6 +23,9 @@ import springboot.service.bk.roomList.RoomListControllerService;
 @RequestMapping("/backend")
 public class BackendController {
 
+	@Autowired
+	@Qualifier("bk.BkControllerService")
+	private BkControllerService bkControllerService;
 	@Autowired
 	@Qualifier("bk.login.LoginControllerService")
 	private LoginControllerService loginService;
@@ -36,6 +40,13 @@ public class BackendController {
 	private HotelInfoControllerService hotelInfoService;
 	
 	
+	@GetMapping("/checkLogin")
+	public ResponseEntity<Response> checkLogin(){
+		
+		Response response = bkControllerService.checkLogin();
+		return ResponseEntity.ok(response);
+	}
+	
 	// login
 	@PostMapping("/login/login")
 	public ResponseEntity<Response> login(@RequestBody LoginReq loginReq) {
@@ -43,13 +54,7 @@ public class BackendController {
 		Response response = loginService.login(loginReq);
 		return ResponseEntity.ok(response);
 	}
-	@GetMapping("/login/checkLogin")
-	public ResponseEntity<Response> checkLogin(){
-		
-		Response response = loginService.checkLogin();
-		return ResponseEntity.ok(response);
-	}
-	
+
 	// roomList
 	@GetMapping("/roomList/searchTable")
 	public ResponseEntity<Response> searchTableRoomList(@RequestParam(name = "name", required = false) String name, 
@@ -139,10 +144,16 @@ public class BackendController {
 		Response response = hotelInfoService.allNewFeatures();
 		return ResponseEntity.ok(response);
 	}
-	@GetMapping("/hotelInfo/checkNewHotelFeature")
-	public ResponseEntity<Response> checkNewHotelFeature(@RequestParam(name = "name") String name){
+	@GetMapping("/hotelInfo/checkNewFeature")
+	public ResponseEntity<Response> checkNewFeature(@RequestParam(name = "name") String name){
 		
-		Response response = hotelInfoService.checkNewHotelFeature(name);
+		Response response = hotelInfoService.checkNewFeature(name);
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/hotelInfo/hotelInfo")
+	public ResponseEntity<Response> hotelInfo(){
+		
+		Response response = hotelInfoService.hotelInfo();
 		return ResponseEntity.ok(response);
 	}
 }

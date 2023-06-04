@@ -11,7 +11,7 @@ class Address extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_address'>飯店地址 : </Form.Label>
                 <Col>
-                    <Form.Control id='form_address' value={value || ''} onChange={onChange} />
+                    <Form.Control id='form_address' value={value} onChange={onChange} />
                 </Col>
             </Form.Group>
         );

@@ -31,7 +31,7 @@ class BackendNavbar extends Component {
                             <Nav.Link as={Link} to='./roomList'>房型列表</Nav.Link>
                             <Nav.Link as={Link} to='./roomUpdate'>房型更新</Nav.Link>
                             <Nav.Link as={Link} to='./roomCreate'>新增房型</Nav.Link>
-                            <Nav.Link as={Link} to='./orderList'>訂房訂單</Nav.Link>
+                            <Nav.Link as={Link} to='./bookingOrderList'>訂房訂單</Nav.Link>
                             <Nav.Link>前端頁面</Nav.Link>
                         </Nav>
                         <Nav>

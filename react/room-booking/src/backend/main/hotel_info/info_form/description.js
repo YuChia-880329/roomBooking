@@ -11,7 +11,7 @@ class Description extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_description'>飯店介紹 : </Form.Label>
                 <Col>
-                    <Form.Control as='textarea' id='form_description' value={value || ''} onChange={onChange} />
+                    <Form.Control as='textarea' id='form_description' value={value} onChange={onChange} />
                 </Col>
             </Form.Group>
         );

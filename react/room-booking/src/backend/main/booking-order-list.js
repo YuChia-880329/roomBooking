@@ -7,7 +7,6 @@ import Pagn from '../../hoc/pagn';
 import FilterModal from './booking_order_list/filterModal';
 import BackendMain from '../../hoc/backend-main';
 import axios from 'axios';
-import InformModal from '../../hoc/modal/inform-modal';
 
 
 const constant = {
@@ -149,29 +148,24 @@ class BookingOrderList extends Component {
                     toPage : 1 
                 },
                 currentPage : 1
-            },
-            informModal : {
-                show : false,
-                msg : '',
-                onHide : () => {}
             }
         };
     }
 
     componentDidMount(){
 
-        this.tableUpdate();
+        const {fctn} = this.props;
+
+        fctn.checkLogin(() => {
+
+            this.searchTable();
+        });
     }
 
     render() {
-        
-        const {informModal} = this.state;
 
         return (
-            <Fragment>
-                <BackendMain titleText='訂房訂單' Content={this.Content} />
-                <InformModal show={informModal.show} msg={informModal.msg} onHide={informModal.onHide} />
-            </Fragment>
+            <BackendMain titleText='訂房訂單' Content={this.Content} />
         );
     }
 
@@ -186,7 +180,9 @@ class BookingOrderList extends Component {
             filterModal : {
                 getFilterModalVal : this.getFilterModalVal,
                 setFilterModalVal : this.setFilterModalVal,
-                tableUpdate : this.tableUpdate
+                searchTable : this.searchTable,
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal
             },
             pagn : {
                 pageOnClick : this.pageOnClick
@@ -233,7 +229,7 @@ class BookingOrderList extends Component {
             }
         });
     };
-    tableUpdate = () => {
+    searchTable = (onSuccess) => {
 
         const req = constant.fetch.req.searchTable;
         const {filterModal} = this.state;
@@ -276,30 +272,25 @@ class BookingOrderList extends Component {
         req.totalPriceMin = (totalPriceMin==='' ? undefined : totalPriceMin);
         req.totalPriceMax = (totalPriceMax==='' ? undefined : totalPriceMax);
 
-        this.searchTable(req);
+        this.searchTableFetch(req, onSuccess);
     };
-    showInformModal = (msg, onHide) => {
+    turnPage = (page, onSuccess) => {
 
-        const {informModal} = this.state;
-        this.setState({
-            informModal : {
-                ...informModal,
-                show : true,
-                msg : msg,
-                onHide : onHide
-            }
-        });
-    };
-    closeInformModal = () => {
+        const req = constant.fetch.req.turnPage;
 
-        const {informModal} = this.state;
-        this.setState({
-            informModal : {
-                ...informModal,
-                show : false
-            }
-        });
+        req.page = page;
+        this.turnPageFetch(req, onSuccess);
     };
+    changeOrder = (colName, direction, onSuccess) => {
+
+        const req = constant.fetch.req.changeOrder;
+        const orderCode = constant.orderCode;
+
+        req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
+        this.changeOrderFetch(req, onSuccess);
+
+    };
+
 
     // on
     filterModalOnHide = () => {
@@ -315,24 +306,18 @@ class BookingOrderList extends Component {
     }
     pageOnClick = (page) => {
 
-        const req = constant.fetch.req.turnPage;
-
-        req.page = page;
-        this.turnPage(req);
+        this.turnPage(page);
     }
     orderOnClick = (colName, direction) => {
 
-        const req = constant.fetch.req.changeOrder;
-        const orderCode = constant.orderCode;
-
-        req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
-        this.changeOrder(req);
+        this.changeOrder(colName, direction);
     }
     
     // fetch
-    searchTable = async (params) => {
+    searchTableFetch = async (params, onSuccess) => {
 
         const Qs = require('qs');
+        const {fctn} = this.props;
         const {fetch} =  constant;
         const url = fetch.url.searchTable;
         const config = fetch.config;
@@ -351,12 +336,16 @@ class BookingOrderList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterSearchTable(data);
+            this.afterSearchTable(data, onSuccess);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
         }
     };
-    turnPage = async (params) => {
+    turnPageFetch = async (params, onSuccess) => {
 
         const {fetch} =  constant;
+        const {fctn} = this.props;
         const url = fetch.url.turnPage;
         const config = fetch.config;
 
@@ -371,12 +360,16 @@ class BookingOrderList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterTurnPage(data);
+            this.afterTurnPage(data, onSuccess);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
         }
     };
-    changeOrder = async (params) => {
+    changeOrderFetch = async (params, onSuccess) => {
 
         const {fetch} =  constant;
+        const {fctn} = this.props;
         const url = fetch.url.changeOrder;
         const config = fetch.config;
 
@@ -391,31 +384,34 @@ class BookingOrderList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterChangeOrder(data);
+            this.afterChangeOrder(data, onSuccess);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
         }
     };
 
 
      // after fetch
-     afterSearchTable = (data) => {
+     afterSearchTable = (data, onSuccess) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination);
+        this.updateState(table, pagination, onSuccess);
     };
-    afterTurnPage = (data) => {
+    afterTurnPage = (data, onSuccess) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination);
+        this.updateState(table, pagination, onSuccess);
     };
-    afterChangeOrder = (data) => {
+    afterChangeOrder = (data, onSuccess) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination);
+        this.updateState(table, pagination, onSuccess);
     }
-    updateState = (table, pagination) => {
+    updateState = (table, pagination, onSuccess) => {
 
         const {bookingOrderTable} = this.state;
 
@@ -445,6 +441,9 @@ class BookingOrderList extends Component {
                 },
                 currentPage : pagination.currentPage
             }
+        }, () => {
+
+            onSuccess && onSuccess();
         });
     };
 

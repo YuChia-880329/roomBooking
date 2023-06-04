@@ -13,6 +13,7 @@ public class NewFeatureTrans implements VoWoTrans<NewFeature, NewFeatureDto> {
 	public NewFeature dtoToVoImpl(NewFeatureDto dto) {
 		
 		return NewFeature.builder()
+				.id(dto.getId())
 				.name(dto.getName())
 				.build();
 	}

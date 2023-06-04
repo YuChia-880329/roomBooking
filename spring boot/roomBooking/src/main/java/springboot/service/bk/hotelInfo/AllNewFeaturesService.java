@@ -49,6 +49,7 @@ public class AllNewFeaturesService {
 	private NewFeatureDto toNewFeatureVo(springboot.bean.dto.model.NewFeatureDto newFeature) {
 		
 		return NewFeatureDto.builder()
+				.id(newFeature.getId())
 				.name(newFeature.getName())
 				.build();
 	}

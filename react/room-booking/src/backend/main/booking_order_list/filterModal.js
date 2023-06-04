@@ -1,3 +1,5 @@
+import urls from '../../../files/urls.json';
+import config from '../../../files/config.json';
 import React, { Component } from 'react';
 import { Button, Container, Form, Modal, Stack } from 'react-bootstrap';
 import Id from './filter_modal/id';
@@ -11,9 +13,19 @@ import CheckinDateTime from './filter_modal/checkin-date-time';
 import CheckoutDate from './filter_modal/checkout-date';
 import PayMethod from './filter_modal/payMethod';
 import UseDay from './filter_modal/use-day';
+import axios from 'axios';
 
 
 const constant = {
+    fetch : {
+        url : {
+            allPayMethods : urls.backend.bookingOrderList.allPayMethods,
+            allRooms : urls.backend.bookingOrderList.allRooms
+        },
+        config : {
+            timeout : config.fetch.timeout
+        }
+    },
     filterModal : {
         colName : {
             idMin : 'idMin',
@@ -39,10 +51,39 @@ const constant = {
 };
 class FilterModal extends Component {
 
+    constructor(props){
+
+        super(props);
+        this.state = {
+            payMethod : {
+                allPayMethods : []
+            },
+            roomType : {
+                allRooms : []
+            }
+        };
+    }
+
+    componentDidMount(){
+
+        this.allPayMethods(() => {
+
+            this.allRooms();
+        });
+    }
+
     render() {
         
         const {filterModal} = constant;
         const {show, onHide} = this.props;
+        const fctn = {
+            payMethod : {
+                getAllPayMethods : this.getAllPayMethods
+            },
+            roomType : {
+                getAllRooms : this.getAllRooms
+            }
+        }
 
         return (
             <Modal show={show} onHide={onHide} centered>
@@ -58,9 +99,13 @@ class FilterModal extends Component {
                                     valueMax={this.getValue(filterModal.colName.idMax)} 
                                     onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.idMin, e)} 
                                     onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.idMax, e)} />
-                            <ClientName value={this.getValue(filterModal.colName.clientName)} onChange={(e) => this.ctrlOnChange(filterModal.colName.clientName, e)} />
-                            <Phone value={this.getValue(filterModal.colName.clientPhone)} onChange={(e) => this.ctrlOnChange(filterModal.colName.clientPhone, e)} />
-                            <RoomType value={this.getValue(filterModal.colName.roomType)} onChange={(e) => this.ctrlOnChange(filterModal.colName.roomType, e)} />
+                            <ClientName value={this.getValue(filterModal.colName.clientName)} 
+                                    onChange={(e) => this.ctrlOnChange(filterModal.colName.clientName, e)} />
+                            <Phone value={this.getValue(filterModal.colName.clientPhone)} 
+                                    onChange={(e) => this.ctrlOnChange(filterModal.colName.clientPhone, e)} />
+                            <RoomType value={this.getValue(filterModal.colName.roomType)} 
+                                    onChange={(e) => this.ctrlOnChange(filterModal.colName.roomType, e)}
+                                    fctn={fctn.roomType} />
                             <RoomNum valueMin={this.getValue(filterModal.colName.roomNumMin)} 
                                     valueMax={this.getValue(filterModal.colName.roomNumMax)} 
                                     onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.roomNumMin, e)} 
@@ -69,7 +114,9 @@ class FilterModal extends Component {
                                     valueMax={this.getValue(filterModal.colName.priceMax)} 
                                     onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.priceMin, e)} 
                                     onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.priceMax, e)} />
-                            <PayMethod values={this.getValue(filterModal.colName.payMethod)} onChange={(e) => this.ctrlCheckOnChange(filterModal.colName.payMethod, e)} />
+                            <PayMethod values={this.getValue(filterModal.colName.payMethod)} 
+                                    onChange={(e) => this.ctrlCheckOnChange(filterModal.colName.payMethod, e)} 
+                                    fctn={fctn.payMethod} />
                             <CheckinDateTime valueFrom={this.getValue(filterModal.colName.checkinDateTimeFrom)} 
                                     valueTo={this.getValue(filterModal.colName.checkinDateTimeTo)} 
                                     onChangeFrom={(e) => this.ctrlOnChange(filterModal.colName.checkinDateTimeFrom, e)} 
@@ -97,6 +144,17 @@ class FilterModal extends Component {
         );
     }
 
+    // other
+    allPayMethods = (onSuccess) => {
+
+        this.allPayMethodsFetch(onSuccess);
+    };
+    allRooms = (onSuccess) => {
+
+        this.allRoomsFetch(onSuccess);
+    };
+
+
     // on
     ctrlOnChange = (colName, event) => {
 
@@ -122,9 +180,86 @@ class FilterModal extends Component {
         const {fctn} = this.props;
         const {onHide} = this.props;
 
-        fctn.tableUpdate();
+        fctn.searchTable();
         onHide();
     }
+
+
+    // fetch
+    allPayMethodsFetch = async (onSuccess) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.allPayMethods;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterAllPayMethods(data, onSuccess);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+    allRoomsFetch = async (onSuccess) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.allRooms;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterAllRooms(data, onSuccess);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+
+
+    // after fetch
+    afterAllPayMethods = (data, onSuccess) => {
+
+        const {payMethod} = this.state;
+        this.setState({
+            payMethod : {
+                ...payMethod,
+                allPayMethods : data.payMethods
+            }
+        }, () => {
+
+            onSuccess && onSuccess();
+        });
+    };
+    afterAllRooms = (data, onSuccess) => {
+
+        const {roomType} = this.state;
+        this.setState({
+            roomType : {
+                ...roomType,
+                allRooms : data.rooms
+            }
+        }, () => {
+
+            onSuccess && onSuccess();
+        });
+    };
 
 
     // getter setter
@@ -134,6 +269,16 @@ class FilterModal extends Component {
 
         return fctn.getFilterModalVal(colName);
     }
+    getAllPayMethods = () => {
+
+        const {payMethod} = this.state;
+        return payMethod.allPayMethods;
+    };
+    getAllRooms = () => {
+
+        const {roomType} = this.state;
+        return roomType.allRooms;
+    };
  
 }
 

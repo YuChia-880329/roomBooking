@@ -11,7 +11,7 @@ class Phone extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='filter_phone'>客人手機 : </Form.Label>
                 <Col>
-                    <Form.Control id='filter_phone' value={value || ''} onChange={onChange} />
+                    <Form.Control id='filter_phone' value={value} onChange={onChange} />
                 </Col>
             </Form.Group>
         );

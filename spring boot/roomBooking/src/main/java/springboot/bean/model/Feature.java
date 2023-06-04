@@ -24,12 +24,12 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @Entity
-@Table(name = "HOTEL_FEATURE", schema = "ROOM_BOOKING")
+@Table(name = "FEATURE", schema = "ROOM_BOOKING")
 public class Feature {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HOTEL_FEATURE_SEQ_GEN")
-	@SequenceGenerator(name = "HOTEL_FEATURE_SEQ_GEN", sequenceName = "HOTEL_FEATURE_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "FEATURE_SEQ_GEN")
+	@SequenceGenerator(name = "FEATURE_SEQ_GEN", sequenceName = "FEATURE_SEQ", allocationSize = 1)
 	@Column(name = "ID")
 	private int id;
 	@Column(name = "NAME")

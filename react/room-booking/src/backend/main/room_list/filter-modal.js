@@ -79,7 +79,7 @@ class FilterModal extends Component {
         const {fctn} = this.props;
         const {onHide} = this.props;
 
-        fctn.tableUpdate();
+        fctn.searchTable();
         onHide();
     }
 

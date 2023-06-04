@@ -3,12 +3,12 @@ import config from '../files/config.json';
 import React, { Component } from 'react';
 import LoginForm from './login/login-form';
 import axios from 'axios';
-import InformModal from '../hoc/modal/inform-modal';
 
 const constant = {
     fetch : {
         url : {
-            login : urls.backend.login.login
+            login : urls.backend.login.login,
+            checkLogin : urls.backend.checkLogin
         },
         config : {
             timeout : config.fetch.timeout
@@ -29,32 +29,22 @@ class Login extends Component {
 
         super(props);
         this.state = {
+            isLogin : false,
             loginForm : {
                 value : {
                     account : '',
                     password : ''
                 },
                 validated : false
-            },
-            informModal : {
-                msg : '',
-                show : false, 
-                onHide : () => {}
             }
         }
     }
 
     componentDidMount(){
 
-        const {informModal} = this.state;
-
-        this.setState({
-            informModal : {
-                ...informModal, 
-                onHide : this.informModalOnHide
-            }
-        });
+        this.checkLogin();
     }
+
 
     render() {
 
@@ -65,46 +55,39 @@ class Login extends Component {
                 onSubmit : this.loginFormOnSubmit
             }
         };
-        const {loginForm, informModal} = this.state;
+        const {loginForm} = this.state;
 
         return (
             <div className='position-absolute top-50 start-50 translate-middle'>
                 <LoginForm fctn={fctn.loginForm} validated={loginForm.validated} />
-                <InformModal msg={informModal.msg} show={informModal.show} onHide={informModal.onHide} />
             </div>
         );
     }
 
     // other
-    showInformModal = (msg, onHide) => {
+    login = () => {
 
-        const {informModal} = this.state;
+        const {fetch} = constant;
+        const {loginForm} = this.state;
+        const req = fetch.req.login;
+        
+        req.form.account = loginForm.value.account;
+        req.form.password = loginForm.value.password;
 
-        this.setState({
-            informModal : {
-                ...informModal,
-                msg : msg,
-                show : true,
-                onHide : (onHide ? onHide : this.closeInformModal)
-            }
-        });
-    }
-    closeInformModal = () => {
+        this.loginFetch(req);
+    };
+    checkLogin = () => {
 
-        const {informModal} = this.state;
+        this.checkLoginFetch();
+    };
+    toMain = () => {
 
-        this.setState({
-            informModal : {
-                ...informModal,
-                show : false
-            }
-        });
+        window.location.href = './';
     };
 
-    // on function
+    // on
     loginFormOnSubmit = (event) => {
 
-        const {fetch} =  constant;
         const {loginForm} = this.state;
 
         event.preventDefault();
@@ -115,22 +98,17 @@ class Login extends Component {
             }
         }, () => {
 
-            const targetForm = event.target;
-            if(targetForm.checkValidity() === true){
+            if(event.target.checkValidity() === true){
     
-                const req = fetch.req.login;
-    
-                req.form.account = loginForm.value.account;
-                req.form.password = loginForm.value.password;
-        
-                this.login(req);
+                this.login();
             }
         });
     }
 
     // fetch
-    login = async (req) => {
+    loginFetch = async (req) => {
 
+        const {fctn} = this.props;
         const {fetch} =  constant;
         const url = fetch.url.login;
         const config = fetch.config;
@@ -146,24 +124,60 @@ class Login extends Component {
         if(statusCode === 200){
 
             this.afterLogin(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
         }
     };
+    checkLoginFetch = async () => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.checkLogin;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterCheckLogin(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+
 
 
     // after fetch
     afterLogin = (data) => {
 
+        const {fctn} = this.props;
         const result = data.result;
 
         if(result.result)
-            this.showInformModal(result.msg, () => {
+            fctn.showInformModal(result.msg, () => {
                 
-                this.props.fctn.setIsLogin(true);
-                this.informModalOnHide();
+                fctn.closeInformModal();
+                this.toMain();
             });
         else
-            this.showInformModal(result.msg);
+            fctn.showInformModal(result.msg);
     }
+    afterCheckLogin = (data) => {
+
+        const {result} = data;
+
+        if(result.login)
+            this.toMain();
+    }
+
 
     // getter setter
     getLoginFormVal = (colName) => {

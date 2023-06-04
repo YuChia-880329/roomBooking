@@ -8,14 +8,13 @@ import axios from 'axios';
 const constant = {
     fetch : {
         url : {
-            allFeatures : urls.backend.hotelInfo.allFeatures,
-            checkNewHotelFeature : urls.backend.hotelInfo.checkNewHotelFeature
+            checkNewFeature : urls.backend.hotelInfo.checkNewFeature
         },
         config : {
             timeout : config.fetch.timeout
         },
         req : {
-            checkNewHotelFeature : {
+            checkNewFeature : {
                 name : ''
             }
         }
@@ -23,19 +22,6 @@ const constant = {
 }
 class Feature extends Component {
 
-    constructor(props){
-
-        super(props);
-        this.state = {
-            hotelFeatures : [],
-            newHotelFeatures : []
-        };
-    }
-
-    componentDidMount(){
-
-        this.getAllHotelInfos();
-    }
     render() {
 
         const rowStyle = {
@@ -44,8 +30,7 @@ class Feature extends Component {
         const checkboxStyle = {
             margin : '0'
         };
-
-        const {hotelFeatures, newHotelFeatures} = this.state;
+        const {fctn} = this.props;
 
         return (
             <Form.Group as={Row}>
@@ -54,36 +39,44 @@ class Feature extends Component {
                     <Stack gap={5}>
                         <Row xs={4} className='g-3' style={rowStyle}>
                             {
-                                hotelFeatures.map(hotelFeature => (
-                                    <Col key={hotelFeature.id}>
-                                        <Form.Check type='checkbox' label={hotelFeature.name} value={hotelFeature.id} style={checkboxStyle} />
+                                fctn.getAllFeatures().map(feature => (
+                                    <Col key={feature.id}>
+                                        <Form.Check type='checkbox' label={feature.name} value={feature.id} 
+                                                checked={this.getFeatureIsChecked(feature.id)} style={checkboxStyle}
+                                                onChange={this.featuresOnChange} />
                                     </Col>
                                 ))
                             }
                         </Row>
                         <Row xs={3} className='g-3' style={rowStyle}>
                             {
-                                newHotelFeatures.map(newHotelFeature => (
-                                    <Col key={newHotelFeature.id}>
+                                fctn.getAllNewFeatures().map(newFeature => (
+                                    <Col key={newFeature.name}>
                                         <Stack direction='horizontal' gap={4}>
-                                            <Form.Check type='checkbox' label={newHotelFeature.name} value={newHotelFeature.id} style={checkboxStyle} />
+                                            <Form.Check type='checkbox' label={newFeature.name} value={newFeature.name} 
+                                                    checked={this.getNewFeatureIsChecked(newFeature.name)} style={checkboxStyle}
+                                                    onChange={this.newFeaturesOnChange} />
                                             <div>
-                                                <Button variant='outline-primary' size='sm' className='little-btn'>-</Button>
+                                                <Button variant='outline-primary' size='sm' className='little-btn' onClick={e => this.minusBtnOnClick(newFeature.name)}>-</Button>
                                             </div>
                                         </Stack>
                                     </Col>
                                 ))
                             }
                         </Row>
-                        <Row>
-                            <Form.Label column xs='auto' htmlFor='form_newFeature'>新增選項 : </Form.Label>
-                            <Col xs='auto'>
-                                <Form.Control id='form_newFeature' htmlSize={15} />
-                            </Col>
-                            <Col xs='auto' className='align-self-center'>
-                                <Button variant='outline-primary' size='sm'>+</Button>
-                            </Col>
-                        </Row>
+                        <Form noValidate validated={fctn.getInsertFeatureFormValidated()} onSubmit={this.insertFeatureFormOnSubmit}>
+                            <Row>
+                                <Form.Label column xs='auto' htmlFor='form_insertFeature'>新增選項 : </Form.Label>
+                                <Col xs='auto'>
+                                    <Form.Control required id='form_insertFeature' value={this.getInsertFeatureVal()} 
+                                            onChange={this.insertFeatureOnChange} htmlSize={15} />
+                                    <Form.Control.Feedback type='invalid'>請輸入名稱</Form.Control.Feedback>
+                                </Col>
+                                <Form.Label column xs='auto' htmlFor='form_insertFeature'>
+                                    <Button type='send' variant='outline-primary' size='sm'>+</Button>
+                                </Form.Label>
+                            </Row>
+                        </Form>
                     </Stack>
                 </Col>
             </Form.Group>
@@ -92,49 +85,91 @@ class Feature extends Component {
 
 
     // other
-    getAllHotelInfos = () => {
+    checkNewFeature = () => {
 
-        this.allHotelInfos();
+        const {values} = this.props;
+        const req = constant.fetch.req.checkNewFeature;
+        req.name = values.insertFeature;
+
+        this.checkNewFeatureFetch(req);
     };
 
 
     // on
-    plusBtnOnClick = () => {
+    insertFeatureFormOnSubmit = (event) => {
 
-        const req = constant.fetch.req.checkNewHotelFeature;
-        
-        this.checkNewHotelFeature();
+        const {fctn} = this.props;
+
+        event.preventDefault();
+        fctn.setInsertFeatureFormValidated(true, () => {
+
+            if(event.target.checkValidity() === true){
+    
+                this.checkNewFeature();
+            }
+        });
     }
+    featuresOnChange = (event) => {
+
+        const {values, fctn} = this.props;
+        
+        if(event.target.checked){
+
+            values.features = [...values.features, event.target.value];
+        }else{
+
+            values.features = values.features.filter(v => v!==event.target.value);
+        }
+        fctn.setValue(values);
+        event.target.focus();
+    };
+    newFeaturesOnChange = (event) => {
+
+        const {values, fctn} = this.props;
+        
+        if(event.target.checked){
+
+            values.newFeatures = [...values.newFeatures, event.target.value];
+        }else{
+
+            values.newFeatures = values.newFeatures.filter(v => v!==event.target.value);
+        }
+        fctn.setValue(values);
+    };
+    insertFeatureOnChange = (event) => {
+
+        const {values, fctn} = this.props;
+        
+        values.insertFeature = event.target.value;
+        fctn.setValue(values);
+    };
+    minusBtnOnClick = (name) => {
+
+        const {values, fctn} = this.props;
+
+        fctn.showConfirmModal('確定要刪除選項', () => {
+
+            values.newFeatures = values.newFeatures.filter(v => v!==name);
+            fctn.setValue(values);
+    
+            const newFeatures = fctn.getAllNewFeatures().filter(v => v.name!==name);
+            fctn.setAllNewFeatures(newFeatures);
+            fctn.closeConfirmModal();
+        });
+    };
 
 
     // fetch
-    allHotelInfos = async () => {
+    checkNewFeatureFetch = async (params) => {
 
+        const {fctn} = this.props;
         const {fetch} =  constant;
-        const url = fetch.url.allFeatures;
+        const url = fetch.url.checkNewFeature;
         const config = fetch.config;
 
         const {serverInfo, data} = await axios.get(url, {
                 timeout : config.timeout,
-                withCredentials : true
-            })
-            .then(rs => rs.data)
-            .catch(error => console.error(error));
-
-        const statusCode = serverInfo.statusCode;
-        if(statusCode === 200){
-
-            this.afterAllHotelInfos(data);
-        }
-    };
-    checkNewHotelFeature = async (params) => {
-
-        const {fetch} =  constant;
-        const url = fetch.url.checkNewHotelFeature;
-        const config = fetch.config;
-
-        const {serverInfo, data} = await axios.get(url, {
-                timeout : config.timeout,
+                withCredentials : true,
                 params : params
             })
             .then(rs => rs.data)
@@ -143,22 +178,64 @@ class Feature extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterCheckNewHotelFeature(data);
+            this.afterCheckNewFeature(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
         }
     };
 
 
     // after fetch
-    afterAllHotelInfos = (data) => {
+    afterCheckNewFeature = (data) => {
 
-        this.setState({
-            hotelFeatures : data.hotelFeatures
-        });
-    };
-    afterCheckNewHotelFeature = (data) => {
+        const {values, fctn} = this.props;
+        const name = values.insertFeature;
 
-        console.log('data : ', data);
+        if(data.pass){
+
+            const oldNewFeatures = fctn.getAllNewFeatures();
+            if(!oldNewFeatures.every(v => v.name!==name)){
+
+                fctn.showInformModal('名稱重複');
+            }else{
+
+                fctn.showConfirmModal('確定要新增選項', () => {
+
+                    const newFeatures = [...oldNewFeatures, {id : -1, name : name}];
+                    fctn.setAllNewFeatures(newFeatures, () => {
+    
+                        values.newFeatures = [...values.newFeatures, name];
+                        values.insertFeature = '';
+                        fctn.setValue(values);
+                        fctn.setInsertFeatureFormValidated(false);
+                        fctn.closeConfirmModal();
+                    });
+                })
+            }
+        }else{
+
+            fctn.showInformModal(data.msg);
+        }
     };
+
+
+    // getter setter
+    getFeatureIsChecked = (checkBoxValue) => {
+
+        const {values} = this.props;
+        return values.features.includes(`${checkBoxValue}`);
+    }
+    getNewFeatureIsChecked = (checkBoxValue) => {
+
+        const {values} = this.props;
+        return values.newFeatures.includes(`${checkBoxValue}`);
+    }
+    getInsertFeatureVal = () => {
+
+        const {values} = this.props;
+        return values.insertFeature;
+    }
 }
 
 export default Feature;

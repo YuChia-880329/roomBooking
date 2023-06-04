@@ -11,5 +11,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class NewFeature {
 
+	private int id;
 	private String name;
 }

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 @Component("BackendPointcuts")
 public class BackendPointcuts {
 
+	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.bk.BkControllerService.*(..))")
+	public void bkControllerService() {}
+	
 	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.bk.login.LoginControllerService.*(..))")
 	public void loginControllerService() {}
 	
@@ -20,6 +23,7 @@ public class BackendPointcuts {
 	
 	
 
-	@Pointcut("loginControllerService() || roomListControllerService() || bookingOrderListControllerService() || hotelInfoControllerService()")
+	@Pointcut("bkControllerService() || loginControllerService() || roomListControllerService() || "
+			+ "bookingOrderListControllerService() || hotelInfoControllerService()")
 	public void controllerService() {}
 }
