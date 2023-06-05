@@ -31,11 +31,13 @@ class Login extends Component {
         this.state = {
             isLogin : false,
             loginForm : {
-                value : {
-                    account : '',
-                    password : ''
+                validated : false,
+                account : {
+                    value : ''
                 },
-                validated : false
+                password : {
+                    value : ''
+                }
             }
         }
     }
@@ -50,16 +52,16 @@ class Login extends Component {
 
         const fctn = {
             loginForm : {
-                getVal : this.getLoginFormVal,
-                setVal : this.setLoginFormVal,
-                onSubmit : this.loginFormOnSubmit
+                setIsLogin : this.setIsLogin,
+                login : this.login
             }
         };
         const {loginForm} = this.state;
 
         return (
             <div className='position-absolute top-50 start-50 translate-middle'>
-                <LoginForm fctn={fctn.loginForm} validated={loginForm.validated} />
+                <LoginForm values={loginForm} fctn={fctn.loginForm}
+                        setter={(val, onSet) => this.setter('loginForm', val, onSet)}  />
             </div>
         );
     }
@@ -67,12 +69,11 @@ class Login extends Component {
     // other
     login = () => {
 
-        const {fetch} = constant;
         const {loginForm} = this.state;
-        const req = fetch.req.login;
+        const req = constant.fetch.req.login;
         
-        req.form.account = loginForm.value.account;
-        req.form.password = loginForm.value.password;
+        req.form.account = loginForm.account.value;
+        req.form.password = loginForm.password.value;
 
         this.loginFetch(req);
     };
@@ -85,25 +86,6 @@ class Login extends Component {
         window.location.href = './';
     };
 
-    // on
-    loginFormOnSubmit = (event) => {
-
-        const {loginForm} = this.state;
-
-        event.preventDefault();
-        this.setState({
-            loginForm : {
-                ...loginForm,
-                validated : true
-            }
-        }, () => {
-
-            if(event.target.checkValidity() === true){
-    
-                this.login();
-            }
-        });
-    }
 
     // fetch
     loginFetch = async (req) => {
@@ -179,27 +161,16 @@ class Login extends Component {
     }
 
 
-    // getter setter
-    getLoginFormVal = (colName) => {
-
-        const {loginForm} = this.state;
-
-        return loginForm.value[colName];
-    };
-    setLoginFormVal = (colName, colValue, callBack) => {
-
-        const {loginForm} = this.state;
+    // setter
+    setter = (colName, colVal, onSet) => {
 
         this.setState({
-            loginForm : {
-                ...loginForm,
-                value : {
-                    ...loginForm.value,
-                    [colName] : colValue
-                }
-            }
-        }, callBack);
-    };
+            [colName] : colVal
+        }, () => {
+
+            onSet && onSet();
+        });
+    }
 }
 
 export default Login;

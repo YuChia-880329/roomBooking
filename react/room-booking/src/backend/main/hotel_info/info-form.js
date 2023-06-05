@@ -26,6 +26,7 @@ class InfoForm extends Component {
     render() {
 
         const {colName} = constant;
+        const {validated} = this.props;
         const fctn = {
             section : {
                 getAllSections : this.props.fctn.getAllSections
@@ -44,7 +45,7 @@ class InfoForm extends Component {
             }
         };
         return (
-            <Form noValidate>
+            <Form noValidate validated={validated} onSubmit={this.onSubmit}>
                 <Stack gap={5}>
                     <Row>
                         <Col>
@@ -88,6 +89,22 @@ class InfoForm extends Component {
         const updateImage = this.getValue(colName.updateImage);
         updateImage.imageName = event.target.value;
         this.setValue(colName.updateImage, updateImage);
+    };
+    onSubmit = (event) => {
+
+        const {fctn} = this.props;
+
+        event.preventDefault();
+        fctn.setInfoFormValidated(true, () =>{
+
+            if(event.target.checkValidity() === true){
+            
+                fctn.showConfirmModal('確定要更新飯店資料?', () => {
+
+                    fctn.update(event.currentTarget.hotelImage.files[0]);
+                });
+            }
+        });
     };
 
     // getter setter

@@ -121,7 +121,6 @@ class Feature extends Component {
             values.features = values.features.filter(v => v!==event.target.value);
         }
         fctn.setValue(values);
-        event.target.focus();
     };
     newFeaturesOnChange = (event) => {
 
@@ -224,12 +223,12 @@ class Feature extends Component {
     getFeatureIsChecked = (checkBoxValue) => {
 
         const {values} = this.props;
-        return values.features.includes(`${checkBoxValue}`);
+        return values.features.includes(checkBoxValue);
     }
     getNewFeatureIsChecked = (checkBoxValue) => {
 
         const {values} = this.props;
-        return values.newFeatures.includes(`${checkBoxValue}`);
+        return values.newFeatures.includes(checkBoxValue);
     }
     getInsertFeatureVal = () => {
 

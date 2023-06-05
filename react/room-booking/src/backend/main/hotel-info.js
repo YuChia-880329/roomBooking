@@ -44,7 +44,7 @@ class HotelInfo extends Component {
         super(props);
         this.state = {
             infoForm : {
-                validate : false,
+                validated : false,
                 option : {
                     section : {
                         allSections : []
@@ -119,6 +119,7 @@ class HotelInfo extends Component {
     };
     BorderFormContent = () => {
 
+        const {validated} = this.state;
         const fctn = {
             infoForm : {
                 showInformModal : this.props.fctn.showInformModal,
@@ -134,13 +135,12 @@ class HotelInfo extends Component {
                 getInsertFeatureFormValidated : this.getInsertFeatureFormValidated,
                 setInsertFeatureFormValidated : this.setInsertFeatureFormValidated,
                 update : this.update,
-                getInfoFormValidate : this.getInfoFormValidate,
-                setInfoFormValidate : this.setInfoFormValidate
+                setInfoFormValidated : this.setInfoFormValidated
             }
         };
 
         return (
-            <InfoForm fctn={fctn.infoForm} />
+            <InfoForm fctn={fctn.infoForm} validated={validated} />
         );
     };
 
@@ -426,11 +426,6 @@ class HotelInfo extends Component {
         const {infoForm} = this.state;
         return infoForm.other.feature.insertFeatureForm.validated;
     };
-    getInfoFormValidate = () => {
-
-        const {infoForm} = this.state;
-        return infoForm.validate;
-    }
 
 
 
@@ -488,14 +483,17 @@ class HotelInfo extends Component {
             onSuccess && onSuccess();
         });
     };
-    setInfoFormValidate = (validate) => {
+    setInfoFormValidated = (validated, onSuccess) => {
 
         const {infoForm} = this.state;
         this.setState({
             infoForm : {
                 ...infoForm,
-                validate : validate
+                validated : validated
             }
+        }, () => {
+
+            onSuccess && onSuccess();
         }); 
     }
 }

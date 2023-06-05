@@ -13,7 +13,7 @@ class UpdateImage extends Component {
                 <Col>
                     <Row>
                         <Col xs='auto'>
-                            <Form.Control id='form_updateImage' type='file' value={imgName} onChange={onChange} />
+                            <Form.Control id='form_updateImage' name='hotelImage' type='file' value={imgName} onChange={onChange} />
                         </Col>
                     </Row>
                 </Col>

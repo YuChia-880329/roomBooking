@@ -3,25 +3,16 @@ import { Button, Form, Stack } from 'react-bootstrap';
 import Account from './login_form/account';
 import Password from './login_form/password';
 
-const constant = {
-    colName : {
-        account : 'account',
-        password : 'password'
-    }
-}
-
 class LoginForm extends Component {
 
     render() {
-
-        const {colName} = constant;
-        const {fctn} = this.props;
-        const {validated} = this.props;
+        
+        const {values} = this.props;
 
         return (
-            <Stack as={Form} gap={4} onSubmit={fctn.onSubmit} noValidate validated={validated} >
-                <Account value={this.getValue(colName.account)} onChange={(e) => this.ctrlOnChange(colName.account, e)} />
-                <Password value={this.getValue(colName.password)} onChange={(e) => this.ctrlOnChange(colName.password, e)} />
+            <Stack as={Form} gap={4} onSubmit={this.onSubmit} noValidate validated={values.validated} >
+                <Account value={values.account} setter={(val, onSet) => this.setter('account', val, onSet)} />
+                <Password value={values.password} setter={(val, onSet) => this.setter('password', val, onSet)} />
                 <Stack className='justify-content-center'>
                     <div className='mx-auto'>
                         <Button type='submit' variant='outline-primary'>登入</Button>
@@ -32,19 +23,28 @@ class LoginForm extends Component {
     }
 
     // on
-    ctrlOnChange = (colName, event) => {
+    onSubmit = (event) => {
 
         const {fctn} = this.props;
 
-        fctn.setVal(colName, event.target.value);
+        event.preventDefault();
+        this.setter('validated', true, () => {
+
+            if(event.target.checkValidity() === true){
+    
+                fctn.login();
+            }
+        });
     }
 
-    // getter setter
-    getValue = (colName) => {
+    // setter
+    setter = (colName, colVal, onSet) => {
 
-        const {fctn} = this.props;
-
-        return fctn.getVal(colName);
+        const {setter, values} = this.props;
+        setter({
+            ...values,
+            [colName] : colVal
+        }, onSet);
     };
 }
 
