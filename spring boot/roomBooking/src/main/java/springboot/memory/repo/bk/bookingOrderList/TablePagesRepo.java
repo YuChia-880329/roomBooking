@@ -69,7 +69,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 				.roomNumMax(null)
 				.priceMin(null)
 				.priceMax(null)
-				.payMethods(null)
+				.payMethodIds(null)
 				.checkinDateTimeFrom(null)
 				.checkinDateTimeTo(null)
 				.checkoutDateFrom(null)
@@ -108,7 +108,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 		
 		long totalRows = bookingOrderDaoInner.queryBkBookingOrderListTablePagesRowNum(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
 				searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomType(), searchParam.getRoomNumMin(),
-				searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethods(),
+				searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethodIds(),
 				searchParam.getCheckinDateTimeFrom(), searchParam.getCheckinDateTimeTo(), searchParam.getCheckoutDateFrom(),
 				searchParam.getCheckoutDateTo(), searchParam.getUseDayMin(), searchParam.getUseDayMax(), searchParam.getTotalPriceMin(), 
 				searchParam.getTotalPriceMax());
@@ -133,7 +133,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 			
 			List<BookingOrderDto> bookingOrders = bookingOrderDaoInner.queryBkBookingOrderListTablePages(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
 					searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomType(), searchParam.getRoomNumMin(),
-					searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethods(),
+					searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethodIds(),
 					searchParam.getCheckinDateTimeFrom(), searchParam.getCheckinDateTimeTo(), searchParam.getCheckoutDateFrom(),
 					searchParam.getCheckoutDateTo(), searchParam.getUseDayMin(), searchParam.getUseDayMax(), searchParam.getTotalPriceMin(), 
 					searchParam.getTotalPriceMax(), bookingOrderTableOrder, rowBounds[0], rowBounds[1]);

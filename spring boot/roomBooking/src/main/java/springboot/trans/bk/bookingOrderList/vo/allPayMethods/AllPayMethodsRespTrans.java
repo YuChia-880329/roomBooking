@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.bk.bookingOrderList.vo.allPayMethods.AllPayMethodsRespDto;
 import springboot.bean.vo.bk.bookingOrderList.allPayMethods.AllPayMethodsResp;
+import springboot.bean.vo.bk.bookingOrderList.allPayMethods.PayMethod;
 import tmpl.trans.bean.vo.VoWoTrans;
 
 @Component("bk.bookingOrderList.vo.allPayMethods.AllPayMethodsRespTrans")
@@ -19,7 +20,7 @@ public class AllPayMethodsRespTrans implements VoWoTrans<AllPayMethodsResp, AllP
 	public AllPayMethodsResp dtoToVoImpl(AllPayMethodsRespDto dto) {
 		
 		return AllPayMethodsResp.builder()
-				.payMethods(payMethodTrans.dtoListToVoList(dto.getPayMethods()))
+				.payMethods(payMethodTrans.dtoListToVoArray(dto.getPayMethods(), size -> new PayMethod[size]))
 				.build();
 	}
 }

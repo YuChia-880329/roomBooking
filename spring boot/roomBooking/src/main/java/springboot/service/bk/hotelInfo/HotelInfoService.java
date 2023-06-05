@@ -44,6 +44,7 @@ public class HotelInfoService {
 						.map(f -> f.getId())
 						.collect(Collectors.toList()))
 				.newFeatureNames(hotel.getNewFeatures().stream()
+						.filter(nf -> nf.isChecked())
 						.map(nf -> nf.getName())
 						.collect(Collectors.toList()))
 				.image(toImage(hotel))

@@ -1,5 +1,7 @@
 package springboot.trans.vo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -18,10 +20,17 @@ public class PaginationTrans implements VoWoTrans<Pagination, PaginationDto> {
 	@Override
 	public Pagination dtoToVoImpl(PaginationDto dto) {
 		
+		List<Integer> pages = dto.getPages();
+		int[] pageArray = new int[pages.size()];
+		for(int i=0; i<pages.size(); i++) {
+			
+			pageArray[i] = pages.get(i);
+		}
+		
 		return Pagination.builder()
 				.first(paginationItemTrans.dtoToVo(dto.getFirst()))
 				.prev(paginationItemTrans.dtoToVo(dto.getPrev()))
-				.pages(dto.getPages())
+				.pages(pageArray)
 				.next(paginationItemTrans.dtoToVo(dto.getNext()))
 				.last(paginationItemTrans.dtoToVo(dto.getLast()))
 				.currentPage(dto.getCurrentPage())

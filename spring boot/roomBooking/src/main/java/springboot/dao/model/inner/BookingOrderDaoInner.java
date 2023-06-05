@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import enumeration.PayMethod;
 import enumeration.bk.bookingOderList.BookingOrderTableOrder;
 import springboot.bean.dto.model.BookingOrderDto;
 import springboot.dao.model.BookingOrderDao;
@@ -29,7 +28,7 @@ public class BookingOrderDaoInner {
 	public long queryBkBookingOrderListTablePagesRowNum(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethods, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
 		
@@ -41,7 +40,7 @@ public class BookingOrderDaoInner {
 	public List<BookingOrderDto> queryBkBookingOrderListTablePages(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethods, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
 			BookingOrderTableOrder bookingOrderTableOrder, int minRow, int maxRow){

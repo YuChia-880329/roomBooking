@@ -1,6 +1,7 @@
 package tmpl.trans.bean.vo;
 
 import java.util.List;
+import java.util.function.Function;
 
 import tmpl.trans.bean.BeanWoTrans;
 
@@ -11,9 +12,9 @@ public interface VoWoTrans<V, D> extends BeanWoTrans<V, D> {
 		return dtoToBean(dto);
 	}
 	
-	public default List<V> dtoListToVoList(List<D> dtoList){
+	public default V[] dtoListToVoArray(List<D> dtoList, Function<Integer, V[]> arrayFctn){
 		
-		return dtoListToBeanList(dtoList);
+		return dtoListToBeanList(dtoList).toArray(arrayFctn.apply(dtoList.size()));
 	}
 	
 	

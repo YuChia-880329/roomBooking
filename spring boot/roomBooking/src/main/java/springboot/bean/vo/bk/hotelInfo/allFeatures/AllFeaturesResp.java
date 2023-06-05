@@ -1,7 +1,5 @@
 package springboot.bean.vo.bk.hotelInfo.allFeatures;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,5 +12,5 @@ import springboot.bean.vo.Data;
 @Setter
 public class AllFeaturesResp extends Data {
 
-	private List<Feature> features;
+	private Feature[] features;
 }

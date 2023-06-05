@@ -6,12 +6,15 @@ import org.springframework.stereotype.Service;
 
 import springboot.bean.vo.Response;
 import springboot.bean.vo.bk.hotelInfo.checkNewFeature.CheckNewFeatureReq;
+import springboot.bean.vo.bk.hotelInfo.update.UpdateReq;
 import springboot.trans.bk.hotelInfo.vo.allFeatures.AllFeaturesRespTrans;
 import springboot.trans.bk.hotelInfo.vo.allNewFeatures.AllNewFeaturesRespTrans;
 import springboot.trans.bk.hotelInfo.vo.allSections.AllSectionsRespTrans;
 import springboot.trans.bk.hotelInfo.vo.checkNewFeature.CheckNewFeatureReqTrans;
 import springboot.trans.bk.hotelInfo.vo.checkNewFeature.CheckNewFeatureRespTrans;
 import springboot.trans.bk.hotelInfo.vo.hotelInfo.HotelInfoRespTrans;
+import springboot.trans.bk.hotelInfo.vo.update.UpdateReqTrans;
+import springboot.trans.bk.hotelInfo.vo.update.UpdateRespTrans;
 import util.ResponseUtil;
 
 @Service("bk.hotelInfo.HotelInfoControllerService")
@@ -32,6 +35,9 @@ public class HotelInfoControllerService {
 	@Autowired
 	@Qualifier("bk.hotelInfo.HotelInfoService")
 	private HotelInfoService hotelInfoService;
+	@Autowired
+	@Qualifier("bk.hotelInfo.UpdateService")
+	private UpdateService updateService;
 	
 	
 	@Autowired
@@ -52,6 +58,13 @@ public class HotelInfoControllerService {
 	@Autowired
 	@Qualifier("bk.hotelInfo.vo.hotelInfo.HotelInfoRespTrans")
 	private HotelInfoRespTrans hotelInfoRespTrans;
+	@Autowired
+	@Qualifier("bk.hotelInfo.vo.update.UpdateReqTrans")
+	private UpdateReqTrans updateReqTrans;
+	@Autowired
+	@Qualifier("bk.hotelInfo.vo.update.UpdateRespTrans")
+	private UpdateRespTrans updateRespTrans;
+	
 	
 	
 	public Response allSections() {
@@ -87,5 +100,12 @@ public class HotelInfoControllerService {
 		return ResponseUtil.response200(
 				hotelInfoRespTrans.dtoToVo(
 						hotelInfoService.hotelInfo()));
+	}
+	public Response update(UpdateReq updateReq) {
+		
+		return ResponseUtil.response200(
+				updateRespTrans.dtoToVo(
+						updateService.update(
+								updateReqTrans.voToDto(updateReq))));
 	}
 }

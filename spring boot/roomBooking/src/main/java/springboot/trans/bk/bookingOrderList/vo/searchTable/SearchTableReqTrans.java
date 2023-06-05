@@ -1,14 +1,12 @@
 package springboot.trans.bk.bookingOrderList.vo.searchTable;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import enumeration.PayMethod;
 import springboot.bean.dto.bk.bookingOrderList.vo.searchTable.SearchTableReqDto;
 import springboot.bean.vo.bk.bookingOrderList.searchTable.SearchTableReq;
 import springboot.checker.bk.bookingOrderList.vo.searchTable.SearchTableReqChecker;
@@ -28,7 +26,7 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 		String roomNumMax = vo.getRoomNumMax();
 		String priceMin = vo.getPriceMin();
 		String priceMax = vo.getPriceMax();
-		String[] payMethods = vo.getPayMethods();
+		String[] payMethodIds = vo.getPayMethodIds();
 		String checkinDateTimeFrom = vo.getCheckinDateTimeFrom();
 		String checkinDateTimeTo = vo.getCheckinDateTimeTo();
 		String checkoutDateFrom = vo.getCheckoutDateFrom();
@@ -49,7 +47,8 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 				.roomNumMax(roomNumMax==null ? null : Integer.parseInt(roomNumMax))
 				.priceMin(priceMin==null ? null : Integer.parseInt(priceMin))
 				.priceMax(priceMax==null ? null : Integer.parseInt(priceMax))
-				.payMethods(payMethods==null ? null : toPayMethods(payMethods))
+				.payMethodIds(payMethodIds==null ? null : Arrays.stream(payMethodIds)
+						.map(payMethodId -> Integer.parseInt(payMethodId)).collect(Collectors.toList()))
 				.checkinDateTimeFrom(checkinDateTimeFrom==null ? null : DateTimeUtil.toLocalDateTimeFront(checkinDateTimeFrom))
 				.checkinDateTimeTo(checkinDateTimeTo==null ? null : DateTimeUtil.toLocalDateTimeFront(checkinDateTimeTo))
 				.checkoutDateFrom(checkoutDateFrom==null ? null : DateTimeUtil.toLocalDateFront(checkoutDateFrom))
@@ -59,15 +58,6 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 				.totalPriceMin(totalPriceMin==null ? null : Integer.parseInt(totalPriceMin))
 				.totalPriceMax(totalPriceMax==null ? null : Integer.parseInt(totalPriceMax))
 				.build();
-	}
-	
-	private PayMethod[] toPayMethods(String[] payMethods) {
-		
-		List<PayMethod> list = Arrays.stream(payMethods)
-				.map(payMethod -> PayMethod.getById(Integer.parseInt(payMethod)))
-				.collect(Collectors.toList());
-		
-		return list.toArray(new PayMethod[list.size()]);
 	}
 
 	@Autowired

@@ -2,10 +2,10 @@ package springboot.service.bk.bookingOrderList.memory.repo.tablePages;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import enumeration.PayMethod;
 import enumeration.bk.bookingOderList.BookingOrderTableOrder;
 import springboot.bean.obj.bk.bookingOrderList.repo.tablePages.SearchParam;
 import util.SearchParamUtil;
@@ -24,7 +24,7 @@ public class SearchParamService {
 				roomNumMaxEquals(searchParam1.getRoomNumMax(), searchParam2.getRoomNumMax()) &&
 				priceMinEquals(searchParam1.getPriceMin(), searchParam2.getPriceMin()) &&
 				priceMaxEquals(searchParam1.getPriceMax(), searchParam2.getPriceMax()) &&
-				payMethodsEquals(searchParam1.getPayMethods(), searchParam2.getPayMethods()) &&
+				payMethodIdsEquals(searchParam1.getPayMethodIds(), searchParam2.getPayMethodIds()) &&
 				checkinDateTimeFromEquals(searchParam1.getCheckinDateTimeFrom(), searchParam2.getCheckinDateTimeFrom()) &&
 				checkinDateTimeToEquals(searchParam1.getCheckinDateTimeTo(), searchParam2.getCheckinDateTimeTo()) &&
 				checkoutDateFromEquals(searchParam1.getCheckoutDateFrom(), searchParam2.getCheckoutDateFrom()) &&
@@ -73,16 +73,16 @@ public class SearchParamService {
 		
 		return SearchParamUtil.equals(priceMax1, priceMax2, (t1, t2) -> t1.intValue()==t2.intValue());
 	}
-	private boolean payMethodsEquals(PayMethod[] payMethods1, PayMethod[] payMethods2) {
+	private boolean payMethodIdsEquals(List<Integer> payMethodIds1, List<Integer> payMethodIds2) {
 		
-		return SearchParamUtil.equals(payMethods1, payMethods2, (t1, t2) -> {
+		return SearchParamUtil.equals(payMethodIds1, payMethodIds2, (t1, t2) -> {
 			
-			if(t1.length != t2.length)
+			if(t1.size() != t2.size())
 				return false;
 			
-			for(int i=0; i<t1.length; i++) {
+			for(int i=0; i<t1.size(); i++) {
 				
-				if(t1[i]!=t2[i])
+				if(t1.get(i) != t2.get(i))
 					return false;
 			}
 			return true;

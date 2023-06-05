@@ -20,7 +20,7 @@ public class SearchTableReq {
 	private String roomNumMax;
 	private String priceMin;
 	private String priceMax;
-	private String[] payMethods;
+	private String[] payMethodIds;
 	private String checkinDateTimeFrom;
 	private String checkinDateTimeTo;
 	private String checkoutDateFrom;

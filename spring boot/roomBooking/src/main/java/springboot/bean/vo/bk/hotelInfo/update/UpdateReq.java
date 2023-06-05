@@ -1,7 +1,5 @@
 package springboot.bean.vo.bk.hotelInfo.update;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +15,7 @@ public class UpdateReq {
 	private String sectionCode;
 	private String address;
 	private String description;
-	private List<Integer> featureIds;
-	private List<NewFeature> newFeatures;
+	private int[] featureIds;
+	private NewFeature[] newFeatures;
 	private UpdateImage updateImage;
 }

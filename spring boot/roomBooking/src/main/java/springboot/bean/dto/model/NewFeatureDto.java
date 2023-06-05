@@ -14,5 +14,6 @@ public class NewFeatureDto {
 	private int id;
 	private String name;
 	private int hotelId;
+	private boolean checked;
 	private HotelDto hotel;
 }

@@ -2,8 +2,8 @@ package springboot.bean.dto.bk.bookingOrderList.obj.repo.tablePages;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import enumeration.PayMethod;
 import enumeration.bk.bookingOderList.BookingOrderTableOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ public class SearchParamDto {
 	private Integer roomNumMax;
 	private Integer priceMin;
 	private Integer priceMax;
-	private PayMethod[] payMethods;
+	private List<Integer> payMethodIds;
 	private LocalDateTime checkinDateTimeFrom;
 	private LocalDateTime checkinDateTimeTo;
 	private LocalDate checkoutDateFrom;

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.bk.hotelInfo.vo.allFeatures.AllFeaturesRespDto;
 import springboot.bean.vo.bk.hotelInfo.allFeatures.AllFeaturesResp;
+import springboot.bean.vo.bk.hotelInfo.allFeatures.Feature;
 import tmpl.trans.bean.vo.VoWoTrans;
 
 @Component("bk.hotelInfo.vo.allHotelFeatures.AllFeaturesRespTrans")
@@ -19,7 +20,7 @@ public class AllFeaturesRespTrans implements VoWoTrans<AllFeaturesResp, AllFeatu
 	public AllFeaturesResp dtoToVoImpl(AllFeaturesRespDto dto) {
 		
 		return AllFeaturesResp.builder()
-				.features(featureTrans.dtoListToVoList(dto.getFeatures()))
+				.features(featureTrans.dtoListToVoArray(dto.getFeatures(), size -> new Feature[size]))
 				.build();
 	}
 }

@@ -79,7 +79,7 @@ public class BookingOrderListControllerService {
 	}
 	public Response searchTable(String idMin, String idMax, String clientName, String clientPhone, 
 			String roomType, String roomNumMin, String roomNumMax, String priceMin, String priceMax, 
-			String[] payMethods, String checkinDateTimeFrom, String checkinDateTimeTo, String checkoutDateFrom, 
+			String[] payMethodIds, String checkinDateTimeFrom, String checkinDateTimeTo, String checkoutDateFrom, 
 			String checkoutDateTo, String useDayMin, String useDayMax, String totalPriceMin, String totalPriceMax) {
 		
 		SearchTableReq searchTableReq = SearchTableReq.builder()
@@ -92,7 +92,7 @@ public class BookingOrderListControllerService {
 				.roomNumMax(roomNumMax)
 				.priceMin(priceMin)
 				.priceMax(priceMax)
-				.payMethods(payMethods)
+				.payMethodIds(payMethodIds)
 				.checkinDateTimeFrom(checkinDateTimeFrom)
 				.checkinDateTimeTo(checkinDateTimeTo)
 				.checkoutDateFrom(checkoutDateFrom)

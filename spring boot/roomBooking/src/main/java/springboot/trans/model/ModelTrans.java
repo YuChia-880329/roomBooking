@@ -33,6 +33,9 @@ public abstract class ModelTrans<M, D>  implements ModelRiTrans<M, D>, ModelWoTr
 	
 	M toModelRecrs(D dto, Function<D, M> initFctn, Supplier<Map<D, M>> getter, Consumer<Map<D, M>> setter, Consumer<M> modelCsmr) {
 		
+		if(dto == null)
+			return null;
+		
 		M model = initFctn.apply(dto);
 		
 		Map<D, M> map = getter.get();
@@ -51,6 +54,9 @@ public abstract class ModelTrans<M, D>  implements ModelRiTrans<M, D>, ModelWoTr
 		return model;
 	}
 	D toDtoRecrs(M model, Function<M, D> initFctn, Supplier<Map<M, D>> getter, Consumer<Map<M, D>> setter, Consumer<D> dtoCsmr) {
+		
+		if(model == null)
+			return null;
 		
 		D dto = initFctn.apply(model);
 		

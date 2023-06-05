@@ -1,7 +1,5 @@
 package springboot.bean.vo;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +13,7 @@ public class Pagination {
 
 	private PaginationItem first;
 	private PaginationItem prev;
-	private List<Integer> pages;
+	private int[] pages;
 	private PaginationItem next;
 	private PaginationItem last;
 	private int currentPage;

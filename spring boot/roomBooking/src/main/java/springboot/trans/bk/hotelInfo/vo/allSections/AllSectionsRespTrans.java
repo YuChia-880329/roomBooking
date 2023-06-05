@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 
 import springboot.bean.dto.bk.hotelInfo.vo.allSections.AllSectionsRespDto;
 import springboot.bean.vo.bk.hotelInfo.allSections.AllSectionsResp;
+import springboot.bean.vo.bk.hotelInfo.allSections.Section;
 import tmpl.trans.bean.vo.VoWoTrans;
 
 @Controller("bk.hotelInfo.vo.allSections.AllSectionsRespTrans")
@@ -19,7 +20,7 @@ public class AllSectionsRespTrans implements VoWoTrans<AllSectionsResp, AllSecti
 	public AllSectionsResp dtoToVoImpl(AllSectionsRespDto dto) {
 		
 		return AllSectionsResp.builder()
-				.sections(sectionTrans.dtoListToVoList(dto.getSections()))
+				.sections(sectionTrans.dtoListToVoArray(dto.getSections(), size -> new Section[size]))
 				.build();
 	}
 

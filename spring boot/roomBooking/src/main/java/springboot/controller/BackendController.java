@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springboot.bean.vo.Response;
+import springboot.bean.vo.bk.hotelInfo.update.UpdateReq;
 import springboot.bean.vo.bk.login.login.LoginReq;
 import springboot.service.bk.BkControllerService;
 import springboot.service.bk.bookingOrderList.BookingOrderListControllerService;
@@ -100,7 +101,7 @@ public class BackendController {
 			@RequestParam(name = "clientPhone", required = false) String clientPhone, @RequestParam(name = "roomType", required = false) String roomType, 
 			@RequestParam(name = "roomNumMin", required = false) String roomNumMin, @RequestParam(name = "roomNumMax", required = false) String roomNumMax, 
 			@RequestParam(name = "priceMin", required = false) String priceMin, @RequestParam(name = "priceMax", required = false) String priceMax, 
-			@RequestParam(name = "payMethod", required = false) String[] payMethods, @RequestParam(name = "checkinDateTimeFrom", required = false) String checkinDateTimeFrom, 
+			@RequestParam(name = "payMethod", required = false) String[] payMethodIds, @RequestParam(name = "checkinDateTimeFrom", required = false) String checkinDateTimeFrom, 
 			@RequestParam(name = "checkinDateTimeTo", required = false) String checkinDateTimeTo, @RequestParam(name = "checkoutDateFrom", required = false) String checkoutDateFrom, 
 			@RequestParam(name = "checkoutDateTo", required = false) String checkoutDateTo, @RequestParam(name = "useDayMin", required = false) String useDayMin, 
 			@RequestParam(name = "useDayMax", required = false) String useDayMax, @RequestParam(name = "totalPriceMin", required = false) String totalPriceMin, 
@@ -108,7 +109,7 @@ public class BackendController {
 		
 
 		Response response = bookingOrderListService.searchTable(idMin, idMax, clientName, clientPhone, roomType, roomNumMin, roomNumMax, priceMin, priceMax, 
-				payMethods, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
+				payMethodIds, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/bookingOrderList/turnPage")
@@ -154,6 +155,12 @@ public class BackendController {
 	public ResponseEntity<Response> hotelInfo(){
 		
 		Response response = hotelInfoService.hotelInfo();
+		return ResponseEntity.ok(response);
+	}
+	@PostMapping("/hotelInfo/update")
+	public ResponseEntity<Response> update(@RequestBody UpdateReq updateReq){
+		
+		Response response = hotelInfoService.update(updateReq);
 		return ResponseEntity.ok(response);
 	}
 }

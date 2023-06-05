@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.bk.bookingOrderList.vo.allRooms.AllRoomsRespDto;
 import springboot.bean.vo.bk.bookingOrderList.allRooms.AllRoomsResp;
+import springboot.bean.vo.bk.bookingOrderList.allRooms.Room;
 import tmpl.trans.bean.vo.VoWoTrans;
 
 @Component("bk.bookingOrderList.vo.allRooms.AllRoomsRespTrans")
@@ -19,7 +20,7 @@ public class AllRoomsRespTrans implements VoWoTrans<AllRoomsResp, AllRoomsRespDt
 	public AllRoomsResp dtoToVoImpl(AllRoomsRespDto dto) {
 		
 		return AllRoomsResp.builder()
-				.rooms(roomTrans.dtoListToVoList(dto.getRooms()))
+				.rooms(roomTrans.dtoListToVoArray(dto.getRooms(), size -> new Room[size]))
 				.build();
 	}
 }

@@ -14,10 +14,26 @@ const constant = {
             allSections : urls.backend.hotelInfo.allSections,
             allFeatures : urls.backend.hotelInfo.allFeatures,
             allNewFeatures : urls.backend.hotelInfo.allNewFeatures,
-            hotelInfo : urls.backend.hotelInfo.hotelInfo
+            hotelInfo : urls.backend.hotelInfo.hotelInfo,
+            update : urls.backend.hotelInfo.update
         },
         config : {
             timeout : config.fetch.timeout
+        },
+        req : {
+            update : {
+                name : '',
+                sectionCode : '',
+                address : '',
+                description : '',
+                featureIds : [],
+                newFeatures : [],
+                updateImage : {
+                    needUpdate : false,
+                    imageName : '',
+                    file : null
+                }
+            }
         }
     }
 }
@@ -28,6 +44,7 @@ class HotelInfo extends Component {
         super(props);
         this.state = {
             infoForm : {
+                validate : false,
                 option : {
                     section : {
                         allSections : []
@@ -115,7 +132,10 @@ class HotelInfo extends Component {
                 getInfoFormValue : this.getInfoFormValue,
                 setInfoFormValue : this.setInfoFormValue,
                 getInsertFeatureFormValidated : this.getInsertFeatureFormValidated,
-                setInsertFeatureFormValidated : this.setInsertFeatureFormValidated
+                setInsertFeatureFormValidated : this.setInsertFeatureFormValidated,
+                update : this.update,
+                getInfoFormValidate : this.getInfoFormValidate,
+                setInfoFormValidate : this.setInfoFormValidate
             }
         };
 
@@ -142,6 +162,31 @@ class HotelInfo extends Component {
 
         this.hotelInfoFetch(onSuccess);
     };
+    update = (imgFile) => {
+
+        const {infoForm} = this.state;
+        const req = constant.fetch.req.update;
+        const {allNewFeatures} = infoForm.option.feature;
+
+        req.name = infoForm.value.name;
+        req.sectionCode = infoForm.value.section;
+        req.address = infoForm.value.address;
+        req.description = infoForm.value.description;
+        req.featureIds = infoForm.value.feature.features;
+        req.newFeatures = allNewFeatures.map(nf => {return ({
+            id : nf.id,
+            name : nf.name,
+            checked : infoForm.value.feature.newFeatures.includes(nf.name)
+        })});
+        req.updateImage.needUpdate = (infoForm.value.updateImage.imageName !== '');
+        req.updateImage.imageName = infoForm.value.updateImage.imageName;
+        req.updateImage.file = imgFile;
+
+        const formData = new FormData();
+        Object.keys(req).map(key => formData.append(key, req[key]));
+        this.update(formData);
+    }
+
 
 
     // fetch
@@ -236,6 +281,30 @@ class HotelInfo extends Component {
             fctn.showInformModal(serverInfo.msg);
         }
     };
+    updateFetch = async (req) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.update;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.post(url, req, {
+                timeout : config.timeout,
+                withCredentials : true
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterUpdate(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+
 
 
     // after fetch
@@ -325,6 +394,10 @@ class HotelInfo extends Component {
             onSuccess && onSuccess();
         });
     };
+    afterUpdate = (data) => {
+
+        console.log('data : ', data);
+    }
 
 
     // getter setter
@@ -353,6 +426,12 @@ class HotelInfo extends Component {
         const {infoForm} = this.state;
         return infoForm.other.feature.insertFeatureForm.validated;
     };
+    getInfoFormValidate = () => {
+
+        const {infoForm} = this.state;
+        return infoForm.validate;
+    }
+
 
 
     setInfoFormValue = (colName, colValue) => {
@@ -409,6 +488,16 @@ class HotelInfo extends Component {
             onSuccess && onSuccess();
         });
     };
+    setInfoFormValidate = (validate) => {
+
+        const {infoForm} = this.state;
+        this.setState({
+            infoForm : {
+                ...infoForm,
+                validate : validate
+            }
+        }); 
+    }
 }
 
 export default HotelInfo;

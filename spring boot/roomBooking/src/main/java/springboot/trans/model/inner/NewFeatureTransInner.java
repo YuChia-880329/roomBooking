@@ -17,6 +17,7 @@ public class NewFeatureTransInner implements ModelRiTrans<NewFeature, NewFeature
 				.id(dto.getId())
 				.name(dto.getName())
 				.hotelId(dto.getHotelId())
+				.checked(dto.isChecked() ? "1" : "0")
 				.hotel(null)
 				.build();
 	}
@@ -28,6 +29,7 @@ public class NewFeatureTransInner implements ModelRiTrans<NewFeature, NewFeature
 				.id(model.getId())
 				.name(model.getName())
 				.hotelId(model.getHotelId())
+				.checked(model.getChecked().equals("1") ? true : false)
 				.hotel(null)
 				.build();
 	}

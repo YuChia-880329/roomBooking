@@ -60,7 +60,7 @@ public class SearchTableService {
 				.roomNumMax(searchTableReq.getRoomNumMax())
 				.priceMin(searchTableReq.getPriceMin())
 				.priceMax(searchTableReq.getPriceMax())
-				.payMethods(searchTableReq.getPayMethods())
+				.payMethodIds(searchTableReq.getPayMethodIds())
 				.checkinDateTimeFrom(searchTableReq.getCheckinDateTimeFrom())
 				.checkinDateTimeTo(searchTableReq.getCheckinDateTimeTo())
 				.checkoutDateFrom(searchTableReq.getCheckoutDateFrom())

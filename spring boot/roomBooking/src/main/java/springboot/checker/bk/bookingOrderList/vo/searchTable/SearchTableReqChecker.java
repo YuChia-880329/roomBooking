@@ -2,10 +2,8 @@ package springboot.checker.bk.bookingOrderList.vo.searchTable;
 
 import org.springframework.stereotype.Component;
 
-import enumeration.PayMethod;
 import exception.check.NonIntegerNumberException;
 import exception.check.NonNumberStringException;
-import exception.check.StringIsNotOneOfException;
 import springboot.bean.vo.bk.bookingOrderList.searchTable.SearchTableReq;
 import tmpl.checker.Checker;
 import tmpl.checker.exception.RiCheckerException;
@@ -185,21 +183,6 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 		}
 	}
 	private void checkPayMethod(SearchTableReq vo) {
-		
-		String[] payMethods = vo.getPayMethods();
-		if(payMethods == null)
-			return;
-		
-		try {
-			
-			for(String payMethod : payMethods) {
-				
-				CheckUtil.checkStringWithOptions(payMethod, PayMethod.getCodeStrs());
-			}
-		}catch(StringIsNotOneOfException ex) {
-			
-			throw new RiCheckerException(StringIsNotOneOfException.getMsgStr(PAY_METHOD_FIELD_NAME, PayMethod.getCodeStrs()));
-		}
 	}
 	private void checkCheckinDateTimeFrom(SearchTableReq vo) {
 		

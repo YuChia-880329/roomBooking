@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Col, Row, Stack } from 'react-bootstrap';
+import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import Name from './info_form/name';
 import Address from './info_form/address';
 import Section from './info_form/section';
@@ -44,32 +44,34 @@ class InfoForm extends Component {
             }
         };
         return (
-            <Stack gap={5}>
-                <Row>
-                    <Col>
-                        <Name value={this.getValue(colName.name)} 
-                                onChange={e => this.onChange(colName.name, e)} />
-                    </Col>
-                    <Col>
-                        <Section fctn={fctn.section} 
-                                value={this.getValue(colName.section)}
-                                onChange={e => this.onChange(colName.section, e)} />
-                    </Col>
-                </Row>
-                <Address value={this.getValue(colName.address)}
-                        onChange={e => this.onChange(colName.address, e)} />
-                <Description value={this.getValue(colName.description)}
-                        onChange={e => this.onChange(colName.description, e)} />
-                <Feature fctn={fctn.feature}
-                        values={this.getValue(colName.feature)} />
-                <HotelImage imgName={this.getValue(colName.hotelImage).imageName}
-                        url={this.getValue(colName.hotelImage).url} />
-                <UpdateImage imgName={this.getValue(colName.updateImage).imageName} 
-                        onChange={this.updateImageOnChange} />
-                <Stack direction='horizontal'>
-                    <Button variant='outline-primary' className='ms-auto'>更新資料</Button>
+            <Form noValidate>
+                <Stack gap={5}>
+                    <Row>
+                        <Col>
+                            <Name value={this.getValue(colName.name)} 
+                                    onChange={e => this.onChange(colName.name, e)} />
+                        </Col>
+                        <Col>
+                            <Section fctn={fctn.section} 
+                                    value={this.getValue(colName.section)}
+                                    onChange={e => this.onChange(colName.section, e)} />
+                        </Col>
+                    </Row>
+                    <Address value={this.getValue(colName.address)}
+                            onChange={e => this.onChange(colName.address, e)} />
+                    <Description value={this.getValue(colName.description)}
+                            onChange={e => this.onChange(colName.description, e)} />
+                    <Feature fctn={fctn.feature}
+                            values={this.getValue(colName.feature)} />
+                    <HotelImage imgName={this.getValue(colName.hotelImage).imageName}
+                            url={this.getValue(colName.hotelImage).url} />
+                    <UpdateImage imgName={this.getValue(colName.updateImage).imageName} 
+                            onChange={this.updateImageOnChange} />
+                    <Stack direction='horizontal'>
+                        <Button variant='outline-primary' className='ms-auto'>更新資料</Button>
+                    </Stack>
                 </Stack>
-            </Stack>
+            </Form>
         );
     }
 

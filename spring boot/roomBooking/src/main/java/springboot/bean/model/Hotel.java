@@ -58,7 +58,7 @@ public class Hotel {
 	
 	@JoinTable(name = "HOTEL_FEATURE_JOIN", joinColumns = @JoinColumn(name = "HOTEL_ID"), 
 			inverseJoinColumns = @JoinColumn(name = "FEATURE_ID"))
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Feature> features;
 	
 	

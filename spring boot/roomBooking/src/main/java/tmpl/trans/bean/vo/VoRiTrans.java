@@ -1,5 +1,7 @@
 package tmpl.trans.bean.vo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import tmpl.trans.bean.BeanRiTrans;
@@ -11,9 +13,9 @@ public interface VoRiTrans<V, D> extends BeanRiTrans<V, D> {
 		return beanToDto(vo);
 	}
 
-	public default List<D> voListToDtoList(List<V> voList){
+	public default List<D> voArrayToDtoList(V[] voArray){
 		
-		return beanListToDtoList(voList);
+		return beanListToDtoList(new ArrayList<>(Arrays.asList(voArray)));
 	}
 	
 	@Override

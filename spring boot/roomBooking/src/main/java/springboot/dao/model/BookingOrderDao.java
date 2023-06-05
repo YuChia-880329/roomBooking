@@ -14,7 +14,6 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
-import enumeration.PayMethod;
 import enumeration.bk.bookingOderList.BookingOrderTableOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -71,7 +70,7 @@ public class BookingOrderDao {
 	public long queryBkBookingOrderListTablePagesRowNum(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
 		
@@ -79,7 +78,7 @@ public class BookingOrderDao {
 		String sqlSelectFrom = sqlSelectFrom(sqlSelect, BOOKING_ORDER_TABLE_SQL_LABEL);
 		String sqlSelectFromJoin = sqlSelectFromJoin(sqlSelectFrom);
 		String sqlSelectFromJoinWhere = sqlSelectFromJoinWhere(sqlSelectFromJoin, hotelId, idMin, idMax, clientName, clientPhone, 
-				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
+				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethodIds, checkinDateTimeFrom, checkinDateTimeTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		
 		String sql = String.format("SELECT COUNT(%s) CT FROM (%s)", BOOKING_ORDER_ID_SQL_NAME, sqlSelectFromJoinWhere);
@@ -94,13 +93,13 @@ public class BookingOrderDao {
 	public List<BookingOrder> queryBkBookingOrderListTablePages(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
 			BookingOrderTableOrder bookingOrderTableOrder, int minRow, int maxRow){
 		
 		String sql = sqlRowWhere(hotelId, idMin, idMax, clientName, clientPhone, roomType, roomNumMin, roomNumMax, 
-				priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, 
+				priceMin, priceMax, payMethodIds, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, 
 				useDayMin, useDayMax, totalPriceMin, totalPriceMax, bookingOrderTableOrder, minRow, maxRow);
 		
 		Query query = entityManager.createNativeQuery(sql, BookingOrder.class);
@@ -111,7 +110,7 @@ public class BookingOrderDao {
 	private String sqlRowWhere(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
 			BookingOrderTableOrder bookingOrderTableOrder, int minRow, int maxRow) {
@@ -120,7 +119,7 @@ public class BookingOrderDao {
 		String sqlSelectFrom = sqlSelectFrom(sqlSelect, BOOKING_ORDER_TABLE_SQL_LABEL, bookingOrderTableOrder);
 		String sqlSelectFromJoin = sqlSelectFromJoin(sqlSelectFrom);
 		String sqlSelectFromJoinWhere = sqlSelectFromJoinWhere(sqlSelectFromJoin, hotelId, idMin, idMax, clientName, clientPhone, 
-				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
+				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethodIds, checkinDateTimeFrom, checkinDateTimeTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		String sql = String.format("%s FROM (%s)", sqlSelect(), sqlSelectFromJoinWhere);
 	
@@ -130,7 +129,7 @@ public class BookingOrderDao {
 	private String sqlSelectFromJoinWhere(String sqlSelectFromJoin,
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, PayMethod[] payMethods, LocalDateTime checkinDateTimeFrom, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDateTime checkinDateTimeFrom, 
 			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
 		
@@ -146,7 +145,7 @@ public class BookingOrderDao {
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_ROOM_NUM_SQL_NAME, () -> String.format("<=%d", roomNumMax), roomNumMax),
 				ifNotNull(ROOM_TABLE_SQL_LABEL, ROOM_TABLE_PRICE_SQL_NAME, () -> String.format(">=%d", priceMin), priceMin),
 				ifNotNull(ROOM_TABLE_SQL_LABEL, ROOM_TABLE_PRICE_SQL_NAME, () -> String.format("<=%d", priceMax), priceMax),
-				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_PAY_METHOD_ID_SQL_NAME, () -> getPayMethodWhere(payMethods), payMethods),
+				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_PAY_METHOD_ID_SQL_NAME, () -> getPayMethodWhere(payMethodIds), payMethodIds),
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_CHECKIN_DATETIME_SQL_NAME, 
 						() -> String.format(">=TO_DATE('%s', '%s')", DateTimeUtil.toString(checkinDateTimeFrom), DATE_TIME_SQL_FORMAT), checkinDateTimeFrom),
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_CHECKIN_DATETIME_SQL_NAME, 
@@ -246,14 +245,14 @@ public class BookingOrderDao {
 		else
 			return "";
 	}
-	private String getPayMethodWhere(PayMethod[] payMethods) {
+	private String getPayMethodWhere(List<Integer> payMethodIds) {
 		
 		String ans = " IN (";
-		for(int i=0; i<payMethods.length; i++) {
+		for(int i=0; i<payMethodIds.size(); i++) {
 			
 			if(i != 0)
 				ans = StringConcatUtil.concate(ans, ", ");
-			ans = StringConcatUtil.concate(ans, String.valueOf(payMethods[i].getId()));
+			ans = StringConcatUtil.concate(ans, String.valueOf(payMethodIds.get(i)));
 		}
 		ans = StringConcatUtil.concate(ans, ") ");
 		return ans;
