@@ -26,12 +26,12 @@ class Status extends Component {
                 <Form.Label column xs='auto'>
                     <Row xs='auto' className='g-3'>
                         <Col>
-                            <Form.Check type='radio' label={status.on.description} value={status.on.code}
-                                    checked={value.value===`${status.on.code}`} onChange={this.onChange} />
+                            <Form.Check type='radio' label={status.on.description}
+                                    checked={value.value===status.on.code} onChange={e => this.onChange(e, status.on.code)} />
                         </Col>
                         <Col>
-                            <Form.Check type='radio' label={status.off.description} value={status.off.code}
-                                    checked={value.value===`${status.off.code}`} onChange={this.onChange} />
+                            <Form.Check type='radio' label={status.off.description}
+                                    checked={value.value===status.off.code} onChange={e => this.onChange(e, status.off.code)} />
                         </Col>
                     </Row>
                 </Form.Label>
@@ -41,9 +41,9 @@ class Status extends Component {
     }
 
     // on
-    onChange = (event) => {
+    onChange = (event, radioVal) => {
 
-        this.setter('value', event.target.value);
+        this.setter('value', radioVal);
     }
 
     // setter

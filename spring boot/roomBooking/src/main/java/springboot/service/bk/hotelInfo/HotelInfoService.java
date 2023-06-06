@@ -15,6 +15,7 @@ import springboot.dao.bk.login.memory.status.LoginStatusDao;
 import springboot.dao.model.inner.HotelDaoInner;
 import springboot.exception.NotLoginException;
 import util.ImageUtil;
+import util.StringConcatUtil;
 
 @Service("bk.hotelInfo.HotelInfoService")
 public class HotelInfoService {
@@ -55,7 +56,7 @@ public class HotelInfoService {
 		
 		return ImageDto.builder()
 				.imgName(hotel.getImgName())
-				.url(ImageUtil.getUrl(hotel.getId(), hotel.getImgName()))
+				.url(ImageUtil.getUrl(hotel.getId(), StringConcatUtil.concate(ImageUtil.HOTEL_IMG_PREFIX, hotel.getImgName())))
 				.build();
 	}
 }

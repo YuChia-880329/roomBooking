@@ -17,8 +17,8 @@ class PayMethod extends Component {
                             value.options.map(
                                 op => (
                                     <Col key={op.id}>
-                                        <Form.Check type='checkbox' label={op.name} value={op.id}
-                                                checked={value.values.includes(`${op.id}`)} 
+                                        <Form.Check type='checkbox' label={op.name}
+                                                checked={value.values.includes(op.id)}
                                                 onChange={e => this.onChange(e, op.id)} />
                                     </Col>
                                 )
@@ -37,9 +37,9 @@ class PayMethod extends Component {
         let newValues;
 
         if(event.target.checked)
-            newValues = [...value.values, `${checkBoxVal}`];
+            newValues = [...value.values, checkBoxVal];
         else
-            newValues = value.values.filter(v => v!==`${checkBoxVal}`);
+            newValues = value.values.filter(v => v!==checkBoxVal);
 
         this.setter('values', newValues);
     }

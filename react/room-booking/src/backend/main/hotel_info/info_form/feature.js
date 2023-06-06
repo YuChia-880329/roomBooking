@@ -37,8 +37,8 @@ class Feature extends Component {
                                 feature.options.map(
                                     op => (
                                         <Col key={op.id}>
-                                            <Form.Check type='checkbox' label={op.name} value={op.id} 
-                                                    checked={feature.values.includes(`${op.id}`)}
+                                            <Form.Check type='checkbox' label={op.name}
+                                                    checked={feature.values.includes(op.id)}
                                                     onChange={e => this.onChangeFeature(e, op.id)} />
                                         </Col>
                                     )
@@ -51,8 +51,8 @@ class Feature extends Component {
                                     op => (
                                         <Col key={op.name}>
                                             <Stack direction='horizontal' gap={2}>
-                                                <Form.Check type='checkbox' label={op.name} value={op.name} 
-                                                        checked={newFeature.values.includes(`${op.name}`)}
+                                                <Form.Check type='checkbox' label={op.name}
+                                                        checked={newFeature.values.includes(op.name)}
                                                         onChange={e => this.onChangeNewFeature(e, op.name)} />
                                                 <Button variant='outline-primary' size='sm' className='little-btn' 
                                                         onClick={e => this.onClickMinusBtn(op.name)}>-</Button>
@@ -88,9 +88,9 @@ class Feature extends Component {
         let newValues;
 
         if(event.target.checked)
-            newValues = [...feature.values, `${checkBoxVal}`];
+            newValues = [...feature.values, checkBoxVal];
         else
-            newValues = feature.values.filter(v => v!==`${checkBoxVal}`);
+            newValues = feature.values.filter(v => v!==checkBoxVal);
 
         this.setter('feature', {
             ...feature,
@@ -105,9 +105,9 @@ class Feature extends Component {
         let newValues;
 
         if(event.target.checked)
-            newValues = [...newFeature.values, `${checkBoxVal}`];
+            newValues = [...newFeature.values, checkBoxVal];
         else
-            newValues = newFeature.values.filter(v => v!==`${checkBoxVal}`);
+            newValues = newFeature.values.filter(v => v!==checkBoxVal);
 
         this.setter('newFeature', {
             ...newFeature,

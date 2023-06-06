@@ -1,10 +1,12 @@
 package springboot.service.bk.hotelInfo;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import springboot.bean.dto.bk.hotelInfo.vo.update.NewFeatureDto;
@@ -18,6 +20,8 @@ import springboot.dao.bk.login.memory.status.LoginStatusDao;
 import springboot.dao.model.inner.FeatureDaoInner;
 import springboot.dao.model.inner.HotelDaoInner;
 import springboot.exception.NotLoginException;
+import util.ImageUtil;
+import util.StringConcatUtil;
 
 @Service("bk.hotelInfo.UpdateService")
 public class UpdateService {
@@ -35,6 +39,9 @@ public class UpdateService {
 	@Qualifier("model.inner.FeatureDaoInner")
 	private FeatureDaoInner featureDaoInner;
 	
+	@Value("${attr.imgDirPath}")
+	private String imgDirPath;
+	
 	
 	public UpdateRespDto update(UpdateReqDto updateReq) {
 		
@@ -42,8 +49,11 @@ public class UpdateService {
 		if(!login.isLogin())
 			throw new NotLoginException(NotLoginException.MSG);
 		
+		
 		HotelDto hotel = toHotel(updateReq, hotelDaoInner.findById(login.getHotelId()).get());
+		saveImg(hotel.getId(), updateReq);
 		hotel = hotelDaoInner.save(hotel);
+		
 		
 		boolean success = false;
 		if(hotel != null)
@@ -99,5 +109,18 @@ public class UpdateService {
 				.hotelId(hotelId)
 				.checked(newFeature.isChecked())
 				.build();
+	}
+	
+	private void saveImg(int hotelId, UpdateReqDto updateReq) {
+		
+		try {
+			
+			ImageUtil.saveImg(imgDirPath, hotelId, 
+					StringConcatUtil.concate(ImageUtil.HOTEL_IMG_PREFIX, updateReq.getUpdateImage().getImageName()), 
+					updateReq.getUpdateImage().getFile());
+		} catch (IOException ex) {
+			
+			throw new RuntimeException(ex);
+		}
 	}
 }

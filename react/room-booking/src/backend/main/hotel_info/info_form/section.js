@@ -28,7 +28,7 @@ class Section extends Component {
     // on
     onChange = (event) => {
 
-        this.setter('value', `${event.target.value}`);
+        this.setter('value', event.target.value);
     };
 
 

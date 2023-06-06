@@ -1,0 +1,1 @@
+mklink /d "images" "C:\Users\USER\Desktop\java\images\roomBooking"

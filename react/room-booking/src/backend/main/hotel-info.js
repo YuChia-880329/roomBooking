@@ -74,9 +74,6 @@ class HotelInfo extends Component {
                 hotelImage : {
                     imageName : '',
                     url : ''
-                },
-                updateImage : {
-                    imageName : ''
                 }
             }
         };
@@ -129,7 +126,8 @@ class HotelInfo extends Component {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
-                closeConfirmModal : this.props.fctn.closeConfirmModal
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
+                update : this.update
             }
         };
 
@@ -160,25 +158,39 @@ class HotelInfo extends Component {
 
         const {infoForm} = this.state;
         const req = constant.fetch.req.update;
-        const {allNewFeatures} = infoForm.option.feature;
+        const {newFeature} = infoForm.feature;
 
-        req.name = infoForm.value.name;
-        req.sectionCode = infoForm.value.section;
-        req.address = infoForm.value.address;
-        req.description = infoForm.value.description;
-        req.featureIds = infoForm.value.feature.features;
-        req.newFeatures = allNewFeatures.map(nf => {return ({
-            id : nf.id,
-            name : nf.name,
-            checked : infoForm.value.feature.newFeatures.includes(nf.name)
-        })});
-        req.updateImage.needUpdate = (infoForm.value.updateImage.imageName !== '');
-        req.updateImage.imageName = infoForm.value.updateImage.imageName;
+        req.name = infoForm.name.value;
+        req.sectionCode = infoForm.section.value;
+        req.address = infoForm.address.value;
+        req.description = infoForm.description.value;
+        req.featureIds = infoForm.feature.feature.values;
+        req.newFeatures = newFeature.options.map(nf => ({
+                id : nf.id,
+                name : nf.name,
+                checked : newFeature.values.includes(nf.name)
+            }));
+        req.updateImage.needUpdate = imgFile !== undefined;
+        req.updateImage.imageName = imgFile && imgFile.name;
         req.updateImage.file = imgFile;
 
         const formData = new FormData();
-        Object.keys(req).map(key => formData.append(key, req[key]));
-        this.update(formData);
+        formData.append('name', req.name);
+        formData.append('sectionCode', req.sectionCode);
+        formData.append('address', req.address);
+        formData.append('description', req.description);
+        req.featureIds.forEach((fi, id) => formData.append('featureIds[' + id + ']', fi));
+        req.newFeatures.forEach((nf, id) => {
+
+            Object.keys(nf).forEach(key => formData.append('newFeatures[' + id + '].' + key, nf[key]));
+        });
+        formData.append('updateImage.needUpdate', req.updateImage.needUpdate);
+        if(req.updateImage.imageName)
+            formData.append('updateImage.imageName', req.updateImage.imageName);
+        if(req.updateImage.file)
+            formData.append('updateImage.file', req.updateImage.file);
+
+        this.updateFetch(formData);
     }
 
 

@@ -29,9 +29,6 @@ class InfoForm extends Component {
             },
             feature : {
                 setFeature : (val, onSet) => this.setter('feature', val, onSet)
-            },
-            updateImage : {
-                setUpdateImage : (val, onSet) => this.setter('updateImage', val, onSet)
             }
         };
         const fctn = {
@@ -44,7 +41,7 @@ class InfoForm extends Component {
         };
 
         return (
-            <Stack as={Form} gap={5} noValidate validated={value.validated}>
+            <Stack as={Form} gap={5} noValidate validated={value.validated} onSubmit={this.onSubmit}>
                 <Row>
                     <Col>
                         <Name value={value.name} setter={setter.name} />
@@ -57,44 +54,22 @@ class InfoForm extends Component {
                 <Description value={value.description} setter={setter.description} />
                 <Feature value={value.feature} setter={setter.feature} fctn={fctn.feature} />
                 <HotelImage value={value.hotelImage} />
-                <UpdateImage value={value.updateImage} setter={setter.updateImage} />
+                <UpdateImage />
                 <Stack direction='horizontal'>
-                    <Button variant='outline-primary' className='ms-auto'>更新資料</Button>
+                    <Button type='send' variant='outline-primary' className='ms-auto'>更新資料</Button>
                 </Stack>
             </Stack>
         );
     }
 
     // on
-    // onChange = (colName, event) => {
+    onSubmit = (event) => {
 
-    //     const {fctn} = this.props;
-    //     fctn.setInfoFormValue(colName, event.target.value);
-    // }
-    // updateImageOnChange = (event) => {
+        const {fctn} = this.props;
 
-    //     const {colName} = constant;
-
-    //     const updateImage = this.getValue(colName.updateImage);
-    //     updateImage.imageName = event.target.value;
-    //     this.setValue(colName.updateImage, updateImage);
-    // };
-    // onSubmit = (event) => {
-
-    //     const {fctn} = this.props;
-
-    //     event.preventDefault();
-    //     fctn.setInfoFormValidated(true, () =>{
-
-    //         if(event.target.checkValidity() === true){
-            
-    //             fctn.showConfirmModal('確定要更新飯店資料?', () => {
-
-    //                 fctn.update(event.currentTarget.hotelImage.files[0]);
-    //             });
-    //         }
-    //     });
-    // };
+        event.preventDefault();
+        fctn.update(event.currentTarget.hotelImage.files[0]);
+    };
 
     // getter setter
     setter = (colName, colVal, onSet) => {

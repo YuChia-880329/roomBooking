@@ -2,9 +2,11 @@ package springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -158,8 +160,8 @@ public class BackendController {
 		Response response = hotelInfoService.hotelInfo();
 		return ResponseEntity.ok(response);
 	}
-	@PostMapping("/hotelInfo/update")
-	public ResponseEntity<Response> update(@RequestBody UpdateReq updateReq){
+	@PostMapping(value = "/hotelInfo/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Response> update(@ModelAttribute UpdateReq updateReq){
 		
 		Response response = hotelInfoService.update(updateReq);
 		return ResponseEntity.ok(response);
