@@ -29,7 +29,7 @@ public class HotelDaoInner extends DaoInner<Hotel, Integer, HotelDto, HotelTrans
 		model1.setName(model2.getName());
 		model1.setSectionCode(model2.getSectionCode());
 		model1.setAddress(model2.getAddress());
-		model1.setIntroduction(model2.getIntroduction());
+		model1.setDescription(model2.getDescription());
 		model1.setImgName(model2.getImgName());
 		
 		List<Feature> features = model1.getFeatures();

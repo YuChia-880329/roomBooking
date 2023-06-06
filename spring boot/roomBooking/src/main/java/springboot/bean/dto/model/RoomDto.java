@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import enumeration.RoomStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class RoomDto {
 	private int area;
 	private int sceneId;
 	private int hotelId;
+	private RoomStatus status;
 	private SceneDto scene;
 	@JsonIgnore
 	private HotelDto hotel;

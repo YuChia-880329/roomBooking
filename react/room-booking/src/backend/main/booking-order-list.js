@@ -105,29 +105,49 @@ class BookingOrderList extends Component {
                 tableRows : []
             },
             filterModal : {
-                form : {
-                    value : {
-                        idMin : '',
-                        idMax : '',
-                        clientName : '',
-                        clientPhone : '',
-                        roomType : '',
-                        roomNumMin : '',
-                        roomNumMax : '',
-                        priceMin : '',
-                        priceMax : '',
-                        payMethod : [],
-                        checkinDateTimeFrom : '',
-                        checkinDateTimeTo : '',
-                        checkoutDateFrom : '',
-                        checkoutDateTo : '',
-                        useDayMin : '',
-                        useDayMax : '',
-                        totalPriceMin : '',
-                        totalPriceMax : ''
-                    }
+                show : false,
+                id : {
+                    valueMin : '',
+                    valueMax : ''
                 },
-                show : false
+                clientName : {
+                    value : ''
+                },
+                clientPhone : {
+                    value : ''
+                },
+                roomType : {
+                    options : [],
+                    value : ''
+                },
+                roomNum : {
+                    valueMin : '',
+                    valueMax : ''
+                },
+                price : {
+                    valueMin : '',
+                    valueMax : ''
+                },
+                payMethod : {
+                    options : [],
+                    values : []
+                },
+                checkinDateTime : {
+                    valueFrom : '',
+                    valueTo : ''
+                },
+                checkoutDate : {
+                    valueFrom : '',
+                    valueTo : ''
+                },
+                useDay : {
+                    valueMin : '',
+                    valueMax : ''
+                },
+                totalPrice : {
+                    valueMin : '',
+                    valueMax : ''
+                }
             },
             pagination : {
                 first : {
@@ -174,84 +194,77 @@ class BookingOrderList extends Component {
 
         const fctn = {
             bookingOrderTable : {
-                getTableRows : this.getTableRows,
-                orderOnClick : this.orderOnClick
+                changeOrder : this.changeOrder
             },
             filterModal : {
-                getFilterModalVal : this.getFilterModalVal,
-                setFilterModalVal : this.setFilterModalVal,
-                searchTable : this.searchTable,
-                showInformModal : this.props.fctn.showInformModal,
-                closeInformModal : this.props.fctn.closeInformModal
-            },
-            pagn : {
-                pageOnClick : this.pageOnClick
+                searchTable : this.searchTable
             }
         }
-        const {filterModal, pagination} = this.state;
+        const {bookingOrderTable, pagination, filterModal} = this.state;
 
-        const pagn = {
-            first : pagination.first,
-            prev : pagination.prev,
-            pages : pagination.pages,
-            next : pagination.next,
-            last : pagination.last,
-            currentPage : pagination.currentPage
-        };
+        const setter = {
+            bookingOrderTable : {
+                setBookingOrderTable : (val, onSet) => this.setter('bookingOrderTable', val, onSet)
+            },
+            filterModal : {
+                setFilterModal : (val, onSet) => this.setter('filterModal', val, onSet)
+            }
+        }
+        
         
         return (
             <Fragment>
                 <Container className='w-75'>
-                    <BookingOrderTable fctn={fctn.bookingOrderTable} />
+                    <BookingOrderTable value={bookingOrderTable} setter={setter.bookingOrderTable} fctn={fctn.bookingOrderTable} />
                     <Stack direction='horizontal' className='mt-5'>
                         <div>
-                            <Button variant='outline-primary' onClick={() => this.showFilterModal()}>篩選</Button>
+                            <Button variant='outline-primary' onClick={this.onClickShowFilterBtn}>篩選</Button>
                         </div>
                         <div className='ms-auto'>
-                        <Pagn pagn={pagn} fctn={fctn.pagn} />
+                        <Pagn pagn={pagination} turnPage={this.turnPage} />
                         </div>
                     </Stack>
                 </Container>
-                <FilterModal fctn={fctn.filterModal} show={filterModal.show} onHide={this.filterModalOnHide} />
+                <FilterModal value={filterModal} setter={setter.filterModal} fctn={fctn.filterModal} />
             </Fragment>
         );
     };
 
-    // other
-    showFilterModal = () => {
+    // on
+    onClickShowFilterBtn = (event) => {
 
         const {filterModal} = this.state;
 
-        this.setState({
-            filterModal : {
-                ...filterModal,
-                show : true
-            }
+        this.setter('filterModal', {
+            ...filterModal,
+            show : true
         });
-    };
-    searchTable = (onSuccess) => {
+    }
+
+    // other
+    searchTable = () => {
 
         const req = constant.fetch.req.searchTable;
         const {filterModal} = this.state;
 
-        const idMin = filterModal.form.value.idMin;
-        const idMax = filterModal.form.value.idMax;
-        const clientName = filterModal.form.value.clientName;
-        const clientPhone = filterModal.form.value.clientPhone;
-        const roomType = filterModal.form.value.roomType;
-        const roomNumMin = filterModal.form.value.roomNumMin;
-        const roomNumMax = filterModal.form.value.roomNumMax;
-        const priceMin = filterModal.form.value.priceMin;
-        const priceMax = filterModal.form.value.priceMax;
-        const payMethod = filterModal.form.value.payMethod;
-        const checkinDateTimeFrom = filterModal.form.value.checkinDateTimeFrom;
-        const checkinDateTimeTo = filterModal.form.value.checkinDateTimeTo;
-        const checkoutDateFrom = filterModal.form.value.checkoutDateFrom;
-        const checkoutDateTo = filterModal.form.value.checkoutDateTo;
-        const useDayMin = filterModal.form.value.useDayMin;
-        const useDayMax = filterModal.form.value.useDayMax;
-        const totalPriceMin = filterModal.form.value.totalPriceMin;
-        const totalPriceMax = filterModal.form.value.totalPriceMax;
+        const idMin = filterModal.id.valueMin;
+        const idMax = filterModal.id.valueMax;
+        const clientName = filterModal.clientName.value;
+        const clientPhone = filterModal.clientPhone.value;
+        const roomType = filterModal.roomType.value;
+        const roomNumMin = filterModal.roomNum.valueMin;
+        const roomNumMax = filterModal.roomNum.valueMax;
+        const priceMin = filterModal.price.valueMin;
+        const priceMax = filterModal.price.valueMax;
+        const payMethod = filterModal.payMethod.values;
+        const checkinDateTimeFrom = filterModal.checkinDateTime.valueFrom;
+        const checkinDateTimeTo = filterModal.checkinDateTime.valueTo;
+        const checkoutDateFrom = filterModal.checkoutDate.valueFrom;
+        const checkoutDateTo = filterModal.checkoutDate.valueTo;
+        const useDayMin = filterModal.useDay.valueMin;
+        const useDayMax = filterModal.useDay.valueMax;
+        const totalPriceMin = filterModal.totalPrice.valueMin;
+        const totalPriceMax = filterModal.totalPrice.valueMax;
 
         req.idMin = (idMin==='' ? undefined : idMin);
         req.idMax = (idMax==='' ? undefined : idMax);
@@ -272,49 +285,27 @@ class BookingOrderList extends Component {
         req.totalPriceMin = (totalPriceMin==='' ? undefined : totalPriceMin);
         req.totalPriceMax = (totalPriceMax==='' ? undefined : totalPriceMax);
 
-        this.searchTableFetch(req, onSuccess);
+        this.searchTableFetch(req);
     };
-    turnPage = (page, onSuccess) => {
+    turnPage = (page) => {
 
         const req = constant.fetch.req.turnPage;
 
         req.page = page;
-        this.turnPageFetch(req, onSuccess);
+        this.turnPageFetch(req);
     };
-    changeOrder = (colName, direction, onSuccess) => {
+    changeOrder = (colName, direction) => {
 
         const req = constant.fetch.req.changeOrder;
         const orderCode = constant.orderCode;
 
         req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
-        this.changeOrderFetch(req, onSuccess);
+        this.changeOrderFetch(req);
 
     };
-
-
-    // on
-    filterModalOnHide = () => {
-
-        const {filterModal} = this.state;
-
-        this.setState({
-            filterModal : {
-                ...filterModal,
-                show : false
-            }
-        });
-    }
-    pageOnClick = (page) => {
-
-        this.turnPage(page);
-    }
-    orderOnClick = (colName, direction) => {
-
-        this.changeOrder(colName, direction);
-    }
     
     // fetch
-    searchTableFetch = async (params, onSuccess) => {
+    searchTableFetch = async (params) => {
 
         const Qs = require('qs');
         const {fctn} = this.props;
@@ -336,13 +327,13 @@ class BookingOrderList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterSearchTable(data, onSuccess);
+            this.afterSearchTable(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
         }
     };
-    turnPageFetch = async (params, onSuccess) => {
+    turnPageFetch = async (params) => {
 
         const {fetch} =  constant;
         const {fctn} = this.props;
@@ -360,13 +351,13 @@ class BookingOrderList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterTurnPage(data, onSuccess);
+            this.afterTurnPage(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
         }
     };
-    changeOrderFetch = async (params, onSuccess) => {
+    changeOrderFetch = async (params) => {
 
         const {fetch} =  constant;
         const {fctn} = this.props;
@@ -384,7 +375,7 @@ class BookingOrderList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterChangeOrder(data, onSuccess);
+            this.afterChangeOrder(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -393,87 +384,66 @@ class BookingOrderList extends Component {
 
 
      // after fetch
-     afterSearchTable = (data, onSuccess) => {
+     afterSearchTable = (data) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination, onSuccess);
+        this.updateState(table, pagination);
     };
-    afterTurnPage = (data, onSuccess) => {
+    afterTurnPage = (data) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination, onSuccess);
+        this.updateState(table, pagination);
     };
-    afterChangeOrder = (data, onSuccess) => {
+    afterChangeOrder = (data) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination, onSuccess);
+        this.updateState(table, pagination);
     }
-    updateState = (table, pagination, onSuccess) => {
+    updateState = (table, p) => {
 
-        const {bookingOrderTable} = this.state;
+        const {bookingOrderTable, pagination} = this.state;
 
-        this.setState({
-            bookingOrderTable : {
-                ...bookingOrderTable,
-                tableRows : table.tableRows
-            },
-            pagination : {
-                ...this.state.pagination,
-                first : {
-                    show : pagination.first.show,
-                    toPage : pagination.first.toPage
-                },
-                prev : {
-                    show : pagination.prev.show,
-                    toPage : pagination.prev.toPage
-                },
-                pages : pagination.pages,
-                next : {
-                    show : pagination.next.show,
-                    toPage : pagination.next.toPage
-                },
-                last : {
-                    show : pagination.last.show,
-                    toPage : pagination.last.toPage
-                },
-                currentPage : pagination.currentPage
-            }
+        this.setter('bookingOrderTable', {
+            ...bookingOrderTable,
+            tableRows : table.tableRows
         }, () => {
 
-            onSuccess && onSuccess();
+            this.setter('pagination', {
+                ...pagination,
+                first : {
+                    show : p.first.show,
+                    toPage : p.first.toPage
+                },
+                prev : {
+                    show : p.prev.show,
+                    toPage : p.prev.toPage
+                },
+                pages : p.pages,
+                next : {
+                    show : p.next.show,
+                    toPage : p.next.toPage
+                },
+                last : {
+                    show : p.last.show,
+                    toPage : p.last.toPage
+                },
+                currentPage : p.currentPage
+            })
         });
     };
 
-    // getter setter
-    getFilterModalVal = (colName) => {
-
-        return this.state.filterModal.form.value[colName];
-    }
-    setFilterModalVal = (colName, colVal) => {
-
-        const {filterModal} = this.state;
+    // setter
+    setter = (colName, colVal, onSet) => {
 
         this.setState({
-            filterModal : {
-                ...filterModal,
-                form : {
-                    ...filterModal.form,
-                    value : {
-                        ...filterModal.form.value,
-                        [colName] : colVal
-                    }
-                }
-            }
+            [colName] : colVal
+        }, () => {
+
+            onSet && onSet();
         });
-    }
-    getTableRows = () => {
-
-        const {bookingOrderTable} = this.state;
-
-        return bookingOrderTable.tableRows;
     }
 }
 

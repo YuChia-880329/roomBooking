@@ -24,137 +24,146 @@ class Feature extends Component {
 
     render() {
 
-        const rowStyle = {
-            paddingTop : 'calc(.375rem + 1px)'
-        };
-        const checkboxStyle = {
-            margin : '0'
-        };
-        const {fctn} = this.props;
+        const {value} = this.props;
+        const {feature, newFeature, insertFeature} = value;
 
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_description'>飯店特色 : </Form.Label>
-                <Col>
+                <Form.Label column xs='auto'>
                     <Stack gap={5}>
-                        <Row xs={4} className='g-3' style={rowStyle}>
+                        <Row xs='auto' className='g-5'>
                             {
-                                fctn.getAllFeatures().map(feature => (
-                                    <Col key={feature.id}>
-                                        <Form.Check type='checkbox' label={feature.name} value={feature.id} 
-                                                checked={this.getFeatureIsChecked(feature.id)} style={checkboxStyle}
-                                                onChange={this.featuresOnChange} />
-                                    </Col>
-                                ))
+                                feature.options.map(
+                                    op => (
+                                        <Col key={op.id}>
+                                            <Form.Check type='checkbox' label={op.name} value={op.id} 
+                                                    checked={feature.values.includes(`${op.id}`)}
+                                                    onChange={e => this.onChangeFeature(e, op.id)} />
+                                        </Col>
+                                    )
+                                )
                             }
                         </Row>
-                        <Row xs={3} className='g-3' style={rowStyle}>
+                        <Row xs='auto' className='g-5'>
                             {
-                                fctn.getAllNewFeatures().map(newFeature => (
-                                    <Col key={newFeature.name}>
-                                        <Stack direction='horizontal' gap={4}>
-                                            <Form.Check type='checkbox' label={newFeature.name} value={newFeature.name} 
-                                                    checked={this.getNewFeatureIsChecked(newFeature.name)} style={checkboxStyle}
-                                                    onChange={this.newFeaturesOnChange} />
-                                            <div>
-                                                <Button variant='outline-primary' size='sm' className='little-btn' onClick={e => this.minusBtnOnClick(newFeature.name)}>-</Button>
-                                            </div>
-                                        </Stack>
-                                    </Col>
-                                ))
+                                newFeature.options.map(
+                                    op => (
+                                        <Col key={op.name}>
+                                            <Stack direction='horizontal' gap={2}>
+                                                <Form.Check type='checkbox' label={op.name} value={op.name} 
+                                                        checked={newFeature.values.includes(`${op.name}`)}
+                                                        onChange={e => this.onChangeNewFeature(e, op.name)} />
+                                                <Button variant='outline-primary' size='sm' className='little-btn' 
+                                                        onClick={e => this.onClickMinusBtn(op.name)}>-</Button>
+                                            </Stack>
+                                        </Col>
+                                    )
+                                )
                             }
                         </Row>
-                        <Form noValidate validated={fctn.getInsertFeatureFormValidated()} onSubmit={this.insertFeatureFormOnSubmit}>
-                            <Row>
-                                <Form.Label column xs='auto' htmlFor='form_insertFeature'>新增選項 : </Form.Label>
-                                <Col xs='auto'>
-                                    <Form.Control required id='form_insertFeature' value={this.getInsertFeatureVal()} 
-                                            onChange={this.insertFeatureOnChange} htmlSize={15} />
-                                    <Form.Control.Feedback type='invalid'>請輸入名稱</Form.Control.Feedback>
-                                </Col>
-                                <Form.Label column xs='auto' htmlFor='form_insertFeature'>
-                                    <Button type='send' variant='outline-primary' size='sm'>+</Button>
-                                </Form.Label>
-                            </Row>
-                        </Form>
+                        <Row>
+                            <Form.Label column xs='auto' htmlFor='form_insertFeature'>新增選項 : </Form.Label>
+                            <Col xs='auto'>
+                                <Form.Control required id='form_insertFeature' value={insertFeature.value} 
+                                        onChange={this.onChangeInsertFeature} htmlSize={15} />
+                            </Col>
+                            <Form.Label column xs='auto' className='pt-1'>
+                                <Button variant='outline-primary' size='sm' onClick={this.onClickInsertFeatureBtn}>+</Button>
+                            </Form.Label>
+                        </Row>
                     </Stack>
-                </Col>
+                </Form.Label>
             </Form.Group>
         );
     }
 
 
+    // on
+    onChangeFeature = (event, checkBoxVal) => {
+
+        const {value} = this.props;
+        const {feature} = value;
+
+        let newValues;
+
+        if(event.target.checked)
+            newValues = [...feature.values, `${checkBoxVal}`];
+        else
+            newValues = feature.values.filter(v => v!==`${checkBoxVal}`);
+
+        this.setter('feature', {
+            ...feature,
+            values : newValues
+        });
+    };
+    onChangeNewFeature = (event, checkBoxVal) => {
+
+        const {value} = this.props;
+        const {newFeature} = value;
+
+        let newValues;
+
+        if(event.target.checked)
+            newValues = [...newFeature.values, `${checkBoxVal}`];
+        else
+            newValues = newFeature.values.filter(v => v!==`${checkBoxVal}`);
+
+        this.setter('newFeature', {
+            ...newFeature,
+            values : newValues
+        });
+    };
+    onChangeInsertFeature = (event) => {
+
+        const {value} = this.props;
+
+        this.setter('insertFeature', {
+            ...value.insertFeature,
+            value : event.target.value
+        });
+    };
+    onClickInsertFeatureBtn = (event) => {
+
+        const {value, fctn} = this.props;
+
+        if(value.insertFeature.value === ''){
+
+            fctn.showInformModal('請輸入名稱')
+        }else{
+
+            fctn.showConfirmModal('確定新增選項 ?', () => {
+    
+                this.checkNewFeature();
+            });
+        }
+    };
+    onClickMinusBtn = (name) => {
+
+        const {value, fctn} = this.props;
+
+        fctn.showConfirmModal('確定要刪除選項 ?', () => {
+
+            this.setter('newFeature', {
+                ...value.newFeature,
+                options : value.newFeature.options.filter(v => v.name!==`${name}`),
+                values : value.newFeature.values.filter(v => v!==`${name}`),
+            }, () => {
+
+                fctn.closeConfirmModal();
+            });
+        });
+    };
+
+
     // other
     checkNewFeature = () => {
 
-        const {values} = this.props;
+        const {value} = this.props;
         const req = constant.fetch.req.checkNewFeature;
-        req.name = values.insertFeature;
+        req.name = value.insertFeature.value;
 
         this.checkNewFeatureFetch(req);
-    };
-
-
-    // on
-    insertFeatureFormOnSubmit = (event) => {
-
-        const {fctn} = this.props;
-
-        event.preventDefault();
-        fctn.setInsertFeatureFormValidated(true, () => {
-
-            if(event.target.checkValidity() === true){
-    
-                this.checkNewFeature();
-            }
-        });
-    }
-    featuresOnChange = (event) => {
-
-        const {values, fctn} = this.props;
-        
-        if(event.target.checked){
-
-            values.features = [...values.features, event.target.value];
-        }else{
-
-            values.features = values.features.filter(v => v!==event.target.value);
-        }
-        fctn.setValue(values);
-    };
-    newFeaturesOnChange = (event) => {
-
-        const {values, fctn} = this.props;
-        
-        if(event.target.checked){
-
-            values.newFeatures = [...values.newFeatures, event.target.value];
-        }else{
-
-            values.newFeatures = values.newFeatures.filter(v => v!==event.target.value);
-        }
-        fctn.setValue(values);
-    };
-    insertFeatureOnChange = (event) => {
-
-        const {values, fctn} = this.props;
-        
-        values.insertFeature = event.target.value;
-        fctn.setValue(values);
-    };
-    minusBtnOnClick = (name) => {
-
-        const {values, fctn} = this.props;
-
-        fctn.showConfirmModal('確定要刪除選項', () => {
-
-            values.newFeatures = values.newFeatures.filter(v => v!==name);
-            fctn.setValue(values);
-    
-            const newFeatures = fctn.getAllNewFeatures().filter(v => v.name!==name);
-            fctn.setAllNewFeatures(newFeatures);
-            fctn.closeConfirmModal();
-        });
     };
 
 
@@ -188,53 +197,50 @@ class Feature extends Component {
     // after fetch
     afterCheckNewFeature = (data) => {
 
-        const {values, fctn} = this.props;
-        const name = values.insertFeature;
+        const {value, fctn} = this.props;
+        const name = value.insertFeature.value;
 
         if(data.pass){
 
-            const oldNewFeatures = fctn.getAllNewFeatures();
-            if(!oldNewFeatures.every(v => v.name!==name)){
+            const oldOptions = value.newFeature.options;
+            if(!oldOptions.every(v => v.name!==`${name}`)){
 
+                fctn.closeConfirmModal();
                 fctn.showInformModal('名稱重複');
             }else{
 
-                fctn.showConfirmModal('確定要新增選項', () => {
+                this.setter('newFeature', {
+                    ...value.newFeature,
+                    options : [...oldOptions, {id : -1, name : `${name}`}],
+                    values : [...value.newFeature.values, `${name}`]
+                }, () => {
 
-                    const newFeatures = [...oldNewFeatures, {id : -1, name : name}];
-                    fctn.setAllNewFeatures(newFeatures, () => {
-    
-                        values.newFeatures = [...values.newFeatures, name];
-                        values.insertFeature = '';
-                        fctn.setValue(values);
-                        fctn.setInsertFeatureFormValidated(false);
+                    this.setter('insertFeature', {
+                        ...value.insertFeature,
+                        value : ''
+                    }, () => {
+
                         fctn.closeConfirmModal();
                     });
-                })
+                });
             }
         }else{
 
+            fctn.closeConfirmModal();
             fctn.showInformModal(data.msg);
         }
     };
 
 
-    // getter setter
-    getFeatureIsChecked = (checkBoxValue) => {
+    // setter
+    setter = (colName, colVal, onSet) => {
 
-        const {values} = this.props;
-        return values.features.includes(checkBoxValue);
-    }
-    getNewFeatureIsChecked = (checkBoxValue) => {
-
-        const {values} = this.props;
-        return values.newFeatures.includes(checkBoxValue);
-    }
-    getInsertFeatureVal = () => {
-
-        const {values} = this.props;
-        return values.insertFeature;
-    }
+        const {setter, value} = this.props;
+        setter.setFeature({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default Feature;

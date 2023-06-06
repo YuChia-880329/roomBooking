@@ -19,6 +19,7 @@ public class TableRowTrans implements VoWoTrans<TableRow, TableRowDto> {
 				.usedNum(dto.getUsedNum())
 				.invalidNum(dto.getInvalidNum())
 				.price(dto.getPrice())
+				.status(dto.getStatus().getDescription())
 				.build();
 	}
 }

@@ -2,6 +2,7 @@ package springboot.service.bk.roomList.memory.repo.tablePages;
 
 import org.springframework.stereotype.Service;
 
+import enumeration.RoomStatus;
 import enumeration.bk.roomList.RoomTableOrder;
 import springboot.bean.obj.bk.roomList.repo.tablePages.SearchParam;
 import util.SearchParamUtil;
@@ -20,6 +21,7 @@ public class SearchParamService {
 				invalidNumMaxEquals(searchParam1.getInvalidNumMax(), searchParam2.getInvalidNumMax()) &&
 				priceMinEquals(searchParam1.getPriceMin(), searchParam2.getPriceMin()) &&
 				priceMaxEquals(searchParam1.getPriceMax(), searchParam2.getPriceMax()) &&
+				statusEquals(searchParam1.getStatus(), searchParam2.getStatus()) &&
 				roomTableOrderEquals(searchParam1.getRoomTableOrder(), searchParam2.getRoomTableOrder());	
 	}
 	
@@ -58,6 +60,10 @@ public class SearchParamService {
 	private boolean priceMaxEquals(Integer priceMax1, Integer priceMax2) {
 		
 		return SearchParamUtil.equals(priceMax1, priceMax2, (t1, t2) -> t1.intValue()==t2.intValue());
+	}
+	private boolean statusEquals(RoomStatus status1, RoomStatus status2) {
+		
+		return SearchParamUtil.equals(status1, status2, (t1, t2) -> t1==t2);
 	}
 	private boolean roomTableOrderEquals(RoomTableOrder roomTableOrder1, RoomTableOrder roomTableOrder2) {
 		

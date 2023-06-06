@@ -1,96 +1,88 @@
 import React, { Component } from 'react';
-import { Button, Container, Form, Modal, Stack } from 'react-bootstrap';
+import { Button, Container, Modal, Stack } from 'react-bootstrap';
 import Name from './filter_modal/name';
 import TotalRoomNum from './filter_modal/total-room-num';
 import InvalidRoomNum from './filter_modal/invalid-room-num';
 import Price from './filter_modal/price';
 import UsedRoomNum from './filter_modal/used-room-num';
-
-const constant = {
-    filterModal : {
-        colName : {
-            name : 'name',
-            totalRoomNumMin : 'totalRoomNumMin',
-            totalRoomNumMax : 'totalRoomNumMax',
-            usedRoomNumMin : 'usedRoomNumMin',
-            usedRoomNumMax : 'usedRoomNumMax',
-            invalidRoomNumMin : 'invalidRoomNumMin',
-            invalidRoomNumMax : 'invalidRoomNumMax',
-            priceMin : 'priceMin',
-            priceMax : 'priceMax'
-        }
-    }
-};
+import Status from './filter_modal/status';
 
 class FilterModal extends Component {
 
     render() {
 
-        const {filterModal} = constant;
-        const {show, onHide} = this.props;
+        const {value} = this.props;
+        const setter = {
+            name : {
+                setName : (val, onSet) => this.setter('name', val, onSet)
+            },
+            totalRoomNum : {
+                setTotalRoomNum : (val, onSet) => this.setter('totalRoomNum', val, onSet)
+            },
+            usedRoomNum : {
+                setUsedRoomNum : (val, onSet) => this.setter('usedRoomNum', val, onSet)
+            },
+            invalidRoomNum : {
+                setInvalidRoomNum : (val, onSet) => this.setter('invalidRoomNum', val, onSet)
+            },
+            price : {
+                setPrice : (val, onSet) => this.setter('price', val, onSet)
+            },
+            status : {
+                setStatus : (val, onSet) => this.setter('status', val, onSet)
+            }
+        };
 
         return (
-            <Modal show={show} onHide={onHide} centered>
+            <Modal show={value.show} onHide={this.onHide} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <h3 className='mb-0'>篩選表單</h3>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Container as={Form} className='my-3'>
+                    <Container className='my-3'>
                         <Stack gap={4}>
-                            <Name value={this.getValue(filterModal.colName.name)} onChange={(e) => this.ctrlOnChange(filterModal.colName.name, e)} />
-                            <TotalRoomNum valueMin={this.getValue(filterModal.colName.totalRoomNumMin)} 
-                                    valueMax={this.getValue(filterModal.colName.totalRoomNumMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.totalRoomNumMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.totalRoomNumMax, e)} />
-                            <UsedRoomNum valueMin={this.getValue(filterModal.colName.usedRoomNumMin)} 
-                                    valueMax={this.getValue(filterModal.colName.usedRoomNumMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.usedRoomNumMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.usedRoomNumMax, e)} />
-                            <InvalidRoomNum valueMin={this.getValue(filterModal.colName.invalidRoomNumMin)} 
-                                    valueMax={this.getValue(filterModal.colName.invalidRoomNumMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.invalidRoomNumMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.invalidRoomNumMax, e)} />
-                            <Price valueMin={this.getValue(filterModal.colName.priceMin)} 
-                                    valueMax={this.getValue(filterModal.colName.priceMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.priceMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.priceMax, e)} />
+                            <Name value={value.name} setter={setter.name} />
+                            <TotalRoomNum value={value.totalRoomNum} setter={setter.totalRoomNum} />
+                            <UsedRoomNum value={value.usedRoomNum} setter={setter.usedRoomNum} />
+                            <InvalidRoomNum value={value.invalidRoomNum} setter={setter.invalidRoomNum} />
+                            <Price value={value.price} setter={setter.price} />
+                            <Status value={value.status} setter={setter.status} />
                         </Stack>
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => onHide()}>關閉</Button>
-                    <Button variant="primary" onClick={this.okBtnOnClick}>篩選</Button>
+                    <Button variant="secondary" onClick={e => this.onHide()}>關閉</Button>
+                    <Button variant="primary" onClick={this.onClickOkBtn}>篩選</Button>
                 </Modal.Footer>
             </Modal>
         );
     }
 
     // on
-    ctrlOnChange = (colName, event) => {
+    onHide = (event) => {
+
+        this.setter('show', false);
+    };
+    onClickOkBtn = (event) => {
 
         const {fctn} = this.props;
-
-        fctn.setFilterModalVal(colName, event.target.value);
-    }
-    okBtnOnClick = () => {
-
-        const {fctn} = this.props;
-        const {onHide} = this.props;
 
         fctn.searchTable();
-        onHide();
+        this.onHide();
     }
 
 
-    // getter setter
-    getValue = (colName) => {
+    // setter
+    setter = (colName, colVal, onSet) => {
 
-        const {fctn} = this.props;
-
-        return fctn.getFilterModalVal(colName);
-    }
+        const {setter, value} = this.props;
+        setter.setFilterModal({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default FilterModal;

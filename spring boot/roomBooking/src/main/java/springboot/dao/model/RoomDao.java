@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import enumeration.OrderDirection;
+import enumeration.RoomStatus;
 import enumeration.bk.roomList.RoomTableOrder;
 import springboot.bean.model.Room;
 import util.StringConcatUtil;
@@ -32,6 +33,7 @@ public class RoomDao {
 	public static final String AREA_ATTRIBUTE_NAME = "area";
 	public static final String SCENE_ID_ATTRIBUTE_NAME = "sceneId";
 	public static final String HOTEL_ID_ATTRIBUTE_NAME = "hotelId";
+	public static final String STATUS_ATTRIBUTE_NAME = "status";
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -41,7 +43,8 @@ public class RoomDao {
 			Integer totalNumMin, Integer totalNumMax,
 			Integer usedNumMin, Integer usedNumMax,
 			Integer invalidNumMin, Integer invalidNumMax,
-			Integer priceMin, Integer priceMax){
+			Integer priceMin, Integer priceMax,
+			RoomStatus status){
 		
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
@@ -50,7 +53,7 @@ public class RoomDao {
 		criteriaQuery.select(criteriaBuilder.count(root));
 		
 		Predicate[] predicates = queryBkRoomListTablePagesPredicate(hotelId, name, totalNumMin, totalNumMax, 
-				usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, criteriaBuilder, root);
+				usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, status, criteriaBuilder, root);
 		criteriaQuery.where(predicates);
 		
 		return entityManager.createQuery(criteriaQuery).getSingleResult();
@@ -60,7 +63,7 @@ public class RoomDao {
 			Integer totalNumMin, Integer totalNumMax,
 			Integer usedNumMin, Integer usedNumMax,
 			Integer invalidNumMin, Integer invalidNumMax,
-			Integer priceMin, Integer priceMax,
+			Integer priceMin, Integer priceMax, RoomStatus status,
 			RoomTableOrder roomTableOrder,
 			int startRow, int maxRowNum){
 		
@@ -69,7 +72,7 @@ public class RoomDao {
 		Root<Room> root =  criteriaQuery.from(Room.class);
 		
 		Predicate[] predicates = queryBkRoomListTablePagesPredicate(hotelId, name, totalNumMin, totalNumMax, 
-				usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, criteriaBuilder, root);
+				usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, status, criteriaBuilder, root);
 		criteriaQuery.where(predicates);
 
 		criteriaQuery.orderBy(queryBkRoomListTablePagesOrder(roomTableOrder, criteriaBuilder, root));
@@ -102,7 +105,7 @@ public class RoomDao {
 			Integer totalNumMin, Integer totalNumMax,
 			Integer usedNumMin, Integer usedNumMax,
 			Integer invalidNumMin, Integer invalidNumMax,
-			Integer priceMin, Integer priceMax,
+			Integer priceMin, Integer priceMax, RoomStatus status,
 			CriteriaBuilder criteriaBuilder, Root<Room> root) {
 		
 		List<Predicate> predicateList = new ArrayList<>();
@@ -126,7 +129,9 @@ public class RoomDao {
 			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(PRICE_ATTRIBUTE_NAME), priceMin));
 		if(priceMax != null)
 			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(PRICE_ATTRIBUTE_NAME), priceMax));
-	
+		if(status != null)
+			predicateList.add(criteriaBuilder.equal(root.get(STATUS_ATTRIBUTE_NAME), String.valueOf(status.getCode())));
+		
 		return predicateList.toArray(new Predicate[predicateList.size()]); 
 	}
 	

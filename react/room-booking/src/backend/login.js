@@ -50,9 +50,13 @@ class Login extends Component {
 
     render() {
 
+        const setter = {
+            loginForm : {
+                setLoginForm : (val, onSet) => this.setter('loginForm', val, onSet)
+            }
+        }
         const fctn = {
             loginForm : {
-                setIsLogin : this.setIsLogin,
                 login : this.login
             }
         };
@@ -60,8 +64,7 @@ class Login extends Component {
 
         return (
             <div className='position-absolute top-50 start-50 translate-middle'>
-                <LoginForm values={loginForm} fctn={fctn.loginForm}
-                        setter={(val, onSet) => this.setter('loginForm', val, onSet)}  />
+                <LoginForm value={loginForm} fctn={fctn.loginForm} setter={setter.loginForm}  />
             </div>
         );
     }

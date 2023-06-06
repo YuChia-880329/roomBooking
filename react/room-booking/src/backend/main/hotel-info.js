@@ -45,39 +45,38 @@ class HotelInfo extends Component {
         this.state = {
             infoForm : {
                 validated : false,
-                option : {
-                    section : {
-                        allSections : []
-                    },
+                name : {
+                    value : ''
+                },
+                section : {
+                    options : [],
+                    value : ''
+                },
+                address : {
+                    value : ''
+                },
+                description : {
+                    value : ''
+                },
+                feature : {
                     feature : {
-                        allFeatures : [],
-                        allNewFeatures : []
+                        options : [],
+                        values : []
+                    },
+                    newFeature : {
+                        options : [],
+                        values : []
+                    },
+                    insertFeature : {
+                        value : ''
                     }
                 },
-                value : {
-                    name : '',
-                    section : '',
-                    address : '',
-                    description : '',
-                    feature : {
-                        features : [],
-                        newFeatures : [],
-                        insertFeature : ''
-                    },
-                    hotelImage : {
-                        imageName : '',
-                        url : ''
-                    },
-                    updateImage : {
-                        imageName : ''
-                    }
+                hotelImage : {
+                    imageName : '',
+                    url : ''
                 },
-                other : {
-                    feature : {
-                        insertFeatureForm : {
-                            validated : false
-                        }
-                    }
+                updateImage : {
+                    imageName : ''
                 }
             }
         };
@@ -119,28 +118,23 @@ class HotelInfo extends Component {
     };
     BorderFormContent = () => {
 
-        const {validated} = this.state;
+        const {infoForm} = this.state;
+        const setter = {
+            infoForm : {
+                setInfoForm : (val, onSet) => this.setter('infoForm', val, onSet)
+            }
+        }
         const fctn = {
             infoForm : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
-                closeConfirmModal : this.props.fctn.closeConfirmModal,
-                getAllSections : this.getAllSections,
-                getAllFeatures : this.getAllFeatures,
-                getAllNewFeatures : this.getAllNewFeatures,
-                setAllNewFeatures : this.setAllNewFeatures,
-                getInfoFormValue : this.getInfoFormValue,
-                setInfoFormValue : this.setInfoFormValue,
-                getInsertFeatureFormValidated : this.getInsertFeatureFormValidated,
-                setInsertFeatureFormValidated : this.setInsertFeatureFormValidated,
-                update : this.update,
-                setInfoFormValidated : this.setInfoFormValidated
+                closeConfirmModal : this.props.fctn.closeConfirmModal
             }
         };
 
         return (
-            <InfoForm fctn={fctn.infoForm} validated={validated} />
+            <InfoForm value={infoForm} setter={setter.infoForm} fctn={fctn.infoForm} />
         );
     };
 
@@ -158,9 +152,9 @@ class HotelInfo extends Component {
 
         this.allNewFeaturesFetch(onSuccess);
     };
-    hotelInfo = (onSuccess) => {
+    hotelInfo = () => {
 
-        this.hotelInfoFetch(onSuccess);
+        this.hotelInfoFetch();
     };
     update = (imgFile) => {
 
@@ -258,7 +252,7 @@ class HotelInfo extends Component {
             fctn.showInformModal(serverInfo.msg);
         }
     };
-    hotelInfoFetch = async (onSuccess) => {
+    hotelInfoFetch = async () => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
@@ -275,7 +269,7 @@ class HotelInfo extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterHotelInfo(data, onSuccess);
+            this.afterHotelInfo(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -311,16 +305,12 @@ class HotelInfo extends Component {
     afterAllSections = (data, onSuccess) => {
 
         const {infoForm} = this.state;
-        this.setState({
-            infoForm : {
-                ...infoForm,
-                option : {
-                    ...infoForm.option,
-                    section : {
-                        ...infoForm.option.section,
-                        allSections : data.sections
-                    }
-                }
+
+        this.setter('infoForm', {
+            ...infoForm,
+            section : {
+                ...infoForm.section,
+                options : data.sections
             }
         }, () => {
 
@@ -330,15 +320,14 @@ class HotelInfo extends Component {
     afterAllFeatures = (data, onSuccess) => {
 
         const {infoForm} = this.state;
-        this.setState({
-            infoForm : {
-                ...infoForm,
-                option : {
-                    ...infoForm.option,
-                    feature : {
-                        ...infoForm.option.feature,
-                        allFeatures : data.features
-                    }
+
+        this.setter('infoForm', {
+            ...infoForm,
+            feature : {
+                ...infoForm.feature,
+                feature : {
+                    ...infoForm.feature.feature,
+                    options : data.features
                 }
             }
         }, () => {
@@ -349,15 +338,14 @@ class HotelInfo extends Component {
     afterAllNewFeatures = (data, onSuccess) => {
 
         const {infoForm} = this.state;
-        this.setState({
-            infoForm : {
-                ...infoForm,
-                option : {
-                    ...infoForm.option,
-                    feature : {
-                        ...infoForm.option.feature,
-                        allNewFeatures : data.newFeatures
-                    }
+
+        this.setter('infoForm', {
+            ...infoForm,
+            feature : {
+                ...infoForm.feature,
+                newFeature : {
+                    ...infoForm.feature.newFeature,
+                    options : data.newFeatures
                 }
             }
         }, () => {
@@ -365,33 +353,44 @@ class HotelInfo extends Component {
             onSuccess && onSuccess();
         });
     }
-    afterHotelInfo = (data, onSuccess) => {
+    afterHotelInfo = (data) => {
 
         const {infoForm} = this.state;
-        this.setState({
-            infoForm : {
-                ...infoForm,
-                value : {
-                    ...infoForm.value,
-                    name : data.name,
-                    section : data.sectionCode,
-                    address : data.address,
-                    description : data.introduction,
-                    feature : {
-                        ...infoForm.value.feature,
-                        features : data.featureIds,
-                        newFeatures : data.newFeatureNames
-                    },
-                    hotelImage : {
-                        ...infoForm.value.hotelImage,
-                        imageName : data.image.imgName,
-                        url : data.image.url
-                    }
-                }
-            }
-        }, () => {
 
-            onSuccess && onSuccess();
+        this.setter('infoForm', {
+            ...infoForm,
+            name : {
+                ...infoForm.name,
+                value : data.name
+            },
+            section : {
+                ...infoForm.section,
+                value : data.sectionCode
+            },
+            address : {
+                ...infoForm.address,
+                value : data.address
+            },
+            description : {
+                ...infoForm.description,
+                value : data.description
+            },
+            feature : {
+                ...infoForm.feature,
+                feature : {
+                    ...infoForm.feature.feature,
+                    values : data.featureIds
+                },
+                newFeature : {
+                    ...infoForm.feature.newFeature,
+                    values : data.newFeatureNames
+                }
+            },
+            hotelImage : {
+                ...infoForm.hotelImage,
+                imageName : data.image.imgName,
+                url : data.image.url
+            }
         });
     };
     afterUpdate = (data) => {
@@ -400,101 +399,15 @@ class HotelInfo extends Component {
     }
 
 
-    // getter setter
-    getAllSections = () => {
+    // setter
+    setter = (colName, colVal, onSet) => {
 
-        const {infoForm} = this.state;
-        return infoForm.option.section.allSections;
-    };
-    getAllFeatures = () => {
-
-        const {infoForm} = this.state;
-        return infoForm.option.feature.allFeatures;
-    };
-    getAllNewFeatures = () => {
-
-        const {infoForm} = this.state;
-        return infoForm.option.feature.allNewFeatures;
-    };
-    getInfoFormValue = (colName) => {
-
-        const {infoForm} = this.state;
-        return infoForm.value[colName];
-    }
-    getInsertFeatureFormValidated = () => {
-
-        const {infoForm} = this.state;
-        return infoForm.other.feature.insertFeatureForm.validated;
-    };
-
-
-
-    setInfoFormValue = (colName, colValue) => {
-
-        const {infoForm} = this.state;
         this.setState({
-            infoForm : {
-                ...infoForm,
-                value : {
-                    ...infoForm.value,
-                    [colName] : colValue
-                }
-            }
-        });
-    }
-    setAllNewFeatures = (allNewFeatures, onSuccess) => {
-
-        const {infoForm} = this.state;
-        this.setState({
-            infoForm : {
-                ...infoForm,
-                option : {
-                    ...infoForm.option,
-                    feature : {
-                        ...infoForm.option.feature,
-                        allNewFeatures : allNewFeatures
-                    }
-                }
-            }
+            [colName] : colVal
         }, () => {
 
-            onSuccess && onSuccess();
+            onSet && onSet();
         });
-    }
-    setInsertFeatureFormValidated = (validated, onSuccess) => {
-
-        const {infoForm} = this.state;
-        this.setState({
-            infoForm : {
-                ...infoForm,
-                other : {
-                    ...infoForm.other,
-                    feature : {
-                        ...infoForm.other.feature,
-                        insertFeatureForm : {
-                            ...infoForm.other.feature.insertFeatureForm,
-                            validated : validated
-                        }
-                    }
-                }
-            }
-        }, () => {
-
-            onSuccess && onSuccess();
-        });
-    };
-    setInfoFormValidated = (validated, onSuccess) => {
-
-        const {infoForm} = this.state;
-        this.setState({
-            infoForm : {
-                ...infoForm,
-                validated : validated
-            }
-        }, () => {
-
-            onSuccess && onSuccess();
-        }); 
     }
 }
 

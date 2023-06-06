@@ -16,7 +16,7 @@ public class HotelInfoRespDto {
 	private String name;
 	private String sectionCode;
 	private String address;
-	private String introduction;
+	private String description;
 	private List<Integer> featureIds;
 	private List<String> newFeatureNames;
 	private ImageDto image;

@@ -16,7 +16,7 @@ public class HotelDto {
 	private String name;
 	private String sectionCode;
 	private String address;
-	private String introduction;
+	private String description;
 	private String imgName;
 	private int accountId;
 	private SectionDto section;

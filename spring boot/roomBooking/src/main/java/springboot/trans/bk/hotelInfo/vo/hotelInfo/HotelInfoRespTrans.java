@@ -31,7 +31,7 @@ public class HotelInfoRespTrans implements VoWoTrans<HotelInfoResp, HotelInfoRes
 				.name(dto.getName())
 				.sectionCode(dto.getSectionCode())
 				.address(dto.getAddress())
-				.introduction(dto.getIntroduction())
+				.description(dto.getDescription())
 				.featureIds(featureIdArray)
 				.newFeatureNames(dto.getNewFeatureNames().toArray(new String[dto.getNewFeatureNames().size()]))
 				.image(updateImgTrans.dtoToVo(dto.getImage()))

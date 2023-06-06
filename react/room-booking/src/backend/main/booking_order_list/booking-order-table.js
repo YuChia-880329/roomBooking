@@ -7,49 +7,38 @@ import SortTd from '../../../hoc/table/sort-td';
 const constant = {
     header : {
         id : {
-            text : '訂單編號',
-            colName : 'id'
+            text : '訂單編號'
         },
         clientName : {
-            text : '客人姓名',
-            colName : 'clientName'
+            text : '客人姓名'
         },
         clientPhone : {
-            text : '客人手機',
-            colName : 'clientPhone'
+            text : '客人手機'
         },
         roomName : {
-            text : '預定房型',
-            colName : 'roomName'
+            text : '預定房型'
         },
         roomNum : {
-            text : '預定房間數',
-            colName : 'roomNum'
+            text : '預定房間數'
         },
         price : {
-            text : '房型單價',
-            colName : 'price'
+            text : '房型單價'
         },
         payMethod : {
-            text : '付款方式',
-            colName : 'payMethod'
+            text : '付款方式'
         },
         checkinDateTime : {
-            text : '預定入住日期時辰',
-            colName : 'checkinDateTime'
+            text : '預定入住日期時辰'
         },
         checkoutDate : {
-            text : '預定退房日期',
-            colName : 'checkoutDate'
+            text : '預定退房日期'
         },
         useDay : {
-            text : '入住天數',
-            colName : 'useDay'
+            text : '入住天數'
         },
         totalPrice : {
-            text : '總金額',
-            colName : 'totalPrice'
-        },
+            text : '總金額'
+        }
     }
 }
 class OrderTable extends Component {
@@ -57,39 +46,39 @@ class OrderTable extends Component {
     render() {
         
         const {header} = constant;
-        const {fctn} = this.props;
+        const {value} = this.props;
 
         return (
             <Table striped bordered responsive hover>
                 <thead>
                     <tr>
-                        <SortTh text={header.id.text} ascOnClick={() => {fctn.orderOnClick(header.id.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.id.colName, 1)}} />
-                        <SortTh text={header.clientName.text} ascOnClick={() => {fctn.orderOnClick(header.clientName.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.clientName.colName, 1)}} />
-                        <SortTh text={header.clientPhone.text} ascOnClick={() => {fctn.orderOnClick(header.clientPhone.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.clientPhone.colName, 1)}} />
-                        <SortTh text={header.roomName.text} ascOnClick={() => {fctn.orderOnClick(header.roomName.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.roomName.colName, 1)}} />
-                        <SortTh text={header.roomNum.text} ascOnClick={() => {fctn.orderOnClick(header.roomNum.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.roomNum.colName, 1)}} />
-                        <SortTh text={header.price.text} ascOnClick={() => {fctn.orderOnClick(header.price.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.price.colName, 1)}} />
-                        <SortTh text={header.payMethod.text} ascOnClick={() => {fctn.orderOnClick(header.payMethod.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.payMethod.colName, 1)}} />
-                        <SortTh text={header.checkinDateTime.text} ascOnClick={() => {fctn.orderOnClick(header.checkinDateTime.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.checkinDateTime.colName, 1)}} />
-                        <SortTh text={header.checkoutDate.text} ascOnClick={() => {fctn.orderOnClick(header.checkoutDate.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.checkoutDate.colName, 1)}} />
-                        <SortTh text={header.useDay.text} ascOnClick={() => {fctn.orderOnClick(header.useDay.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.useDay.colName, 1)}} />
-                        <SortTh text={header.totalPrice.text} ascOnClick={() => {fctn.orderOnClick(header.totalPrice.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.totalPrice.colName, 1)}} />
+                        <SortTh text={header.id.text} ascOnClick={e => this.onClickOrder(e, 'id', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'id', 1)} />
+                        <SortTh text={header.clientName.text} ascOnClick={e => this.onClickOrder(e, 'clientName', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'clientName', 1)} />
+                        <SortTh text={header.clientPhone.text} ascOnClick={e => this.onClickOrder(e, 'clientPhone', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'clientPhone', 1)} />
+                        <SortTh text={header.roomName.text} ascOnClick={e => this.onClickOrder(e, 'roomName', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'roomName', 1)} />
+                        <SortTh text={header.roomNum.text} ascOnClick={e => this.onClickOrder(e, 'roomNum', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'roomNum', 1)} />
+                        <SortTh text={header.price.text} ascOnClick={e => this.onClickOrder(e, 'price', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'price', 1)} />
+                        <SortTh text={header.payMethod.text} ascOnClick={e => this.onClickOrder(e, 'payMethod', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'payMethod', 1)} />
+                        <SortTh text={header.checkinDateTime.text} ascOnClick={e => this.onClickOrder(e, 'checkinDateTime', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'checkinDateTime', 1)} />
+                        <SortTh text={header.checkoutDate.text} ascOnClick={e => this.onClickOrder(e, 'checkoutDate', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'checkoutDate', 1)} />
+                        <SortTh text={header.useDay.text} ascOnClick={e => this.onClickOrder(e, 'useDay', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'useDay', 1)} />
+                        <SortTh text={header.totalPrice.text} ascOnClick={e => this.onClickOrder(e, 'totalPrice', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'totalPrice', 1)} />
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        fctn.getTableRows().map(tableRow => (
+                        value.tableRows.map(tableRow => (
                             <tr key={tableRow.id}>
                                 <SortTd text={tableRow.id} />
                                 <SortTd text={tableRow.clientName} />
@@ -109,6 +98,23 @@ class OrderTable extends Component {
             </Table>
         );
     }
+
+    // on
+    onClickOrder = (event, colName, direction) => {
+
+        const {fctn} = this.props;
+        fctn.changeOrder(colName, direction);
+    }
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setBookingOrderTable({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default OrderTable;

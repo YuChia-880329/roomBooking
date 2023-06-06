@@ -20,4 +20,5 @@ public class SearchTableReq {
 	private String invalidNumMax;
 	private String priceMin;
 	private String priceMax;
+	private String status;
 }

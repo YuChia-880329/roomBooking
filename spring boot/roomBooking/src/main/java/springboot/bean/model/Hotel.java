@@ -41,8 +41,8 @@ public class Hotel {
 	private String sectionCode;
 	@Column(name = "ADDRESS")
 	private String address;
-	@Column(name = "INTRODUCTION")
-	private String introduction;
+	@Column(name = "DESCRIPTION")
+	private String description;
 	@Column(name = "IMG_NAME")
 	private String imgName;
 	@Column(name = "ACCOUNT_ID")

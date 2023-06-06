@@ -1,5 +1,6 @@
 package springboot.bean.dto.bk.roomList.vo.searchTable;
 
+import enumeration.RoomStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,4 +21,5 @@ public class SearchTableReqDto {
 	private Integer invalidNumMax;
 	private Integer priceMin;
 	private Integer priceMax;
+	private RoomStatus status;
 }

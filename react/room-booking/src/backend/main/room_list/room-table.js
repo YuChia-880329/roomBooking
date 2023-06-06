@@ -7,25 +7,23 @@ import SortTd from '../../../hoc/table/sort-td';
 const constant = {
     header : {
         name : {
-            text : '房型名稱',
-            colName : 'name'
+            text : '房型名稱'
         },
         totalNum : {
-            text : '總房數',
-            colName : 'totalNum'
+            text : '總房數'
         },
         usedNum : {
-            text : '使用中房數',
-            colName : 'usedNum'
+            text : '使用中房數'
         },
         invalidNum : {
-            text : '不開放房數',
-            colName : 'invalidNum'
+            text : '不開放房數'
         },
         price : {
-            text : '房間單價',
-            colName : 'price'
+            text : '房間單價'
         },
+        status : {
+            text : '房間狀態'
+        }
     }
 }
 class RoomTable extends Component {
@@ -33,33 +31,36 @@ class RoomTable extends Component {
     render() {
 
         const {header} = constant;
-        const {fctn} = this.props;
+        const {value} = this.props;
     
         return (
             <Table striped bordered responsive hover>
                 <thead>
                     <tr>
-                        <SortTh text={header.name.text} ascOnClick={() => {fctn.orderOnClick(header.name.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.name.colName, 1)}} />
-                        <SortTh text={header.totalNum.text} ascOnClick={() => {fctn.orderOnClick(header.totalNum.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.totalNum.colName, 1)}} />
-                        <SortTh text={header.usedNum.text} ascOnClick={() => {fctn.orderOnClick(header.usedNum.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.usedNum.colName, 1)}} />
-                        <SortTh text={header.invalidNum.text} ascOnClick={() => {fctn.orderOnClick(header.invalidNum.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.invalidNum.colName, 1)}} />
-                        <SortTh text={header.price.text} ascOnClick={() => {fctn.orderOnClick(header.price.colName, 0)}} 
-                                descOnClick={() => {fctn.orderOnClick(header.price.colName, 1)}} />
+                        <SortTh text={header.name.text} ascOnClick={e => this.onClickOrder(e, 'name', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'name', 1)} />
+                        <SortTh text={header.totalNum.text}  ascOnClick={e => this.onClickOrder(e, 'totalNum', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'totalNum', 1)} />
+                        <SortTh text={header.usedNum.text}  ascOnClick={e => this.onClickOrder(e, 'usedNum', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'usedNum', 1)} />
+                        <SortTh text={header.invalidNum.text}  ascOnClick={e => this.onClickOrder(e, 'invalidNum', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'invalidNum', 1)} />
+                        <SortTh text={header.price.text}  ascOnClick={e => this.onClickOrder(e, 'price', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'price', 1)} />
+                        <SortTh text={header.status.text}  ascOnClick={e => this.onClickOrder(e, 'status', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'status', 1)} />
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        fctn.getTableRows().map(tableRow => (
+                        value.tableRows.map(tableRow => (
                             <tr key={tableRow.index}>
                                 <SortTd text={tableRow.name} />
                                 <SortTd text={tableRow.totalNum} />
                                 <SortTd text={tableRow.usedNum} />
                                 <SortTd text={tableRow.invalidNum} />
                                 <SortTd text={tableRow.price} />
+                                <SortTd text={tableRow.status} />
                             </tr>
                         ))
                     }
@@ -67,6 +68,23 @@ class RoomTable extends Component {
             </Table>
         );
     }
+
+    // on
+    onClickOrder = (event, colName, direction) => {
+
+        const {fctn} = this.props;
+        fctn.changeOrder(colName, direction);
+    }
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setRoomTable({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default RoomTable;

@@ -52,7 +52,7 @@ public class RoomListControllerService {
 	
 	public Response searchTable(String name, String totalNumMin, String totalNumMax, 
 			String usedNumMin, String usedNumMax, String invalidNumMin, String invalidNumMax,
-			String priceMin, String priceMax) {
+			String priceMin, String priceMax, String status) {
 		
 		SearchTableReq searchTableReq = SearchTableReq.builder()
 				.name(name)
@@ -64,6 +64,7 @@ public class RoomListControllerService {
 				.invalidNumMax(invalidNumMax)
 				.priceMin(priceMin)
 				.priceMax(priceMax)
+				.status(status)
 				.build();
 		
 		return ResponseUtil.response200(

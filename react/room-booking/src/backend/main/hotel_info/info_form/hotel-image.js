@@ -11,16 +11,16 @@ class HotelImage extends Component {
             height : '10rem',
             width : '10rem'
         };
-        const {imgName, url} = this.props;
+        const {value} = this.props;
 
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>飯店照片 : </Form.Label>
                 <Col>
                     <Row>
-                        <Form.Label column xs='auto'>{imgName}</Form.Label>
+                        <Form.Label column xs='auto'>{value.imgName}</Form.Label>
                         <Form.Label column xs='auto'>
-                            <Image src={url} alt='hotel photo' className='d-inline-block' style={imageStyle} />
+                            <Image src={value.url} alt='hotel photo' className='d-inline-block' style={imageStyle} />
                         </Form.Label>
                     </Row>
                 </Col>

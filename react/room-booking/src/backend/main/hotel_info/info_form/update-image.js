@@ -5,7 +5,7 @@ class UpdateImage extends Component {
 
     render() {
         
-        const {imgName, onChange} = this.props;
+        const {value} = this.props;
 
         return (
             <Form.Group as={Row}>
@@ -13,13 +13,31 @@ class UpdateImage extends Component {
                 <Col>
                     <Row>
                         <Col xs='auto'>
-                            <Form.Control id='form_updateImage' name='hotelImage' type='file' value={imgName} onChange={onChange} />
+                            <Form.Control id='form_updateImage' name='hotelImage' type='file' 
+                                    value={value.imgName} onChange={this.onChange} />
                         </Col>
                     </Row>
                 </Col>
             </Form.Group>
         );
     }
+
+    // on
+    onChange = (event) => {
+
+        this.setter('imageName', event.target.value);
+    };
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setUpdateImage({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default UpdateImage;

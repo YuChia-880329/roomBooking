@@ -62,10 +62,11 @@ public class BackendController {
 			@RequestParam(name = "totalNumMin", required = false) String totalNumMin, @RequestParam(name = "totalNumMax", required = false) String totalNumMax, 
 			@RequestParam(name = "usedNumMin", required = false) String usedNumMin, @RequestParam(name = "usedNumMax", required = false) String usedNumMax, 
 			@RequestParam(name = "invalidNumMin", required = false) String invalidNumMin, @RequestParam(name = "invalidNumMax", required = false) String invalidNumMax,
-			@RequestParam(name = "priceMin", required = false) String priceMin, @RequestParam(name = "priceMax", required = false) String priceMax) {
+			@RequestParam(name = "priceMin", required = false) String priceMin, @RequestParam(name = "priceMax", required = false) String priceMax, 
+			@RequestParam(name = "status", required = false) String status) {
 		
 
-		Response response = roomListService.searchTable(name, totalNumMin, totalNumMax, usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax);
+		Response response = roomListService.searchTable(name, totalNumMin, totalNumMax, usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, status);
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/roomList/turnPage")

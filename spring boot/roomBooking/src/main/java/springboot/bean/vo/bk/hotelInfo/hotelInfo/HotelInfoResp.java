@@ -15,7 +15,7 @@ public class HotelInfoResp extends Data {
 	private String name;
 	private String sectionCode;
 	private String address;
-	private String introduction;
+	private String description;
 	private int[] featureIds;
 	private String[] newFeatureNames;
 	private Image image;

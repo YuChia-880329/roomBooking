@@ -30,6 +30,7 @@ const constant = {
                 invalidNumMax : undefined,
                 priceMin : undefined,
                 priceMax : undefined,
+                status : undefined
             },
             turnPage : {
                 page : 1
@@ -60,6 +61,10 @@ const constant = {
             asc : 9,
             desc : 10
         },
+        status : {
+            asc : 11,
+            desc : 12
+        }
     }
 }
 class RoomList extends Component {
@@ -72,20 +77,29 @@ class RoomList extends Component {
                 tableRows : []
             },
             filterModal : {
-                form : {
-                    value : {
-                        name : '',
-                        totalRoomNumMin : '',
-                        totalRoomNumMax : '',
-                        usedRoomNumMin : '',
-                        usedRoomNumMax : '',
-                        invalidRoomNumMin : '',
-                        invalidRoomNumMax : '',
-                        priceMin : '',
-                        priceMax : ''
-                    }
+                show : false,
+                name : {
+                    value : ''
                 },
-                show : false
+                totalRoomNum : {
+                    valueMin : '',
+                    valueMax : ''
+                },
+                usedRoomNum : {
+                    valueMin : '',
+                    valueMax : ''
+                },
+                invalidRoomNum : {
+                    valueMin : '',
+                    valueMax : ''
+                },
+                price : {
+                    valueMin : '',
+                    valueMax : ''
+                },
+                status : {
+                    value : ''
+                }
             },
             pagination : {
                 first : {
@@ -133,73 +147,68 @@ class RoomList extends Component {
 
         const fctn = {
             roomTable : {
-                getTableRows : this.getTableRows,
-                orderOnClick : this.orderOnClick
+                changeOrder : this.changeOrder
             },
             filterModal : {
-                getFilterModalVal : this.getFilterModalVal,
-                setFilterModalVal : this.setFilterModalVal,
                 searchTable : this.searchTable
-            },
-            pagn : {
-                pageOnClick : this.pageOnClick
             }
         }
-        const {filterModal, pagination} = this.state;
+        const {roomTable, pagination, filterModal} = this.state;
 
-        const pagn = {
-            first : pagination.first,
-            prev : pagination.prev,
-            pages : pagination.pages,
-            next : pagination.next,
-            last : pagination.last,
-            currentPage : pagination.currentPage
-        };
+        const setter = {
+            roomTable : {
+                setRoomTable : (val, onSet) => this.setter('roomTable', val, onSet)
+            },
+            filterModal : {
+                setFilterModal : (val, onSet) => this.setter('filterModal', val, onSet)
+            }
+        }
 
         return (
             <Fragment>
                 <Container className='w-75'>
-                    <RoomTable fctn={fctn.roomTable} />
+                    <RoomTable value={roomTable} setter={setter.roomTable} fctn={fctn.roomTable} />
                     <Stack direction='horizontal' className='mt-5'>
                         <div>
-                            <Button variant='outline-primary' onClick={() => this.showFilterModal()}>篩選</Button>
+                            <Button variant='outline-primary' onClick={this.onClickShowFilterBtn}>篩選</Button>
                         </div>
                         <div className='ms-auto'>
-                            <Pagn pagn={pagn} fctn={fctn.pagn} />
+                            <Pagn pagn={pagination} turnPage={this.turnPage} />
                         </div>
                     </Stack>
                 </Container>
-                <FilterModal fctn={fctn.filterModal} show={filterModal.show} onHide={this.filterModalOnHide} />
+                <FilterModal value={filterModal} setter={setter.filterModal} fctn={fctn.filterModal} />
             </Fragment>
         );
     };
 
-    // other
-    showFilterModal = () => {
+    // on
+    onClickShowFilterBtn = (event) => {
 
         const {filterModal} = this.state;
 
-        this.setState({
-            filterModal : {
-                ...filterModal,
-                show : true
-            }
+        this.setter('filterModal', {
+            ...filterModal,
+            show : true
         });
-    };
-    searchTable = (onSuccess) => {
+    }
+
+    // other
+    searchTable = () => {
 
         const req = constant.fetch.req.searchTable;
         const {filterModal} = this.state;
 
-        const name = filterModal.form.value.name;
-        const totalNumMin = filterModal.form.value.totalRoomNumMin;
-        const totalNumMax = filterModal.form.value.totalRoomNumMax;
-        const usedNumMin = filterModal.form.value.usedRoomNumMin;
-        const usedNumMax = filterModal.form.value.usedRoomNumMax;
-        const invalidNumMin = filterModal.form.value.invalidRoomNumMin;
-        const invalidNumMax = filterModal.form.value.invalidRoomNumMax;
-        const priceMin = filterModal.form.value.priceMin;
-        const priceMax = filterModal.form.value.priceMax;
+        const name = filterModal.name.value;
+        const totalNumMin = filterModal.totalRoomNum.valueMin;
+        const totalNumMax = filterModal.totalRoomNum.valueMax;
+        const usedNumMin = filterModal.usedRoomNum.valueMin;
+        const usedNumMax = filterModal.usedRoomNum.valueMax;
+        const invalidNumMin = filterModal.invalidRoomNum.valueMin;
+        const invalidNumMax = filterModal.invalidRoomNum.valueMax;
+        const priceMin = filterModal.price.valueMin;
+        const priceMax = filterModal.price.valueMax;
+        const status = filterModal.status.value;
 
         req.name = (name==='' ? undefined : name);
         req.totalNumMin = (totalNumMin==='' ? undefined : totalNumMin);
@@ -210,50 +219,29 @@ class RoomList extends Component {
         req.invalidNumMax = (invalidNumMax==='' ? undefined : invalidNumMax);
         req.priceMin = (priceMin==='' ? undefined : priceMin);
         req.priceMax = (priceMax==='' ? undefined : priceMax);
+        req.status = (status==='' ? undefined : status);
 
-        this.searchTableFetch(req, onSuccess);
+        this.searchTableFetch(req);
     };
-    turnPage = (page, onSuccess) => {
+    turnPage = (page) => {
 
         const req = constant.fetch.req.turnPage;
 
         req.page = page;
-        this.turnPageFetch(req, onSuccess);
+        this.turnPageFetch(req);
     };
-    changeOrder = (colName, direction, onSuccess) => {
+    changeOrder = (colName, direction) => {
 
         const req = constant.fetch.req.changeOrder;
         const orderCode = constant.orderCode;
 
         req.order = orderCode[colName][direction===0 ? 'asc' : 'desc'];
-        this.changeOrderFetch(req, onSuccess);
+        this.changeOrderFetch(req);
     };
 
 
-    // on
-    filterModalOnHide = () => {
-
-        const {filterModal} = this.state;
-
-        this.setState({
-            filterModal : {
-                ...filterModal,
-                show : false
-            }
-        });
-    }
-    pageOnClick = (page) => {
-
-        this.turnPage(page);
-    }
-    orderOnClick = (colName, direction) => {
-
-        this.changeOrder(colName, direction);
-    }
-
-
     // fetch
-    searchTableFetch = async (params, onSuccess) => {
+    searchTableFetch = async (params) => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
@@ -271,13 +259,13 @@ class RoomList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterSearchTable(data, onSuccess);
+            this.afterSearchTable(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
         }
     };
-    turnPageFetch = async (params, onSuccess) => {
+    turnPageFetch = async (params) => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
@@ -295,13 +283,13 @@ class RoomList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterTurnPage(data, onSuccess);
+            this.afterTurnPage(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
         }
     };
-    changeOrderFetch = async (params, onSuccess) => {
+    changeOrderFetch = async (params) => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
@@ -319,7 +307,7 @@ class RoomList extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterChangeOrder(data, onSuccess);
+            this.afterChangeOrder(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -328,89 +316,68 @@ class RoomList extends Component {
 
 
     // after fetch
-    afterSearchTable = (data, onSuccess) => {
+    afterSearchTable = (data) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination, onSuccess);
+        this.updateState(table, pagination);
     }
-    afterTurnPage = (data, onSuccess) => {
+    afterTurnPage = (data) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination, onSuccess);
+        this.updateState(table, pagination);
     };
-    afterChangeOrder = (data, onSuccess) => {
+    afterChangeOrder = (data) => {
 
         const {table, pagination} = data;
 
-        this.updateState(table, pagination, onSuccess);
+        this.updateState(table, pagination);
     }
-    updateState = (table, pagination, onSuccess) => {
+    updateState = (table, p) => {
 
-        const {roomTable} = this.state;
+        const {roomTable, pagination} = this.state;
 
-        this.setState({
-            roomTable : {
-                ...roomTable,
-                tableRows : table.tableRows
-            },
-            pagination : {
-                ...this.state.pagination,
-                first : {
-                    show : pagination.first.show,
-                    toPage : pagination.first.toPage
-                },
-                prev : {
-                    show : pagination.prev.show,
-                    toPage : pagination.prev.toPage
-                },
-                pages : pagination.pages,
-                next : {
-                    show : pagination.next.show,
-                    toPage : pagination.next.toPage
-                },
-                last : {
-                    show : pagination.last.show,
-                    toPage : pagination.last.toPage
-                },
-                currentPage : pagination.currentPage
-            }
+        this.setter('roomTable', {
+            ...roomTable,
+            tableRows : table.tableRows
         }, () => {
 
-            onSuccess && onSuccess();
+            this.setter('pagination', {
+                ...pagination,
+                first : {
+                    show : p.first.show,
+                    toPage : p.first.toPage
+                },
+                prev : {
+                    show : p.prev.show,
+                    toPage : p.prev.toPage
+                },
+                pages : p.pages,
+                next : {
+                    show : p.next.show,
+                    toPage : p.next.toPage
+                },
+                last : {
+                    show : p.last.show,
+                    toPage : p.last.toPage
+                },
+                currentPage : p.currentPage
+            })
         });
     };
 
 
-    // getter setter
-    getFilterModalVal = (colName) => {
 
-        return this.state.filterModal.form.value[colName];
-    }
-    setFilterModalVal = (colName, colVal) => {
-
-        const {filterModal} = this.state;
+    // setter
+    setter = (colName, colVal, onSet) => {
 
         this.setState({
-            filterModal : {
-                ...filterModal,
-                form : {
-                    ...filterModal.form,
-                    value : {
-                        ...filterModal.form.value,
-                        [colName] : colVal
-                    }
-                }
-            }
+            [colName] : colVal
+        }, () => {
+
+            onSet && onSet();
         });
-    }
-
-    getTableRows = () => {
-
-        const {roomTable} = this.state;
-
-        return roomTable.tableRows;
     }
 }
 

@@ -1,5 +1,6 @@
 package springboot.bean.dto.bk.roomList.obj.repo.tablePages;
 
+import enumeration.RoomStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,4 +17,5 @@ public class TableRowDto {
 	private int usedNum;
 	private int invalidNum;
 	private int price;
+	private RoomStatus status;
 }

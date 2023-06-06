@@ -56,6 +56,8 @@ public class Room {
 	private int sceneId;
 	@Column(name = "HOTEL_ID")
 	private int hotelId;
+	@Column(name = "STATUS")
+	private String status;
 	
 	
 	@JoinColumn(name = "SCENE_ID", insertable = false, updatable = false)

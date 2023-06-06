@@ -18,6 +18,7 @@ public class TableRowTrans extends RepoOutputTrans<TableRow, TableRowDto> {
 				.usedNum(dto.getUsedNum())
 				.invalidNum(dto.getInvalidNum())
 				.price(dto.getPrice())
+				.status(dto.getStatus())
 				.build();
 	}
 
@@ -30,6 +31,7 @@ public class TableRowTrans extends RepoOutputTrans<TableRow, TableRowDto> {
 				.usedNum(output.getUsedNum())
 				.invalidNum(output.getInvalidNum())
 				.price(output.getPrice())
+				.status(output.getStatus())
 				.build();
 	}
 }

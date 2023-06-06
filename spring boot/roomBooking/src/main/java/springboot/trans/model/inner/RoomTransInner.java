@@ -2,6 +2,7 @@ package springboot.trans.model.inner;
 
 import org.springframework.stereotype.Component;
 
+import enumeration.RoomStatus;
 import springboot.bean.dto.model.RoomDto;
 import springboot.bean.model.Room;
 import tmpl.trans.bean.model.ModelRiTrans;
@@ -25,6 +26,7 @@ public class RoomTransInner implements ModelRiTrans<Room, RoomDto>, ModelWoTrans
 				.area(dto.getArea())
 				.sceneId(dto.getSceneId())
 				.hotelId(dto.getHotelId())
+				.status(String.valueOf(dto.getStatus().getCode()))
 				.scene(null)
 				.hotel(null)
 				.showers(null)
@@ -48,6 +50,7 @@ public class RoomTransInner implements ModelRiTrans<Room, RoomDto>, ModelWoTrans
 				.area(model.getArea())
 				.sceneId(model.getSceneId())
 				.hotelId(model.getHotelId())
+				.status(RoomStatus.getByCode(Integer.parseInt(model.getStatus())))
 				.scene(null)
 				.hotel(null)
 				.showers(null)

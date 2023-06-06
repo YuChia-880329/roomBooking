@@ -39,7 +39,7 @@ public class HotelInfoService {
 				.name(hotel.getName())
 				.sectionCode(hotel.getSectionCode())
 				.address(hotel.getAddress())
-				.introduction(hotel.getIntroduction())
+				.description(hotel.getDescription())
 				.featureIds(hotel.getFeatures().stream()
 						.map(f -> f.getId())
 						.collect(Collectors.toList()))

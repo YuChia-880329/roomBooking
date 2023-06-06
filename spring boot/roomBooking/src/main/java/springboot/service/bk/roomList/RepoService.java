@@ -35,6 +35,7 @@ public class RepoService {
 				.usedNum(tableRow.getUsedNum())
 				.invalidNum(tableRow.getInvalidNum())
 				.price(tableRow.getPrice())
+				.status(tableRow.getStatus())
 				.build();
 	}
 }

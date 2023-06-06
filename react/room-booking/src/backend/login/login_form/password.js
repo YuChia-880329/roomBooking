@@ -27,7 +27,7 @@ class Password extends Component {
     setter = (colName, colVal, onSet) => {
 
         const {setter, values} = this.props;
-        setter({
+        setter.setPassword({
             ...values,
             [colName] : colVal
         }, onSet);

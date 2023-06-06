@@ -61,6 +61,7 @@ public class SearchTableService {
 				.invalidNumMax(searchTableReq.getInvalidNumMax())
 				.priceMin(searchTableReq.getPriceMin())
 				.priceMax(searchTableReq.getPriceMax())
+				.status(searchTableReq.getStatus())
 				.roomTableOrder(RoomTableOrder.NAME_ASC)
 				.build();
 	}

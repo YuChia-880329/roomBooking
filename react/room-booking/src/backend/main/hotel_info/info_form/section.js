@@ -6,17 +6,17 @@ class Section extends Component {
 
     render() {
 
-        const {fctn, value, onChange} = this.props;
+        const {value} = this.props;
 
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>飯店地址區域 : </Form.Label>
                 <Col>
-                    <Form.Control as='select' value={value} onChange={onChange}>
+                    <Form.Control as='select' value={value.value} onChange={this.onChange}>
                         <option value=''>---- 請選擇 ----</option>
-                        {fctn.getAllSections().map(
-                            section => (
-                                <option key={section.code} value={section.code}>{section.name}</option>
+                        {value.options.map(
+                            op => (
+                                <option key={op.code} value={op.code}>{op.name}</option>
                             )
                         )}
                     </Form.Control>
@@ -24,6 +24,23 @@ class Section extends Component {
             </Form.Group>
         );
     }
+
+    // on
+    onChange = (event) => {
+
+        this.setter('value', `${event.target.value}`);
+    };
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setSection({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default Section;

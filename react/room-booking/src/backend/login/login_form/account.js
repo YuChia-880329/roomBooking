@@ -27,7 +27,7 @@ class Account extends Component {
     setter = (colName, colVal, onSet) => {
 
         const {setter, values} = this.props;
-        setter({
+        setter.setAccount({
             ...values,
             [colName] : colVal
         }, onSet);

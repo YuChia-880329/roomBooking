@@ -12,7 +12,8 @@ public enum RoomTableOrder {
 	TOTAL_NUM_ASC("TOTAL_NUM", "totalNum", OrderDirection.ASC, 3), TOTAL_NUM_DESC("TOTAL_NUM", "totalNum", OrderDirection.DESC, 4),
 	USED_NUM_ASC("USED_NUM", "usedNum", OrderDirection.ASC, 5), USED_NUM_DESC("USED_NUM", "usedNum", OrderDirection.DESC, 6),
 	INVALID_NUM_ASC("INVALID_NUM", "invalidNum", OrderDirection.ASC, 7), INVALID_NUM_DESC("INVALID_NUM", "invalidNum", OrderDirection.DESC, 8),
-	PRICE_ASC("PRICE", "price", OrderDirection.ASC, 9), PRICE_DESC("PRICE", "price", OrderDirection.DESC, 10);
+	PRICE_ASC("PRICE", "price", OrderDirection.ASC, 9), PRICE_DESC("PRICE", "price", OrderDirection.DESC, 10),
+	STATUS_ASC("STATUS", "status", OrderDirection.ASC, 11), STATUS_DESC("STATUS", "status", OrderDirection.DESC, 12);
 	
 	private String colName;
 	private String attributeName;

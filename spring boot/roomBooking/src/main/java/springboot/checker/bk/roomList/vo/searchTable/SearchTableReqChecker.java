@@ -2,8 +2,10 @@ package springboot.checker.bk.roomList.vo.searchTable;
 
 import org.springframework.stereotype.Component;
 
+import enumeration.RoomStatus;
 import exception.check.NonIntegerNumberException;
 import exception.check.NonNumberStringException;
+import exception.check.StringIsNotOneOfException;
 import springboot.bean.vo.bk.roomList.searchTable.SearchTableReq;
 import tmpl.checker.Checker;
 import tmpl.checker.exception.RiCheckerException;
@@ -20,6 +22,7 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 	public static final String INVALID_NUM_MAX_FIELD_NAME = "不開放房數(最大值)";
 	public static final String PRICE_MIN_FIELD_NAME = "房間單價(最小值)";
 	public static final String PRICE_MAX_FIELD_NAME = "房間單價(最大值)";
+	public static final String STATUS_FIELD_NAME = "房間狀態";
 	
 	@Override
 	public void check(SearchTableReq vo) {
@@ -35,6 +38,7 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 		checkInvalidNumMax(vo);
 		checkPriceMin(vo);
 		checkPriceMax(vo);
+		checkStatus(vo);
 	}
 	
 	private void checkVo(SearchTableReq vo) {
@@ -177,6 +181,20 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 		}catch(NonIntegerNumberException ex) {
 			
 			throw new RiCheckerException(NonIntegerNumberException.getMsgStr(PRICE_MAX_FIELD_NAME));
+		}
+	}
+	private void checkStatus(SearchTableReq vo) {
+		
+		String status = vo.getStatus();
+		if(status == null)
+			return;
+		
+		try {
+			
+			CheckUtil.checkStringWithOptions(status, RoomStatus.getCodeStrsArray());
+		}catch(StringIsNotOneOfException ex) {
+			
+			throw new RiCheckerException(StringIsNotOneOfException.getMsgStr(STATUS_FIELD_NAME, RoomStatus.getCodeStrsArray()));
 		}
 	}
 }

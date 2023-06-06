@@ -8,116 +8,103 @@ import Feature from './info_form/feature';
 import HotelImage from './info_form/hotel-image';
 import UpdateImage from './info_form/update-image';
 
-const constant = {
-    colName : {
-        name : 'name',
-        section : 'section',
-        address : 'address',
-        description : 'description',
-        feature : 'feature',
-        hotelImage : 'hotelImage',
-        updateImage : 'updateImage'
-    }
-};
-
 
 class InfoForm extends Component {
 
     render() {
 
-        const {colName} = constant;
-        const {validated} = this.props;
-        const fctn = {
-            section : {
-                getAllSections : this.props.fctn.getAllSections
+        const {value} = this.props;
+        const setter = {
+            name : {
+                setName : (val, onSet) => this.setter('name', val, onSet)
             },
+            section : {
+                setSection : (val, onSet) => this.setter('section', val, onSet)
+            },
+            address : {
+                setAddress : (val, onSet) => this.setter('address', val, onSet)
+            },
+            description : {
+                setDescription : (val, onSet) => this.setter('description', val, onSet)
+            },
+            feature : {
+                setFeature : (val, onSet) => this.setter('feature', val, onSet)
+            },
+            updateImage : {
+                setUpdateImage : (val, onSet) => this.setter('updateImage', val, onSet)
+            }
+        };
+        const fctn = {
             feature : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
-                closeConfirmModal : this.props.fctn.closeConfirmModal,
-                getAllFeatures : this.props.fctn.getAllFeatures,
-                getAllNewFeatures : this.props.fctn.getAllNewFeatures,
-                setAllNewFeatures : this.props.fctn.setAllNewFeatures,
-                setValue : v => this.setValue(colName.feature, v),
-                getInsertFeatureFormValidated : this.props.fctn.getInsertFeatureFormValidated,
-                setInsertFeatureFormValidated : this.props.fctn.setInsertFeatureFormValidated
+                closeConfirmModal : this.props.fctn.closeConfirmModal
             }
         };
+
         return (
-            <Form noValidate validated={validated} onSubmit={this.onSubmit}>
-                <Stack gap={5}>
-                    <Row>
-                        <Col>
-                            <Name value={this.getValue(colName.name)} 
-                                    onChange={e => this.onChange(colName.name, e)} />
-                        </Col>
-                        <Col>
-                            <Section fctn={fctn.section} 
-                                    value={this.getValue(colName.section)}
-                                    onChange={e => this.onChange(colName.section, e)} />
-                        </Col>
-                    </Row>
-                    <Address value={this.getValue(colName.address)}
-                            onChange={e => this.onChange(colName.address, e)} />
-                    <Description value={this.getValue(colName.description)}
-                            onChange={e => this.onChange(colName.description, e)} />
-                    <Feature fctn={fctn.feature}
-                            values={this.getValue(colName.feature)} />
-                    <HotelImage imgName={this.getValue(colName.hotelImage).imageName}
-                            url={this.getValue(colName.hotelImage).url} />
-                    <UpdateImage imgName={this.getValue(colName.updateImage).imageName} 
-                            onChange={this.updateImageOnChange} />
-                    <Stack direction='horizontal'>
-                        <Button variant='outline-primary' className='ms-auto'>更新資料</Button>
-                    </Stack>
+            <Stack as={Form} gap={5} noValidate validated={value.validated}>
+                <Row>
+                    <Col>
+                        <Name value={value.name} setter={setter.name} />
+                    </Col>
+                    <Col>
+                        <Section value={value.section} setter={setter.section} />
+                    </Col>
+                </Row>
+                <Address value={value.address} setter={setter.address} />
+                <Description value={value.description} setter={setter.description} />
+                <Feature value={value.feature} setter={setter.feature} fctn={fctn.feature} />
+                <HotelImage value={value.hotelImage} />
+                <UpdateImage value={value.updateImage} setter={setter.updateImage} />
+                <Stack direction='horizontal'>
+                    <Button variant='outline-primary' className='ms-auto'>更新資料</Button>
                 </Stack>
-            </Form>
+            </Stack>
         );
     }
 
     // on
-    onChange = (colName, event) => {
+    // onChange = (colName, event) => {
 
-        const {fctn} = this.props;
-        fctn.setInfoFormValue(colName, event.target.value);
-    }
-    updateImageOnChange = (event) => {
+    //     const {fctn} = this.props;
+    //     fctn.setInfoFormValue(colName, event.target.value);
+    // }
+    // updateImageOnChange = (event) => {
 
-        const {colName} = constant;
+    //     const {colName} = constant;
 
-        const updateImage = this.getValue(colName.updateImage);
-        updateImage.imageName = event.target.value;
-        this.setValue(colName.updateImage, updateImage);
-    };
-    onSubmit = (event) => {
+    //     const updateImage = this.getValue(colName.updateImage);
+    //     updateImage.imageName = event.target.value;
+    //     this.setValue(colName.updateImage, updateImage);
+    // };
+    // onSubmit = (event) => {
 
-        const {fctn} = this.props;
+    //     const {fctn} = this.props;
 
-        event.preventDefault();
-        fctn.setInfoFormValidated(true, () =>{
+    //     event.preventDefault();
+    //     fctn.setInfoFormValidated(true, () =>{
 
-            if(event.target.checkValidity() === true){
+    //         if(event.target.checkValidity() === true){
             
-                fctn.showConfirmModal('確定要更新飯店資料?', () => {
+    //             fctn.showConfirmModal('確定要更新飯店資料?', () => {
 
-                    fctn.update(event.currentTarget.hotelImage.files[0]);
-                });
-            }
-        });
-    };
+    //                 fctn.update(event.currentTarget.hotelImage.files[0]);
+    //             });
+    //         }
+    //     });
+    // };
 
     // getter setter
-    getValue = (colName) => {
+    setter = (colName, colVal, onSet) => {
 
-        const {fctn} = this.props;
-        return fctn.getInfoFormValue(colName);
+        const {setter, value} = this.props;
+        setter.setInfoForm({
+            ...value,
+            [colName] : colVal
+        }, onSet);
     };
-    setValue = (colName, colValue) => {
-
-        const {fctn} = this.props;
-        fctn.setInfoFormValue(colName, colValue);
-    }
 }
 
 export default InfoForm;

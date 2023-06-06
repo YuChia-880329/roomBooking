@@ -5,25 +5,43 @@ class CheckoutDate extends Component {
 
     render() {
         
-        const {valueFrom, valueTo, onChangeFrom, onChangeTo} = this.props;
+        const {value} = this.props;
 
         return (
             <Form.Group>
                 <Form.Label htmlFor='filter_checkoutDateMin'>預定退房日期 : </Form.Label>
                 <Row>
                     <Col>
-                        <Form.Control id='filter_checkoutDateMin' type='date' value={valueFrom} onChange={onChangeFrom} />
+                        <Form.Control id='filter_checkoutDateMin' type='date' value={value.valueFrom} 
+                                onChange={e => this.onChange(e, 'valueFrom')} />
                     </Col>
                     <Col xs='auto' className='px-3 align-self-center'>
                         <p className='mb-0'>~</p>
                     </Col>
                     <Col>
-                        <Form.Control id='filter_checkoutDateMax' type='date' value={valueTo} onChange={onChangeTo} />
+                        <Form.Control id='filter_checkoutDateMax' type='date' value={value.valueTo} 
+                                onChange={e => this.onChange(e, 'valueTo')} />
                     </Col>
                 </Row>
             </Form.Group>
         );
     }
+
+    // on
+    onChange = (event, colName) => {
+
+        this.setter(colName, event.target.value);
+    }
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setCheckoutDate({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default CheckoutDate;

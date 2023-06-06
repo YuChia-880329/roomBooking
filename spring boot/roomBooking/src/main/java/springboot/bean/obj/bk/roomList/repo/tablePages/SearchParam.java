@@ -1,5 +1,6 @@
 package springboot.bean.obj.bk.roomList.repo.tablePages;
 
+import enumeration.RoomStatus;
 import enumeration.bk.roomList.RoomTableOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,6 @@ public class SearchParam {
 	private Integer invalidNumMax;
 	private Integer priceMin;
 	private Integer priceMax;
+	private RoomStatus status;
 	private RoomTableOrder roomTableOrder;
 }

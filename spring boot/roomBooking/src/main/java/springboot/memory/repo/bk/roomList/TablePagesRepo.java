@@ -69,6 +69,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 				.invalidNumMax(null)
 				.priceMin(null)
 				.priceMax(null)
+				.status(null)
 				.roomTableOrder(RoomTableOrder.NAME_ASC)
 				.build();
 		
@@ -97,10 +98,12 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 		RoomTableOrder roomTableOrder = searchParam.getRoomTableOrder();
 		int page = searchParam.getPage();
 		
-		long totalRows = roomDaoInner.queryBkRoomListTablePagesRowNum(hotelId, searchParam.getName(), searchParam.getTotalNumMin(), searchParam.getTotalNumMax(), 
+		long totalRows = roomDaoInner.queryBkRoomListTablePagesRowNum(hotelId, searchParam.getName(), 
+				searchParam.getTotalNumMin(), searchParam.getTotalNumMax(), 
 				searchParam.getUsedNumMin(), searchParam.getUsedNumMax(), 
 				searchParam.getInvalidNumMin(), searchParam.getInvalidNumMax(), 
-				searchParam.getPriceMin(), searchParam.getPriceMax());
+				searchParam.getPriceMin(), searchParam.getPriceMax(), 
+				searchParam.getStatus());
 		
 		if(totalRows > Integer.MAX_VALUE) {
 			
@@ -124,7 +127,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 					searchParam.getTotalNumMin(), searchParam.getTotalNumMax(), 
 					searchParam.getUsedNumMin(), searchParam.getUsedNumMax(), 
 					searchParam.getInvalidNumMin(), searchParam.getInvalidNumMax(), 
-					searchParam.getPriceMin(), searchParam.getPriceMax(),
+					searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getStatus(),
 					roomTableOrder, rowBounds[0]-1, SearchTableService.ROWS_PER_PAGE);
 			
 			tablePageMap.put(p, toTablePage(rooms, p));
@@ -161,10 +164,10 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 	private List<TableRow> toTableRows(List<RoomDto> rooms) {
 		
 		return rooms.stream()
-				.map(room -> toTableRows(room))
+				.map(room -> toTableRow(room))
 				.collect(Collectors.toList());
 	}
-	private TableRow toTableRows(RoomDto room) {
+	private TableRow toTableRow(RoomDto room) {
 		
 		return TableRow.builder()
 				.name(room.getName())
@@ -172,6 +175,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 				.usedNum(room.getUsedNum())
 				.invalidNum(room.getInvalidNum())
 				.price(room.getPrice())
+				.status(room.getStatus())
 				.build();
 	}
 	

@@ -64,7 +64,7 @@ public class UpdateService {
 				.name(updateReq.getName())
 				.sectionCode(updateReq.getSectionCode())
 				.address(updateReq.getAddress())
-				.introduction(updateReq.getDescription())
+				.description(updateReq.getDescription())
 				.imgName(updateImage.isNeedUpdate() ? updateImage.getImageName() : oldHotel.getImgName())
 				.features(toFeatures(updateReq.getFeatureIds()))
 				.newFeatures(toNewFeatures(updateReq.getNewFeatures(), oldHotel.getId()))

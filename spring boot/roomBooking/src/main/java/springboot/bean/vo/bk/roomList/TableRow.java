@@ -17,4 +17,5 @@ public class TableRow {
 	private int usedNum;
 	private int invalidNum;
 	private int price;
+	private String status;
 }

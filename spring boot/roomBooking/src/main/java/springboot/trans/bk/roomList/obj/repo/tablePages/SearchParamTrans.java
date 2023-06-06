@@ -23,6 +23,7 @@ public class SearchParamTrans extends RepoInputTrans<SearchParam, SearchParamDto
 				.invalidNumMax(dto.getInvalidNumMax())
 				.priceMin(dto.getPriceMin())
 				.priceMax(dto.getPriceMax())
+				.status(dto.getStatus())
 				.roomTableOrder(dto.getRoomTableOrder())
 				.build();
 	}
@@ -41,6 +42,7 @@ public class SearchParamTrans extends RepoInputTrans<SearchParam, SearchParamDto
 				.invalidNumMax(inputObj.getInvalidNumMax())
 				.priceMin(inputObj.getPriceMin())
 				.priceMax(inputObj.getPriceMax())
+				.status(inputObj.getStatus())
 				.roomTableOrder(inputObj.getRoomTableOrder())
 				.build();
 	}

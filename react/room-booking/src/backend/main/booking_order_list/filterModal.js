@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Button, Container, Form, Modal, Stack } from 'react-bootstrap';
 import Id from './filter_modal/id';
 import ClientName from './filter_modal/client-name';
-import Phone from './filter_modal/phone';
+import ClientPhone from './filter_modal/client-phone';
 import RoomType from './filter_modal/room-type';
 import RoomNum from './filter_modal/room-num';
 import Price from './filter_modal/price';
@@ -51,18 +51,6 @@ const constant = {
 };
 class FilterModal extends Component {
 
-    constructor(props){
-
-        super(props);
-        this.state = {
-            payMethod : {
-                allPayMethods : []
-            },
-            roomType : {
-                allRooms : []
-            }
-        };
-    }
 
     componentDidMount(){
 
@@ -74,19 +62,46 @@ class FilterModal extends Component {
 
     render() {
         
-        const {filterModal} = constant;
-        const {show, onHide} = this.props;
-        const fctn = {
-            payMethod : {
-                getAllPayMethods : this.getAllPayMethods
+        const {value} = this.props;
+
+        const setter = {
+            id : {
+                setId : (val, onSet) => this.setter('id', val, onSet)
+            },
+            clientName : {
+                setClientName : (val, onSet) => this.setter('clientName', val, onSet)
+            },
+            clientPhone : {
+                setClientPhone : (val, onSet) => this.setter('clientPhone', val, onSet)
             },
             roomType : {
-                getAllRooms : this.getAllRooms
+                setRoomType : (val, onSet) => this.setter('roomType', val, onSet)
+            },
+            roomNum : {
+                setRoomNum : (val, onSet) => this.setter('roomNum', val, onSet)
+            },
+            price : {
+                setPrice : (val, onSet) => this.setter('price', val, onSet)
+            },
+            payMethod : {
+                setPayMethod : (val, onSet) => this.setter('payMethod', val, onSet)
+            },
+            checkinDateTime : {
+                setCheckinDateTime : (val, onSet) => this.setter('checkinDateTime', val, onSet)
+            },
+            checkoutDate : {
+                setCheckoutDate : (val, onSet) => this.setter('checkoutDate', val, onSet)
+            },
+            useDay : {
+                setUseDay : (val, onSet) => this.setter('useDay', val, onSet)
+            },
+            totalPrice : {
+                setTotalPrice : (val, onSet) => this.setter('totalPrice', val, onSet)
             }
-        }
+        };
 
         return (
-            <Modal show={show} onHide={onHide} centered>
+            <Modal show={value.show} onHide={this.onHide} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <h3 className='mb-0'>篩選表單</h3>
@@ -95,94 +110,52 @@ class FilterModal extends Component {
                 <Modal.Body>
                     <Container as={Form} className='my-3'>
                         <Stack gap={4}>
-                            <Id valueMin={this.getValue(filterModal.colName.idMin)} 
-                                    valueMax={this.getValue(filterModal.colName.idMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.idMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.idMax, e)} />
-                            <ClientName value={this.getValue(filterModal.colName.clientName)} 
-                                    onChange={(e) => this.ctrlOnChange(filterModal.colName.clientName, e)} />
-                            <Phone value={this.getValue(filterModal.colName.clientPhone)} 
-                                    onChange={(e) => this.ctrlOnChange(filterModal.colName.clientPhone, e)} />
-                            <RoomType value={this.getValue(filterModal.colName.roomType)} 
-                                    onChange={(e) => this.ctrlOnChange(filterModal.colName.roomType, e)}
-                                    fctn={fctn.roomType} />
-                            <RoomNum valueMin={this.getValue(filterModal.colName.roomNumMin)} 
-                                    valueMax={this.getValue(filterModal.colName.roomNumMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.roomNumMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.roomNumMax, e)} />
-                            <Price valueMin={this.getValue(filterModal.colName.priceMin)} 
-                                    valueMax={this.getValue(filterModal.colName.priceMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.priceMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.priceMax, e)} />
-                            <PayMethod values={this.getValue(filterModal.colName.payMethod)} 
-                                    onChange={(e) => this.ctrlCheckOnChange(filterModal.colName.payMethod, e)} 
-                                    fctn={fctn.payMethod} />
-                            <CheckinDateTime valueFrom={this.getValue(filterModal.colName.checkinDateTimeFrom)} 
-                                    valueTo={this.getValue(filterModal.colName.checkinDateTimeTo)} 
-                                    onChangeFrom={(e) => this.ctrlOnChange(filterModal.colName.checkinDateTimeFrom, e)} 
-                                    onChangeTo={(e) => this.ctrlOnChange(filterModal.colName.checkinDateTimeTo, e)} />
-                            <CheckoutDate valueFrom={this.getValue(filterModal.colName.checkoutDateFrom)} 
-                                    valueTo={this.getValue(filterModal.colName.checkoutDateTo)} 
-                                    onChangeFrom={(e) => this.ctrlOnChange(filterModal.colName.checkoutDateFrom, e)} 
-                                    onChangeTo={(e) => this.ctrlOnChange(filterModal.colName.checkoutDateTo, e)} />
-                            <UseDay valueMin={this.getValue(filterModal.colName.useDayMin)} 
-                                    valueMax={this.getValue(filterModal.colName.useDayMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.useDayMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.useDayMax, e)} />
-                            <TotalPrice valueMin={this.getValue(filterModal.colName.totalPriceMin)} 
-                                    valueMax={this.getValue(filterModal.colName.totalPriceMax)} 
-                                    onChangeMin={(e) => this.ctrlOnChange(filterModal.colName.totalPriceMin, e)} 
-                                    onChangeMax={(e) => this.ctrlOnChange(filterModal.colName.totalPriceMax, e)} />
+                            <Id value={value.id} setter={setter.id} />
+                            <ClientName value={value.clientName} setter={setter.clientName} />
+                            <ClientPhone value={value.clientPhone} setter={setter.clientPhone} />
+                            <RoomType value={value.roomType} setter={setter.roomType} />
+                            <RoomNum value={value.roomNum} setter={setter.roomNum} />
+                            <Price value={value.price} setter={setter.price} />
+                            <PayMethod value={value.payMethod} setter={setter.payMethod} />
+                            <CheckinDateTime value={value.checkinDateTime} setter={setter.checkinDateTime} />
+                            <CheckoutDate value={value.checkoutDate} setter={setter.checkoutDate} />
+                            <UseDay value={value.useDay} setter={setter.useDay} />
+                            <TotalPrice value={value.totalPrice} setter={setter.totalPrice} />
                         </Stack>
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => onHide()}>關閉</Button>
-                    <Button variant="primary" onClick={this.okBtnOnClick}>篩選</Button>
+                    <Button variant="secondary" onClick={e => this.onHide()}>關閉</Button>
+                    <Button variant="primary" onClick={this.onClickOkBtn}>篩選</Button>
                 </Modal.Footer>
             </Modal>
         );
     }
+
+
+    // on
+    onHide = (event) => {
+
+        this.setter('show', false);
+    };
+    onClickOkBtn = (event) => {
+
+        const {fctn} = this.props;
+
+        fctn.searchTable();
+        this.onHide();
+    }
+
 
     // other
     allPayMethods = (onSuccess) => {
 
         this.allPayMethodsFetch(onSuccess);
     };
-    allRooms = (onSuccess) => {
+    allRooms = () => {
 
-        this.allRoomsFetch(onSuccess);
+        this.allRoomsFetch();
     };
-
-
-    // on
-    ctrlOnChange = (colName, event) => {
-
-        const {fctn} = this.props;
-
-        fctn.setFilterModalVal(colName, event.target.value);
-    }
-    ctrlCheckOnChange = (colName, event) => {
-
-        const {fctn} = this.props;
-        const checks = fctn.getFilterModalVal(colName);
-        let newChecks = [];
-
-        if(event.target.checked === true)
-            newChecks = [...checks, event.target.value];
-        else
-            newChecks = checks.filter(element => element!==event.target.value);
-
-        fctn.setFilterModalVal(colName, newChecks);
-    };
-    okBtnOnClick = () => {
-
-        const {fctn} = this.props;
-        const {onHide} = this.props;
-
-        fctn.searchTable();
-        onHide();
-    }
 
 
     // fetch
@@ -208,7 +181,7 @@ class FilterModal extends Component {
             fctn.showInformModal(serverInfo.msg);
         }
     };
-    allRoomsFetch = async (onSuccess) => {
+    allRoomsFetch = async () => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
@@ -225,7 +198,7 @@ class FilterModal extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterAllRooms(data, onSuccess);
+            this.afterAllRooms(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -236,50 +209,36 @@ class FilterModal extends Component {
     // after fetch
     afterAllPayMethods = (data, onSuccess) => {
 
-        const {payMethod} = this.state;
-        this.setState({
-            payMethod : {
-                ...payMethod,
-                allPayMethods : data.payMethods
-            }
+        const {value} = this.props;
+
+        this.setter('payMethod', {
+            ...value.payMethod,
+            options : data.payMethods
         }, () => {
 
             onSuccess && onSuccess();
         });
     };
-    afterAllRooms = (data, onSuccess) => {
+    afterAllRooms = (data) => {
 
-        const {roomType} = this.state;
-        this.setState({
-            roomType : {
-                ...roomType,
-                allRooms : data.rooms
-            }
-        }, () => {
+        const {value} = this.props;
 
-            onSuccess && onSuccess();
+        this.setter('roomType', {
+            ...value.roomType,
+            options : data.rooms
         });
     };
 
 
     // getter setter
-    getValue = (colName) => {
+    setter = (colName, colVal, onSet) => {
 
-        const {fctn} = this.props;
-
-        return fctn.getFilterModalVal(colName);
-    }
-    getAllPayMethods = () => {
-
-        const {payMethod} = this.state;
-        return payMethod.allPayMethods;
+        const {setter, value} = this.props;
+        setter.setFilterModal({
+            ...value,
+            [colName] : colVal
+        }, onSet);
     };
-    getAllRooms = () => {
-
-        const {roomType} = this.state;
-        return roomType.allRooms;
-    };
- 
 }
 
 export default FilterModal;
