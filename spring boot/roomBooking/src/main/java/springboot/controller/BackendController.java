@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import springboot.service.bk.bookingOrderList.BookingOrderListControllerService;
 import springboot.service.bk.hotelInfo.HotelInfoControllerService;
 import springboot.service.bk.login.LoginControllerService;
 import springboot.service.bk.roomList.RoomListControllerService;
+import springboot.service.bk.roomUpdate.RoomUpdateControllerService;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:8086", "http://localhost:3000"}, allowCredentials = "true")
@@ -41,6 +43,10 @@ public class BackendController {
 	@Autowired
 	@Qualifier("bk.hotelInfo.HotelInfoControllerService")
 	private HotelInfoControllerService hotelInfoService;
+	@Autowired
+	@Qualifier("bk.roomUpdate.RoomUpdateControllerService")
+	private RoomUpdateControllerService roomUpdateService;
+	
 	
 	
 	@GetMapping("/checkLogin")
@@ -87,7 +93,7 @@ public class BackendController {
 	
 	// bookingOrderList
 	@GetMapping("/bookingOrderList/allRooms")
-	public ResponseEntity<Response> allRooms(){
+	public ResponseEntity<Response> allRoomsBookingOrderList(){
 		
 		Response response = bookingOrderListService.allRooms();
 		return ResponseEntity.ok(response);
@@ -160,10 +166,37 @@ public class BackendController {
 		Response response = hotelInfoService.hotelInfo();
 		return ResponseEntity.ok(response);
 	}
-	@PostMapping(value = "/hotelInfo/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PatchMapping(value = "/hotelInfo/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Response> update(@ModelAttribute UpdateReq updateReq){
 		
 		Response response = hotelInfoService.update(updateReq);
+		return ResponseEntity.ok(response);
+	}
+	
+	
+	// roomUpdate
+	@GetMapping("/roomUpdate/allShowers")
+	public ResponseEntity<Response> allShowers(){
+		
+		Response response = roomUpdateService.allShowers();
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/roomUpdate/allScenes")
+	public ResponseEntity<Response> allScenes(){
+		
+		Response response = roomUpdateService.allScenes();
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/roomUpdate/allRooms")
+	public ResponseEntity<Response> allRoomsRoomUpdate(){
+		
+		Response response = roomUpdateService.allRooms();
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/roomUpdate/roomInfo")
+	public ResponseEntity<Response> roomInfo(@RequestParam(name = "roomId") int roomId){
+		
+		Response response = roomUpdateService.roomInfo(roomId);
 		return ResponseEntity.ok(response);
 	}
 }

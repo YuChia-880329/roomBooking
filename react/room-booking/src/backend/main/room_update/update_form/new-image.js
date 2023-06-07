@@ -34,6 +34,17 @@ class NewImage extends Component {
             </Form.Group>
         );
     }
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setNewImage({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default NewImage;

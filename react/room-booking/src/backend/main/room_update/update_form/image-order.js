@@ -2,29 +2,10 @@ import React, { Component } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 
 class ImageOrder extends Component {
-
-    Ctrl = () => {
-
-        return (
-            <Row>
-                <Col>
-                    <Form.Select>
-                        <option>--------</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </Form.Select>
-                </Col>
-                <Col xs='auto' className='align-self-center'>
-                    <Button variant='outline-primary' size='sm'>變更順序</Button>
-                </Col>
-            </Row>
-            
-        );
-    };
  
     render() {
+        
+        const {value} = this.props;
         
         return (
             <Form.Group as={Row}>
@@ -32,13 +13,16 @@ class ImageOrder extends Component {
                 <Col>
                     <Row>
                         <Col>
-                            <Form.Select>
-                                <option>--------</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </Form.Select>
+                            <Form.Control as='select' value={value.value} onChange={this.onChange}>
+                                <option value=''>---- 請選擇 ----</option>
+                                {
+                                    value.options.map(
+                                        op => (
+                                            <option key={op}></option>
+                                        )
+                                    )
+                                }
+                            </Form.Control>
                         </Col>
                         <Col xs='auto' className='align-self-center'>
                             <Button variant='outline-primary' size='sm'>變更順序</Button>
@@ -48,6 +32,23 @@ class ImageOrder extends Component {
             </Form.Group>
         );
     }
+
+    // on
+    onChange = (event) => {
+
+        this.setter('value', event.target.value);
+    };
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setImageOrder({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default ImageOrder;

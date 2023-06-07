@@ -65,7 +65,7 @@ class Feature extends Component {
                         <Row>
                             <Form.Label column xs='auto' htmlFor='form_insertFeature'>新增選項 : </Form.Label>
                             <Col xs='auto'>
-                                <Form.Control required id='form_insertFeature' value={insertFeature.value} 
+                                <Form.Control id='form_insertFeature' value={insertFeature.value} 
                                         onChange={this.onChangeInsertFeature} htmlSize={15} />
                             </Col>
                             <Form.Label column xs='auto' className='pt-1'>
@@ -198,25 +198,25 @@ class Feature extends Component {
     afterCheckNewFeature = (data) => {
 
         const {value, fctn} = this.props;
-        const name = value.insertFeature.value;
+        const {newFeature, insertFeature} = value;
 
         if(data.pass){
 
-            const oldOptions = value.newFeature.options;
-            if(!oldOptions.every(v => v.name!==`${name}`)){
+            const oldOptions = newFeature.options;
+            if(!oldOptions.every(v => v.name!==`${insertFeature.value}`)){
 
                 fctn.closeConfirmModal();
                 fctn.showInformModal('名稱重複');
             }else{
 
                 this.setter('newFeature', {
-                    ...value.newFeature,
-                    options : [...oldOptions, {id : -1, name : `${name}`}],
-                    values : [...value.newFeature.values, `${name}`]
+                    ...newFeature,
+                    options : [...oldOptions, {id : -1, name : `${insertFeature.value}`}],
+                    values : [...newFeature.values, `${insertFeature.value}`]
                 }, () => {
 
                     this.setter('insertFeature', {
-                        ...value.insertFeature,
+                        ...insertFeature,
                         value : ''
                     }, () => {
 

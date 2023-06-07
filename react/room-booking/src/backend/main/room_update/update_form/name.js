@@ -5,17 +5,35 @@ class Name extends Component {
 
     render() {
 
-        const {value, onChange} = this.props;
+        const {value} = this.props;
         
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_name'>房型名稱 : </Form.Label>
                 <Col>
-                    <Form.Control id='form_name' value={value || ''} onChange={onChange} />
+                    <Form.Control id='form_name' value={value.value} onChange={this.onChange} />
                 </Col>
             </Form.Group>
         );
     }
+
+
+    // on
+    onChange = (event) => {
+
+        this.setter('value', event.target.value);
+    };
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setName({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default Name;

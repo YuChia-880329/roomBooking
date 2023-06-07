@@ -11,30 +11,48 @@ class RoomImage extends Component {
             height : '10rem',
             width : '10rem'
         };
-
-        const options = ['---- 請選擇 ----', 'img1.jpg', 'img2.jpg', 
-                'img3.jpg', 'img4.jpg', 'img5.jpg'];
+        const {value} = this.props;
 
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>房間照片 : </Form.Label>
                 <Col>
                     <Stack gap={4}>
-                        <Form.Select>
-                            {options.map(
-                                opt => (
-                                    <option key={opt}>{opt}</option>
+                        <Form.Control as='select' value={value.value} onChange={this.onChange}>
+                            <option value=''>---- 請選擇 ----</option>
+                            {
+                                value.options.map(
+                                    op => (
+                                        <option key={op}></option>
+                                    )
                                 )
-                            )}
-                        </Form.Select>
+                            }
+                        </Form.Control>
                         <div>
-                            <Image src='#' alt='room photo' className='d-inline-block' style={imageStyle} />
+                            <Image src={value.url} alt='room photo' className='d-inline-block' style={imageStyle} />
                         </div>
                     </Stack>
                 </Col>
             </Form.Group>
         );
     }
+
+    // on
+    onChange = (event) => {
+
+        this.setter('value', event.target.value);
+    };
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setRoomImage({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default RoomImage;

@@ -11,7 +11,8 @@ class Address extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_address'>飯店地址 : </Form.Label>
                 <Col>
-                    <Form.Control id='form_address' value={value.value} onChange={this.onChange} />
+                    <Form.Control id='form_address' value={value.value} onChange={this.onChange} required />
+                    <Form.Control.Feedback type='invalid'>請輸入飯店地址</Form.Control.Feedback>
                 </Col>
             </Form.Group>
         );

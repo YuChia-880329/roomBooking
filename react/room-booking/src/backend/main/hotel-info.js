@@ -14,26 +14,10 @@ const constant = {
             allSections : urls.backend.hotelInfo.allSections,
             allFeatures : urls.backend.hotelInfo.allFeatures,
             allNewFeatures : urls.backend.hotelInfo.allNewFeatures,
-            hotelInfo : urls.backend.hotelInfo.hotelInfo,
-            update : urls.backend.hotelInfo.update
+            hotelInfo : urls.backend.hotelInfo.hotelInfo
         },
         config : {
             timeout : config.fetch.timeout
-        },
-        req : {
-            update : {
-                name : '',
-                sectionCode : '',
-                address : '',
-                description : '',
-                featureIds : [],
-                newFeatures : [],
-                updateImage : {
-                    needUpdate : false,
-                    imageName : '',
-                    file : null
-                }
-            }
         }
     }
 }
@@ -126,8 +110,7 @@ class HotelInfo extends Component {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
-                closeConfirmModal : this.props.fctn.closeConfirmModal,
-                update : this.update
+                closeConfirmModal : this.props.fctn.closeConfirmModal
             }
         };
 
@@ -154,45 +137,6 @@ class HotelInfo extends Component {
 
         this.hotelInfoFetch();
     };
-    update = (imgFile) => {
-
-        const {infoForm} = this.state;
-        const req = constant.fetch.req.update;
-        const {newFeature} = infoForm.feature;
-
-        req.name = infoForm.name.value;
-        req.sectionCode = infoForm.section.value;
-        req.address = infoForm.address.value;
-        req.description = infoForm.description.value;
-        req.featureIds = infoForm.feature.feature.values;
-        req.newFeatures = newFeature.options.map(nf => ({
-                id : nf.id,
-                name : nf.name,
-                checked : newFeature.values.includes(nf.name)
-            }));
-        req.updateImage.needUpdate = imgFile !== undefined;
-        req.updateImage.imageName = imgFile && imgFile.name;
-        req.updateImage.file = imgFile;
-
-        const formData = new FormData();
-        formData.append('name', req.name);
-        formData.append('sectionCode', req.sectionCode);
-        formData.append('address', req.address);
-        formData.append('description', req.description);
-        req.featureIds.forEach((fi, id) => formData.append('featureIds[' + id + ']', fi));
-        req.newFeatures.forEach((nf, id) => {
-
-            Object.keys(nf).forEach(key => formData.append('newFeatures[' + id + '].' + key, nf[key]));
-        });
-        formData.append('updateImage.needUpdate', req.updateImage.needUpdate);
-        if(req.updateImage.imageName)
-            formData.append('updateImage.imageName', req.updateImage.imageName);
-        if(req.updateImage.file)
-            formData.append('updateImage.file', req.updateImage.file);
-
-        this.updateFetch(formData);
-    }
-
 
 
     // fetch
@@ -282,29 +226,6 @@ class HotelInfo extends Component {
         if(statusCode === 200){
 
             this.afterHotelInfo(data);
-        }else if(statusCode===400 || statusCode===500){
-
-            fctn.showInformModal(serverInfo.msg);
-        }
-    };
-    updateFetch = async (req) => {
-
-        const {fctn} = this.props;
-        const {fetch} =  constant;
-        const url = fetch.url.update;
-        const config = fetch.config;
-
-        const {serverInfo, data} = await axios.post(url, req, {
-                timeout : config.timeout,
-                withCredentials : true
-            })
-            .then(rs => rs.data)
-            .catch(error => console.error(error));
-
-        const statusCode = serverInfo.statusCode;
-        if(statusCode === 200){
-
-            this.afterUpdate(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -405,10 +326,6 @@ class HotelInfo extends Component {
             }
         });
     };
-    afterUpdate = (data) => {
-
-        console.log('data : ', data);
-    }
 
 
     // setter

@@ -21,7 +21,6 @@ import springboot.dao.model.inner.FeatureDaoInner;
 import springboot.dao.model.inner.HotelDaoInner;
 import springboot.exception.NotLoginException;
 import util.ImageUtil;
-import util.StringConcatUtil;
 
 @Service("bk.hotelInfo.UpdateService")
 public class UpdateService {
@@ -51,7 +50,9 @@ public class UpdateService {
 		
 		
 		HotelDto hotel = toHotel(updateReq, hotelDaoInner.findById(login.getHotelId()).get());
-		saveImg(hotel.getId(), updateReq);
+		
+		if(updateReq.getUpdateImage().isNeedUpdate())
+			saveImg(hotel.getId(), updateReq);
 		hotel = hotelDaoInner.save(hotel);
 		
 		
@@ -115,8 +116,7 @@ public class UpdateService {
 		
 		try {
 			
-			ImageUtil.saveImg(imgDirPath, hotelId, 
-					StringConcatUtil.concate(ImageUtil.HOTEL_IMG_PREFIX, updateReq.getUpdateImage().getImageName()), 
+			ImageUtil.saveImg(imgDirPath, hotelId, updateReq.getUpdateImage().getImageName(), 
 					updateReq.getUpdateImage().getFile());
 		} catch (IOException ex) {
 			

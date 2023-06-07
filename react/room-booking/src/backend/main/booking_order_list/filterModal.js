@@ -25,28 +25,6 @@ const constant = {
         config : {
             timeout : config.fetch.timeout
         }
-    },
-    filterModal : {
-        colName : {
-            idMin : 'idMin',
-            idMax : 'idMax',
-            clientName : 'clientName',
-            clientPhone : 'clientPhone',
-            roomType : 'roomType',
-            roomNumMin : 'roomNumMin',
-            roomNumMax : 'roomNumMax',
-            priceMin : 'priceMin',
-            priceMax : 'priceMax',
-            payMethod : 'payMethod',
-            checkinDateTimeFrom : 'checkinDateTimeFrom',
-            checkinDateTimeTo : 'checkinDateTimeTo',
-            checkoutDateFrom : 'checkoutDateFrom',
-            checkoutDateTo : 'checkoutDateTo',
-            useDayMin : 'useDayMin',
-            useDayMax : 'useDayMax',
-            totalPriceMin : 'totalPriceMin',
-            totalPriceMax : 'totalPriceMax'
-        }
     }
 };
 class FilterModal extends Component {

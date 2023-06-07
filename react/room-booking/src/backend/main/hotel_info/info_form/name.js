@@ -11,7 +11,8 @@ class Name extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_name'>飯店名稱 : </Form.Label>
                 <Col>
-                    <Form.Control id='form_name' value={value.value} onChange={this.onChange} />
+                    <Form.Control id='form_name' value={value.value} onChange={this.onChange} required />
+                    <Form.Control.Feedback type='invalid'>請輸入飯店名稱</Form.Control.Feedback>
                 </Col>
             </Form.Group>
         );

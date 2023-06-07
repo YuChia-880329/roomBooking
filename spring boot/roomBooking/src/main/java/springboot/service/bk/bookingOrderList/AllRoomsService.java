@@ -32,7 +32,7 @@ public class AllRoomsService {
 		if(!login.isLogin())
 			throw new NotLoginException(NotLoginException.MSG);
 		
-		List<springboot.bean.dto.model.RoomDto> rooms = roomDaoInner.queryAllRooms(login.getHotelId());
+		List<springboot.bean.dto.model.RoomDto> rooms = roomDaoInner.queryAllRoomsByHotelId(login.getHotelId());
 		
 		return AllRoomsRespDto.builder()
 				.rooms(toRoomsVo(rooms))

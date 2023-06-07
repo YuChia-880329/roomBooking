@@ -13,22 +13,30 @@ public class ImageUtil {
 	public static final String URL_PREFIX = "http://localhost:8086/roomBooking";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String HOTEL_IMG_PREFIX = "HOTEL_IMG_";
+	public static final String ROOM_IMG_PREFIX = "ROOM_IMG_";
 	
-	public static String getUrl(int hotelId, String imageName) {
+	public static String getImgUrl(int hotelId, String imageName) {
 		
 		return StringConcatUtil.concate(URL_PREFIX, "/", 
-				IMAGE_DIRECTORY, "/", String.valueOf(hotelId), "/", imageName);
+				IMAGE_DIRECTORY, "/", String.valueOf(hotelId), "/", HOTEL_IMG_PREFIX, imageName);
+	}
+	public static String getImgUrl(int hotelId, int roomId, String imageName) {
+		
+		return StringConcatUtil.concate(URL_PREFIX, "/", IMAGE_DIRECTORY, 
+				"/", String.valueOf(hotelId), "/", String.valueOf(roomId), "/", ROOM_IMG_PREFIX, imageName);
 	}
 	
 	public static boolean saveImg(String imgDirPath, int hotelId, String imgName, MultipartFile file) throws IOException {
 		
 		createDirectory(imgDirPath, hotelId);
 		
-		Path path = getDirectoryPath(imgDirPath, hotelId).resolve(imgName);
+		Path path = getDirectoryPath(imgDirPath, hotelId).resolve(StringConcatUtil.concate(HOTEL_IMG_PREFIX, imgName));
 		
 		Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 		return true;
 	}
+	
+	
 	
 	private static void createDirectory(String imgDirPath, int hotelId) throws IOException {
 		

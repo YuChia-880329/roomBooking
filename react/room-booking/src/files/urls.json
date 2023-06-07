@@ -23,6 +23,12 @@
             "checkNewFeature" : "http://localhost:8086/roomBooking/backend/hotelInfo/checkNewFeature",
             "hotelInfo" : "http://localhost:8086/roomBooking/backend/hotelInfo/hotelInfo",
             "update" : "http://localhost:8086/roomBooking/backend/hotelInfo/update"
+        },
+        "roomUpdate" : {
+            "allShowers" : "http://localhost:8086/roomBooking/backend/roomUpdate/allShowers",
+            "allScenes" : "http://localhost:8086/roomBooking/backend/roomUpdate/allScenes",
+            "allRooms" : "http://localhost:8086/roomBooking/backend/roomUpdate/allRooms",
+            "roomInfo" : "http://localhost:8086/roomBooking/backend/roomUpdate/roomInfo"
         }
     }
 }

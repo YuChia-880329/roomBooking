@@ -1,6 +1,7 @@
 package springboot.dao.model.inner;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,9 +51,15 @@ public class RoomDaoInner {
 						status, roomTableOrder, startRow, maxRowNum));
 	}
 	
-	public List<RoomDto> queryAllRooms(int hotelId){
+	public List<RoomDto> queryAllRoomsByHotelId(int hotelId){
 		
 		return trans.modelListToDtoList(
-				dao.queryAllRooms(hotelId));
+				dao.queryAllRoomsByHotelId(hotelId));
+	}
+	
+	public Optional<RoomDto> queryRoomById(int id){
+		
+		return dao.queryRoomById(id)
+				.map(room -> trans.modelToDto(room));
 	}
 }

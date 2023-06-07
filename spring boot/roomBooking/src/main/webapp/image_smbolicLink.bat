@@ -1,1 +1,1 @@
-mklink /d "images" "C:\Users\USER\Desktop\java\images\roomBooking"
+mklink /d "images" "C:\Users\RD04\Desktop\temp\roomBooking"

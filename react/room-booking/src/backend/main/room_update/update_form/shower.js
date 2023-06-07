@@ -5,32 +5,54 @@ class Shower extends Component {
 
     render() {
 
-        const rowStyle = {
-            paddingTop : 'calc(.375rem + 1px)'
-        };
-        const checkboxStyle = {
-            margin : '0'
-        };
-        
-        const checks = ['淋浴設備', '浴缸', '蒸氣室'];
+        const {value} = this.props;
 
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>沐浴設備 : </Form.Label>
-                <Col>
-                    <Row xs='auto' className='g-3' style={rowStyle}>
+                <Form.Label column xs='auto'>
+                    <Row xs='auto' className='g-3'>
                         {
-                            checks.map((check, index) => (
-                                <Col key={index}>
-                                    <Form.Check type='checkbox' label={check} style={checkboxStyle} />
-                                </Col>
-                            ))
+                            value.options.map(
+                                op => (
+                                    <Col key={op.id}>
+                                        <Form.Check type='checkbox' label={op.name}
+                                                checked={value.values.includes(op.id)}
+                                                onChange={e => this.onChange(e, op.id)} />
+                                    </Col>
+                                )
+                            )
                         }
                     </Row>
-                </Col>
+                </Form.Label>
             </Form.Group>
         );
     }
+
+
+    // on
+    onChange = (event, checkBoxVal) => {
+
+        const {value} = this.props;
+        let newValues;
+
+        if(event.target.checked)
+            newValues = [...value.values, checkBoxVal];
+        else
+            newValues = value.values.filter(v => v!==checkBoxVal);
+
+        this.setter('values', newValues);
+    }
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setShower({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default Shower;

@@ -14,11 +14,13 @@ class Section extends Component {
                 <Col>
                     <Form.Control as='select' value={value.value} onChange={this.onChange}>
                         <option value=''>---- 請選擇 ----</option>
-                        {value.options.map(
-                            op => (
-                                <option key={op.code} value={op.code}>{op.name}</option>
+                        {
+                            value.options.map(
+                                op => (
+                                    <option key={op.code} value={op.code}>{op.name}</option>
+                                )
                             )
-                        )}
+                        }
                     </Form.Control>
                 </Col>
             </Form.Group>

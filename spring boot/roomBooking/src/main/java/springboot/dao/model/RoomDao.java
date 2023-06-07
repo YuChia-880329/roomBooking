@@ -2,6 +2,7 @@ package springboot.dao.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -83,7 +84,7 @@ public class RoomDao {
 				.getResultList();
 	}
 	
-	public List<Room> queryAllRooms(int hotelId){
+	public List<Room> queryAllRoomsByHotelId(int hotelId){
 		
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Room> criteriaQuery = criteriaBuilder.createQuery(Room.class);
@@ -96,6 +97,18 @@ public class RoomDao {
 		criteriaQuery.orderBy(order);
 		
 		return entityManager.createQuery(criteriaQuery).getResultList();
+	}
+	public Optional<Room> queryRoomById(int id){
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Room> criteriaQuery = criteriaBuilder.createQuery(Room.class);
+		Root<Room> root =  criteriaQuery.from(Room.class);
+		
+		Predicate predicate = criteriaBuilder.equal(root.get(ID_ATTRIBUTE_NAME), id);
+		criteriaQuery.where(predicate);
+		
+		Room room = entityManager.createQuery(criteriaQuery).getSingleResult();
+		return Optional.ofNullable(room);
 	}
 	
 	

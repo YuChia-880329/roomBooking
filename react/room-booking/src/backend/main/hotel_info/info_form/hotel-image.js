@@ -6,10 +6,10 @@ class HotelImage extends Component {
     render() {
 
         const imageStyle = {
-            maxHeight : '10rem',
-            maxWidth : '10rem',
-            height : '10rem',
-            width : '10rem'
+            maxHeight : '15rem',
+            maxWidth : '15rem',
+            height : '15rem',
+            width : '15rem'
         };
         const {value} = this.props;
 
@@ -18,7 +18,7 @@ class HotelImage extends Component {
                 <Form.Label column xs='auto'>飯店照片 : </Form.Label>
                 <Col>
                     <Row>
-                        <Form.Label column xs='auto'>{value.imgName}</Form.Label>
+                        <Form.Label column xs='auto'>{value.imageName}</Form.Label>
                         <Form.Label column xs='auto'>
                             <Image src={value.url} alt='hotel photo' className='d-inline-block' style={imageStyle} />
                         </Form.Label>

@@ -5,23 +5,44 @@ class UsedNum extends Component {
     
     render() {
 
-        const options = ['---- 請選擇 ----', '1', '2', '3', '4'];
+        const {value} = this.props;
 
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>使用中房數 : </Form.Label>
                 <Col>
-                    <Form.Select>
-                        {options.map(
-                            opt => (
-                                <option key={opt}>{opt}</option>
+                    <Form.Control as='select' value={value.value} onChange={this.onChange}>
+                        <option value=''>---- 請選擇 ----</option>
+                        {
+                            value.options.map(
+                                op => (
+                                    <option key={op}></option>
+                                )
                             )
-                        )}
-                    </Form.Select>
+                        }
+                    </Form.Control>
                 </Col>
             </Form.Group>
         );
     }
+
+    // on
+    onChange = (event) => {
+
+        this.setter('value', event.target.value);
+    };
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        
+        setter.setUsedNum({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default UsedNum;

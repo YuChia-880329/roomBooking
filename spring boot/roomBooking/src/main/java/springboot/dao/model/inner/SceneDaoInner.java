@@ -1,5 +1,7 @@
 package springboot.dao.model.inner;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -12,6 +14,12 @@ import springboot.trans.model.SceneTrans;
 @Repository("model.inner.SceneDaoInner")
 public class SceneDaoInner extends DaoInner<Scene, Integer, SceneDto, SceneTrans, SceneDao> {
 
+	
+	public List<SceneDto> findAllByOrderByIdAsc(){
+		
+		return trans.modelListToDtoList(dao.findAllByOrderByIdAsc());
+	}
+	
 	@Autowired
 	@Qualifier("model.SceneDao")
 	@Override

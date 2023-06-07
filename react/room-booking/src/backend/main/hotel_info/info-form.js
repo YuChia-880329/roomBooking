@@ -1,3 +1,5 @@
+import urls from '../../../files/urls.json';
+import config from '../../../files/config.json';
 import React, { Component } from 'react';
 import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import Name from './info_form/name';
@@ -7,7 +9,34 @@ import Description from './info_form/description';
 import Feature from './info_form/feature';
 import HotelImage from './info_form/hotel-image';
 import UpdateImage from './info_form/update-image';
+import axios from 'axios';
 
+
+const constant = {
+    fetch : {
+        url : {
+            update : urls.backend.hotelInfo.update
+        },
+        config : {
+            timeout : config.fetch.timeout
+        },
+        req : {
+            update : {
+                name : '',
+                sectionCode : '',
+                address : '',
+                description : '',
+                featureIds : [],
+                newFeatures : [],
+                updateImage : {
+                    needUpdate : false,
+                    imageName : '',
+                    file : null
+                }
+            }
+        }
+    }
+}
 
 class InfoForm extends Component {
 
@@ -68,10 +97,105 @@ class InfoForm extends Component {
         const {fctn} = this.props;
 
         event.preventDefault();
-        fctn.update(event.currentTarget.hotelImage.files[0]);
+        this.setter('validated', true, () => {
+
+            if(event.target.checkValidity() === true){
+    
+                fctn.showConfirmModal('確定要更新資料 ?', () => {
+
+                    fctn.closeConfirmModal();
+                    this.update(event.target.hotelImage.files[0]);
+                });
+            }
+        });
     };
 
-    // getter setter
+
+    // other
+    update = (imgFile) => {
+
+        const {value} = this.props;
+        const req = constant.fetch.req.update;
+        const {newFeature} = value.feature;
+
+        req.name = value.name.value;
+        req.sectionCode = value.section.value;
+        req.address = value.address.value;
+        req.description = value.description.value;
+        req.featureIds = value.feature.feature.values;
+        req.newFeatures = newFeature.options.map(nf => ({
+                id : nf.id,
+                name : nf.name,
+                checked : newFeature.values.includes(nf.name)
+            }));
+        req.updateImage.needUpdate = imgFile !== undefined;
+        req.updateImage.imageName = imgFile && imgFile.name;
+        req.updateImage.file = imgFile;
+
+        const formData = new FormData();
+        formData.append('name', req.name);
+        formData.append('sectionCode', req.sectionCode);
+        formData.append('address', req.address);
+        formData.append('description', req.description);
+        req.featureIds.forEach((fi, id) => formData.append('featureIds[' + id + ']', fi));
+        req.newFeatures.forEach((nf, id) => {
+
+            Object.keys(nf).forEach(key => formData.append('newFeatures[' + id + '].' + key, nf[key]));
+        });
+        formData.append('updateImage.needUpdate', req.updateImage.needUpdate);
+        if(req.updateImage.imageName)
+            formData.append('updateImage.imageName', req.updateImage.imageName);
+        if(req.updateImage.file)
+            formData.append('updateImage.file', req.updateImage.file);
+
+        this.updateFetch(formData);
+    }
+
+
+    // fetch
+    updateFetch = async (req) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.update;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.patch(url, req, {
+                timeout : config.timeout,
+                withCredentials : true
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterUpdate(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+
+
+    // after fetch
+    afterUpdate = (data) => {
+
+        const {fctn} = this.props;
+
+        fctn.showInformModal(data.msg, () => {
+
+            if(data.success){
+
+                const href = window.location.href;
+                window.location.href = href;
+            }
+        });
+    }
+
+
+
+    // setter
     setter = (colName, colVal, onSet) => {
 
         const {setter, value} = this.props;
