@@ -13,6 +13,7 @@ public class RoomImgTrans implements VoWoTrans<RoomImg, RoomImgDto> {
 	public RoomImg dtoToVoImpl(RoomImgDto dto) {
 		
 		return RoomImg.builder()
+				.id(dto.getId())
 				.imgName(dto.getImgName())
 				.url(dto.getUrl())
 				.order(dto.getOrder())

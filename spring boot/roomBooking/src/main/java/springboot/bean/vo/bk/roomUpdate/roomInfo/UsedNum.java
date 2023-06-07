@@ -1,4 +1,4 @@
-package springboot.bean.dto.bk.roomUpdate.vo.roomInfo;
+package springboot.bean.vo.bk.roomUpdate.roomInfo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +9,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RoomImgDto {
+public class UsedNum {
 
-	private int id;
-	private String imgName;
-	private String url;
-	private int order;
+	private boolean hasValue;
+	private int[] options;
+	private int value;
 }

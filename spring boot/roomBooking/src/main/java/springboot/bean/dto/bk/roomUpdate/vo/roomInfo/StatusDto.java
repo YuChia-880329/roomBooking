@@ -9,10 +9,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RoomImgDto {
+public class StatusDto {
 
-	private int id;
-	private String imgName;
-	private String url;
-	private int order;
+	private boolean able;
+	private int statusId;
 }

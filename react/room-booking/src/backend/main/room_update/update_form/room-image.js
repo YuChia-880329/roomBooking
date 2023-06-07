@@ -23,7 +23,7 @@ class RoomImage extends Component {
                             {
                                 value.options.map(
                                     op => (
-                                        <option key={op}></option>
+                                        <option key={op.id} value={op.id}>{op.name}</option>
                                     )
                                 )
                             }

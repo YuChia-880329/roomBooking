@@ -18,7 +18,7 @@ class ImageOrder extends Component {
                                 {
                                     value.options.map(
                                         op => (
-                                            <option key={op}></option>
+                                            <option key={op.order} value={op.order}>{op.order}</option>
                                         )
                                     )
                                 }

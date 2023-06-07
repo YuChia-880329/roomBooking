@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class RoomImg {
 
+	private int id;
 	private String imgName;
 	private String url;
 	private int order;

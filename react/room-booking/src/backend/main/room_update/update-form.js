@@ -1,5 +1,3 @@
-import urls from '../../../files/urls.json';
-import config from '../../../files/config.json';
 import React, { Component } from 'react';
 import { Button, Col, Row, Stack } from 'react-bootstrap';
 import Type from './update_form/type';
@@ -17,23 +15,6 @@ import ImageOrder from './update_form/image-order';
 import NewImage from './update_form/new-image';
 import UsedNum from './update_form/used-num';
 import Status from './update_form/status';
-import axios from 'axios';
-
-const constant = {
-    fetch : {
-        url : {
-            roomInfo : urls.backend.roomUpdate.roomInfo
-        },
-        config : {
-            timeout : config.fetch.timeout
-        },
-        req : {
-            roomInfo : {
-                roomId : 0
-            }
-        }
-    }
-};
 
 class UpdateForm extends Component {
     
@@ -157,99 +138,6 @@ class UpdateForm extends Component {
             </Stack>
         );
     }
-
-
-    // other
-    roomInfo = (roomId) => {
-
-        const params = constant.fetch.req.roomInfo;
-        params.roomId = roomId;
-
-        this.roomInfoFetch(params);
-    };
-    
-    
-    // fetch
-    roomInfoFetch = async (params) => {
-
-        const {fctn} = this.props;
-        const {fetch} =  constant;
-        const url = fetch.url.roomInfo;
-        const config = fetch.config;
-
-        const {serverInfo, data} = await axios.get(url, {
-                timeout : config.timeout,
-                withCredentials: true,
-                params : params
-            })
-            .then(rs => rs.data)
-            .catch(error => console.error(error));
-
-        const statusCode = serverInfo.statusCode;
-        if(statusCode === 200){
-
-            this.afterRoomInfo(data);
-        }else if(statusCode===400 || statusCode===500){
-
-            fctn.showInformModal(serverInfo.msg);
-        }
-    };
-
-
-    // after fetch
-    afterRoomInfo = (data) => {
-
-        const {value} = this.props;
-        const {totalNum, usedNum, inValidNum, price, singleBedNum, 
-            doubleBedNum, area, scene, shower, status, roomImage, imageOrder} = value;
-
-        this.setter('totalNum', {
-            ...totalNum,
-            value : data.totalNum
-        });
-        this.setter('usedNum', {
-            ...usedNum,
-            value : data.usedNum
-        });
-        this.setter('inValidNum', {
-            ...inValidNum,
-            value : data.invalidNum
-        });
-        this.setter('price', {
-            ...price,
-            value : data.price
-        });
-        this.setter('singleBedNum', {
-            ...singleBedNum,
-            value : data.singleBedNum
-        });
-        this.setter('doubleBedNum', {
-            ...doubleBedNum,
-            value : data.doubleBedNum
-        });
-        this.setter('area', {
-            ...area,
-            value : data.area
-        });
-        this.setter('scene', {
-            ...scene,
-            value : data.sceneId
-        });
-        this.setter('shower', {
-            ...shower,
-            values : data.showerIds
-        });
-        this.setter('status', {
-            ...status,
-            value : data.statusId
-        });
-        this.setter('roomImage', {
-            ...roomImage
-        });
-        this.setter('imageOrder', {
-            ...imageOrder
-        });
-    };
 
 
     // setter

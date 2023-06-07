@@ -34,7 +34,9 @@ class Type extends Component {
 
         const roomId = event.target.value;
         this.setter('value', roomId);
-        fctn.roomInfo(roomId);
+
+        if(roomId !== '')
+            fctn.roomInfo(roomId);
     };
 
 

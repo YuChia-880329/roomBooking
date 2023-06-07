@@ -16,7 +16,7 @@ class UsedNum extends Component {
                         {
                             value.options.map(
                                 op => (
-                                    <option key={op}></option>
+                                    <option key={op} value={op}>{op}</option>
                                 )
                             )
                         }
