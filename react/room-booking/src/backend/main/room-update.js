@@ -14,7 +14,8 @@ const constant = {
             allShowers : urls.backend.roomUpdate.allShowers,
             allScenes : urls.backend.roomUpdate.allScenes,
             allRooms : urls.backend.roomUpdate.allRooms,
-            roomInfo : urls.backend.roomUpdate.roomInfo
+            roomInfo : urls.backend.roomUpdate.roomInfo,
+            update : urls.backend.roomUpdate.update
         },
         config : {
             timeout : config.fetch.timeout
@@ -22,6 +23,22 @@ const constant = {
         req : {
             roomInfo : {
                 roomId : -1
+            },
+            update : {
+                id : 0,
+                name : '',
+                totalNum : 0,
+                usedNum : 0,
+                invalidNum : 0,
+                price : 0,
+                singleBedNum : 0,
+                doubleBedNum : 0,
+                area : 0,
+                sceneId : 0,
+                showerIds : [],
+                statusId : 0,
+                roomImgs : [],
+                newImgs : []
             }
         }
     }

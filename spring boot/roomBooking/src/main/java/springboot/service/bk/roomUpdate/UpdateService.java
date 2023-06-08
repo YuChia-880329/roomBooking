@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import enumeration.RoomStatus;
 import springboot.bean.dto.bk.login.obj.status.login.LoginDto;
@@ -24,6 +25,9 @@ import springboot.exception.NotLoginException;
 @Service("bk.roomUpdate.UpdateService")
 public class UpdateService {
 
+	public static final String SUCCESS_MSG = "更新成功";
+	public static final String FAILARE_MSG = "更新失敗";
+	
 	@Autowired
 	@Qualifier("bk.login.memory.status.LoginStatusDao")
 	private LoginStatusDao loginStatusDao;
@@ -37,7 +41,7 @@ public class UpdateService {
 	@Qualifier("model.inner.RoomImgDaoInner")
 	private RoomImgDaoInner roomImgDaoInner;
 	
-	
+	@Transactional
 	public UpdateRespDto update(UpdateReqDto updateReq) {
 		
 		LoginDto login = loginStatusDao.getStatus();
@@ -58,8 +62,17 @@ public class UpdateService {
 				.hotelId(login.getHotelId())
 				.status(RoomStatus.getByCode(updateReq.getStatusId()))
 				.showers(toShowerModel(updateReq.getShowerIds()))
-				.roomImgs(updateReq.getId())
-				.bookingOrders(updateReq.getId())
+				.roomImgs(toRoomImgModels(updateReq.getRoomImgs(), updateReq.getNewImgs(), updateReq.getId()))
+				.build();
+		room = roomDaoInner.update(room);
+		
+		boolean success = true;
+		if(room == null)
+			success = false;
+		
+		return UpdateRespDto.builder()
+				.success(success)
+				.msg(success ? SUCCESS_MSG : FAILARE_MSG)
 				.build();
 	}
 	
@@ -79,7 +92,16 @@ public class UpdateService {
 	private List<springboot.bean.dto.model.RoomImgDto> toRoomImgModels(List<RoomImgDto> roomImgs, 
 			List<NewImgDto> newImgs, int roomId){
 		
+		class MyInt {
+			int order = 1;
+		}
+		MyInt mi = new MyInt();
+		List<springboot.bean.dto.model.RoomImgDto> list = roomImgs.stream().map(ri -> toRoomImgModel(ri, mi.order++)).collect(Collectors.toList());
+		list.addAll(newImgs.stream()
+				.map(ni -> toRoomImgModel(ni, mi.order++, roomId))
+				.collect(Collectors.toList()));
 		
+		return list;
 	}
 	
 	private springboot.bean.dto.model.RoomImgDto toRoomImgModel(RoomImgDto roomImg, int order){

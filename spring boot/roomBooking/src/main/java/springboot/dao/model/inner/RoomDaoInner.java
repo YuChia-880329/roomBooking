@@ -6,15 +6,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import enumeration.RoomStatus;
 import enumeration.bk.roomList.RoomTableOrder;
 import springboot.bean.dto.model.RoomDto;
-import springboot.bean.model.BookingOrder;
 import springboot.bean.model.Room;
 import springboot.bean.model.RoomImg;
 import springboot.bean.model.Shower;
 import springboot.dao.model.RoomDao;
+import springboot.dao.model.RoomImgDao;
 import springboot.trans.model.RoomTrans;
 
 @Repository("model.inner.RoomDaoInner")
@@ -23,6 +24,10 @@ public class RoomDaoInner {
 	@Autowired
 	@Qualifier("model.RoomDao")
 	private RoomDao dao;
+	@Autowired
+	@Qualifier("model.RoomImgDao")
+	private RoomImgDao roomImgDao;
+	
 	@Autowired
 	@Qualifier("model.RoomTrans")
 	private RoomTrans trans;
@@ -67,6 +72,7 @@ public class RoomDaoInner {
 				.map(room -> trans.modelToDto(room));
 	}
 	
+	@Transactional
 	public RoomDto update(RoomDto room) {
 		
 		Room newRoom = trans.dtoToModel(room);
@@ -91,14 +97,20 @@ public class RoomDaoInner {
 		showers.addAll(newRoom.getShowers());
 		List<RoomImg> roomImgs = oldRoom.getRoomImgs();
 		roomImgs.clear();
+		newRoom.getRoomImgs().forEach(img -> {
+			
+			if(img.getId() == -1) {
+				
+				RoomImg oldImg = roomImgDao
+						.queryByRoomIdAndOrder(img.getRoomId(), img.getImageOrder());
+				if(oldImg != null)
+					img.setId(oldImg.getId());
+			}
+		});
 		roomImgs.addAll(newRoom.getRoomImgs());
-		List<BookingOrder> bookingOrders = oldRoom.getBookingOrders();
-		bookingOrders.clear();
-		bookingOrders.addAll(newRoom.getBookingOrders());
 		
 		oldRoom.setShowers(showers);
 		oldRoom.setRoomImgs(roomImgs);
-		oldRoom.setBookingOrders(bookingOrders);
 		
 		return trans.modelToDto(
 				dao.update(oldRoom));

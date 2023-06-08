@@ -160,7 +160,7 @@ class InfoForm extends Component {
         const url = fetch.url.update;
         const config = fetch.config;
 
-        const {serverInfo, data} = await axios.patch(url, req, {
+        const {serverInfo, data} = await axios.post(url, req, {
                 timeout : config.timeout,
                 withCredentials : true
             })

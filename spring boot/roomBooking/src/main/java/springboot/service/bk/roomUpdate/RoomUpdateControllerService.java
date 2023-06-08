@@ -6,11 +6,14 @@ import org.springframework.stereotype.Service;
 
 import springboot.bean.vo.Response;
 import springboot.bean.vo.bk.roomUpdate.roomInfo.RoomInfoReq;
+import springboot.bean.vo.bk.roomUpdate.update.UpdateReq;
 import springboot.trans.bk.roomUpdate.vo.allRooms.AllRoomsRespTrans;
 import springboot.trans.bk.roomUpdate.vo.allScenes.AllScenesRespTrans;
 import springboot.trans.bk.roomUpdate.vo.allShowers.AllShowersRespTrans;
 import springboot.trans.bk.roomUpdate.vo.roomInfo.RoomInfoReqTrans;
 import springboot.trans.bk.roomUpdate.vo.roomInfo.RoomInfoRespTrans;
+import springboot.trans.bk.roomUpdate.vo.update.UpdateReqTrans;
+import springboot.trans.bk.roomUpdate.vo.update.UpdateRespTrans;
 import util.ResponseUtil;
 
 @Service("bk.roomUpdate.RoomUpdateControllerService")
@@ -28,6 +31,9 @@ public class RoomUpdateControllerService {
 	@Autowired
 	@Qualifier("bk.roomUpdate.RoomInfoService")
 	private RoomInfoService roomInfoService;
+	@Autowired
+	@Qualifier("bk.roomUpdate.UpdateService")
+	private UpdateService updateService;
 	
 	
 	@Autowired
@@ -45,6 +51,12 @@ public class RoomUpdateControllerService {
 	@Autowired
 	@Qualifier("bk.roomUpdate.vo.roomInfo.RoomInfoRespTrans")
 	private RoomInfoRespTrans roomInfoRespTrans;
+	@Autowired
+	@Qualifier("bk.roomUpdate.vo.update.UpdateReqTrans")
+	private UpdateReqTrans updateReqTrans;
+	@Autowired
+	@Qualifier("bk.roomUpdate.vo.update.UpdateRespTrans")
+	private UpdateRespTrans updateRespTrans;
 	
 	
 	public Response allShowers() {
@@ -74,5 +86,12 @@ public class RoomUpdateControllerService {
 				roomInfoRespTrans.dtoToVo(
 						roomInfoService.roomInfo(
 								roomInfoReqTrans.voToDto(roomInfoReq))));
+	}
+	public Response update(UpdateReq updateReq) {
+		
+		return ResponseUtil.response200(
+				updateRespTrans.dtoToVo(
+						updateService.update(
+								updateReqTrans.voToDto(updateReq))));
 	}
 }

@@ -113,6 +113,7 @@ public class UpdateReqChecker implements Checker<UpdateReq> {
 		
 		int[] showerIds = vo.getShowerIds();
 		
+		CheckUtil.checkOther(showerIds);
 		Arrays.stream(showerIds)
 			.forEach(si -> CheckUtil.checkNumberIsPositiveInteger(si));
 	}
@@ -126,6 +127,7 @@ public class UpdateReqChecker implements Checker<UpdateReq> {
 		
 		RoomImg[] roomImgs = vo.getRoomImgs();
 		
+		CheckUtil.checkOther(roomImgs);
 		Arrays.stream(roomImgs)
 			.forEach(ri -> roomImgChecker.check(ri));
 	}
@@ -133,6 +135,7 @@ public class UpdateReqChecker implements Checker<UpdateReq> {
 		
 		NewImg[] newImgs = vo.getNewImgs();
 		
+		CheckUtil.checkOther(newImgs);
 		Arrays.stream(newImgs)
 			.forEach(ni -> newImgChecker.check(ni));
 	}

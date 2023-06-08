@@ -1,3 +1,5 @@
+import urls from '../../../files/urls.json';
+import config from '../../../files/config.json';
 import React, { Component } from 'react';
 import { Button, Col, Row, Stack } from 'react-bootstrap';
 import Type from './update_form/type';
@@ -15,6 +17,36 @@ import ImageOrder from './update_form/image-order';
 import NewImage from './update_form/new-image';
 import UsedNum from './update_form/used-num';
 import Status from './update_form/status';
+import axios from 'axios';
+
+const constant = {
+    fetch : {
+        url : {
+            update : urls.backend.roomUpdate.update
+        },
+        config : {
+            timeout : config.fetch.timeout
+        },
+        req : {
+            update : {
+                id : 0,
+                name : '',
+                totalNum : 0,
+                usedNum : 0,
+                invalidNum : 0,
+                price : 0,
+                singleBedNum : 0,
+                doubleBedNum : 0,
+                area : 0,
+                sceneId : 0,
+                showerIds : [],
+                statusId : 0,
+                roomImgs : [],
+                newImgs : []
+            }
+        }
+    }
+};
 
 class UpdateForm extends Component {
     
@@ -196,6 +228,40 @@ class UpdateForm extends Component {
             fctn.closeConfirmModal();
         });
     };
+
+
+    // fetch
+    updateFetch = async (req) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.update;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.post(url, req, {
+                timeout : config.timeout,
+                withCredentials: true
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterUpdate(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+
+
+    // after fetch
+    afterUpdate = (data) => {
+
+        console.log('data : ', data);
+    };
+
 
 
     // setter

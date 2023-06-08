@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -166,8 +165,8 @@ public class BackendController {
 		Response response = hotelInfoService.hotelInfo();
 		return ResponseEntity.ok(response);
 	}
-	@PatchMapping(value = "/hotelInfo/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Response> update(@ModelAttribute UpdateReq updateReq){
+	@PostMapping(value = "/hotelInfo/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Response> updateHotelInfo(@ModelAttribute UpdateReq updateReq){
 		
 		Response response = hotelInfoService.update(updateReq);
 		return ResponseEntity.ok(response);
@@ -197,6 +196,12 @@ public class BackendController {
 	public ResponseEntity<Response> roomInfo(@RequestParam(name = "roomId") int roomId){
 		
 		Response response = roomUpdateService.roomInfo(roomId);
+		return ResponseEntity.ok(response);
+	}
+	@PostMapping(value = "/roomUpdate/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Response> updateRoomUpdate(@ModelAttribute springboot.bean.vo.bk.roomUpdate.update.UpdateReq updateReq){
+		
+		Response response = roomUpdateService.update(updateReq);
 		return ResponseEntity.ok(response);
 	}
 }

@@ -12,6 +12,13 @@ import springboot.trans.model.RoomImgTrans;
 @Repository("model.inner.RoomImgDaoInner")
 public class RoomImgDaoInner extends DaoInner<RoomImg, Integer, RoomImgDto, RoomImgTrans, RoomImgDao> {
 
+	public RoomImgDto queryByRoomIdAndOrder(int roomId, int order) {
+		
+		return trans.modelToDto(
+				dao.queryByRoomIdAndOrder(roomId, order));
+	}
+	
+	
 	@Autowired
 	@Qualifier("model.RoomImgDao")
 	@Override
