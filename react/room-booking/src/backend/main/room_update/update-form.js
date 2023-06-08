@@ -32,10 +32,13 @@ class UpdateForm extends Component {
                 setName : (val, onSet) => this.setter('name', val, onSet)
             },
             totalNum : {
-                setTotalNum : (val, onSet) => this.setter('totalNum', val, onSet)
+                setTotalNum : (val, onSet) => this.setter('totalNum', val, onSet),
+                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet),
+                setInValidNum : (val, onSet) => this.setter('inValidNum', val, onSet)
             },
             usedNum : {
-                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet)
+                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet),
+                setInValidNum : (val, onSet) => this.setter('inValidNum', val, onSet)
             },
             inValidNum : {
                 setInValidNum : (val, onSet) => this.setter('inValidNum', val, onSet)
@@ -62,21 +65,46 @@ class UpdateForm extends Component {
                 setStatus : (val, onSet) => this.setter('status', val, onSet)
             },
             roomImage : {
-                setRoomImage : (val, onSet) => this.setter('roomImage', val, onSet)
+                setRoomImage : (val, onSet) => this.setter('roomImage', val, onSet),
+                setImageOrder : (val, onSet) => this.setter('imageOrder', val, onSet)
             },
             imageOrder : {
+                setRoomImage : (val, onSet) => this.setter('roomImage', val, onSet),
                 setImageOrder : (val, onSet) => this.setter('imageOrder', val, onSet)
             },
             newImage : {
                 setNewImage : (val, onSet) => this.setter('newImage', val, onSet)
             }
         };
-        const fctn = {
-            type : {
-                roomInfo : this.roomInfo
+        const getter = {
+            totalNum:{
+                getUsedNum : () => value.usedNum,
+                getInValidNum : () => value.inValidNum
+            },
+            usedNum : {
+                getTotalNum : () => value.totalNum,
+                getInValidNum : () => value.inValidNum
+            },
+            roomImage : {
+                getImageOrder : () => value.imageOrder
+            },
+            imageOrder : {
+                getRoomImage : () => value.roomImage
             }
         }
-
+        const fctn = {
+            type : {
+                roomInfo : this.props.fctn.roomInfo
+            },
+            imageOrder : {
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal
+            },
+            newImage : {
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal
+            }
+        }
 
         return (
             <Stack gap={5}>
@@ -90,10 +118,10 @@ class UpdateForm extends Component {
                 </Row>
                 <Row>
                     <Col>
-                        <TotalNum value={value.totalNum} setter={setter.totalNum} />
+                        <TotalNum value={value.totalNum} setter={setter.totalNum} getter={getter.totalNum} />
                     </Col>
                     <Col>
-                        <UsedNum value={value.usedNum} setter={setter.usedNum} />
+                        <UsedNum value={value.usedNum} setter={setter.usedNum} getter={getter.usedNum} />
                     </Col>
                     <Col>
                         <InvalidNum value={value.inValidNum} setter={setter.inValidNum} />
@@ -122,22 +150,52 @@ class UpdateForm extends Component {
                 <Status value={value.status} setter={setter.status} />
                 <Row>
                     <Col>
-                        <RoomImage value={value.roomImage} setter={setter.roomImage} />
+                        <RoomImage value={value.roomImage} setter={setter.roomImage} getter={getter.roomImage} />
                     </Col>
                     <Col>
-                        <ImageOrder value={value.imageOrder} setter={setter.imageOrder} />
+                        <ImageOrder value={value.imageOrder} setter={setter.imageOrder} getter={getter.imageOrder} fctn={fctn.imageOrder} />
                     </Col>
                     <Col xs='auto' style={deleteBtnStyle}>
-                        <Button variant='outline-primary' size='sm'>刪除照片</Button>
+                        <Button variant='outline-primary' size='sm' onClick={this.onClickDeleteImgBtn} disabled={value.deleteBtn.disabled}>刪除照片</Button>
                     </Col>
                 </Row>
-                <NewImage value={value.newImage} setter={setter.newImage} />
+                <NewImage value={value.newImage} setter={setter.newImage} fctn={fctn.newImage} />
                 <Stack direction='horizontal'>
-                    <Button variant='outline-primary' className='ms-auto'>更新資料</Button>
+                    <Button variant='outline-primary' className='ms-auto' disabled={value.updateBtn.disabled}>更新資料</Button>
                 </Stack>
             </Stack>
         );
     }
+
+
+    // on
+    onClickDeleteImgBtn = (event) => {
+        
+        const {value, fctn} = this.props;
+
+        fctn.showConfirmModal('確定要刪除照片 ? (更新送出前重整即可恢復)', () => {
+
+            const {roomImage, imageOrder} = value;
+
+            const options = roomImage.options.filter(img => img.id!==parseInt(roomImage.value, 10));
+            options.sort((img1, img2) => img1.order-img2.order);
+            options.forEach((element, index) => element.order=index+1);
+            this.setter('roomImage', {
+                ...roomImage,
+                options : options,
+                value : '1',
+                url : options[0].url
+            }, () => {
+    
+                this.setter('imageOrder', {
+                    ...imageOrder,
+                    options : imageOrder.options.filter(v => v!==imageOrder.options.length),
+                    value : '1'
+                });
+            });
+            fctn.closeConfirmModal();
+        });
+    };
 
 
     // setter

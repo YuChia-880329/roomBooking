@@ -11,14 +11,15 @@ class InvalidNum extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>不開放房數 : </Form.Label>
                 <Col>
-                    <Form.Control as='select' value={value.value} onChange={this.onChange}>
-                        <option value=''>---- 請選擇 ----</option>
+                    <Form.Control as='select' value={value.value} onChange={this.onChange} disabled={value.disabled}>
                         {
-                            value.options.map(
-                                op => (
-                                    <option key={op} value={op}>{op}</option>
-                                )
-                            )
+                            value.disabled ? 
+                                    (<option value={-1}>----------------</option>) :
+                                            value.options.map(
+                                                op => (
+                                                    <option key={op} value={op}>{op}</option>
+                                                )
+                                            )
                         }
                     </Form.Control>
                 </Col>

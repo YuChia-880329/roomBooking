@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class UsedNumDto {
 
-	private boolean hasValue;
 	private List<Integer> options;
 	private int value;
 }

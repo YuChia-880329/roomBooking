@@ -13,10 +13,16 @@ const constant = {
         url : {
             allShowers : urls.backend.roomUpdate.allShowers,
             allScenes : urls.backend.roomUpdate.allScenes,
-            allRooms : urls.backend.roomUpdate.allRooms
+            allRooms : urls.backend.roomUpdate.allRooms,
+            roomInfo : urls.backend.roomUpdate.roomInfo
         },
         config : {
             timeout : config.fetch.timeout
+        },
+        req : {
+            roomInfo : {
+                roomId : -1
+            }
         }
     }
 };
@@ -33,53 +39,75 @@ class RoomUpdate extends Component {
                     value : ''
                 },
                 name : {
+                    disabled : true,
                     value : ''
                 },
                 totalNum : {
+                    disabled : true,
                     value : ''
                 },
                 usedNum : {
+                    disabled : true,
                     options : [],
                     value : ''
                 },
                 inValidNum : {
+                    disabled : true,
                     options : [],
                     value : ''
                 },
                 price : {
+                    disabled : true,
                     value : ''
                 },
                 singleBedNum : {
+                    disabled : true,
                     value : ''
                 },
                 doubleBedNum : {
+                    disabled : true,
                     value : ''
                 },
                 area : {
+                    disabled : true,
                     value : ''
                 },
                 scene : {
+                    disabled : true,
                     options : [],
                     value : ''
                 },
                 shower : {
+                    disabled : true,
                     options : [],
                     values : []
                 },
                 status : {
+                    disabled : true,
                     value : ''
                 },
                 roomImage : {
+                    disabled : true,
                     options : [],
                     value : '',
                     url : ''
                 },
                 imageOrder : {
+                    disabled : true,
                     options : [],
                     value : ''
                 },
+                deleteBtn : {
+                    disabled : true
+                },
                 newImage : {
-                    num : 0
+                    disabled : true,
+                    numbers : [1],
+                    hasfile : [], 
+                    index : 1
+                },
+                updateBtn : {
+                    disabled : true
                 }
             }
         };
@@ -128,9 +156,10 @@ class RoomUpdate extends Component {
         const fctn = {
             updateForm : {
                 showInformModal : this.props.fctn.showInformModal,
-                closeInformModal : this.props.fctn.closeInformModal
-                // showConfirmModal : this.props.fctn.showConfirmModal,
-                // closeConfirmModal : this.props.fctn.closeConfirmModal
+                closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
+                roomInfo : this.roomInfo
             }
         };
 
@@ -152,6 +181,12 @@ class RoomUpdate extends Component {
     allRooms = () => {
 
         this.allRoomsFetch();
+    };
+    roomInfo = (roomId) => {
+
+        const req = constant.fetch.req.roomInfo;
+        req.roomId = roomId;
+        this.roomInfoFetch(req);
     };
 
 
@@ -223,6 +258,30 @@ class RoomUpdate extends Component {
             fctn.showInformModal(serverInfo.msg);
         }
     };
+    roomInfoFetch = async (params) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.roomInfo;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterRoomInfo(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
 
 
     // after fetch
@@ -268,6 +327,96 @@ class RoomUpdate extends Component {
             }
         });
     };
+    afterRoomInfo = (data) => {
+
+        const {updateForm} = this.state;
+
+        this.setter('updateForm', {
+            ...updateForm,
+            name : {
+                ...updateForm.name,
+                disabled : !data.hasValue,
+                value : data.hasValue ? data.roomName : ''
+            },
+            totalNum : {
+                ...updateForm.totalNum,
+                disabled : !data.hasValue,
+                value : data.hasValue ? data.totalNum : ''
+            },
+            usedNum : {
+                ...updateForm.usedNum,
+                disabled : !data.hasValue,
+                options : data.hasValue ? data.usedNum.options : [],
+                value : data.hasValue ? `${data.usedNum.value}` : '-1'
+            },
+            inValidNum : {
+                ...updateForm.inValidNum,
+                disabled : !data.hasValue,
+                options : data.hasValue ? data.invalidNum.options : [],
+                value : data.hasValue ? `${data.invalidNum.value}` : '-1'
+            },
+            price : {
+                ...updateForm.price,
+                disabled : !data.hasValue,
+                value : data.hasValue ? data.price : ''
+            },
+            singleBedNum : {
+                ...updateForm.singleBedNum,
+                disabled : !data.hasValue,
+                value : data.hasValue ? data.singleBedNum : ''
+            },
+            doubleBedNum : {
+                ...updateForm.doubleBedNum,
+                disabled : !data.hasValue,
+                value : data.hasValue ? data.doubleBedNum : ''
+            },
+            area : {
+                ...updateForm.area,
+                disabled : !data.hasValue,
+                value : data.hasValue ? data.area : ''
+            },
+            scene : {
+                ...updateForm.scene,
+                disabled : !data.hasValue,
+                value : data.hasValue ? `${data.sceneId}` : '-1'
+            },
+            shower : {
+                ...updateForm.shower,
+                disabled : !data.hasValue,
+                values : data.hasValue ? data.showerIds : []
+            },
+            status : {
+                ...updateForm.status,
+                disabled : !data.hasValue,
+                value : data.hasValue ? data.statusId : -1
+            },
+            roomImage : {
+                ...updateForm.roomImage,
+                disabled : !data.roomImgs.hasImg,
+                options : data.roomImgs.hasImg ? data.roomImgs.imgs : [],
+                value : data.roomImgs.hasImg ? `${data.roomImgs.currentImg.id}` : '-1',
+                url : data.roomImgs.hasImg ? data.roomImgs.currentImg.url : ''
+            },
+            imageOrder : {
+                ...updateForm.imageOrder,
+                disabled : !data.imageOrder.hasImg,
+                options : data.imageOrder.hasImg ? data.imageOrder.orders : [],
+                value : data.imageOrder.hasImg ? `${data.imageOrder.value}` : '-1'
+            },
+            deleteBtn : {
+                ...updateForm.deleteBtn,
+                disabled : !data.roomImgs.hasImg
+            },
+            newImage : {
+                ...updateForm.newImage,
+                disabled : !data.hasValue
+            },
+            updateBtn : {
+                ...updateForm.updateBtn,
+                disabled : !data.hasValue
+            }
+        });
+    }
 
 
     // setter

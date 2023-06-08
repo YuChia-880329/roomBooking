@@ -11,7 +11,8 @@ class Price extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_price'>房間單價 : </Form.Label>
                 <Col>
-                    <Form.Control type='number' id='form_price' value={value.value} onChange={this.onChange} min={0} />
+                    <Form.Control type='number' id='form_price' value={value.value} onChange={this.onChange} 
+                            disabled={value.disabled} min={0} />
                 </Col>
             </Form.Group>
         );

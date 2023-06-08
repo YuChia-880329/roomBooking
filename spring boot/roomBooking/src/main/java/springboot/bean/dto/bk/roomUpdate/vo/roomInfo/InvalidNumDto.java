@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class InvalidNumDto {
 
-	private boolean hasValue;
 	private List<Integer> options;
 	private int value;
 }

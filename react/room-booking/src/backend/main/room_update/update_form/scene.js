@@ -11,14 +11,15 @@ class Scene extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>景觀 : </Form.Label>
                 <Col>
-                    <Form.Control as='select' value={value.value} onChange={this.onChange}>
-                        <option value=''>---- 請選擇 ----</option>
+                    <Form.Control as='select' value={value.value} onChange={this.onChange} disabled={value.disabled}>
                         {
-                            value.options.map(
-                                op => (
-                                    <option key={op.id} value={op.id}>{op.name}</option>
-                                )
-                            )
+                            value.disabled ? 
+                                    (<option value={-1}>----------------</option>) : 
+                                            value.options.map(
+                                                op => (
+                                                    <option key={op.id} value={op.id}>{op.name}</option>
+                                                )
+                                            )
                         }
                     </Form.Control>
                 </Col>

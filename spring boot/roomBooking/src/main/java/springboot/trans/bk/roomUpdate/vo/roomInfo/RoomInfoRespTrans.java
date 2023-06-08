@@ -18,15 +18,6 @@ public class RoomInfoRespTrans implements VoWoTrans<RoomInfoResp, RoomInfoRespDt
 	@Qualifier("bk.roomUpdate.vo.roomInfo.InvalidNumTrans")
 	private InvalidNumTrans invalidNumTrans;
 	@Autowired
-	@Qualifier("bk.roomUpdate.vo.roomInfo.SceneTrans")
-	private SceneTrans sceneTrans;
-	@Autowired
-	@Qualifier("bk.roomUpdate.vo.roomInfo.ShowerTrans")
-	private ShowerTrans showerTrans;
-	@Autowired
-	@Qualifier("bk.roomUpdate.vo.roomInfo.StatusTrans")
-	private StatusTrans statusTrans;
-	@Autowired
 	@Qualifier("bk.roomUpdate.vo.roomInfo.RoomImgsTrans")
 	private RoomImgsTrans roomImgsTrans;
 	@Autowired
@@ -37,6 +28,7 @@ public class RoomInfoRespTrans implements VoWoTrans<RoomInfoResp, RoomInfoRespDt
 	public RoomInfoResp dtoToVoImpl(RoomInfoRespDto dto) {
 		
 		return RoomInfoResp.builder()
+				.hasValue(dto.isHasValue())
 				.roomName(dto.getRoomName())
 				.totalNum(dto.getTotalNum())
 				.usedNum(usedNumTrans.dtoToVo(dto.getUsedNum()))
@@ -45,9 +37,11 @@ public class RoomInfoRespTrans implements VoWoTrans<RoomInfoResp, RoomInfoRespDt
 				.singleBedNum(dto.getSingleBedNum())
 				.doubleBedNum(dto.getDoubleBedNum())
 				.area(dto.getArea())
-				.scene(sceneTrans.dtoToVo(dto.getScene()))
-				.shower(showerTrans.dtoToVo(dto.getShower()))
-				.status(statusTrans.dtoToVo(dto.getStatus()))
+				.sceneId(dto.getSceneId())
+				.showerIds(dto.getShowerIds().stream()
+						.mapToInt(v -> v)
+						.toArray())
+				.statusId(dto.getStatusId())
 				.roomImgs(roomImgsTrans.dtoToVo(dto.getRoomImgs()))
 				.imageOrder(imageOrderTrans.dtoToVo(dto.getImageOrder()))
 				.build();

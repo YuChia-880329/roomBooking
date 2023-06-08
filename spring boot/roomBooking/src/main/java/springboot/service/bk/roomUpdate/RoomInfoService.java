@@ -16,9 +16,6 @@ import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.RoomImgDto;
 import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.RoomImgsDto;
 import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.RoomInfoReqDto;
 import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.RoomInfoRespDto;
-import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.SceneDto;
-import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.ShowerDto;
-import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.StatusDto;
 import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.UsedNumDto;
 import springboot.bean.dto.model.RoomDto;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
@@ -36,6 +33,7 @@ public class RoomInfoService {
 	@Qualifier("model.inner.RoomDaoInner")
 	private RoomDaoInner roomDaoInner;
 	
+	
 	public RoomInfoRespDto roomInfo(RoomInfoReqDto roomInfoReq) {
 		
 		LoginDto login = loginStatusDao.getStatus();
@@ -44,14 +42,17 @@ public class RoomInfoService {
 		
 		boolean hasValue = true;
 		RoomDto room = null;
-		if(roomInfoReq.getRoomId() < 0)
+		if(roomInfoReq.getRoomId() == -1)
 			hasValue = false;
 		else
 			room = roomDaoInner.queryRoomById(roomInfoReq.getRoomId()).orElse(null);
-		
+
+		if(room == null)
+			hasValue = false;
 		
 		return RoomInfoRespDto.builder()
-				.roomName(hasValue ? room.getName() : "")
+				.hasValue(hasValue)
+				.roomName(hasValue ? room.getName() : null)
 				.totalNum(hasValue ? room.getTotalNum() : -1)
 				.usedNum(toUsedNumVo(room, hasValue))
 				.invalidNum(toInvalidNumVo(room, hasValue))
@@ -59,9 +60,11 @@ public class RoomInfoService {
 				.singleBedNum(hasValue ? room.getSingleBedNum() : -1)
 				.doubleBedNum(hasValue ? room.getDoubleBedNum() : -1)
 				.area(hasValue ? room.getArea() : -1)
-				.scene(toSceneVo(room, hasValue))
-				.shower(toShowerVo(room, hasValue))
-				.status(toStatusVo(room, hasValue))
+				.sceneId(hasValue ? room.getSceneId() : -1)
+				.showerIds(hasValue ? room.getShowers().stream()
+						.map(shower -> shower.getId())
+						.collect(Collectors.toList()) : new ArrayList<>())
+				.statusId(hasValue ? room.getStatus().getCode() : -1)
 				.roomImgs(toRoomImgsVo(room, hasValue, login.getHotelId()))
 				.imageOrder(toImageOrderVo(room, hasValue))
 				.build();
@@ -70,7 +73,6 @@ public class RoomInfoService {
 	private UsedNumDto toUsedNumVo(RoomDto room, boolean hasValue) {
 		
 		return UsedNumDto.builder()
-				.hasValue(hasValue)
 				.options(Stream.iterate(0, v -> v+1)
 						.limit(hasValue ? room.getTotalNum()+1 : 0)
 						.collect(Collectors.toList()))
@@ -80,53 +82,32 @@ public class RoomInfoService {
 	private InvalidNumDto toInvalidNumVo(RoomDto room, boolean hasValue) {
 		
 		return InvalidNumDto.builder()
-				.hasValue(hasValue)
 				.options(Stream.iterate(0, v -> v+1)
 						.limit(hasValue ? room.getTotalNum()-room.getUsedNum()+1 : 0)
 						.collect(Collectors.toList()))
 				.value(hasValue ? room.getInvalidNum() : 0)
 				.build();
 	}
-	private SceneDto toSceneVo(RoomDto room, boolean hasValue) {
-		
-		return SceneDto.builder()
-				.able(hasValue)
-				.sceneId(hasValue ? room.getSceneId() : 0)
-				.build();
-	}
-	private ShowerDto toShowerVo(RoomDto room, boolean hasValue) {
-		
-		return ShowerDto.builder()
-				.able(hasValue)
-				.showerIds(hasValue ? room.getShowers().stream()
-						.map(shower -> shower.getId())
-						.collect(Collectors.toList()) : new ArrayList<>())
-				.build();
-	}
-	private StatusDto toStatusVo(RoomDto room, boolean hasValue) {
-		
-		return StatusDto.builder()
-				.able(hasValue)
-				.statusId(hasValue ? room.getStatus().getCode() : 0)
-				.build();
-	}
 	private RoomImgsDto toRoomImgsVo(RoomDto room, boolean hasValue, int hotelId) {
 		
-
+		boolean hasImg = hasValue && room.getRoomImgs().size()>0;
+		
 		return RoomImgsDto.builder()
-				.hasImg(hasValue)
-				.imgs(hasValue ? toRoomImgVos(room.getRoomImgs(), room.getId(), hotelId) : new ArrayList<>())
-				.currentImg(hasValue ? toRoomImgVo(leastOrderImg(room.getRoomImgs()), room.getId(), hotelId) : null)
+				.hasImg(hasImg)
+				.imgs(hasImg ? toRoomImgVos(room.getRoomImgs(), room.getId(), hotelId) : new ArrayList<>())
+				.currentImg(hasImg ? toRoomImgVo(leastOrderImg(room.getRoomImgs()), room.getId(), hotelId) : null)
 				.build();
 	}
 	private ImageOrderDto toImageOrderVo(RoomDto room, boolean hasValue) {
 		
+		boolean hasImg = hasValue && room.getRoomImgs().size()>0;
+		
 		return ImageOrderDto.builder()
-				.hasImg(hasValue)
-				.orders(hasValue ? room.getRoomImgs().stream()
+				.hasImg(hasImg)
+				.orders(hasImg ? room.getRoomImgs().stream()
 						.map(img -> img.getImageOrder())
 						.collect(Collectors.toList()) : new ArrayList<>())
-				.value(hasValue ? leastOrderImg(room.getRoomImgs()).getImageOrder() : 0)
+				.value(hasImg ? leastOrderImg(room.getRoomImgs()).getImageOrder() : 0)
 				.build();
 	}
 	

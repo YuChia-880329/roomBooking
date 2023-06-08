@@ -14,7 +14,6 @@ public class InvalidNumTrans implements VoWoTrans<InvalidNum, InvalidNumDto> {
 	public InvalidNum dtoToVoImpl(InvalidNumDto dto) {
 		
 		return InvalidNum.builder()
-				.hasValue(dto.isHasValue())
 				.options(toOptionsVo(dto.getOptions()))
 				.value(dto.getValue())
 				.build();

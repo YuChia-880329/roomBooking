@@ -13,7 +13,7 @@ class Type extends Component {
                 <Form.Label column xs='auto'>房型選擇 : </Form.Label>
                 <Col>
                     <Form.Control as='select' value={value.value} onChange={this.onChange}>
-                        <option value=''>---- 請選擇 ----</option>
+                        <option value={-1}>---- 請選擇 ----</option>
                         {
                             value.options.map(
                                 op => (
@@ -35,8 +35,7 @@ class Type extends Component {
         const roomId = event.target.value;
         this.setter('value', roomId);
 
-        if(roomId !== '')
-            fctn.roomInfo(roomId);
+        fctn.roomInfo(roomId);
     };
 
 

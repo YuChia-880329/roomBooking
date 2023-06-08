@@ -18,19 +18,24 @@ class RoomImage extends Component {
                 <Form.Label column xs='auto'>房間照片 : </Form.Label>
                 <Col>
                     <Stack gap={4}>
-                        <Form.Control as='select' value={value.value} onChange={this.onChange}>
-                            <option value=''>---- 請選擇 ----</option>
+                        <Form.Control as='select' value={value.value} onChange={this.onChange} disabled={value.disabled}>
                             {
-                                value.options.map(
-                                    op => (
-                                        <option key={op.id} value={op.id}>{op.name}</option>
-                                    )
-                                )
+                                value.disabled ? 
+                                        (<option value={-1}>----------------</option>) :
+                                                value.options.map(
+                                                    op => (
+                                                        <option key={op.id} value={op.id}>{op.imgName}</option>
+                                                    )
+                                                )
                             }
                         </Form.Control>
-                        <div>
-                            <Image src={value.url} alt='room photo' className='d-inline-block' style={imageStyle} />
-                        </div>
+                        {
+                            !value.disabled &&
+                                <div>
+                                    <Image src={value.url} alt='room photo' className='d-inline-block' style={imageStyle} />
+                                </div>
+                        }
+                        
                     </Stack>
                 </Col>
             </Form.Group>
@@ -40,7 +45,28 @@ class RoomImage extends Component {
     // on
     onChange = (event) => {
 
-        this.setter('value', event.target.value);
+        const {value, setter, getter} = this.props;
+        const {options} = value;
+        const target = options.reduce((a, c) => {
+
+            if(a !== null)
+                return a;
+            else if(c.id === parseInt(event.target.value, 10))
+                return c;
+            else
+                return null;
+        }, null);
+
+        this.setter('value', event.target.value, () => {
+
+            this.setter('url', target.url, () => {
+
+                setter.setImageOrder({
+                    ...getter.getImageOrder(),
+                    value : target.order
+                });
+            });
+        });
     };
 
 

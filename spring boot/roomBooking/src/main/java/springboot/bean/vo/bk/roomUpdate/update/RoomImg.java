@@ -1,4 +1,4 @@
-package springboot.bean.dto.bk.roomUpdate.vo.roomInfo;
+package springboot.bean.vo.bk.roomUpdate.update;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +9,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SceneDto {
+public class RoomImg {
 
-	private boolean able;
-	private int sceneId;
+	private int id;
+	private int order;
 }

@@ -11,7 +11,8 @@ class SingleBedNum extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_singleBed'>單人床數 : </Form.Label>
                 <Col>
-                    <Form.Control type='number' id='form_singleBed' value={value.value} onChange={this.onChange} min={0} />
+                    <Form.Control type='number' id='form_singleBed' value={value.value} onChange={this.onChange} 
+                            disabled={value.disabled} min={0} />
                 </Col>
             </Form.Group>
         );

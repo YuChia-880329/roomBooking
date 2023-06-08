@@ -1,4 +1,4 @@
-package springboot.bean.dto.bk.roomUpdate.vo.roomInfo;
+package springboot.bean.dto.bk.roomUpdate.vo.update;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +9,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class StatusDto {
+public class UpdateRespDto {
 
-	private boolean able;
-	private int statusId;
+	private boolean success;
+	private String msg;
 }

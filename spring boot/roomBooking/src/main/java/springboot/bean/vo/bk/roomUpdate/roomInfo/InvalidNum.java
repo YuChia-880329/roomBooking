@@ -11,7 +11,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class InvalidNum {
 
-	private boolean hasValue;
 	private int[] options;
 	private int value;
 }

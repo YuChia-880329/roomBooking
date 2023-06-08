@@ -49,6 +49,8 @@ class Main extends Component {
             roomUpdate : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
                 checkLogin : this.checkLogin
             },
             roomCreate : {

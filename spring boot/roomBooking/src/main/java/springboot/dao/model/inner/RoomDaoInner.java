@@ -10,6 +10,10 @@ import org.springframework.stereotype.Repository;
 import enumeration.RoomStatus;
 import enumeration.bk.roomList.RoomTableOrder;
 import springboot.bean.dto.model.RoomDto;
+import springboot.bean.model.BookingOrder;
+import springboot.bean.model.Room;
+import springboot.bean.model.RoomImg;
+import springboot.bean.model.Shower;
 import springboot.dao.model.RoomDao;
 import springboot.trans.model.RoomTrans;
 
@@ -61,5 +65,42 @@ public class RoomDaoInner {
 		
 		return dao.queryRoomById(id)
 				.map(room -> trans.modelToDto(room));
+	}
+	
+	public RoomDto update(RoomDto room) {
+		
+		Room newRoom = trans.dtoToModel(room);
+		Room oldRoom = dao.queryRoomById(newRoom.getId()).orElse(null);
+		if(oldRoom == null)
+			return null;
+		
+		oldRoom.setName(newRoom.getName());
+		oldRoom.setTotalNum(newRoom.getTotalNum());
+		oldRoom.setInvalidNum(newRoom.getInvalidNum());
+		oldRoom.setUsedNum(newRoom.getUsedNum());
+		oldRoom.setPrice(newRoom.getPrice());
+		oldRoom.setSingleBedNum(newRoom.getSingleBedNum());
+		oldRoom.setDoubleBedNum(newRoom.getDoubleBedNum());
+		oldRoom.setArea(newRoom.getArea());
+		oldRoom.setSceneId(newRoom.getSceneId());
+		oldRoom.setHotelId(newRoom.getHotelId());
+		oldRoom.setStatus(newRoom.getStatus());
+		
+		List<Shower> showers = oldRoom.getShowers();
+		showers.clear();
+		showers.addAll(newRoom.getShowers());
+		List<RoomImg> roomImgs = oldRoom.getRoomImgs();
+		roomImgs.clear();
+		roomImgs.addAll(newRoom.getRoomImgs());
+		List<BookingOrder> bookingOrders = oldRoom.getBookingOrders();
+		bookingOrders.clear();
+		bookingOrders.addAll(newRoom.getBookingOrders());
+		
+		oldRoom.setShowers(showers);
+		oldRoom.setRoomImgs(roomImgs);
+		oldRoom.setBookingOrders(bookingOrders);
+		
+		return trans.modelToDto(
+				dao.update(oldRoom));
 	}
 }

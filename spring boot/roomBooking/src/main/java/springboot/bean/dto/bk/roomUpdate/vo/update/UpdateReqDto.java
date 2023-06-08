@@ -1,29 +1,30 @@
-package springboot.bean.vo.bk.roomUpdate.roomInfo;
+package springboot.bean.dto.bk.roomUpdate.vo.update;
+
+import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import springboot.bean.vo.Data;
 
 @SuperBuilder
 @NoArgsConstructor
 @Getter
 @Setter
-public class RoomInfoResp extends Data {
+public class UpdateReqDto {
 
-	private boolean hasValue;
-	private String roomName;
+	private int id;
+	private String name;
 	private int totalNum;
-	private UsedNum usedNum;
-	private InvalidNum invalidNum;
+	private int usedNum;
+	private int invalidNum;
 	private int price;
 	private int singleBedNum;
 	private int doubleBedNum;
 	private int area;
 	private int sceneId;
-	private int[] showerIds;
+	private List<Integer> showerIds;
 	private int statusId;
-	private RoomImgs roomImgs;
-	private ImageOrder imageOrder;
+	private List<RoomImgDto> roomImgs;
+	private List<NewImgDto> newImgs;
 }

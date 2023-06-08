@@ -15,7 +15,6 @@ public class UsedNumTrans implements VoWoTrans<UsedNum, UsedNumDto> {
 	public UsedNum dtoToVoImpl(UsedNumDto dto) {
 		
 		return UsedNum.builder()
-				.hasValue(dto.isHasValue())
 				.options(toOptionsVo(dto.getOptions()))
 				.value(dto.getValue())
 				.build();

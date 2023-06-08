@@ -84,6 +84,6 @@ public class Room {
 	
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "room")
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<BookingOrder> bookingOrders;
 }

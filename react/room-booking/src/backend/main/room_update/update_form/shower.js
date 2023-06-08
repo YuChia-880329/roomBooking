@@ -18,7 +18,8 @@ class Shower extends Component {
                                     <Col key={op.id}>
                                         <Form.Check type='checkbox' label={op.name}
                                                 checked={value.values.includes(op.id)}
-                                                onChange={e => this.onChange(e, op.id)} />
+                                                onChange={e => this.onChange(e, op.id)}
+                                                disabled={value.disabled} />
                                     </Col>
                                 )
                             )

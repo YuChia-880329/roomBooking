@@ -30,7 +30,8 @@ class Status extends Component {
                                     <Col key={op.id}>
                                         <Form.Check type='radio' label={op.name}
                                                 checked={value.value === op.id}
-                                                onChange={e => this.onChange(e, op.id)} />
+                                                onChange={e => this.onChange(e, op.id)}
+                                                disabled={value.disabled} />
                                     </Col>
                                 )
                             )

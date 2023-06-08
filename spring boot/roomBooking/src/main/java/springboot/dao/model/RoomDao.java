@@ -107,8 +107,14 @@ public class RoomDao {
 		Predicate predicate = criteriaBuilder.equal(root.get(ID_ATTRIBUTE_NAME), id);
 		criteriaQuery.where(predicate);
 		
-		Room room = entityManager.createQuery(criteriaQuery).getSingleResult();
+		Room room = null;
+		List<Room> rooms = entityManager.createQuery(criteriaQuery).getResultList();
+		room = rooms.size()>0 ? rooms.get(0) : null;
 		return Optional.ofNullable(room);
+	}
+	public Room update(Room room) {
+		
+		return entityManager.merge(room);
 	}
 	
 	

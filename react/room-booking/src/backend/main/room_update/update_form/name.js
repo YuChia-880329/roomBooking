@@ -11,7 +11,7 @@ class Name extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_name'>房型名稱 : </Form.Label>
                 <Col>
-                    <Form.Control id='form_name' value={value.value} onChange={this.onChange} />
+                    <Form.Control id='form_name' value={value.value} onChange={this.onChange} disabled={value.disabled} />
                 </Col>
             </Form.Group>
         );
