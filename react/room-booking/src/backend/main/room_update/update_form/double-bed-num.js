@@ -11,8 +11,9 @@ class DoubleBedNum extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_doubleBed'>雙人床數 : </Form.Label>
                 <Col>
-                    <Form.Control id='form_doubleBed' type='number' value={value.value} onChange={this.onChange} 
+                    <Form.Control required id='form_doubleBed' type='number' value={value.value} onChange={this.onChange} 
                             disabled={value.disabled} min={0} />
+                    <Form.Control.Feedback type='invalid'>請輸入雙人床數(不可小於0)</Form.Control.Feedback>
                 </Col>
             </Form.Group>
         );

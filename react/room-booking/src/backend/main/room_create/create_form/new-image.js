@@ -5,6 +5,8 @@ class NewImage extends Component {
 
     render() {
         
+        const {value} = this.props;
+
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_newImage1'>新增照片 : </Form.Label>
@@ -12,20 +14,21 @@ class NewImage extends Component {
                     <Row>
                         <Col xs='auto'>
                             <Stack gap={4}>
-                                <Stack direction='horizontal' gap={4}>
-                                    <Form.Control type='file' id='form_newImage1' />
-                                    <div>
-                                        <Button variant='outline-primary' size='sm'>-</Button>
-                                    </div>
-                                </Stack>
-                                <Stack direction='horizontal' gap={4}>
-                                    <Form.Control type='file' id='form_newImage2' />
-                                    <div>
-                                        <Button variant='outline-primary' size='sm'>-</Button>
-                                    </div>
-                                </Stack>
+                                {
+                                    value.numbers.map(
+                                        (n, index) => (
+                                            <Stack direction='horizontal' gap={4} key={n}>
+                                                <Form.Control type='file' id={`form_newImage${n}`} name={`form_newImage${n}`} 
+                                                        onChange={e => this.onChange(e, n)} />
+                                                <div style={{visibility : (index>0) ? 'block' : 'hidden'}}>
+                                                    <Button variant='outline-primary' size='sm' onClick={e => this.onClickMinusBtn(e, n)} >-</Button>
+                                                </div>
+                                            </Stack>
+                                        )
+                                    )
+                                }
                                 <div>
-                                    <Button variant='outline-primary' size='sm'>+</Button>
+                                    <Button variant='outline-primary' size='sm' onClick={this.onClickPlusBtn}>+</Button>
                                 </div>
                             </Stack>
                         </Col>
@@ -34,6 +37,53 @@ class NewImage extends Component {
             </Form.Group>
         );
     }
+
+    // on
+    onChange = (event, n) => {
+
+        const {value} = this.props;
+
+        const alreadyHas = value.hasfile.includes(n);
+        if(!alreadyHas && event.target.value!=='')
+            this.setter('hasfile', [...value.hasfile, n]);
+        else if(event.target.value==='')
+            this.setter('hasfile', value.hasfile.filter(v => v!==n));
+    }
+    onClickPlusBtn = (event) => {
+
+        const {value} = this.props;
+
+        const i = value.index+1;
+
+        this.setter('numbers', [...value.numbers, i], () => {
+
+            this.setter('index', i);
+        });
+    }
+    onClickMinusBtn = (event, n) => {
+
+        const {value, fctn} = this.props;
+
+        fctn.showConfirmModal('確定要移除 ? ', () => {
+
+            this.setter('numbers', value.numbers.filter(v => v!==n), () => {
+
+                this.setter('hasfile', value.hasfile.filter(v => v!==n));
+            });
+            fctn.closeConfirmModal();
+        });
+    }
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setNewImage({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default NewImage;

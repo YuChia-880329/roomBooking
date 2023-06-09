@@ -42,7 +42,7 @@ class UsedNum extends Component {
             setter.setInValidNum({
                 ...getter.getInValidNum(),
                 options : Array.from({length : invalidNumMax+1}, (v, i) => i),
-                value : invalidNum<=invalidNumMax ? invalidNum : invalidNumMax
+                value : invalidNum<=invalidNumMax ? `${invalidNum}` : `${invalidNumMax}`
             });
         });
     };

@@ -104,15 +104,18 @@ class InfoForm extends Component {
                 fctn.showConfirmModal('確定要更新資料 ?', () => {
 
                     fctn.closeConfirmModal();
-                    this.update(event.target.hotelImage.files[0]);
+                    this.update(event.target);
                 });
+            }else{
+
+                fctn.showInformModal('表單未完整');
             }
         });
     };
 
 
     // other
-    update = (imgFile) => {
+    update = (form) => {
 
         const {value} = this.props;
         const req = constant.fetch.req.update;
@@ -128,6 +131,8 @@ class InfoForm extends Component {
                 name : nf.name,
                 checked : newFeature.values.includes(nf.name)
             }));
+
+        const imgFile = form.hotelImage.files[0];
         req.updateImage.needUpdate = imgFile !== undefined;
         req.updateImage.imageName = imgFile && imgFile.name;
         req.updateImage.file = imgFile;
@@ -140,7 +145,7 @@ class InfoForm extends Component {
         req.featureIds.forEach((fi, id) => formData.append('featureIds[' + id + ']', fi));
         req.newFeatures.forEach((nf, id) => {
 
-            Object.keys(nf).forEach(key => formData.append('newFeatures[' + id + '].' + key, nf[key]));
+            Object.keys(nf).forEach(key => formData.append(`newFeatures[${id}].${key}`, nf[key]));
         });
         formData.append('updateImage.needUpdate', req.updateImage.needUpdate);
         if(req.updateImage.imageName)
@@ -187,9 +192,10 @@ class InfoForm extends Component {
 
             if(data.success){
 
-                const href = window.location.href;
-                window.location.href = href;
+                fctn.hotelInfo();
+                this.setter('validated', false);
             }
+            fctn.closeInformModal();
         });
     }
 

@@ -1,7 +1,7 @@
 import urls from '../../../files/urls.json';
 import config from '../../../files/config.json';
 import React, { Component } from 'react';
-import { Button, Col, Row, Stack } from 'react-bootstrap';
+import { Button, Col, Form, Row, Stack } from 'react-bootstrap';
 import Type from './update_form/type';
 import Name from './update_form/name';
 import TotalNum from './update_form/total-num';
@@ -139,7 +139,7 @@ class UpdateForm extends Component {
         }
 
         return (
-            <Stack gap={5}>
+            <Stack as={Form} gap={5} noValidate validated={value.validated} onSubmit={this.onSubmitUpdateForm}>
                 <Row>
                     <Col>
                         <Type value={value.type} setter={setter.type} fctn={fctn.type} />
@@ -193,7 +193,7 @@ class UpdateForm extends Component {
                 </Row>
                 <NewImage value={value.newImage} setter={setter.newImage} fctn={fctn.newImage} />
                 <Stack direction='horizontal'>
-                    <Button variant='outline-primary' className='ms-auto' disabled={value.updateBtn.disabled}>更新資料</Button>
+                    <Button type='send' variant='outline-primary' className='ms-auto' disabled={value.updateBtn.disabled}>更新資料</Button>
                 </Stack>
             </Stack>
         );
@@ -228,7 +228,77 @@ class UpdateForm extends Component {
             fctn.closeConfirmModal();
         });
     };
+    onSubmitUpdateForm = (event) => {
 
+        const {fctn} = this.props;
+
+        event.preventDefault();
+        this.setter('validated', true, () => {
+
+            if(event.target.checkValidity() === true){
+    
+                fctn.showConfirmModal('確定要更新資料 ?', () => {
+
+                    fctn.closeConfirmModal();
+                    this.update(event.target);
+                });
+            }else{
+
+                fctn.showInformModal('表單未完整');
+            }
+        });
+    }
+
+
+    // other
+    update = (form) => {
+
+        const req = constant.fetch.req.update;
+        const {value} = this.props;
+
+        req.id = value.type.value;
+        req.name = value.name.value;
+        req.totalNum = value.totalNum.value;
+        req.usedNum = value.usedNum.value;
+        req.invalidNum = value.inValidNum.value;
+        req.price = value.price.value;
+        req.singleBedNum = value.singleBedNum.value;
+        req.doubleBedNum = value.doubleBedNum.value;
+        req.area = value.area.value;
+        req.sceneId = value.scene.value;
+        req.showerIds = value.shower.values;
+        req.statusId = value.status.value;
+        req.roomImgs = value.roomImage.options.map(img => ({
+            id : img.id,
+            order : img.order
+        }));
+        req.newImgs = value.newImage.numbers
+            .filter(n => value.newImage.hasfile.includes(n))
+            .map(n => ({
+                idNumber : n,
+                imgName : form[`form_newImage${n}`].files[0].name,
+                file : form[`form_newImage${n}`].files[0]
+            }));
+
+
+        const formData = new FormData();
+        formData.append('id', req.id);
+        formData.append('name', req.name);
+        formData.append('totalNum', req.totalNum);
+        formData.append('usedNum', req.usedNum);
+        formData.append('invalidNum', req.invalidNum);
+        formData.append('price', req.price);
+        formData.append('singleBedNum', req.singleBedNum);
+        formData.append('doubleBedNum', req.doubleBedNum);
+        formData.append('area', req.area);
+        formData.append('sceneId', req.sceneId);
+        req.showerIds.forEach((si, id) => formData.append(`showerIds[${id}]`, si));
+        formData.append('statusId', req.statusId);
+        req.roomImgs.forEach((ri, id) => Object.keys(ri).forEach(key => formData.append(`roomImgs[${id}].${key}`, ri[key])));
+        req.newImgs.forEach((ni, id) => Object.keys(ni).forEach(key => formData.append(`newImgs[${id}].${key}`, ni[key])));
+
+        this.updateFetch(formData);
+    }
 
     // fetch
     updateFetch = async (req) => {
@@ -259,7 +329,17 @@ class UpdateForm extends Component {
     // after fetch
     afterUpdate = (data) => {
 
-        console.log('data : ', data);
+        const {fctn, value} = this.props;
+
+        fctn.showInformModal(data.msg, () => {
+
+            if(data.success){
+
+                fctn.roomInfo(value.type.value);
+                this.setter('validated', false);
+            }
+            fctn.closeInformModal();
+        });
     };
 
 

@@ -112,10 +112,19 @@ public class RoomDao {
 		room = rooms.size()>0 ? rooms.get(0) : null;
 		return Optional.ofNullable(room);
 	}
+	
+	public Room add(Room room) {
+		
+		entityManager.persist(room);
+		entityManager.flush();
+		return room;
+	}
+	
 	public Room update(Room room) {
 		
 		return entityManager.merge(room);
 	}
+
 	
 	
 	

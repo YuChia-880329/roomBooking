@@ -1,5 +1,6 @@
 package springboot.trans.bk.roomUpdate.vo.update;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -37,16 +38,22 @@ public class UpdateReqTrans extends VoRiTransChecked<UpdateReq, UpdateReqDto, Up
 				.doubleBedNum(vo.getDoubleBedNum())
 				.area(vo.getArea())
 				.sceneId(vo.getSceneId())
-				.showerIds(Arrays.stream(vo.getShowerIds()).mapToObj(v -> v).collect(Collectors.toList()))
+				.showerIds(vo.getShowerIds()!=null ?
+						Arrays.stream(vo.getShowerIds()).mapToObj(v -> v).collect(Collectors.toList()) : 
+							new ArrayList<>())
 				.statusId(vo.getStatusId())
-				.roomImgs(Arrays.stream(vo.getRoomImgs())
+				.roomImgs(vo.getRoomImgs()!=null ? 
+						Arrays.stream(vo.getRoomImgs())
 						.sorted((ri1, ri2) -> ri1.getOrder()-ri2.getOrder())
 						.map(ri -> roomImgTrans.voToDto(ri))
-						.collect(Collectors.toList()))
-				.newImgs(Arrays.stream(vo.getNewImgs())
+						.collect(Collectors.toList()) : 
+							new ArrayList<>())
+				.newImgs(vo.getNewImgs()!=null ? 
+						Arrays.stream(vo.getNewImgs())
 						.sorted((ni1, ni2) -> ni1.getIdNumber()-ni2.getIdNumber())
 						.map(ni -> newImgTrans.voToDto(ni))
-						.collect(Collectors.toList()))
+						.collect(Collectors.toList()) :
+							new ArrayList<>())
 				.build();
 	}
 

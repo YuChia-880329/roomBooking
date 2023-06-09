@@ -11,8 +11,9 @@ class SingleBedNum extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto' htmlFor='form_singleBed'>單人床數 : </Form.Label>
                 <Col>
-                    <Form.Control type='number' id='form_singleBed' value={value.value} onChange={this.onChange} 
+                    <Form.Control required type='number' id='form_singleBed' value={value.value} onChange={this.onChange} 
                             disabled={value.disabled} min={0} />
+                    <Form.Control.Feedback type='invalid'>請輸入單人床數(不可小於0)</Form.Control.Feedback>
                 </Col>
             </Form.Group>
         );

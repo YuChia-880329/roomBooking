@@ -1,12 +1,15 @@
 package springboot.service.bk.roomUpdate;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import enumeration.RoomStatus;
 import springboot.bean.dto.bk.login.obj.status.login.LoginDto;
@@ -21,6 +24,7 @@ import springboot.dao.model.inner.RoomDaoInner;
 import springboot.dao.model.inner.RoomImgDaoInner;
 import springboot.dao.model.inner.ShowerDaoInner;
 import springboot.exception.NotLoginException;
+import util.ImageUtil;
 
 @Service("bk.roomUpdate.UpdateService")
 public class UpdateService {
@@ -41,6 +45,9 @@ public class UpdateService {
 	@Qualifier("model.inner.RoomImgDaoInner")
 	private RoomImgDaoInner roomImgDaoInner;
 	
+	@Value("${attr.imgDirPath}")
+	private String imgDirPath;
+	
 	@Transactional
 	public UpdateRespDto update(UpdateReqDto updateReq) {
 		
@@ -48,7 +55,25 @@ public class UpdateService {
 		if(!login.isLogin())
 			throw new NotLoginException(NotLoginException.MSG);
 		
-		RoomDto room = RoomDto.builder()
+		RoomDto room = toRoomVo(updateReq, login.getHotelId());
+		
+		updateReq.getNewImgs().stream()
+			.forEach(ni -> saveImg(login.getHotelId(), updateReq.getId(), ni.getImgName(), ni.getFile()));
+		room = roomDaoInner.update(room);
+		
+		boolean success = true;
+		if(room == null)
+			success = false;
+		
+		return UpdateRespDto.builder()
+				.success(success)
+				.msg(success ? SUCCESS_MSG : FAILARE_MSG)
+				.build();
+	}
+	
+	private RoomDto toRoomVo(UpdateReqDto updateReq, int hotelId) {
+		
+		return RoomDto.builder()
 				.id(updateReq.getId())
 				.name(updateReq.getName())
 				.totalNum(updateReq.getTotalNum())
@@ -59,20 +84,10 @@ public class UpdateService {
 				.doubleBedNum(updateReq.getDoubleBedNum())
 				.area(updateReq.getArea())
 				.sceneId(updateReq.getSceneId())
-				.hotelId(login.getHotelId())
+				.hotelId(hotelId)
 				.status(RoomStatus.getByCode(updateReq.getStatusId()))
 				.showers(toShowerModel(updateReq.getShowerIds()))
 				.roomImgs(toRoomImgModels(updateReq.getRoomImgs(), updateReq.getNewImgs(), updateReq.getId()))
-				.build();
-		room = roomDaoInner.update(room);
-		
-		boolean success = true;
-		if(room == null)
-			success = false;
-		
-		return UpdateRespDto.builder()
-				.success(success)
-				.msg(success ? SUCCESS_MSG : FAILARE_MSG)
 				.build();
 	}
 	
@@ -119,5 +134,16 @@ public class UpdateService {
 				.imageOrder(order)
 				.roomId(roomId)
 				.build();
+	}
+	
+	private void saveImg(int hotelId, int roomId, String imgName, MultipartFile file) {
+		
+		try {
+			
+			ImageUtil.saveImg(imgDirPath, hotelId, roomId, imgName, file);
+		} catch (IOException ex) {
+			
+			throw new RuntimeException(ex);
+		}
 	}
 }

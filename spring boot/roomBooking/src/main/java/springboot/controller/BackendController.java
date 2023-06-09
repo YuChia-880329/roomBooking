@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import springboot.bean.vo.Response;
 import springboot.bean.vo.bk.hotelInfo.update.UpdateReq;
 import springboot.bean.vo.bk.login.login.LoginReq;
+import springboot.bean.vo.bk.roomCreate.create.CreateReq;
 import springboot.service.bk.BkControllerService;
 import springboot.service.bk.bookingOrderList.BookingOrderListControllerService;
 import springboot.service.bk.hotelInfo.HotelInfoControllerService;
 import springboot.service.bk.login.LoginControllerService;
+import springboot.service.bk.roomCreate.RoomCreateControllerService;
 import springboot.service.bk.roomList.RoomListControllerService;
 import springboot.service.bk.roomUpdate.RoomUpdateControllerService;
 
@@ -45,6 +47,9 @@ public class BackendController {
 	@Autowired
 	@Qualifier("bk.roomUpdate.RoomUpdateControllerService")
 	private RoomUpdateControllerService roomUpdateService;
+	@Autowired
+	@Qualifier("bk.roomCreate.RoomCreateControllerService")
+	private RoomCreateControllerService roomCreateService;
 	
 	
 	
@@ -175,13 +180,13 @@ public class BackendController {
 	
 	// roomUpdate
 	@GetMapping("/roomUpdate/allShowers")
-	public ResponseEntity<Response> allShowers(){
+	public ResponseEntity<Response> allShowersRoomUpdate(){
 		
 		Response response = roomUpdateService.allShowers();
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/roomUpdate/allScenes")
-	public ResponseEntity<Response> allScenes(){
+	public ResponseEntity<Response> allScenesRoomUpdate(){
 		
 		Response response = roomUpdateService.allScenes();
 		return ResponseEntity.ok(response);
@@ -202,6 +207,28 @@ public class BackendController {
 	public ResponseEntity<Response> updateRoomUpdate(@ModelAttribute springboot.bean.vo.bk.roomUpdate.update.UpdateReq updateReq){
 		
 		Response response = roomUpdateService.update(updateReq);
+		return ResponseEntity.ok(response);
+	}
+	
+	
+	
+	// roomCreate
+	@GetMapping("/roomCreate/allShowers")
+	public ResponseEntity<Response> allShowersRoomCreate(){
+		
+		Response response = roomCreateService.allShowers();
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/roomCreate/allScenes")
+	public ResponseEntity<Response> allScenesRoomCreate(){
+		
+		Response response = roomCreateService.allScenes();
+		return ResponseEntity.ok(response);
+	}
+	@PostMapping(value = "/roomCreate/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Response> create(@ModelAttribute CreateReq createReq){
+		
+		Response response = roomCreateService.create(createReq);
 		return ResponseEntity.ok(response);
 	}
 }

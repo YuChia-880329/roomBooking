@@ -73,6 +73,14 @@ public class RoomDaoInner {
 	}
 	
 	@Transactional
+	public RoomDto add(RoomDto room) {
+		
+		return trans.modelToDto(
+				dao.add(
+						trans.dtoToModel(room)));
+	}
+	
+	@Transactional
 	public RoomDto update(RoomDto room) {
 		
 		Room newRoom = trans.dtoToModel(room);

@@ -5,23 +5,42 @@ class Scene extends Component {
 
     render() {
 
-        const options = ['---- 請選擇 ----', '市景', '山景', '海景', '無窗', '其他'];
+        const {value} = this.props;
 
         return (
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>景觀 : </Form.Label>
                 <Col>
-                    <Form.Select>
-                        {options.map(
-                            opt => (
-                                <option key={opt}>{opt}</option>
-                            )
-                        )}
-                    </Form.Select>
+                    <Form.Control as='select' value={value.value} onChange={this.onChange}>
+                        {
+                            value.options.map(
+                                op => (
+                                    <option key={op.id} value={op.id}>{op.name}</option>
+                                )
+                            )              
+                        }
+                    </Form.Control>
                 </Col>
             </Form.Group>
         );
     }
+
+     // on
+     onChange = (event) => {
+
+        this.setter('value', event.target.value);
+    };
+
+
+    // setter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, value} = this.props;
+        setter.setScene({
+            ...value,
+            [colName] : colVal
+        }, onSet);
+    };
 }
 
 export default Scene;

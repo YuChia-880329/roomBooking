@@ -14,8 +14,7 @@ const constant = {
             allShowers : urls.backend.roomUpdate.allShowers,
             allScenes : urls.backend.roomUpdate.allScenes,
             allRooms : urls.backend.roomUpdate.allRooms,
-            roomInfo : urls.backend.roomUpdate.roomInfo,
-            update : urls.backend.roomUpdate.update
+            roomInfo : urls.backend.roomUpdate.roomInfo
         },
         config : {
             timeout : config.fetch.timeout
@@ -119,9 +118,9 @@ class RoomUpdate extends Component {
                 },
                 newImage : {
                     disabled : true,
-                    numbers : [1],
-                    hasfile : [], 
-                    index : 1
+                    numbers : [1, 2],
+                    hasfile : [],
+                    index : 2
                 },
                 updateBtn : {
                     disabled : true
@@ -426,12 +425,26 @@ class RoomUpdate extends Component {
             },
             newImage : {
                 ...updateForm.newImage,
-                disabled : !data.hasValue
+                disabled : !data.hasValue,
+                numbers : [],
+                hasfile : [],
+                index : 0
             },
             updateBtn : {
                 ...updateForm.updateBtn,
                 disabled : !data.hasValue
             }
+        }, () => {
+
+            const updateForm = this.state.updateForm;
+            this.setter('updateForm', {
+                ...updateForm,
+                newImage : {
+                    ...updateForm.newImage,
+                    numbers : [1, 2],
+                    index : 2
+                }
+            });
         });
     }
 

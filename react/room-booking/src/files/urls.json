@@ -30,6 +30,11 @@
             "allRooms" : "http://localhost:8086/roomBooking/backend/roomUpdate/allRooms",
             "roomInfo" : "http://localhost:8086/roomBooking/backend/roomUpdate/roomInfo",
             "update" : "http://localhost:8086/roomBooking/backend/roomUpdate/update"
+        },
+        "roomCreate" : {
+            "allShowers" : "http://localhost:8086/roomBooking/backend/roomCreate/allShowers",
+            "allScenes" : "http://localhost:8086/roomBooking/backend/roomCreate/allScenes",
+            "create" : "http://localhost:8086/roomBooking/backend/roomCreate/create"
         }
     }
 }

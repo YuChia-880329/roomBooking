@@ -35,6 +35,15 @@ public class ImageUtil {
 		Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 		return true;
 	}
+	public static boolean saveImg(String imgDirPath, int hotelId, int roomId, String imgName, MultipartFile file) throws IOException {
+		
+		createDirectory(imgDirPath, hotelId, roomId);
+		
+		Path path = getDirectoryPath(imgDirPath, hotelId, roomId).resolve(StringConcatUtil.concate(ROOM_IMG_PREFIX, imgName));
+		
+		Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+		return true;
+	}
 	
 	
 	
@@ -45,8 +54,22 @@ public class ImageUtil {
 		if(Files.notExists(path))
 			Files.createDirectory(path);
 	}
+	private static void createDirectory(String imgDirPath, int hotelId, int roomId) throws IOException {
+		
+		Path pathRoot = getDirectoryPath(imgDirPath, hotelId);
+		if(Files.notExists(pathRoot))
+			Files.createDirectory(pathRoot);
+		
+		Path path = getDirectoryPath(imgDirPath, hotelId, roomId);
+		if(Files.notExists(path))
+			Files.createDirectory(path);
+	}
 	private static Path getDirectoryPath(String imgDirPath, int hotelId) {
 		
 		return Paths.get(imgDirPath, String.valueOf(hotelId));
+	}
+	private static Path getDirectoryPath(String imgDirPath, int hotelId, int roomId) {
+		
+		return Paths.get(imgDirPath, String.valueOf(hotelId), String.valueOf(roomId));
 	}
 }

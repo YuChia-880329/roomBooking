@@ -110,7 +110,8 @@ class HotelInfo extends Component {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
-                closeConfirmModal : this.props.fctn.closeConfirmModal
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
+                hotelInfo : this.hotelInfo
             }
         };
 

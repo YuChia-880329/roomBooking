@@ -56,6 +56,8 @@ class Main extends Component {
             roomCreate : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
                 checkLogin : this.checkLogin
             },
             bookingOrderList : {
