@@ -290,6 +290,7 @@ class HotelInfo extends Component {
     afterHotelInfo = (data) => {
 
         const {infoForm} = this.state;
+        const {fctn} = this.props;
 
         this.setter('infoForm', {
             ...infoForm,
@@ -325,6 +326,9 @@ class HotelInfo extends Component {
                 imageName : data.image.imgName,
                 url : data.image.url
             }
+        }, () => {
+
+            fctn.setNavBarHotelName(data.name);
         });
     };
 

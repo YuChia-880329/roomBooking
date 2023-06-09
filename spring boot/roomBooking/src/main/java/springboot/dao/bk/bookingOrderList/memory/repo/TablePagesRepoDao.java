@@ -15,14 +15,19 @@ import springboot.memory.repo.bk.bookingOrderList.TablePagesRepo;
 import springboot.trans.bk.bookingOrderList.obj.repo.tablePages.InputTrans;
 import springboot.trans.bk.bookingOrderList.obj.repo.tablePages.OutputTrans;
 
-@Repository("bk.bookingOrderList.memory.repo.TablePagesRepoDAO")
+@Repository("bk.bookingOrderList.memory.repo.TablePagesRepoDao")
 @SessionScope
-public class TablePagesRepoDAO extends RepoDao<Input, TablePages, Output, InputDto, OutputDto, 
+public class TablePagesRepoDao extends RepoDao<Input, TablePages, Output, InputDto, OutputDto, 
 		TablePagesRepo, InputTrans, OutputTrans> {
 
-	public TablePagesRepoDAO(TablePagesRepo repo) {
+	public TablePagesRepoDao(TablePagesRepo repo) {
 		
 		super(repo);
+	}
+	
+	public void needUpdate() {
+		
+		repo.needUpdate();
 	}
 
 	@Autowired

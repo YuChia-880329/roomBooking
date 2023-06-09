@@ -30,21 +30,7 @@ class UsedNum extends Component {
     // on
     onChange = (event) => {
 
-        const {setter, getter} = this.props;
-
-        const usedNum = parseInt(event.target.value, 10);
-        const totalNum = parseInt(getter.getTotalNum().value, 10);
-        const invalidNum = parseInt(getter.getInValidNum().value, 10);
-        const invalidNumMax = totalNum-usedNum;
-
-        this.setter('value', event.target.value, () => {
-
-            setter.setInValidNum({
-                ...getter.getInValidNum(),
-                options : Array.from({length : invalidNumMax+1}, (v, i) => i),
-                value : invalidNum<=invalidNumMax ? `${invalidNum}` : `${invalidNumMax}`
-            });
-        });
+        this.setter('value', event.target.value);
     };
 
 

@@ -122,7 +122,9 @@ public class RoomDao {
 	
 	public Room update(Room room) {
 		
-		return entityManager.merge(room);
+		Room newRoom = entityManager.merge(room);
+		entityManager.flush();
+		return newRoom;
 	}
 
 	

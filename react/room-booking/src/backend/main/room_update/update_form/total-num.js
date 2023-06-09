@@ -31,23 +31,23 @@ class TotalNum extends Component {
             let usedNum = parseInt(getter.getUsedNum().value, 10);
             let invalidNum = parseInt(getter.getInValidNum().value, 10);
     
-            const usedNumMax = totalNum;
-            usedNum = usedNum<usedNumMax ? usedNum : usedNumMax;
-            const invalidNumMax = totalNum-usedNum;
+            const invalidNumMax = totalNum;
             invalidNum = invalidNum<invalidNumMax ? invalidNum : invalidNumMax;
+            const usedNumMax = totalNum-invalidNum;
+            usedNum = usedNum<usedNumMax ? usedNum : usedNumMax;
     
             this.setter('value', event.target.value, () => {
     
-                setter.setUsedNum({
-                    ...getter.getUsedNum(),
-                    options : Array.from({length : usedNumMax+1}, (v, i) => i),
-                    value : `${usedNum}`
+                setter.setInValidNum({
+                    ...getter.getInValidNum(),
+                    options : Array.from({length : invalidNumMax+1}, (v, i) => i),
+                    value : `${invalidNum}`
                 }, () => {
-    
-                    setter.setInValidNum({
-                        ...getter.getInValidNum(),
-                        options : Array.from({length : invalidNumMax+1}, (v, i) => i),
-                        value : `${invalidNum}`
+
+                    setter.setUsedNum({
+                        ...getter.getUsedNum(),
+                        options : Array.from({length : usedNumMax+1}, (v, i) => i),
+                        value : `${usedNum}`
                     });
                 });
             });
@@ -55,14 +55,14 @@ class TotalNum extends Component {
 
             this.setter('value', event.target.value, () => {
 
-                setter.setUsedNum({
-                    ...getter.getUsedNum(),
+                setter.setInValidNum({
+                    ...getter.getInValidNum(),
                     options : [],
                     value : ''
                 }, () => {
-    
-                    setter.setInValidNum({
-                        ...getter.getInValidNum(),
+
+                    setter.setUsedNum({
+                        ...getter.getUsedNum(),
                         options : [],
                         value : ''
                     });

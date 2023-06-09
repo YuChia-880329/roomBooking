@@ -11,7 +11,7 @@ import springboot.bean.dto.bk.roomList.obj.repo.tablePages.SearchParamDto;
 import springboot.bean.dto.bk.roomList.obj.repo.tablePages.TablePageDto;
 import springboot.bean.dto.bk.roomList.vo.searchTable.SearchTableReqDto;
 import springboot.bean.dto.bk.roomList.vo.searchTable.SearchTableRespDto;
-import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDAO;
+import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDao;
 import springboot.service.PaginationService;
 
 @Service("bk.roomList.SearchTableService")
@@ -22,8 +22,8 @@ public class SearchTableService {
 	
 	
 	@Autowired
-	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDAO")
-	private TablePagesRepoDAO roomTableRowsRepoDAO;
+	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDao")
+	private TablePagesRepoDao roomTableRowsRepoDao;
 	@Autowired
 	@Qualifier("PaginationService")
 	private PaginationService paginationService;
@@ -38,7 +38,7 @@ public class SearchTableService {
 		InputDto input = InputDto.builder()
 				.searchParam(toSearchParamObj(searchTableReq))
 				.build();
-		OutputDto output = roomTableRowsRepoDAO.getObj(input);
+		OutputDto output = roomTableRowsRepoDao.getObj(input);
 		TablePageDto tablePageDto = output.getTablePage();
 		
 		return SearchTableRespDto.builder()

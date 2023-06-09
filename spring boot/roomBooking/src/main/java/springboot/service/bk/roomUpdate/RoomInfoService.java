@@ -74,7 +74,7 @@ public class RoomInfoService {
 		
 		return UsedNumDto.builder()
 				.options(Stream.iterate(0, v -> v+1)
-						.limit(hasValue ? room.getTotalNum()+1 : 0)
+						.limit(hasValue ? room.getTotalNum()-room.getInvalidNum()+1 : 0)
 						.collect(Collectors.toList()))
 				.value(hasValue ? room.getUsedNum() : 0)
 				.build();
@@ -83,7 +83,7 @@ public class RoomInfoService {
 		
 		return InvalidNumDto.builder()
 				.options(Stream.iterate(0, v -> v+1)
-						.limit(hasValue ? room.getTotalNum()-room.getUsedNum()+1 : 0)
+						.limit(hasValue ? room.getTotalNum()+1 : 0)
 						.collect(Collectors.toList()))
 				.value(hasValue ? room.getInvalidNum() : 0)
 				.build();

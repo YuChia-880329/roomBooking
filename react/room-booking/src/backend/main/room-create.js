@@ -65,7 +65,7 @@ class RoomCreate extends Component {
                     numbers : [1, 2],
                     hasfile : [],
                     index : 2
-                },
+                }
             }
         };
     }
@@ -112,7 +112,8 @@ class RoomCreate extends Component {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
-                closeConfirmModal : this.props.fctn.closeConfirmModal
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
+                initInput : this.initInput
             }
         };
 
@@ -131,6 +132,72 @@ class RoomCreate extends Component {
     allScenes = () => {
 
         this.allScenesFetch();
+    };
+    initInput = () => {
+
+        const {createForm} = this.state;
+
+        this.setter('createForm', {
+            ...createForm,
+            validated : false,
+            name : {
+                ...createForm.name,
+                value : ''
+            },
+            totalNum : {
+                ...createForm.totalNum,
+                value : ''
+            },
+            inValidNum : {
+                ...createForm.inValidNum,
+                options : [],
+                value : ''
+            },
+            price : {
+                ...createForm.price,
+                value : ''
+            },
+            singleBedNum : {
+                ...createForm.singleBedNum,
+                value : ''
+            },
+            doubleBedNum : {
+                ...createForm.doubleBedNum,
+                value : ''
+            },
+            area : {
+                ...createForm.area,
+                value : ''
+            },
+            scene : {
+                ...createForm.scene,
+                value : '1'
+            },
+            shower : {
+                ...createForm.shower,
+                values : []
+            },
+            status : {
+                ...createForm.status,
+                value : 1
+            },
+            newImage : {
+                ...createForm.newImage,
+                numbers : [],
+                hasfile : [],
+                index : 0
+            }
+        }, () => {
+
+            const createForm = this.state.createForm;
+            this.setter('createForm', {
+                ...createForm,
+                newImage : {
+                    numbers : [1, 2],
+                    index : 2
+                }
+            });
+        });
     };
     
 

@@ -1,6 +1,6 @@
 import urls from '../files/urls.json';
 import config from '../files/config.json';
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, createRef } from 'react';
 import HotelInfo from './main/hotel-info';
 import RoomList from './main/room-list';
 import RoomCreate from './main/room-create';
@@ -23,6 +23,8 @@ const constant = {
 }
 class Main extends Component {
 
+    backendNavbarRef = createRef();
+
     constructor(props){
 
         super(props);
@@ -34,12 +36,20 @@ class Main extends Component {
     render() {
 
         const fctn = {
-            hotelInfo : {
+            backendNavbar : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
                 closeConfirmModal : this.props.fctn.closeConfirmModal,
                 checkLogin : this.checkLogin
+            },
+            hotelInfo : {
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
+                checkLogin : this.checkLogin,
+                setNavBarHotelName : name => this.backendNavbarRef.current.setter('hotelName', name)
             },
             roomList : {
                 showInformModal : this.props.fctn.showInformModal,
@@ -70,7 +80,7 @@ class Main extends Component {
         return (
             <Fragment>
                 <div>
-                    <BackendNavbar />
+                    <BackendNavbar fctn={fctn.backendNavbar} ref={this.backendNavbarRef} />
                 </div>
                 <Routes>
                     <Route path='/' element={<Navigate to='./hotelInfo' />} />

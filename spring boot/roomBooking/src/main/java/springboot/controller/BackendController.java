@@ -59,6 +59,20 @@ public class BackendController {
 		Response response = bkControllerService.checkLogin();
 		return ResponseEntity.ok(response);
 	}
+	@GetMapping("/hotelName")
+	public ResponseEntity<Response> hotelName(){
+		
+		Response response = bkControllerService.hotelName();
+		return ResponseEntity.ok(response);
+	}
+	@PostMapping("/logout")
+	public ResponseEntity<Response> logout(){
+		
+		Response response = bkControllerService.logout();
+		return ResponseEntity.ok(response);
+	}
+	
+	
 	
 	// login
 	@PostMapping("/login/login")

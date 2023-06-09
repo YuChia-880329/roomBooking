@@ -20,6 +20,7 @@ import springboot.bean.dto.bk.roomCreate.vo.create.NewImgDto;
 import springboot.bean.dto.model.RoomDto;
 import springboot.bean.dto.model.ShowerDto;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
+import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDao;
 import springboot.dao.model.inner.RoomDaoInner;
 import springboot.dao.model.inner.ShowerDaoInner;
 import springboot.exception.NotLoginException;
@@ -40,6 +41,9 @@ public class CreateService {
 	@Autowired
 	@Qualifier("model.inner.ShowerDaoInner")
 	private ShowerDaoInner showerDaoInner;
+	@Autowired
+	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDao")
+	private TablePagesRepoDao tablePagesRepoDao;
 	
 	@Value("${attr.imgDirPath}")
 	private String imgDirPath;
@@ -64,13 +68,18 @@ public class CreateService {
 		}else {
 			
 			int roomId = room.getId();
-			createReq.getNewImgs().stream()
-				.forEach(ni -> saveImg(login.getHotelId(), roomId, ni.getImgName(), ni.getFile()));
+			
 			room.setRoomImgs(toRoomImgModels(createReq.getNewImgs(), roomId));
 			room = roomDaoInner.update(room);
 			if(room == null)
 				success = false;
+			else
+				createReq.getNewImgs().stream()
+					.forEach(ni -> saveImg(login.getHotelId(), roomId, ni.getImgName(), ni.getFile()));
 		}
+		
+		if(success)
+			tablePagesRepoDao.needUpdate();
 		
 		return CreateRespDto.builder()
 				.success(success)

@@ -1,6 +1,8 @@
 {
     "backend" : {
         "checkLogin" : "http://localhost:8086/roomBooking/backend/checkLogin",
+        "hotelName" : "http://localhost:8086/roomBooking/backend/hotelName",
+        "logout" : "http://localhost:8086/roomBooking/backend/logout",
         "login" : {
             "login" : "http://localhost:8086/roomBooking/backend/login/login"
         },

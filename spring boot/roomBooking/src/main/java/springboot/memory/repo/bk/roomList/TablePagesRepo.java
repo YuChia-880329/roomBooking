@@ -54,6 +54,11 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 		
 		this.needUpdate = false;
 	}
+	
+	public void needUpdate() {
+		
+		this.needUpdate = true;
+	}
 
 	@Override
 	protected Input initialInput() {
@@ -81,7 +86,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 	@Override
 	protected boolean isNeedUpdate(Input input) {
 		
-		return 	needUpdate ||
+		return needUpdate ||
 				!searchParamService.equals(input.getSearchParam(), lastInput.getSearchParam()) || 
 				storeObj.getTablePageMap().get(input.getSearchParam().getPage()) == null;
 	}
@@ -132,6 +137,9 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 			
 			tablePageMap.put(p, toTablePage(rooms, p));
 		}
+		
+		if(needUpdate)
+			needUpdate = false;
 		
 		return TablePages.builder()
 				.maxPage(maxPage)

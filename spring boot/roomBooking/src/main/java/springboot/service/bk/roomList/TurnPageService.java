@@ -9,15 +9,15 @@ import springboot.bean.dto.bk.roomList.obj.repo.tablePages.OutputDto;
 import springboot.bean.dto.bk.roomList.obj.repo.tablePages.TablePageDto;
 import springboot.bean.dto.bk.roomList.vo.turnPage.TurnPageReqDto;
 import springboot.bean.dto.bk.roomList.vo.turnPage.TurnPageRespDto;
-import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDAO;
+import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDao;
 import springboot.service.PaginationService;
 
 @Service("bk.roomList.TurnPageService")
 public class TurnPageService {
 
 	@Autowired
-	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDAO")
-	private TablePagesRepoDAO roomTableRowsRepoDAO;
+	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDao")
+	private TablePagesRepoDao roomTableRowsRepoDao;
 	@Autowired
 	@Qualifier("PaginationService")
 	private PaginationService paginationService;
@@ -27,9 +27,9 @@ public class TurnPageService {
 	
 	public TurnPageRespDto turnPage(TurnPageReqDto turnPageReq) {
 		
-		InputDto input = roomTableRowsRepoDAO.getLastInput();
+		InputDto input = roomTableRowsRepoDao.getLastInput();
 		input.getSearchParam().setPage(turnPageReq.getPage());
-		OutputDto output = roomTableRowsRepoDAO.getObj(input);
+		OutputDto output = roomTableRowsRepoDao.getObj(input);
 		TablePageDto tablePageDto = output.getTablePage();
 		
 		return TurnPageRespDto.builder()

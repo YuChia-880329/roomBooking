@@ -20,6 +20,7 @@ import springboot.bean.dto.bk.roomUpdate.vo.update.UpdateRespDto;
 import springboot.bean.dto.model.RoomDto;
 import springboot.bean.dto.model.ShowerDto;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
+import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDao;
 import springboot.dao.model.inner.RoomDaoInner;
 import springboot.dao.model.inner.RoomImgDaoInner;
 import springboot.dao.model.inner.ShowerDaoInner;
@@ -44,6 +45,9 @@ public class UpdateService {
 	@Autowired
 	@Qualifier("model.inner.RoomImgDaoInner")
 	private RoomImgDaoInner roomImgDaoInner;
+	@Autowired
+	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDao")
+	private TablePagesRepoDao tablePagesRepoDao;
 	
 	@Value("${attr.imgDirPath}")
 	private String imgDirPath;
@@ -57,13 +61,27 @@ public class UpdateService {
 		
 		RoomDto room = toRoomVo(updateReq, login.getHotelId());
 		
-		updateReq.getNewImgs().stream()
-			.forEach(ni -> saveImg(login.getHotelId(), updateReq.getId(), ni.getImgName(), ni.getFile()));
+		room.getRoomImgs().forEach(ri -> ri.setImageOrder(ri.getImageOrder() * -1));
 		room = roomDaoInner.update(room);
 		
 		boolean success = true;
-		if(room == null)
+		if(room == null) {
+			
 			success = false;
+		}else {
+			
+			room.getRoomImgs().forEach(ri -> ri.setImageOrder(ri.getImageOrder() * -1));
+			room = roomDaoInner.update(room);
+			
+			if(room == null)
+				success = false;
+			else
+				updateReq.getNewImgs().stream()
+					.forEach(ni -> saveImg(login.getHotelId(), updateReq.getId(), ni.getImgName(), ni.getFile()));
+		}
+		
+		if(success)
+			tablePagesRepoDao.needUpdate();
 		
 		return UpdateRespDto.builder()
 				.success(success)
@@ -129,7 +147,7 @@ public class UpdateService {
 	private springboot.bean.dto.model.RoomImgDto toRoomImgModel(NewImgDto newImg, int order, int roomId){
 		
 		return springboot.bean.dto.model.RoomImgDto.builder()
-				.id(-1)
+				.id(0)
 				.imageName(newImg.getImgName())
 				.imageOrder(order)
 				.roomId(roomId)

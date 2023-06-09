@@ -349,6 +349,23 @@ class RoomUpdate extends Component {
 
         this.setter('updateForm', {
             ...updateForm,
+            type : {
+                ...updateForm.type,
+                options : !data.hasValue ? 
+                        updateForm.type.options : 
+                                updateForm.type.options.with(updateForm.type.options.reduce((a, c, i) => {
+
+                                    if(a !== -1)
+                                        return a;
+                                    else if(`${c.id}` === updateForm.type.value)
+                                        return i;
+                                    else
+                                        return -1;
+                                }, -1), {
+                                    id : updateForm.type.value,
+                                    name : data.roomName
+                                })
+            },
             name : {
                 ...updateForm.name,
                 disabled : !data.hasValue,

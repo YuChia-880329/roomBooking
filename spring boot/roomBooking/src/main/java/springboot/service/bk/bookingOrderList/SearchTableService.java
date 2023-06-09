@@ -11,7 +11,7 @@ import springboot.bean.dto.bk.bookingOrderList.obj.repo.tablePages.SearchParamDt
 import springboot.bean.dto.bk.bookingOrderList.obj.repo.tablePages.TablePageDto;
 import springboot.bean.dto.bk.bookingOrderList.vo.searchTable.SearchTableReqDto;
 import springboot.bean.dto.bk.bookingOrderList.vo.searchTable.SearchTableRespDto;
-import springboot.dao.bk.bookingOrderList.memory.repo.TablePagesRepoDAO;
+import springboot.dao.bk.bookingOrderList.memory.repo.TablePagesRepoDao;
 import springboot.service.PaginationService;
 
 @Service("bk.bookingOrderList.SearchTableService")
@@ -21,8 +21,8 @@ public class SearchTableService {
 	public static final int PAGES_PER_PAGE_GROUP = 3;
 	
 	@Autowired
-	@Qualifier("bk.bookingOrderList.memory.repo.TablePagesRepoDAO")
-	private TablePagesRepoDAO tablePagesRepoDAO;
+	@Qualifier("bk.bookingOrderList.memory.repo.TablePagesRepoDao")
+	private TablePagesRepoDao tablePagesRepoDao;
 	@Autowired
 	@Qualifier("bk.bookingOrderList.RepoService")
 	private RepoService repoService;
@@ -37,7 +37,7 @@ public class SearchTableService {
 		InputDto input = InputDto.builder()
 				.searchParam(toSearchParamObj(searchTableReq))
 				.build();
-		OutputDto output = tablePagesRepoDAO.getObj(input);
+		OutputDto output = tablePagesRepoDao.getObj(input);
 		TablePageDto tablePageDto = output.getTablePage();
 		
 		return SearchTableRespDto.builder()

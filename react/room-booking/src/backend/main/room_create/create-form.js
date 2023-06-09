@@ -231,13 +231,16 @@ class CreateForm extends Component {
     // after fetch
     afterCreate = (data) => {
 
-        const {fctn, value} = this.props;
+        const {fctn} = this.props;
 
         fctn.showInformModal(data.msg, () => {
 
             if(data.success){
 
-                this.setter('validated', false);
+                this.setter('validated', false, () => {
+
+                    fctn.initInput();
+                });
             }
             fctn.closeInformModal();
         });

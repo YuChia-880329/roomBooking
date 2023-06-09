@@ -9,15 +9,15 @@ import springboot.bean.dto.bk.bookingOrderList.obj.repo.tablePages.OutputDto;
 import springboot.bean.dto.bk.bookingOrderList.obj.repo.tablePages.TablePageDto;
 import springboot.bean.dto.bk.bookingOrderList.vo.changeOrder.ChangeOrderReqDto;
 import springboot.bean.dto.bk.bookingOrderList.vo.changeOrder.ChangeOrderRespDto;
-import springboot.dao.bk.bookingOrderList.memory.repo.TablePagesRepoDAO;
+import springboot.dao.bk.bookingOrderList.memory.repo.TablePagesRepoDao;
 import springboot.service.PaginationService;
 
 @Service("bk.bookingOrderList.ChangeOrderService")
 public class ChangeOrderService {
 
 	@Autowired
-	@Qualifier("bk.bookingOrderList.memory.repo.TablePagesRepoDAO")
-	private TablePagesRepoDAO roomTableRowsRepoDAO;
+	@Qualifier("bk.bookingOrderList.memory.repo.TablePagesRepoDao")
+	private TablePagesRepoDao roomTableRowsRepoDao;
 	@Autowired
 	@Qualifier("PaginationService")
 	private PaginationService paginationService;
@@ -27,9 +27,9 @@ public class ChangeOrderService {
 	
 	public ChangeOrderRespDto changeOrder(ChangeOrderReqDto changeOrderReq) {
 		
-		InputDto input = roomTableRowsRepoDAO.getLastInput();
+		InputDto input = roomTableRowsRepoDao.getLastInput();
 		input.getSearchParam().setBookingOrderTableOrder(changeOrderReq.getOrder());
-		OutputDto output = roomTableRowsRepoDAO.getObj(input);
+		OutputDto output = roomTableRowsRepoDao.getObj(input);
 		TablePageDto tablePageDto = output.getTablePage();
 		
 		return ChangeOrderRespDto.builder()

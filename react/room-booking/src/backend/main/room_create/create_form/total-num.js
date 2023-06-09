@@ -28,17 +28,14 @@ class TotalNum extends Component {
         const totalNum = parseInt(event.target.value, 10);
         if(totalNumStr!=='' &&  totalNum>=0){
 
-            let invalidNum = parseInt(getter.getInValidNum().value, 10);
-    
             const invalidNumMax = totalNum;
-            invalidNum = invalidNum<invalidNumMax ? invalidNum : invalidNumMax;
     
             this.setter('value', event.target.value, () => {
     
                 setter.setInValidNum({
                     ...getter.getInValidNum(),
                     options : Array.from({length : invalidNumMax+1}, (v, i) => i),
-                    value : `${invalidNum}`
+                    value : '0'
                 });
             });
         }else{

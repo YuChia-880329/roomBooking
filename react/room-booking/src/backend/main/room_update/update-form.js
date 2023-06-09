@@ -69,10 +69,10 @@ class UpdateForm extends Component {
                 setInValidNum : (val, onSet) => this.setter('inValidNum', val, onSet)
             },
             usedNum : {
-                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet),
-                setInValidNum : (val, onSet) => this.setter('inValidNum', val, onSet)
+                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet)
             },
             inValidNum : {
+                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet),
                 setInValidNum : (val, onSet) => this.setter('inValidNum', val, onSet)
             },
             price : {
@@ -113,9 +113,9 @@ class UpdateForm extends Component {
                 getUsedNum : () => value.usedNum,
                 getInValidNum : () => value.inValidNum
             },
-            usedNum : {
+            invalidNum : {
                 getTotalNum : () => value.totalNum,
-                getInValidNum : () => value.inValidNum
+                getUsedNum : () => value.usedNum
             },
             roomImage : {
                 getImageOrder : () => value.imageOrder
@@ -153,10 +153,10 @@ class UpdateForm extends Component {
                         <TotalNum value={value.totalNum} setter={setter.totalNum} getter={getter.totalNum} />
                     </Col>
                     <Col>
-                        <UsedNum value={value.usedNum} setter={setter.usedNum} getter={getter.usedNum} />
+                        <UsedNum value={value.usedNum} setter={setter.usedNum} />
                     </Col>
                     <Col>
-                        <InvalidNum value={value.inValidNum} setter={setter.inValidNum} />
+                        <InvalidNum value={value.inValidNum} setter={setter.inValidNum} getter={getter.invalidNum} />
                     </Col>
                 </Row>
                 <Row>
