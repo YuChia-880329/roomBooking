@@ -34,13 +34,16 @@ class Hotel extends Component {
                                 </div>
                                 <div className='mt-auto'>
                                     <div className='me-2'>
-                                        <Stack direction='horizontal' className='justify-content-end'>
-                                            <Card.Text className='text-danger fs-4'>
+                                        <Stack direction='horizontal' gap={3} className='justify-content-end mb-2'>
+                                            <Card.Text className='mb-0 fs-3'>
+                                                <span>標準單人房</span>
+                                            </Card.Text>
+                                            <Card.Text className='mb-0 text-danger fs-4'>
                                                 只剩 <span>3</span> 間
                                             </Card.Text>
                                         </Stack>
                                         <Stack direction='horizontal' className='justify-content-end'>
-                                            <Card.Text className='text-secondary fs-3'>
+                                            <Card.Text className='mb-0 text-secondary fs-3'>
                                                 $ <span>1000</span> 元
                                             </Card.Text>
                                         </Stack>

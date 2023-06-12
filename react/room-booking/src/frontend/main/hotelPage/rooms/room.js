@@ -35,8 +35,12 @@ class Room extends Component {
                                     <Card.Title className='mt-1 fs-1 fw-bold'>標準雙人房</Card.Title>
                                     <div className='me-4 mt-5'>
                                         <Stack direction='horizontal' className='justify-content-evenly'>
-                                            <Card.Text className='text-danger mt-1 mb-0 fs-3 align-self-center'>只剩 <span>3</span> 間</Card.Text>
-                                            <Card.Text className='text-secondary mb-0 fs-2 align-self-center'>$ <span>1000</span> 元</Card.Text>
+                                            <Card.Text className='text-danger mt-1 mb-0 fs-3 align-self-center'>
+                                                只剩 <span>3</span> 間
+                                            </Card.Text>
+                                            <Card.Text className='text-secondary mb-0 fs-2 align-self-center'>
+                                                $ <span>1000</span> 元 / 間
+                                            </Card.Text>
                                         </Stack>
                                         <Feature />
                                     </div>

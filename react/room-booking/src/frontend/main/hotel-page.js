@@ -1,11 +1,12 @@
 import houseIcon from '../../image/house-icon.png';
 import React, { Component, Fragment } from 'react';
 import { Col, Image, Row, Stack } from 'react-bootstrap';
-import FilterForm from './hotelImage/filter-form';
+import FilterForm from './hotelPage/filter-form';
 import FrontendMain from '../../hoc/frontend-main';
-import Introduction from './hotelImage/introduction';
-import Rooms from './hotelImage/rooms';
+import Introduction from './hotelPage/introduction';
+import Rooms from './hotelPage/rooms';
 import Pagn from '../../hoc/pagn';
+import BuyModal from './hotelPage/buy-modal';
 
 class HotelPage extends Component {
 
@@ -73,6 +74,7 @@ class HotelPage extends Component {
                         <Pagn pagn={pagination} />
                     </div>
                 </Stack>
+                <BuyModal />
             </Fragment>
         );
     }

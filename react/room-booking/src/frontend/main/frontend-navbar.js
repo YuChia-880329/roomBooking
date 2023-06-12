@@ -14,7 +14,7 @@ class FrontendNavbar extends Component {
         return (
             <Navbar className='navbar-dark bg-secondary bg-gradient' expand='lg' fixed='top' collapseOnSelect>
                 <Container fluid className='px-5'>
-                    <Navbar.Brand style={brandStyle}>
+                    <Navbar.Brand as={Nav.Link} style={brandStyle}>
                         訂房網
                     </Navbar.Brand>
                     <Navbar.Toggle />

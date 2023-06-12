@@ -27,23 +27,31 @@ class Item extends Component {
                                     <Stack direction='horizontal'>
                                         <Card.Title className='fs-1 fw-bold mb-0'>XXX飯店</Card.Title>
                                         <div className='ms-auto'>
-                                            <Image src={trashCanIcon} style={trashCanIconStyle} />
+                                            <a href='#'>
+                                                <Image src={trashCanIcon} style={trashCanIconStyle} />
+                                            </a>
                                         </div>
                                     </Stack>
                                     
                                     <div className='ms-3 mt-5'>
                                         <Card.Text className='fs-4 text-info'>
-                                            <span>1</span> x 標準雙人房
+                                            <span>1</span> x <span>標準雙人房</span>
                                         </Card.Text>
-                                        <Card.Text className='fs-4 text-warning'>
-                                            <span>2023/5/12</span> ~ <span>2023/5/13</span>
-                                        </Card.Text>
+                                        <Stack direction='horizontal' gap={2}>
+                                            <Card.Text className='fs-4 mb-0 text-warning'>
+                                                <span>2023/5/12</span>(預計 <span>16 : 00</span> 入住)
+                                            </Card.Text>
+                                            <Card.Text className='fs-4 mb-0 text-warning'> ~ </Card.Text>
+                                            <Card.Text className='fs-4 mb-0 text-warning'>
+                                                <span>2023/5/13</span>
+                                            </Card.Text>
+                                        </Stack>
                                     </div>
                                 </div>
                                 <div className='mt-auto'>
                                     <Stack direction='horizontal' className='justify-content-end'>
                                         <Card.Text className='fs-3 text-secondary'>
-                                            $ <span>1000</span>
+                                            $ <span>1000</span> 元 / 間
                                         </Card.Text>
                                     </Stack>
                                 </div>

@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import InformModal from './hoc/modal/inform-modal';
 import ConfirmModal from './hoc/modal/confirm-modal';
 import Main from './frontend/main';
+import Login from './frontend/login';
+import Signup from './frontend/signup';
 
 class Frontend extends Component {
 
@@ -42,6 +44,8 @@ class Frontend extends Component {
         return (
             <Fragment>
                 <Main />
+                {/* <Login /> */}
+                {/* <Signup /> */}
                 <InformModal msg={informModal.msg} show={informModal.show} onHide={informModal.onHide} />
                 <ConfirmModal msg={confirmModal.msg} show={confirmModal.show} onHide={confirmModal.onHide} 
                         onConfirm={confirmModal.onConfirm} />

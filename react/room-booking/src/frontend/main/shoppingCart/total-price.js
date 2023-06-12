@@ -16,7 +16,7 @@ class TotalPrice extends Component {
                     <Stack direction='horizontal'>
                         <h3>總價</h3>
                         <h2 className='text-secondary ms-auto'>
-                            $ <span>3000</span>
+                            $ <span>3000</span> 元
                         </h2>
                     </Stack>
                     <PayMethod />
