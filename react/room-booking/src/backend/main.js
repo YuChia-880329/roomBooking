@@ -79,9 +79,7 @@ class Main extends Component {
         
         return (
             <Fragment>
-                <div>
-                    <BackendNavbar fctn={fctn.backendNavbar} ref={this.backendNavbarRef} />
-                </div>
+                <BackendNavbar fctn={fctn.backendNavbar} ref={this.backendNavbarRef} />
                 <Routes>
                     <Route path='/' element={<Navigate to='./hotelInfo' />} />
                     <Route path='/hotelInfo' element={<HotelInfo fctn={fctn.hotelInfo} />} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Backend from './backend';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Frontend from './frontend';
 
 class App extends Component {
@@ -9,8 +9,10 @@ class App extends Component {
         
         return (
             <BrowserRouter>
-                <Backend />
-                <Frontend />
+                <Routes>
+                    <Route path='/roomBooking/backend/*' element={<Backend />} />
+                    <Route path='/roomBooking/*' element={<Frontend />} />
+                </Routes>
             </BrowserRouter>
         );
     }

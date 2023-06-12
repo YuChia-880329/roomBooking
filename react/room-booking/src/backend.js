@@ -44,8 +44,8 @@ class Backend extends Component {
         return (
             <Fragment>
                 <Routes>
-                    <Route path='/backend/login' element={<Login fctn={fctn.login} />} />
-                    <Route path='/backend/*' element={<Main fctn={fctn.main} />} />
+                    <Route path='/login' element={<Login fctn={fctn.login} />} />
+                    <Route path='/*' element={<Main fctn={fctn.main} />} />
                 </Routes>
                 <InformModal msg={informModal.msg} show={informModal.show} onHide={informModal.onHide} />
                 <ConfirmModal msg={confirmModal.msg} show={confirmModal.show} onHide={confirmModal.onHide} 
