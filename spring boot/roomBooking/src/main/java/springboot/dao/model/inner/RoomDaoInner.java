@@ -1,5 +1,6 @@
 package springboot.dao.model.inner;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import enumeration.RoomStatus;
 import enumeration.bk.roomList.RoomTableOrder;
+import enumeration.fr.home.Num;
 import springboot.bean.dto.model.RoomDto;
 import springboot.bean.model.Room;
 import springboot.bean.model.RoomImg;
@@ -70,6 +72,15 @@ public class RoomDaoInner {
 		
 		return dao.queryRoomById(id)
 				.map(room -> trans.modelToDto(room));
+	}
+	public Long queryFrontendHotelRoomsCount(LocalDate checkinDate, LocalDate checkoutDate, Num num, String sectionCode){
+		
+		return dao.queryFrontendHotelRoomsCount(checkinDate, checkoutDate, num, sectionCode);
+	}
+	public List<RoomDto> queryFrontendHotelRooms(LocalDate checkinDate, LocalDate checkoutDate, Num num, String sectionCode, 
+			int startRow, int maxRowNum){
+		
+		return trans.modelListToDtoList(dao.queryFrontendHotelRooms(checkinDate, checkoutDate, num, sectionCode, startRow, maxRowNum));
 	}
 	
 	@Transactional
