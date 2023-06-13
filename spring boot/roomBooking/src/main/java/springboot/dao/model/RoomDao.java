@@ -27,10 +27,13 @@ public class RoomDao {
 	public static final String NAME_ATTRIBUTE_NAME = "name";
 	public static final String TOTAL_NUM_ATTRIBUTE_NAME = "totalNum";
 	public static final String INVALID_NUM_ATTRIBUTE_NAME = "invalidNum";
+	
 	public static final String USED_NUM_ATTRIBUTE_NAME = "usedNum";
+	
 	public static final String PRICE_ATTRIBUTE_NAME = "price";
 	public static final String SINGLE_BED_NUM_ATTRIBUTE_NAME = "singleBedNum";
 	public static final String DOUBLE_BED_NUM_ATTRIBUTE_NAME = "doubleBedNum";
+	public static final String PEOPLE_NUM_ATTRIBUTE_NAME = "peopleNum";
 	public static final String AREA_ATTRIBUTE_NAME = "area";
 	public static final String SCENE_ID_ATTRIBUTE_NAME = "sceneId";
 	public static final String HOTEL_ID_ATTRIBUTE_NAME = "hotelId";

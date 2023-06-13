@@ -12,8 +12,6 @@ import springboot.trans.model.SectionTrans;
 @Repository("model.inner.SectionDaoInner")
 public class SectionDaoInner extends DaoInner<Section, String, SectionDto, SectionTrans, SectionDao> {
 
-
-
 	@Autowired
 	@Qualifier("model.SectionDao")
 	@Override

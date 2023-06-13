@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 
-const constant = {
-    options : [
-        '台北', '台中', '高雄'
-    ]
-}
-
 class Section extends Component {
 
     render() {
@@ -15,11 +9,11 @@ class Section extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>地區 : </Form.Label>
                 <Col>
-                    <Form.Control as='select'>
+                    <Form.Control as='select' value={this.getter('value')} onChange={this.onChange}>
                         {
-                            constant.options.map(
+                            this.getter('options').map(
                                 op => (
-                                    <option key={op} value={op}>{op}</option>
+                                    <option key={op.code} value={op.code}>{op.name}</option>
                                 )
                             )          
                         }
@@ -27,6 +21,29 @@ class Section extends Component {
                 </Col>
             </Form.Group>
         );
+    }
+
+    
+    // on
+    onChange = (event) => {
+
+        this.setter('value', event.target.value);
+    };
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setSection({
+            ...getter.getSection(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getSection()[colName];
     }
 }
 

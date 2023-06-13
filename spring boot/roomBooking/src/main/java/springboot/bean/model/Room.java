@@ -43,14 +43,14 @@ public class Room {
 	private int totalNum;
 	@Column(name = "INVALID_NUM")
 	private int invalidNum;
-	@Column(name = "USED_NUM")
-	private int usedNum;
 	@Column(name = "PRICE")
 	private int price;
 	@Column(name = "SINGLE_BED_NUM")
 	private int singleBedNum;
 	@Column(name = "DOUBLE_BED_NUM")
 	private int doubleBedNum;
+	@Column(name = "PEOPLE_NUM")
+	private int peopleNum;
 	@Column(name = "AREA")
 	private int area;
 	@Column(name = "SCENE_ID")

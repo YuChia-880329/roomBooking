@@ -18,16 +18,39 @@ class FilterForm extends Component {
     // jsx
     Content = () => {
 
+        const setter = {
+            date : {
+                setDate : (colVal, onSet) => this.setter('date', colVal, onSet)
+            },
+            number : {
+                setNumber : (colVal, onSet) => this.setter('number', colVal, onSet)
+            },
+            section : {
+                setSection : (colVal, onSet) => this.setter('section', colVal, onSet)
+            }
+        };
+        const getter = {
+            date : {
+                getDate : () => this.getter('date')
+            },
+            number : {
+                getNumber : () => this.getter('number')
+            },
+            section : {
+                getSection : () => this.getter('section')
+            }
+        }
+
         return (
             <Form>
                 <Stack gap={5}>
-                    <Date />
+                    <Date setter={setter.date} getter={getter.date} />
                     <Row>
                         <Col>
-                            <Number />
+                            <Number setter={setter.number} getter={getter.number} />
                         </Col>
                         <Col>
-                            <Section />
+                            <Section setter={setter.section} getter={getter.section} />
                         </Col>
                     </Row>
                     <Stack direction='horizontal' className='justify-content-end'>
@@ -37,6 +60,23 @@ class FilterForm extends Component {
             </Form>
         );
     };
+
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setFilterForm({
+            ...getter.getFilterForm(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getFilterForm()[colName];
+    }
 }
 
 export default FilterForm;

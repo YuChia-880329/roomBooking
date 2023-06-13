@@ -49,6 +49,7 @@ class ShoppingCart extends Component {
         return (
             <Fragment>
                 <h1>您的購物車</h1>
+                <hr />
                 <div className='mt-5'>
                     <Row>
                         <Col xs={8}>

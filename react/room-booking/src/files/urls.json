@@ -38,5 +38,10 @@
             "allScenes" : "http://localhost:8086/roomBooking/backend/roomCreate/allScenes",
             "create" : "http://localhost:8086/roomBooking/backend/roomCreate/create"
         }
+    },
+    "frontend" : {
+        "home" : {
+            "allSections" : "http://localhost:8086/roomBooking/frontend/home/allSections"
+        }
     }
 }

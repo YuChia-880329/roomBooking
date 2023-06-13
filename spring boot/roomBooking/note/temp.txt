@@ -1,0 +1,39 @@
+SELECT 
+    T.ID,
+    R.NAME,
+    R.TOTAL_NUM,
+    R.INVALID_NUM,
+    R.PRICE,
+    R.SINGLE_BED_NUM,
+    R.DOUBLE_BED_NUM,
+    R.PEOPLE_NUM,
+    R.AREA,
+    R.SCENE_ID,
+    R.HOTEL_ID,
+    R.STATUS
+FROM(
+    SELECT 
+        R.ID ID
+    FROM
+        ROOM R
+    LEFT JOIN
+        BOOKING_ORDER B
+    ON
+        R.ID = B.ROOM_ID
+    LEFT JOIN
+        HOTEL H
+    ON
+        R.HOTEL_ID = H.ID
+    WHERE
+        (B.CHECKIN_DATE >= TO_DATE('2023-04-18', 'YYYY-MM-DD') OR B.CHECKOUT_DATE <=  TO_DATE('2023-04-17', 'YYYY-MM-DD') 
+            OR B.CHECKIN_DATE IS NULL OR B.CHECKOUT_DATE IS NULL) AND
+        R.PEOPLE_NUM >= 2 AND
+        H.SECTION_CODE = 'TPE'
+    GROUP BY 
+        R.ID
+) T
+JOIN
+    ROOM R
+ON 
+    T.ID = R.ID
+ORDER BY PEOPLE_NUM ASC, PRICE ASC;

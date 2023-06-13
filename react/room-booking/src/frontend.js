@@ -28,22 +28,22 @@ class Frontend extends Component {
     render() {
 
         const {informModal, confirmModal} = this.state;
-        // const fctn = {
-        //     login : {
-        //         showInformModal : this.showInformModal,
-        //         closeInformModal : this.closeInformModal
-        //     },
-        //     main : {
-        //         showInformModal : this.showInformModal,
-        //         closeInformModal : this.closeInformModal,
-        //         showConfirmModal : this.showConfirmModal,
-        //         closeConfirmModal : this.closeConfirmModal
-        //     }
-        // };
+        const fctn = {
+            // login : {
+            //     showInformModal : this.showInformModal,
+            //     closeInformModal : this.closeInformModal
+            // },
+            main : {
+                showInformModal : this.showInformModal,
+                closeInformModal : this.closeInformModal
+                // showConfirmModal : this.showConfirmModal,
+                // closeConfirmModal : this.closeConfirmModal
+            }
+        };
 
         return (
             <Fragment>
-                <Main />
+                <Main fctn={fctn.main} />
                 {/* <Login /> */}
                 {/* <Signup /> */}
                 <InformModal msg={informModal.msg} show={informModal.show} onHide={informModal.onHide} />

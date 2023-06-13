@@ -1,7 +1,7 @@
 package springboot.bean.dto.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,8 @@ public class BookingOrderDto {
 	private int roomId;
 	private int roomNum;
 	private int payMethodId;
-	private LocalDateTime checkinDateTime;
+	private LocalDate checkinDate;
+	private LocalTime checkinTime;
 	private LocalDate checkoutDate;
 	private int useDay;
 	private int totalMoney;

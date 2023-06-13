@@ -91,7 +91,6 @@ public class RoomDaoInner {
 		oldRoom.setName(newRoom.getName());
 		oldRoom.setTotalNum(newRoom.getTotalNum());
 		oldRoom.setInvalidNum(newRoom.getInvalidNum());
-		oldRoom.setUsedNum(newRoom.getUsedNum());
 		oldRoom.setPrice(newRoom.getPrice());
 		oldRoom.setSingleBedNum(newRoom.getSingleBedNum());
 		oldRoom.setDoubleBedNum(newRoom.getDoubleBedNum());

@@ -22,10 +22,10 @@ public class RoomDto {
 	private String name;
 	private int totalNum;
 	private int invalidNum;
-	private int usedNum;
 	private int price;
 	private int singleBedNum;
 	private int doubleBedNum;
+	private int peopleNum;
 	private int area;
 	private int sceneId;
 	private int hotelId;

@@ -21,7 +21,7 @@ public class Advice {
 	private Logger log = LogsUtil.getLogger(Advice.class);
 	private Logger errorLog = LogsUtil.getThrowableLog();
 
-	@Around("springboot.advice.BackendPointcuts.controllerService()")
+	@Around("springboot.advice.BackendPointcuts.controllerService() || springboot.advice.FrontendPointcuts.controllerService()")
 	public Response checkerExAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
 		
 		Response response;

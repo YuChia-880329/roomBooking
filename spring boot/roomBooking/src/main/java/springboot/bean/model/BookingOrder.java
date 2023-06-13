@@ -1,7 +1,7 @@
 package springboot.bean.model;
 
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,8 +34,10 @@ public class BookingOrder {
 	private int roomNum;
 	@Column(name = "PAY_METHOD_ID")
 	private int payMethodId;
-	@Column(name = "CHECKIN_DATETIME")
-	private Timestamp checkinDatetime;
+	@Column(name = "CHECKIN_DATE")
+	private Date checkinDate;
+	@Column(name = "CHECKIN_TIME")
+	private Time checkinTime;
 	@Column(name = "CHECKOUT_DATE")
 	private Date checkoutDate;
 	@Column(name = "USE_DAY")
