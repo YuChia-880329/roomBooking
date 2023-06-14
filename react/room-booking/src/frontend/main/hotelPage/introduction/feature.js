@@ -2,10 +2,6 @@ import checkIcon from '../../../../image/check-icon.webp'
 import React, { Component } from 'react';
 import { Card, Col, Image, Row, Stack } from 'react-bootstrap';
 
-const constant = {
-    features : ['房內免費Wi-Fi', '停車場', '可寄放行李']
-};
-
 class Feature extends Component {
 
     render() {
@@ -18,12 +14,12 @@ class Feature extends Component {
         return (
             <Row className='mb-2'>
                 {
-                    constant.features.map(
+                    this.getter('items').map(
                         feature => (
-                            <Col xs={4} key={feature}>
+                            <Col xs={4} key={feature.id}>
                                 <Stack direction='horizontal' className='justify-content-center'>
                                     <Image style={checkIconStyle} src={checkIcon} />
-                                    <Card.Text className='mb-0 ms-2 text-info'>{feature}</Card.Text>
+                                    <Card.Text className='mb-0 ms-2 text-info'>{feature.name}</Card.Text>
                                 </Stack>
                             </Col>
                         )
@@ -31,6 +27,22 @@ class Feature extends Component {
                 }
             </Row>
         );
+    }
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setFeature({
+            ...getter.getFeature(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getFeature()[colName];
     }
 }
 

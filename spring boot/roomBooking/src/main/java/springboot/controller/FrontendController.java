@@ -34,7 +34,7 @@ public class FrontendController {
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/home/search")
-	public ResponseEntity<Response> search(@RequestParam(name = "checkinDate") String checkinDate, 
+	public ResponseEntity<Response> searchHome(@RequestParam(name = "checkinDate") String checkinDate, 
 			@RequestParam(name = "checkoutDate") String checkoutDate, @RequestParam(name = "numCode") String numCode, 
 			@RequestParam(name = "sectionCode") String sectionCode){
 		
@@ -48,6 +48,14 @@ public class FrontendController {
 	public ResponseEntity<Response> getInfo(@RequestParam(name = "hotelId") String hotelId){
 		
 		Response response = hotelPageService.getInfo(hotelId);
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/hotelPage/search")
+	public ResponseEntity<Response> searchHotelPage(@RequestParam(name = "hotelId") String hotelId, 
+			@RequestParam(name = "checkinDate") String checkinDate, @RequestParam(name = "checkoutDate") String checkoutDate, 
+			@RequestParam(name = "numCode") String numCode){
+		
+		Response response = hotelPageService.search(hotelId, checkinDate, checkoutDate, numCode);
 		return ResponseEntity.ok(response);
 	}
 }

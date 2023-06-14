@@ -82,6 +82,15 @@ public class RoomDaoInner {
 		
 		return trans.modelListToDtoList(dao.queryFrHotelRoomPages(checkinDate, checkoutDate, num, sectionCode, startRow, maxRowNum));
 	}
+	public Long queryFrRoomPagesCount(int hotelId, LocalDate checkinDate, LocalDate checkoutDate, Num num){
+		
+		return dao.queryFrRoomPagesCount(hotelId, checkinDate, checkoutDate, num);
+	}
+	public List<RoomDto> queryFrRoomPages(int hotelId, LocalDate checkinDate, LocalDate checkoutDate, Num num, 
+			int startRow, int maxRowNum){
+		
+		return trans.modelListToDtoList(dao.queryFrRoomPages(hotelId, checkinDate, checkoutDate, num, startRow, maxRowNum));
+	}
 	
 	@Transactional
 	public RoomDto add(RoomDto room) {

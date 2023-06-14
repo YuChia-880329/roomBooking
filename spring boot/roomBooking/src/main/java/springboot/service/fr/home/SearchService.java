@@ -35,7 +35,8 @@ public class SearchService {
 		
 		return SearchRespDto.builder()
 				.hotels(toHotelRoomsVo(output))
-				.pagination(paginationService.getPagination(output.getHotelRoomPage().getPage(), HotelRoomPagesRepo.PAGES_PER_PAGE_GROUP, output.getMaxPage()))
+				.pagination(paginationService.getPagination(output.getHotelRoomPage().getPage(), 
+						HotelRoomPagesRepo.PAGES_PER_PAGE_GROUP, output.getMaxPage()))
 				.build();
 	}
 	

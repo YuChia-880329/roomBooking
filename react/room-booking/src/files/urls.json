@@ -43,6 +43,10 @@
         "home" : {
             "allSections" : "http://localhost:8086/roomBooking/frontend/home/allSections",
             "search" : "http://localhost:8086/roomBooking/frontend/home/search"
+        },
+        "hotelPage" : {
+            "getInfo" : "http://localhost:8086/roomBooking/frontend/hotelPage/getInfo",
+            "search" : "http://localhost:8086/roomBooking/frontend/hotelPage/search"
         }
     }
 }

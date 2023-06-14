@@ -14,26 +14,36 @@ class Introduction extends Component {
         const hotelImgStyle = {
             minHeight : '20rem'
         }
+        const setter = {
+            feature : {
+                setFeature : (colVal, onSet) => this.setter('feature', colVal, onSet)
+            }
+        };
+        const getter = {
+            feature : {
+                getFeature : () => this.getter('feature')
+            }
+        }
 
         return (
             <Card>
                 <Row>
                     <Col xs={4}>
-                        <Card.Img src="#" style={hotelImgStyle} className='d-block' alt='hotel image' />
+                        <Card.Img src={this.getter('imgUrl')} style={hotelImgStyle} className='d-block' alt='hotel image' />
                     </Col>
                     <Col xs={8}>
                         <Card.Body className='h-100'>
                             <Stack className='h-100'>
                                 <div>
-                                    <Card.Title className='fs-1 fw-bold'>XXX飯店</Card.Title>
+                                    <Card.Title className='fs-1 fw-bold'>{this.getter('hotelName')}</Card.Title>
                                     <Stack direction='horizontal'>
                                         <Image style={mapIconStyle} src={mapIcon} />
-                                        <Card.Text className='mb-0 ms-2'>台北市萬華區...</Card.Text>
+                                        <Card.Text className='mb-0 ms-2'>{this.getter('address')}</Card.Text>
                                     </Stack>
-                                    <Card.Text className='ps-3 mb-0 mt-4'>入住完美住宿，是完美旅程的必備要素。快來享受住宿提供的客房免費Wi-Fi吧！ 住宿位於中山區的絕佳位置，讓您輕鬆探索周遭景點。 離開前，別忘了探訪知名的台北101大樓。 這間3星級飯店提供室外泳池，給您舒適難忘的住宿體驗。</Card.Text>
+                                    <Card.Text className='ps-3 mb-0 mt-4'>{this.getter('description')}</Card.Text>
                                 </div>
                                 <div className='mt-auto'>
-                                    <Feature />
+                                    <Feature setter={setter.feature} getter={getter.feature} />
                                 </div>
                             </Stack>
                         </Card.Body>
@@ -41,6 +51,23 @@ class Introduction extends Component {
                 </Row>
             </Card>
         );
+    }
+
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setIntroduction({
+            ...getter.getIntroduction(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getIntroduction()[colName];
     }
 }
 
