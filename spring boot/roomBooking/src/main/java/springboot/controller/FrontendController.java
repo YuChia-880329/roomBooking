@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springboot.bean.vo.Response;
 import springboot.service.fr.home.HomeControllerService;
+import springboot.service.fr.hotelPage.HotelPageService;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:8086", "http://localhost:3000"}, allowCredentials = "true")
@@ -20,6 +21,9 @@ public class FrontendController {
 	@Autowired
 	@Qualifier("fr.home.HomeControllerService")
 	private HomeControllerService homeControllerService;
+	@Autowired
+	@Qualifier("fr.hotelPage.HotelPageService")
+	private HotelPageService hotelPageService;
 	
 	
 	// home
@@ -35,6 +39,15 @@ public class FrontendController {
 			@RequestParam(name = "sectionCode") String sectionCode){
 		
 		Response response = homeControllerService.search(checkinDate, checkoutDate, numCode, sectionCode);
+		return ResponseEntity.ok(response);
+	}
+	
+	
+	// hotelPage
+	@GetMapping("/hotelPage/getInfo")
+	public ResponseEntity<Response> getInfo(@RequestParam(name = "hotelId") String hotelId){
+		
+		Response response = hotelPageService.getInfo(hotelId);
 		return ResponseEntity.ok(response);
 	}
 }

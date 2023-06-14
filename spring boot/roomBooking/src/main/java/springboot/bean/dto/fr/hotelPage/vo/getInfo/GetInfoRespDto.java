@@ -1,4 +1,6 @@
-package springboot.bean.vo.fr.home.search;
+package springboot.bean.dto.fr.hotelPage.vo.getInfo;
+
+import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,14 +11,11 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class HotelRoom {
-
-	private int roomId;
+public class GetInfoRespDto {
+	
 	private String imgUrl;
 	private String hotelName;
-	private String sectionName;
-	private String roomName;
-	private int validNum;
-	private int price;
-	private int hotelId;
+	private String address;
+	private String description;
+    private List<FeatureDto> features;
 }

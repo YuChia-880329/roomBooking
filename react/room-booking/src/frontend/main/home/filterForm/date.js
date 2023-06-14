@@ -14,14 +14,16 @@ class Date extends Component {
                 <Row>
                     <Col>
                         <Form.Control id='filter_checkinDate' type='date' value={this.getter('valueCheckinDate')} 
-                                onChange={e => this.onChange(e, 'valueCheckinDate')} />
+                                onChange={e => this.onChange(e, 'valueCheckinDate')} required />
+                        <Form.Control.Feedback type='invalid'>請選擇入住日期</Form.Control.Feedback>
                     </Col>
                     <Col xs='auto' className='px-3 align-self-center'>
                         <p className='mb-0'>~</p>
                     </Col>
                     <Col>
                         <Form.Control id='filter_checkoutDate' type='date' value={this.getter('valueCheckoutDate')} 
-                                onChange={e => this.onChange(e, 'valueCheckoutDate')} />
+                                onChange={e => this.onChange(e, 'valueCheckoutDate')} required />
+                        <Form.Control.Feedback type='invalid'>請選擇退房日期</Form.Control.Feedback>
                     </Col>
                 </Row>
             </Form.Group>

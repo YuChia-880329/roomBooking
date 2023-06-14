@@ -69,12 +69,14 @@ public class SearchService {
 	private HotelRoomDto toHotelRoomVo(springboot.bean.dto.fr.home.obj.repo.hotelRoomPages.HotelRoomDto hotelRoom) {
 		
 		return HotelRoomDto.builder()
+				.roomId(hotelRoom.getRoomId())
 				.imgUrl(ImageUtil.getImgUrl(hotelRoom.getHotelId(), hotelRoom.getRoomId(), hotelRoom.getImgName()))
 				.hotelName(hotelRoom.getHotelName())
 				.sectionName(hotelRoom.getSectionName())
 				.roomName(hotelRoom.getRoomName())
 				.validNum(hotelRoom.getValidNum())
 				.price(hotelRoom.getPrice())
+				.hotelId(hotelRoom.getHotelId())
 				.build();
 	}
 }

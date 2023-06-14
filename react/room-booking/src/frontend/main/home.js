@@ -1,3 +1,4 @@
+import {getToday, toDateString} from '../../files/util';
 import urls from '../../files/urls.json';
 import config from '../../files/config.json';
 import houseIcon from '../../image/house-icon.png';
@@ -9,14 +10,31 @@ import Hotels from './home/hotels';
 import Pagn from '../../hoc/pagn';
 import axios from 'axios';
 
+const today = getToday();
+const todayText = toDateString(today);
+const tomorrow = {
+    year : today.year,
+    month : today.month,
+    day : today.day+1
+}
+const tomorrowText = toDateString(tomorrow);
 
 const constant = {
     fetch : {
         url : {
-            allSections : urls.frontend.home.allSections
+            allSections : urls.frontend.home.allSections,
+            search : urls.frontend.home.search
         },
         config : {
             timeout : config.fetch.timeout
+        },
+        req : {
+            search : {
+                checkinDate : '',
+                checkoutDate : '',
+                numCode : '',
+                sectionCode : ''
+            }
         }
     }
 }
@@ -28,16 +46,17 @@ class Home extends Component {
         super(props);
         this.state = {
             filterForm : {
+                validated : false,
                 date : {
-                    valueCheckinDate : '',
-                    valueCheckoutDate : ''
+                    valueCheckinDate : todayText,
+                    valueCheckoutDate : tomorrowText
                 },
                 number : {
-                    value : ''
+                    value : '1'
                 },
                 section : {
                     options : [],
-                    value : ''
+                    value : 'TPE'
                 }
             },
             hotels : {
@@ -102,9 +121,17 @@ class Home extends Component {
                 getFilterForm : () => this.getter('filterForm')
             },
             hotels : {
-                getHotels : () => this.getter('hotels')
+                getHotels : () => this.getter('hotels'),
+                getFilterForm : () => this.getter('filterForm')
             }
-        }
+        };
+        const fctn = {
+            filterForm : {
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal,
+                search : this.search
+            }
+        };
 
         return (
             <Fragment>
@@ -113,7 +140,7 @@ class Home extends Component {
                         <Image src={houseIcon} style={homeIconStyle} />
                     </Col>
                     <Col xs={8}>
-                        <FilterForm setter={setter.filterForm} getter={getter.filterForm} />
+                        <FilterForm setter={setter.filterForm} getter={getter.filterForm} fctn={fctn.filterForm} />
                     </Col>
                 </Row>
                 <div className='py-5'>
@@ -133,11 +160,24 @@ class Home extends Component {
     };
 
 
+
     // other
     allSections = () => {
 
         this.allSectionsFetch();
     };
+    search = () => {
+
+        const params = constant.fetch.req.search;
+        const {filterForm} = this.state;
+
+        params.checkinDate = filterForm.date.valueCheckinDate;
+        params.checkoutDate = filterForm.date.valueCheckoutDate;
+        params.numCode = filterForm.number.value;
+        params.sectionCode = filterForm.section.value;
+
+        this.searchFetch(params);
+    }
 
 
     // fetch
@@ -163,6 +203,29 @@ class Home extends Component {
             fctn.showInformModal(serverInfo.msg);
         }
     };
+    searchFetch = async (params) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.search;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterSearch(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
 
 
     // after fetch
@@ -176,6 +239,43 @@ class Home extends Component {
                 ...filterForm.section,
                 options : data.sections
             }
+        });
+    };
+    afterSearch = (data) => {
+
+        const {hotels, pagination} = this.state;
+
+        this.setter('hotels', {
+            ...hotels,
+            items : data.hotels
+        }, () => {
+
+            this.setter('pagination', {
+                ...pagination,
+                show : true,
+                first : {
+                    ...pagination.first,
+                    show : data.pagination.first.show,
+                    toPage : data.pagination.first.toPage
+                },
+                prev : {
+                    ...pagination.prev,
+                    show : data.pagination.prev.show,
+                    toPage : data.pagination.prev.toPage
+                },
+                pages : data.pagination.pages,
+                next : {
+                    ...pagination.next,
+                    show : data.pagination.next.show,
+                    toPage : data.pagination.next.toPage
+                },
+                last : {
+                    ...pagination.last,
+                    show : data.pagination.last.show,
+                    toPage : data.pagination.last.toPage
+                },
+                currentPage : data.pagination.currentPage
+            });
         });
     };
 

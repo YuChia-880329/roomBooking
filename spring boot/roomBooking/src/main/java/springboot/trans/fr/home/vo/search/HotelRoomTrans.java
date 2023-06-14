@@ -13,12 +13,14 @@ public class HotelRoomTrans implements VoWoTrans<HotelRoom, HotelRoomDto> {
 	public HotelRoom dtoToVoImpl(HotelRoomDto dto) {
 		
 		return HotelRoom.builder()
+				.roomId(dto.getRoomId())
 				.imgUrl(dto.getImgUrl())
 				.hotelName(dto.getHotelName())
 				.sectionName(dto.getSectionName())
 				.roomName(dto.getRoomName())
 				.validNum(dto.getValidNum())
 				.price(dto.getPrice())
+				.hotelId(dto.getHotelId())
 				.build();
 	}
 }

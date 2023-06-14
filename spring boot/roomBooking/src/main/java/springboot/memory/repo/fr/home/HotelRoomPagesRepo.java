@@ -33,7 +33,7 @@ import util.PageUtil;
 @SessionScope
 public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 
-	public static final int ROWS_PER_PAGE = 10;
+	public static final int ROWS_PER_PAGE = 5;
 	public static final int PAGES_PER_PAGE_GROUP = 3;
 	
 	@Autowired
@@ -90,7 +90,7 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 		if(page == -1)
 			return getDefault();
 		
-		long totalRows = roomDaoInner.queryFrontendHotelRoomsCount(searchParam.getCheckinDate(), 
+		long totalRows = roomDaoInner.queryFrHotelRoomPagesCount(searchParam.getCheckinDate(), 
 				searchParam.getCheckoutDate(), searchParam.getNum(), searchParam.getSectionCode());
 		
 		if(totalRows > Integer.MAX_VALUE) {
@@ -111,7 +111,7 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 			int[] rowBounds = PageUtil.countRow(ROWS_PER_PAGE, p);
 			
 			
-			List<RoomDto> rooms = roomDaoInner.queryFrontendHotelRooms(searchParam.getCheckinDate(), 
+			List<RoomDto> rooms = roomDaoInner.queryFrHotelRoomPages(searchParam.getCheckinDate(), 
 					searchParam.getCheckoutDate(), searchParam.getNum(), searchParam.getSectionCode(), 
 					rowBounds[0]-1, ROWS_PER_PAGE);
 			
@@ -165,7 +165,7 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 				.sectionName(room.getHotel().getSection().getName())
 				.roomId(room.getId())
 				.roomName(room.getName())
-				.validNum(room.getTotalNum()-(int)toUsedNum(room.getBookingOrders(), checkinDate, checkoutDate))
+				.validNum(room.getTotalNum()-room.getInvalidNum()-(int)toUsedNum(room.getBookingOrders(), checkinDate, checkoutDate))
 				.price(room.getPrice())
 				.build();
 	}
@@ -175,8 +175,8 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 		return bookingOrders.stream()
 				.filter(bookingOrder -> {
 			
-					return !bookingOrder.getCheckinDate().isBefore(checkoutDate)
-							&& !bookingOrder.getCheckoutDate().isAfter(checkinDate);
+					return !(!bookingOrder.getCheckoutDate().isAfter(checkinDate) || 
+							!bookingOrder.getCheckinDate().isBefore(checkoutDate));
 				}).collect(Collectors.counting());
 	}
 	

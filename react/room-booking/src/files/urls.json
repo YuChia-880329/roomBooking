@@ -41,7 +41,8 @@
     },
     "frontend" : {
         "home" : {
-            "allSections" : "http://localhost:8086/roomBooking/frontend/home/allSections"
+            "allSections" : "http://localhost:8086/roomBooking/frontend/home/allSections",
+            "search" : "http://localhost:8086/roomBooking/frontend/home/search"
         }
     }
 }

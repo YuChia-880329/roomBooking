@@ -86,7 +86,7 @@ public class DateTimeUtil {
 		
 		return LocalDate.parse(str, JAVA_DATE_FORMATTER_FRONT);
 	}
-	public static LocalTime toString(String str) {
+	public static LocalTime toLocalTime(String str) {
 		
 		return LocalTime.parse(str, JAVA_TIME_FORMATTER);
 	}

@@ -18,8 +18,8 @@ public class SearchReqTrans extends VoRiTransChecked<SearchReq, SearchReqDto, Se
 	public SearchReqDto voToDtoImpl(SearchReq vo) {
 		
 		return SearchReqDto.builder()
-				.checkinDate(DateTimeUtil.toLocalDate(vo.getCheckinDate()))
-				.checkoutDate(DateTimeUtil.toLocalDate(vo.getCheckoutDate()))
+				.checkinDate(DateTimeUtil.toLocalDateFront(vo.getCheckinDate()))
+				.checkoutDate(DateTimeUtil.toLocalDateFront(vo.getCheckoutDate()))
 				.num(Num.getByCode(Integer.parseInt(vo.getNumCode())))
 				.sectionCode(vo.getSectionCode())
 				.build();

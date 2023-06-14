@@ -3,7 +3,38 @@ import { Col, Form, Row } from 'react-bootstrap';
 
 const constant = {
     options : [
-        '1人', '2人', '3人', '4人', '5人', '6人', '7人', '8人以上'
+        {
+            code : 1,
+            description : '1人'
+        },
+        {
+            code : 2,
+            description : '2人'
+        },
+        {
+            code : 3,
+            description : '3人'
+        },
+        {
+            code : 4,
+            description : '4人'
+        },
+        {
+            code : 5,
+            description : '5人'
+        },
+        {
+            code : 6,
+            description : '6人'
+        },
+        {
+            code : 7,
+            description : '7人'
+        },
+        {
+            code : 8,
+            description : '8人以上'
+        }
     ]
 }
 class Number extends Component {
@@ -14,11 +45,11 @@ class Number extends Component {
             <Form.Group as={Row}>
                 <Form.Label column xs='auto'>人數 : </Form.Label>
                 <Col>
-                    <Form.Control as='select'>
+                    <Form.Control as='select' value={this.getter('value')} onChange={this.onChange}>
                         {
                             constant.options.map(
                                 op => (
-                                    <option key={op} value={op}>{op}</option>
+                                    <option key={op.code} value={op.code}>{op.description}</option>
                                 )
                             )          
                         }
@@ -26,6 +57,29 @@ class Number extends Component {
                 </Col>
             </Form.Group>
         );
+    }
+
+
+    // on
+    onChange = (event) => {
+
+        this.setter('value', event.target.value);
+    };
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setNumber({
+            ...getter.getNumber(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getNumber()[colName];
     }
 }
 

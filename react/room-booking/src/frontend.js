@@ -4,6 +4,7 @@ import ConfirmModal from './hoc/modal/confirm-modal';
 import Main from './frontend/main';
 import Login from './frontend/login';
 import Signup from './frontend/signup';
+import { Route, Routes } from 'react-router-dom';
 
 class Frontend extends Component {
 
@@ -43,9 +44,11 @@ class Frontend extends Component {
 
         return (
             <Fragment>
-                <Main fctn={fctn.main} />
-                {/* <Login /> */}
-                {/* <Signup /> */}
+                <Routes>
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/signup' element={<Signup />} />
+                    <Route path='/*' element={<Main fctn={fctn.main} />} />
+                </Routes>
                 <InformModal msg={informModal.msg} show={informModal.show} onHide={informModal.onHide} />
                 <ConfirmModal msg={confirmModal.msg} show={confirmModal.show} onHide={confirmModal.onHide} 
                         onConfirm={confirmModal.onConfirm} />

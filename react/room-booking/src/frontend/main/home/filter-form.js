@@ -42,7 +42,7 @@ class FilterForm extends Component {
         }
 
         return (
-            <Form>
+            <Form noValidate validated={this.getter('validated')} onSubmit={this.onSubmit}>
                 <Stack gap={5}>
                     <Date setter={setter.date} getter={getter.date} />
                     <Row>
@@ -54,11 +54,31 @@ class FilterForm extends Component {
                         </Col>
                     </Row>
                     <Stack direction='horizontal' className='justify-content-end'>
-                        <Button variant='outline-primary'>搜尋</Button>
+                        <Button type='send' variant='outline-primary'>搜尋</Button>
                     </Stack>
                 </Stack>
             </Form>
         );
+    };
+
+
+    // on
+    onSubmit = (event) => {
+
+        const {fctn} = this.props;
+
+        event.preventDefault();
+        this.setter('validated', true, () => {
+
+            if(event.target.checkValidity() === true){
+    
+                fctn.search();
+                this.setter('validated', false);
+            }else{
+
+                fctn.showInformModal('表單未完整');
+            }
+        });
     };
 
 

@@ -29,8 +29,10 @@ public class HotelRoomTrans extends RepoOutputTrans<HotelRoom, HotelRoomDto> {
 		
 		return HotelRoomDto.builder()
 				.imgName(output.getImgName())
+				.hotelId(output.getHotelId())
 				.hotelName(output.getHotelName())
 				.sectionName(output.getSectionName())
+				.roomId(output.getRoomId())
 				.roomName(output.getRoomName())
 				.validNum(output.getValidNum())
 				.price(output.getPrice())
