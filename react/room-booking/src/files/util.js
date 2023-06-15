@@ -18,4 +18,18 @@ const toDateString = (date) => {
     return `${yearText}-${monthText}-${dayText}`;
 };
 
-export {getToday, toDateString};
+const indexof = (array, predicate) => {
+
+    return array.reduce((a, c, i) => {
+
+        if(a !== -1)
+            return a;
+        else if(predicate(c))
+            return i;
+        else
+            return -1;
+    }, -1);
+}
+
+
+export {getToday, toDateString, indexof};

@@ -7,13 +7,30 @@ class LoginForm extends Component {
 
     render() {
 
+        const setter = {
+            account : {
+                setAccount : (colVal, onSet) => this.setter('account', colVal, onSet)
+            },
+            password : {
+                setPassword : (colVal, onSet) => this.setter('password', colVal, onSet)
+            }
+        };
+        const getter = {
+            account : {
+                getAccount : () => this.getter('account')
+            },
+            password : {
+                getPassword : () => this.getter('password')
+            }
+        };
+
         return (
-            <Stack as={Form} gap={4}>
-                <Account />
-                <Password />
+            <Stack as={Form} gap={4} onSubmit={this.onSubmit} noValidate validated={this.getter('validated')}>
+                <Account setter={setter.account} getter={getter.account} />
+                <Password setter={setter.password} getter={getter.password} />
                 <Stack direction='horizontal' gap={5} className='justify-content-center'>
                     <div>
-                        <Button variant='outline-primary'>登入</Button>
+                        <Button type='send' variant='outline-primary'>登入</Button>
                     </div>
                     <div>
                         <Button variant='outline-primary'>註冊</Button>
@@ -21,6 +38,39 @@ class LoginForm extends Component {
                 </Stack>
             </Stack>
         );
+    }
+
+
+    // on
+    onSubmit = (event) => {
+
+        const {fctn} = this.props;
+
+        event.preventDefault();
+        this.setter('validated', true, () => {
+
+            if(event.target.checkValidity() === true){
+    
+                fctn.login();
+            }
+        });
+    };
+
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setLoginForm({
+            ...getter.getLoginForm(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getLoginForm()[colName];
     }
 }
 

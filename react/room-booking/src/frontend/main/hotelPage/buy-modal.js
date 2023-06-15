@@ -8,32 +8,54 @@ class BuyModal extends Component {
 
     render() {
 
+        const setter = {
+            date : {
+                setDate : (colVal, onSet) => this.setter('date', colVal, onSet)
+            },
+            checkinTime : {
+                setCheckinTime : (colVal, onSet) => this.setter('checkinTime', colVal, onSet)
+            },
+            num : {
+                setNum : (colVal, onSet) => this.setter('num', colVal, onSet)
+            }
+        };
+        const getter = {
+            date : {
+                getDate : () => this.getter('date')
+            },
+            checkinTime : {
+                getCheckinTime : () => this.getter('checkinTime')
+            },
+            num : {
+                getNum : () => this.getter('num')
+            }
+        };
         return (
-            <Modal show={false} onHide={() => {}}>
+            <Modal show={this.getter('show')} onHide={this.getter('onHide')}>
                 <Modal.Header closeButton>
                     <Modal.Title>加入購物車</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container className='my-2'>
                         <Stack gap={4}>
-                            <h1 className='fw-bold'>XXX飯店</h1>
+                            <h1 className='fw-bold'>{this.getter('hotelName')}</h1>
                             <Stack direction='horizontal' className='ms-2 justify-content-between'>
-                                <p className='fs-3'>標準雙人床</p>
+                                <p className='fs-3'>{this.getter('roomName')}</p>
                                 <p className='fs-5 text-secondary'>
-                                    剩餘 <span>3</span> 間
+                                    剩餘 <span>{this.getter('validNum')}</span> 間
                                 </p>
                                 <p className='fs-5 text-danger'>
-                                    $ <span>1000</span> 元 / 間
+                                    $ <span>{this.getter('price')}</span> 元 / 間
                                 </p>
                             </Stack>
                             <div className='ms-2'>
-                                <Date />
+                                <Date setter={setter.date} getter={getter.date} />
                             </div>
                             <div className='ms-2'>
-                                <CheckinTime />
+                                <CheckinTime setter={setter.checkinTime} getter={getter.checkinTime} />
                             </div>
                             <div className='ms-2'>
-                                <Num />
+                                <Num setter={setter.num} getter={getter.num} />
                             </div>
                         </Stack>
                     </Container>
@@ -44,6 +66,22 @@ class BuyModal extends Component {
                 </Modal.Footer>
             </Modal>
         );
+    }
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setBuyModal({
+            ...getter.getBuyModal(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getBuyModal()[colName];
     }
 }
 

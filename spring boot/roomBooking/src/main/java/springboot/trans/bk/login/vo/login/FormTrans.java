@@ -1,6 +1,7 @@
 package springboot.trans.bk.login.vo.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.bk.login.vo.login.FormDto;
@@ -21,6 +22,7 @@ public class FormTrans extends VoRiTransChecked<Form, FormDto, FormChecker> {
 	}
 
 	@Autowired
+	@Qualifier("bk.login.vo.login.FormChecker")
 	@Override
 	public void setChecker(FormChecker checker) {
 

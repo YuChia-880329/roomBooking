@@ -23,7 +23,8 @@ const constant = {
     fetch : {
         url : {
             allSections : urls.frontend.home.allSections,
-            search : urls.frontend.home.search
+            search : urls.frontend.home.search,
+            turnPage : urls.frontend.home.turnPage
         },
         config : {
             timeout : config.fetch.timeout
@@ -34,6 +35,9 @@ const constant = {
                 checkoutDate : '',
                 numCode : '',
                 sectionCode : ''
+            },
+            turnPage : {
+                page : ''
             }
         }
     }
@@ -150,7 +154,7 @@ class Home extends Component {
                     pagination.show && (
                         <Stack direction='horizontal'>
                             <div className='ms-auto'>
-                                <Pagn pagn={pagination} />
+                                <Pagn pagn={pagination} turnPage={this.turnPage} />
                             </div>
                         </Stack>
                     )
@@ -178,6 +182,13 @@ class Home extends Component {
 
         this.searchFetch(params);
     }
+    turnPage = (page) => {
+
+        const req = constant.fetch.req.turnPage;
+
+        req.page = page;
+        this.turnPageFetch(req);
+    };
 
 
     // fetch
@@ -212,6 +223,7 @@ class Home extends Component {
 
         const {serverInfo, data} = await axios.get(url, {
                 timeout : config.timeout,
+                withCredentials: true,
                 params : params
             })
             .then(rs => rs.data)
@@ -221,6 +233,30 @@ class Home extends Component {
         if(statusCode === 200){
 
             this.afterSearch(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+    turnPageFetch = async (params) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.turnPage;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterTurnPage(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -242,6 +278,14 @@ class Home extends Component {
         });
     };
     afterSearch = (data) => {
+
+        this.updateState(data);
+    };
+    afterTurnPage = (data) => {
+
+        this.updateState(data);
+    };
+    updateState = (data) => {
 
         const {hotels, pagination} = this.state;
 
@@ -277,7 +321,7 @@ class Home extends Component {
                 currentPage : data.pagination.currentPage
             });
         });
-    };
+    }
 
 
     // setter getter

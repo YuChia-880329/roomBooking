@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.fr.hotelPage.vo.search.SearchRespDto;
-import springboot.bean.vo.fr.hotelPage.search.Room;
+import springboot.bean.vo.fr.hotelPage.Room;
 import springboot.bean.vo.fr.hotelPage.search.SearchResp;
+import springboot.trans.fr.hotelPage.vo.RoomTrans;
 import springboot.trans.vo.PaginationTrans;
 import tmpl.trans.bean.vo.VoWoTrans;
 

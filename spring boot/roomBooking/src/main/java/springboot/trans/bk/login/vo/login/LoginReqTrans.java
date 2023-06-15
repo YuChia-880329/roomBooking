@@ -25,6 +25,7 @@ public class LoginReqTrans extends VoRiTransChecked<LoginReq, LoginReqDto, Login
 	}
 
 	@Autowired
+	@Qualifier("bk.login.vo.login.LoginReqChecker")
 	@Override
 	public void setChecker(LoginReqChecker checker) {
 		

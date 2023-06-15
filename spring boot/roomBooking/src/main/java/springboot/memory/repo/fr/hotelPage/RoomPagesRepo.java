@@ -93,11 +93,11 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 	protected RoomPages update(Input input) {
 		
 		SearchParam searchParam = input.getSearchParam();
-		int page = searchParam.getPage();
-		
-		if(page == -1)
+		if(needDefault(searchParam))
 			return getDefault();
 		
+		
+		int page = searchParam.getPage();
 		long totalRows = roomDaoInner.queryFrRoomPagesCount(searchParam.getHotelId(), searchParam.getCheckinDate(), 
 				searchParam.getCheckoutDate(), searchParam.getNum());
 		
@@ -241,6 +241,14 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 				.build();
 	}
 	
+	private boolean needDefault(SearchParam searchParam) {
+		
+		return searchParam.getPage()<0 ||
+				searchParam.getHotelId()<0 ||
+				searchParam.getCheckinDate()==null ||
+				searchParam.getCheckoutDate()==null ||
+				searchParam.getNum()==null;
+	}
 	private RoomPages getDefault() {
 		
 		Map<Integer, RoomPage> roomPageMap = new HashMap<>();

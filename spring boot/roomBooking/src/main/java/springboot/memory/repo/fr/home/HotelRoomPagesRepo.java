@@ -85,11 +85,11 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 	protected HotelRoomPages update(Input input) {
 		
 		SearchParam searchParam = input.getSearchParam();
-		int page = searchParam.getPage();
-		
-		if(page == -1)
+		if(needDefault(searchParam))
 			return getDefault();
 		
+		
+		int page = searchParam.getPage();
 		long totalRows = roomDaoInner.queryFrHotelRoomPagesCount(searchParam.getCheckinDate(), 
 				searchParam.getCheckoutDate(), searchParam.getNum(), searchParam.getSectionCode());
 		
@@ -180,6 +180,14 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 				}).collect(Collectors.counting());
 	}
 	
+	private boolean needDefault(SearchParam searchParam) {
+		
+		return searchParam.getPage()<0 ||
+				searchParam.getCheckinDate()==null ||
+				searchParam.getCheckoutDate()==null ||
+				searchParam.getNum()==null ||
+				searchParam.getSectionCode()==null;
+	}
 	private HotelRoomPages getDefault() {
 		
 		Map<Integer, HotelRoomPage> hotelRoomPageMap = new HashMap<>();

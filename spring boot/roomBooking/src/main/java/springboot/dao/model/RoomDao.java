@@ -143,20 +143,18 @@ public class RoomDao {
 		
 		Subquery<Room> subquery = mainQuery.subquery(Room.class);
 		Root<Room> subRoot = subquery.from(Room.class);
-
 		Join<Object, Object> joinBookingOrder = subRoot.join(BOOKING_ORDERS_ATTRIBUTE_NAME, JoinType.LEFT);
-		Join<Object, Object> joinHotel = subRoot.join(HOTEL_ATTRIBUTE_NAME, JoinType.LEFT);
-		
 		subquery
 			.select(subRoot)
-			.where(queryFrHotelRoomPagesPredicates(checkinDate, checkoutDate, num, sectionCode, criteriaBuilder, 
-					subRoot, joinBookingOrder, joinHotel))
+			.where(queryFrHotelRoomPagesInnerWhere(checkinDate, checkoutDate, criteriaBuilder, subRoot, joinBookingOrder))
 			.groupBy(subRoot.get(ID_ATTRIBUTE_NAME))
-			.having(queryFrHotelRoomPagesHavingPredicate(criteriaBuilder, subRoot, joinBookingOrder));
+			.having(queryFrHotelRoomPagesInnerHaving(criteriaBuilder, subRoot, joinBookingOrder));
 		
+		
+		Join<Object, Object> joinHotel = root.join(HOTEL_ATTRIBUTE_NAME);
 		mainQuery
 			.select(criteriaBuilder.count(root.get(ID_ATTRIBUTE_NAME)))
-			.where(criteriaBuilder.not(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(subquery)));
+			.where(queryFrHotelRoomPagesOuterWhere(subquery, num, sectionCode, criteriaBuilder, root, joinHotel));
 		
 		TypedQuery<Long> tq = entityManager.createQuery(mainQuery);
 		
@@ -170,19 +168,17 @@ public class RoomDao {
 		
 		Subquery<Room> subquery = mainQuery.subquery(Room.class);
 		Root<Room> subRoot = subquery.from(Room.class);
-		
 		Join<Object, Object> joinBookingOrder = subRoot.join(BOOKING_ORDERS_ATTRIBUTE_NAME, JoinType.LEFT);
-		Join<Object, Object> joinHotel = subRoot.join(HOTEL_ATTRIBUTE_NAME, JoinType.LEFT);
-		
-		subquery.select(subRoot)
-			.where(queryFrHotelRoomPagesPredicates(checkinDate, checkoutDate, num, sectionCode, criteriaBuilder, 
-					subRoot, joinBookingOrder, joinHotel))
+		subquery
+			.select(subRoot)
+			.where(queryFrHotelRoomPagesInnerWhere(checkinDate, checkoutDate, criteriaBuilder, subRoot, joinBookingOrder))
 			.groupBy(subRoot.get(ID_ATTRIBUTE_NAME))
-			.having(queryFrHotelRoomPagesHavingPredicate(criteriaBuilder, subRoot, joinBookingOrder));
+			.having(queryFrHotelRoomPagesInnerHaving(criteriaBuilder, subRoot, joinBookingOrder));
 		
+		Join<Object, Object> joinHotel = root.join(HOTEL_ATTRIBUTE_NAME);
 		mainQuery
 			.select(root)
-			.where(criteriaBuilder.not(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(subquery)))
+			.where(queryFrHotelRoomPagesOuterWhere(subquery, num, sectionCode, criteriaBuilder, root, joinHotel))
 			.orderBy(criteriaBuilder.asc(root.get(PEOPLE_NUM_ATTRIBUTE_NAME)), 
 					criteriaBuilder.asc(root.get(PRICE_ATTRIBUTE_NAME)), 
 					criteriaBuilder.asc(root.get(ID_ATTRIBUTE_NAME)));
@@ -201,21 +197,16 @@ public class RoomDao {
 		
 		Subquery<Room> subquery = mainQuery.subquery(Room.class);
 		Root<Room> subRoot = subquery.from(Room.class);
-
 		Join<Object, Object> joinBookingOrder = subRoot.join(BOOKING_ORDERS_ATTRIBUTE_NAME, JoinType.LEFT);
-		Join<Object, Object> joinHotel = subRoot.join(HOTEL_ATTRIBUTE_NAME, JoinType.LEFT);
-		
 		subquery
 			.select(subRoot)
-			.where(queryFrRoomPagesPredicates(checkinDate, checkoutDate, num, criteriaBuilder, 
-					subRoot, joinBookingOrder, joinHotel))
+			.where(queryFrRoomPagesInnerWhere(checkinDate, checkoutDate, criteriaBuilder, subRoot, joinBookingOrder))
 			.groupBy(subRoot.get(ID_ATTRIBUTE_NAME))
-			.having(queryFrRoomPagesHavingPredicate(criteriaBuilder, subRoot, joinBookingOrder));
+			.having(queryFrRoomPagesInnerHaving(criteriaBuilder, subRoot, joinBookingOrder));
 		
 		mainQuery
 			.select(criteriaBuilder.count(root.get(ID_ATTRIBUTE_NAME)))
-			.where(criteriaBuilder.and(criteriaBuilder.equal(root.get(HOTEL_ID_ATTRIBUTE_NAME), hotelId), 
-					criteriaBuilder.not(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(subquery))));
+			.where(queryFrRoomPagesOuterWhere(subquery, num, hotelId, criteriaBuilder, root));
 		
 		TypedQuery<Long> tq = entityManager.createQuery(mainQuery);
 		
@@ -229,20 +220,16 @@ public class RoomDao {
 		
 		Subquery<Room> subquery = mainQuery.subquery(Room.class);
 		Root<Room> subRoot = subquery.from(Room.class);
-		
 		Join<Object, Object> joinBookingOrder = subRoot.join(BOOKING_ORDERS_ATTRIBUTE_NAME, JoinType.LEFT);
-		Join<Object, Object> joinHotel = subRoot.join(HOTEL_ATTRIBUTE_NAME, JoinType.LEFT);
-		
-		subquery.select(subRoot)
-			.where(queryFrRoomPagesPredicates(checkinDate, checkoutDate, num, criteriaBuilder, 
-					subRoot, joinBookingOrder, joinHotel))
+		subquery
+			.select(subRoot)
+			.where(queryFrRoomPagesInnerWhere(checkinDate, checkoutDate, criteriaBuilder, subRoot, joinBookingOrder))
 			.groupBy(subRoot.get(ID_ATTRIBUTE_NAME))
-			.having(queryFrRoomPagesHavingPredicate(criteriaBuilder, subRoot, joinBookingOrder));
+			.having(queryFrRoomPagesInnerHaving(criteriaBuilder, subRoot, joinBookingOrder));
 		
 		mainQuery
 			.select(root)
-			.where(criteriaBuilder.and(criteriaBuilder.equal(root.get(HOTEL_ID_ATTRIBUTE_NAME), hotelId), 
-					criteriaBuilder.not(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(subquery))))
+			.where(queryFrRoomPagesOuterWhere(subquery, num, hotelId, criteriaBuilder, root))
 			.orderBy(criteriaBuilder.asc(root.get(PEOPLE_NUM_ATTRIBUTE_NAME)), 
 					criteriaBuilder.asc(root.get(PRICE_ATTRIBUTE_NAME)), 
 					criteriaBuilder.asc(root.get(ID_ATTRIBUTE_NAME)));
@@ -317,49 +304,59 @@ public class RoomDao {
 	}
 	
 	
-	private Predicate queryFrHotelRoomPagesPredicates(LocalDate checkinDate, LocalDate checkoutDate, Num num, 
-			String sectionCode, CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinBookingOrder,
-			Join<Object, Object> joinHotel){
+	private Predicate queryFrHotelRoomPagesInnerWhere(LocalDate checkinDate, LocalDate checkoutDate, 
+			CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinBookingOrder){
 
 
-		Predicate checkinPredicate = criteriaBuilder.greaterThanOrEqualTo(joinBookingOrder.get(CHECKIN_DATE_ATTRIBUTE_NAME_BOOKING_ORDER), DateTimeUtil.toDate(checkoutDate));
-		Predicate checkoutPredicate = criteriaBuilder.lessThanOrEqualTo(joinBookingOrder.get(CHECKOUT_DATE_ATTRIBUTE_NAME_BOOKING_ORDER), DateTimeUtil.toDate(checkinDate));
-		Predicate numPredicate = criteriaBuilder.lt(root.get(PEOPLE_NUM_ATTRIBUTE_NAME), num.getNumber());
-		Predicate sectionPredicate = criteriaBuilder.notEqual(joinHotel.get(SECTION_CODE_ATTRIBUTE_NAME_HOTEL), sectionCode);
+		Predicate checkinPredicate = criteriaBuilder.lessThan(joinBookingOrder.get(CHECKIN_DATE_ATTRIBUTE_NAME_BOOKING_ORDER), DateTimeUtil.toDate(checkoutDate));
+		Predicate checkoutPredicate = criteriaBuilder.greaterThan(joinBookingOrder.get(CHECKOUT_DATE_ATTRIBUTE_NAME_BOOKING_ORDER), DateTimeUtil.toDate(checkinDate));
 		
-		Predicate predicate = criteriaBuilder.not(criteriaBuilder.or(checkinPredicate, checkoutPredicate));
-		
-		return criteriaBuilder.or(predicate, numPredicate, sectionPredicate);
+		return criteriaBuilder.and(checkinPredicate, checkoutPredicate);
 	}
-	private Predicate queryFrHotelRoomPagesHavingPredicate(CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinBookingOrder){
+	private Predicate queryFrHotelRoomPagesInnerHaving(CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinBookingOrder){
 
 		Expression<Number> totalNumEx = criteriaBuilder.max(root.get(TOTAL_NUM_ATTRIBUTE_NAME));
 		Expression<Number> invalidNumEx = criteriaBuilder.max(root.get(INVALID_NUM_ATTRIBUTE_NAME));
 		Expression<Long> bookingOrderNumEx = criteriaBuilder.count(joinBookingOrder.get(ID_ATTRIBUTE_NAME_BOOKING_ORDER));
 
 		return criteriaBuilder.le(criteriaBuilder.diff(criteriaBuilder.diff(totalNumEx, invalidNumEx), bookingOrderNumEx), 0);
+	}
+	private Predicate queryFrHotelRoomPagesOuterWhere(Subquery<Room> subquery, Num num, String sectionCode, 
+			CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinHotel){
+
+		Predicate subqueryPredicate = criteriaBuilder.not(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(subquery));
+		Predicate numPredicate = criteriaBuilder.ge(root.get(PEOPLE_NUM_ATTRIBUTE_NAME), num.getNumber());
+		Predicate sectionCodePredicate = criteriaBuilder.equal(joinHotel.get(SECTION_CODE_ATTRIBUTE_NAME_HOTEL), sectionCode);
+		
+		return criteriaBuilder.and(subqueryPredicate, numPredicate, sectionCodePredicate);
 	}
 	
 
-	private Predicate queryFrRoomPagesPredicates(LocalDate checkinDate, LocalDate checkoutDate, Num num, 
-			CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinBookingOrder,
-			Join<Object, Object> joinHotel){
+	private Predicate queryFrRoomPagesInnerWhere(LocalDate checkinDate, LocalDate checkoutDate, 
+			CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinBookingOrder){
 
-		Predicate checkinPredicate = criteriaBuilder.greaterThanOrEqualTo(joinBookingOrder.get(CHECKIN_DATE_ATTRIBUTE_NAME_BOOKING_ORDER), DateTimeUtil.toDate(checkoutDate));
-		Predicate checkoutPredicate = criteriaBuilder.lessThanOrEqualTo(joinBookingOrder.get(CHECKOUT_DATE_ATTRIBUTE_NAME_BOOKING_ORDER), DateTimeUtil.toDate(checkinDate));
-		Predicate numPredicate = criteriaBuilder.lt(root.get(PEOPLE_NUM_ATTRIBUTE_NAME), num.getNumber());
+
+		Predicate checkinPredicate = criteriaBuilder.lessThan(joinBookingOrder.get(CHECKIN_DATE_ATTRIBUTE_NAME_BOOKING_ORDER), DateTimeUtil.toDate(checkoutDate));
+		Predicate checkoutPredicate = criteriaBuilder.greaterThan(joinBookingOrder.get(CHECKOUT_DATE_ATTRIBUTE_NAME_BOOKING_ORDER), DateTimeUtil.toDate(checkinDate));
 		
-		Predicate predicate = criteriaBuilder.not(criteriaBuilder.or(checkinPredicate, checkoutPredicate));
-		
-		return criteriaBuilder.or(predicate, numPredicate);
+		return criteriaBuilder.and(checkinPredicate, checkoutPredicate);
 	}
-	private Predicate queryFrRoomPagesHavingPredicate(CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinBookingOrder){
+	private Predicate queryFrRoomPagesInnerHaving(CriteriaBuilder criteriaBuilder, Root<Room> root, Join<Object, Object> joinBookingOrder){
 
 		Expression<Number> totalNumEx = criteriaBuilder.max(root.get(TOTAL_NUM_ATTRIBUTE_NAME));
 		Expression<Number> invalidNumEx = criteriaBuilder.max(root.get(INVALID_NUM_ATTRIBUTE_NAME));
 		Expression<Long> bookingOrderNumEx = criteriaBuilder.count(joinBookingOrder.get(ID_ATTRIBUTE_NAME_BOOKING_ORDER));
 
 		return criteriaBuilder.le(criteriaBuilder.diff(criteriaBuilder.diff(totalNumEx, invalidNumEx), bookingOrderNumEx), 0);
+	}
+	private Predicate queryFrRoomPagesOuterWhere(Subquery<Room> subquery, Num num, int hotelId, 
+			CriteriaBuilder criteriaBuilder, Root<Room> root){
+
+		Predicate subqueryPredicate = criteriaBuilder.not(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(subquery));
+		Predicate numPredicate = criteriaBuilder.ge(root.get(PEOPLE_NUM_ATTRIBUTE_NAME), num.getNumber());
+		Predicate hotelIdPredicate = criteriaBuilder.equal(root.get(HOTEL_ID_ATTRIBUTE_NAME), hotelId);
+		
+		return criteriaBuilder.and(subqueryPredicate, numPredicate, hotelIdPredicate);
 	}
 }
 

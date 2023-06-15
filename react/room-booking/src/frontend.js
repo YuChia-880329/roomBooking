@@ -30,10 +30,10 @@ class Frontend extends Component {
 
         const {informModal, confirmModal} = this.state;
         const fctn = {
-            // login : {
-            //     showInformModal : this.showInformModal,
-            //     closeInformModal : this.closeInformModal
-            // },
+            login : {
+                showInformModal : this.showInformModal,
+                closeInformModal : this.closeInformModal
+            },
             main : {
                 showInformModal : this.showInformModal,
                 closeInformModal : this.closeInformModal
@@ -45,7 +45,7 @@ class Frontend extends Component {
         return (
             <Fragment>
                 <Routes>
-                    <Route path='/login' element={<Login />} />
+                    <Route path='/login' element={<Login fctn={fctn.login} />} />
                     <Route path='/signup' element={<Signup />} />
                     <Route path='/*' element={<Main fctn={fctn.main} />} />
                 </Routes>

@@ -16,7 +16,9 @@ import axios from 'axios';
 const constant = {
     fetch : {
         url : {
-            getInfo : urls.frontend.hotelPage.getInfo
+            getInfo : urls.frontend.hotelPage.getInfo,
+            search : urls.frontend.hotelPage.search,
+            turnPage : urls.frontend.hotelPage.turnPage
         },
         config : {
             timeout : config.fetch.timeout
@@ -24,6 +26,15 @@ const constant = {
         req : {
             getInfo : {
                 hotelId : ''
+            },
+            search : {
+                checkinDate : '',
+                checkoutDate : '',
+                hotelId : '',
+                numCode : ''
+            },
+            turnPage : {
+                page : ''
             }
         }
     }
@@ -54,7 +65,9 @@ class HotelPageWrapped extends Component {
                     items : []
                 }
             },
-            rooms : [],
+            rooms : {
+                items : []
+            },
             pagination : {
                 first : {
                     show : true,
@@ -74,13 +87,34 @@ class HotelPageWrapped extends Component {
                     toPage : 3 
                 },
                 currentPage : 2
+            },
+            buyModal : {
+                show : true,
+                onHide : event => {},
+                hotelName : '',
+                roomName : '',
+                validNum : '',
+                price : '',
+                date : {
+                    valueCheckinDate : '',
+                    valueCheckoutDate : ''
+                },
+                checkinTime : {
+                    value : ''
+                },
+                num : {
+                    value : ''
+                }
             }
         };
     }
 
     componentDidMount(){
 
-        this.getInfo();
+        this.getInfo(() => {
+
+            this.search();
+        });
     }
 
     render() {
@@ -104,6 +138,12 @@ class HotelPageWrapped extends Component {
             },
             introduction : {
                 setIntroduction : (colVal, onSet) => this.setter('introduction', colVal, onSet)
+            },
+            rooms : {
+                setRooms : (colVal, onSet) => this.setter('rooms', colVal, onSet)
+            },
+            buyModal : {
+                setBuyModal : (colVal, onSet) => this.setter('buyModal', colVal, onSet)
             }
         };
         const getter = {
@@ -112,10 +152,21 @@ class HotelPageWrapped extends Component {
             },
             introduction : {
                 getIntroduction : () => this.getter('introduction')
+            },
+            rooms : {
+                getRooms : () => this.getter('rooms')
+            },
+            buyModal : {
+                getBuyModal : () => this.getter('buyModal')
             }
         };
         const fctn = {
             filterForm : {
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal,
+                search : this.search
+            },
+            rooms : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal
             }
@@ -135,32 +186,53 @@ class HotelPageWrapped extends Component {
                     <Introduction setter={setter.introduction} getter={getter.introduction} />
                 </div>
                 <div className='my-5 pt-5'>
-                    <Rooms />
+                    <Rooms setter={setter.rooms} getter={getter.rooms} fctn={fctn.rooms} />
                 </div>
                 <Stack direction='horizontal'>
                     <div className='ms-auto'>
-                        <Pagn pagn={pagination} />
+                        <Pagn pagn={pagination} turnPage={this.turnPage} />
                     </div>
                 </Stack>
-                <BuyModal />
+                <BuyModal setter={setter.buyModal} getter={getter.buyModal} />
             </Fragment>
         );
     }
 
 
     // other
-    getInfo = () => {
+    getInfo = (onSuccess) => {
 
         const req = constant.fetch.req.getInfo;
         const {data} = this.props;
 
         req.hotelId = data.hotelId;
-        this.getInfoFetch(req);
+        this.getInfoFetch(req, onSuccess);
+    };
+    search = () => {
+
+        const req = constant.fetch.req.search;
+        const {data} = this.props;
+        const {filterForm} = this.state;
+
+        req.checkinDate = filterForm.date.valueCheckinDate;
+        req.checkoutDate = filterForm.date.valueCheckoutDate;
+        req.numCode = filterForm.number.value;
+        req.hotelId = data.hotelId;
+        this.searchFetch(req);
+    };
+    turnPage = (page) => {
+
+        const req = constant.fetch.req.turnPage;
+
+        req.page = page;
+        this.turnPageFetch(req);
     };
 
 
+
+
     // fetch
-    getInfoFetch = async (params) => {
+    getInfoFetch = async (params, onSuccess) => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
@@ -177,15 +249,64 @@ class HotelPageWrapped extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterGetInfo(data);
+            this.afterGetInfo(data, onSuccess);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+    searchFetch = async (params) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.search;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterSearch(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+    turnPageFetch = async (params) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.turnPage;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterTurnPage(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
         }
     };
 
+
     // after fetch
-    afterGetInfo = (data) => {
+    afterGetInfo = (data, onSuccess) => {
 
         const {introduction} = this.state;
 
@@ -199,8 +320,62 @@ class HotelPageWrapped extends Component {
                 ...introduction.feature,
                 items : data.features
             }
+        }, () => {
+
+            onSuccess && onSuccess();
         });
     };
+    afterSearch = (data) => {
+
+        this.updateState(data);
+    };
+    afterTurnPage = (data) => {
+
+        this.updateState(data);
+    };
+    updateState = (data) => {
+
+        const {rooms, pagination} = this.state;
+
+        this.setter('rooms', {
+            ...rooms,
+            items : data.rooms.map(room => ({
+                ...room,
+                shoppingCartForm : {
+                    validated : false,
+                    value : ''
+                }
+            }))
+        }, () => {
+
+            this.setter('pagination', {
+                ...pagination,
+                first : {
+                    ...pagination.first,
+                    show : data.pagination.first.show,
+                    toPage : data.pagination.first.toPage
+                },
+                prev : {
+                    ...pagination.prev,
+                    show : data.pagination.prev.show,
+                    toPage : data.pagination.prev.toPage
+                },
+                pages : data.pagination.pages,
+                next : {
+                    ...pagination.next,
+                    show : data.pagination.next.show,
+                    toPage : data.pagination.next.toPage
+                },
+                last : {
+                    ...pagination.last,
+                    show : data.pagination.last.show,
+                    toPage : data.pagination.last.toPage
+                },
+                currentPage : data.pagination.currentPage
+            });
+        });
+    };
+
 
 
     // setter getter

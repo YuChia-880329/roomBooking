@@ -24,7 +24,15 @@ public class FormChecker implements Checker<Form> {
 	}
 	
 	public void checkAccount(Form vo) {
+		
+		String account = vo.getAccount();
+		
+		CheckUtil.checkString(account);
 	}
 	public void checkPassword(Form vo) {
+		
+		String password = vo.getPassword();
+		
+		CheckUtil.checkString(password);
 	}
 }

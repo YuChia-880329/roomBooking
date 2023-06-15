@@ -6,9 +6,12 @@ import org.springframework.stereotype.Service;
 
 import springboot.bean.vo.Response;
 import springboot.bean.vo.fr.home.search.SearchReq;
+import springboot.bean.vo.fr.home.turnPage.TurnPageReq;
 import springboot.trans.fr.home.vo.allSections.AllSectionsRespTrans;
 import springboot.trans.fr.home.vo.search.SearchReqTrans;
 import springboot.trans.fr.home.vo.search.SearchRespTrans;
+import springboot.trans.fr.home.vo.turnPage.TurnPageReqTrans;
+import springboot.trans.fr.home.vo.turnPage.TurnPageRespTrans;
 import util.ResponseUtil;
 
 @Service("fr.home.HomeControllerService")
@@ -20,6 +23,9 @@ public class HomeControllerService {
 	@Autowired
 	@Qualifier("fr.home.SearchService")
 	private SearchService searchService;
+	@Autowired
+	@Qualifier("fr.home.TurnPageService")
+	private TurnPageService turnPageService;
 	
 	
 	@Autowired
@@ -31,6 +37,13 @@ public class HomeControllerService {
 	@Autowired
 	@Qualifier("fr.home.vo.search.SearchRespTrans")
 	private SearchRespTrans searchRespTrans;
+	@Autowired
+	@Qualifier("fr.home.vo.turnPage.TurnPageReqTrans")
+	private TurnPageReqTrans turnPageReqTrans;
+	@Autowired
+	@Qualifier("fr.home.vo.turnPage.TurnPageRespTrans")
+	private TurnPageRespTrans turnPageRespTrans;
+	
 	
 	
 	public Response allSections() {
@@ -53,6 +66,16 @@ public class HomeControllerService {
 			searchRespTrans.dtoToVo(
 					searchService.search(
 							searchReqTrans.voToDto(searchReq))));
+	}
+	public Response turnPage(String page) {
+		
+		TurnPageReq turnPageReq = TurnPageReq.builder()
+				.page(page)
+				.build();
+		return ResponseUtil.response200(
+				turnPageRespTrans.dtoToVo(
+						turnPageService.turnPage(
+								turnPageReqTrans.voToDto(turnPageReq))));
 	}
 
 }

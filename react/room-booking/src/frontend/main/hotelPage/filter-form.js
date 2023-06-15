@@ -63,6 +63,7 @@ class FilterForm extends Component {
 
             if(event.target.checkValidity() === true){
     
+                fctn.search();
                 this.setter('validated', false);
             }else{
 
