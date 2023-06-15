@@ -18,8 +18,10 @@ public class AddShoppingCartReqTrans extends VoRiTransChecked<AddShoppingCartReq
 		
 		return AddShoppingCartReqDto.builder()
 				.roomId(vo.getRoomId())
-				.num(vo.getNum())
+				.checkinDate(DateTimeUtil.toLocalDateFront(vo.getCheckinDate()))
+				.checkoutDate(DateTimeUtil.toLocalDateFront(vo.getCheckoutDate()))
 				.checkinTime(DateTimeUtil.toLocalTime(vo.getCheckinTime()))
+				.num(vo.getNum())
 				.build();
 	}
 

@@ -32,14 +32,23 @@ class ShoppingCartForm extends Component {
     };
     onSubmit = (event) => {
 
-        // const {fctn} = this.props;
+        const {fctn} = this.props;
 
         event.preventDefault();
         this.setter('validated', true, () => {
 
             if(event.target.checkValidity() === true){
     
-                this.setter('validated', false);
+                this.setter('validated', false, () => {
+
+                    fctn.setBuyModal(this.getter('value'), () => {
+
+                        fctn.showBuyModal((event) => {
+
+                            fctn.submitBuyModal();
+                        });
+                    });
+                });
             }
         });
     };

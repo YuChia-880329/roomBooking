@@ -15,6 +15,9 @@ public class AddShoppingCartReqChecker implements Checker<AddShoppingCartReq> {
 		checkVo(vo);
 		
 		checkRoomId(vo);
+		checkCheckinDate(vo);
+		checkCheckoutDate(vo);
+		checkCheckinTime(vo);
 		checkNum(vo);
 	}
 
@@ -28,6 +31,21 @@ public class AddShoppingCartReqChecker implements Checker<AddShoppingCartReq> {
 		
 		int roomId = vo.getRoomId();
 		CheckUtil.checkNumberIsPositiveInteger(roomId);
+	}
+	private void checkCheckinDate(AddShoppingCartReq vo) {
+		
+		String checkinDate = vo.getCheckinDate();
+		CheckUtil.checkString(checkinDate);
+	}
+	private void checkCheckoutDate(AddShoppingCartReq vo) {
+		
+		String checkoutDate = vo.getCheckoutDate();
+		CheckUtil.checkString(checkoutDate);
+	}
+	private void checkCheckinTime(AddShoppingCartReq vo) {
+		
+		String checkinTime = vo.getCheckinTime();
+		CheckUtil.checkString(checkinTime);
 	}
 	private void checkNum(AddShoppingCartReq vo) {
 		

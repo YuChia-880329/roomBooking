@@ -1,5 +1,6 @@
 package springboot.bean.obj.fr.db.shoppingCart;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import lombok.Getter;
@@ -13,6 +14,8 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class Item {
 
-	private int num;
+	private LocalDate checkinDate;
+	private LocalDate checkoutDate;
 	private LocalTime checkinTime;
+	private int num;
 }

@@ -1,7 +1,7 @@
 import urls from '../../files/urls.json';
 import config from '../../files/config.json';
 import houseIcon from '../../image/house-icon.png';
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, createRef } from 'react';
 import { Col, Image, Row, Stack } from 'react-bootstrap';
 import FilterForm from './hotelPage/filter-form';
 import FrontendMain from '../../hoc/frontend-main';
@@ -18,7 +18,8 @@ const constant = {
         url : {
             getInfo : urls.frontend.hotelPage.getInfo,
             search : urls.frontend.hotelPage.search,
-            turnPage : urls.frontend.hotelPage.turnPage
+            turnPage : urls.frontend.hotelPage.turnPage,
+            addShoppingCart : urls.frontend.hotelPage.addShoppingCart
         },
         config : {
             timeout : config.fetch.timeout
@@ -35,12 +36,21 @@ const constant = {
             },
             turnPage : {
                 page : ''
+            },
+            addShoppingCart : {
+                roomId : 0,
+                checkinDate : "",
+                checkoutDate : "",
+                checkinTime : "",
+                num : 0
             }
         }
     }
 }
 
 class HotelPageWrapped extends Component {
+
+    buyModalRef = createRef();
 
     constructor(props){
 
@@ -89,8 +99,11 @@ class HotelPageWrapped extends Component {
                 currentPage : 2
             },
             buyModal : {
-                show : true,
-                onHide : event => {},
+                validated : false,
+                show : false,
+                onHide : (event => this.closeBuyModal()),
+                onClickOkBtn : (event => this.closeBuyModal()),
+                roomId : 0,
                 hotelName : '',
                 roomName : '',
                 validNum : '',
@@ -140,7 +153,8 @@ class HotelPageWrapped extends Component {
                 setIntroduction : (colVal, onSet) => this.setter('introduction', colVal, onSet)
             },
             rooms : {
-                setRooms : (colVal, onSet) => this.setter('rooms', colVal, onSet)
+                setRooms : (colVal, onSet) => this.setter('rooms', colVal, onSet),
+                setBuyModal : (colVal, onSet) => this.setter('buyModal', colVal, onSet)
             },
             buyModal : {
                 setBuyModal : (colVal, onSet) => this.setter('buyModal', colVal, onSet)
@@ -154,7 +168,8 @@ class HotelPageWrapped extends Component {
                 getIntroduction : () => this.getter('introduction')
             },
             rooms : {
-                getRooms : () => this.getter('rooms')
+                getRooms : () => this.getter('rooms'),
+                getBuyModal : () => this.getter('buyModal')
             },
             buyModal : {
                 getBuyModal : () => this.getter('buyModal')
@@ -167,6 +182,14 @@ class HotelPageWrapped extends Component {
                 search : this.search
             },
             rooms : {
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal,
+                showBuyModal : this.showBuyModal,
+                closeBuyModal : this.closeBuyModal,
+                setBuyModal : this.setBuyModal,
+                submitBuyModal : this.submitBuyModal
+            },
+            buyModal : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal
             }
@@ -193,7 +216,7 @@ class HotelPageWrapped extends Component {
                         <Pagn pagn={pagination} turnPage={this.turnPage} />
                     </div>
                 </Stack>
-                <BuyModal setter={setter.buyModal} getter={getter.buyModal} />
+                <BuyModal setter={setter.buyModal} getter={getter.buyModal} fctn={fctn.buyModal} ref={this.buyModalRef} />
             </Fragment>
         );
     }
@@ -227,7 +250,53 @@ class HotelPageWrapped extends Component {
         req.page = page;
         this.turnPageFetch(req);
     };
+    showBuyModal = (onClickOkBtn, onHide) => {
 
+        const {buyModal} = this.state;
+
+        this.setter('buyModal', {
+            ...buyModal,
+            show : true,
+            onHide : onHide || (event => this.closeBuyModal()),
+            onClickOkBtn : onClickOkBtn || (event => this.closeBuyModal())
+        });
+    };
+    closeBuyModal = () => {
+
+        const {buyModal} = this.state;
+
+        this.setter('buyModal', {
+            ...buyModal,
+            show : false
+        });
+    }
+    setBuyModal = (roomId, roomName, validNum, price, num, onSet) => {
+
+        const {filterForm, introduction, buyModal} = this.state;
+
+        this.setter('buyModal', {
+            ...buyModal,
+            roomId : roomId,
+            hotelName : introduction.hotelName,
+            roomName : roomName,
+            validNum : validNum,
+            price : price,
+            date : {
+                valueCheckinDate : filterForm.date.valueCheckinDate,
+                valueCheckoutDate : filterForm.date.valueCheckoutDate
+            },
+            num : {
+                value : num
+            }
+        }, () => {
+            
+            onSet && onSet();
+        });
+    };
+    submitBuyModal = () => {
+
+        this.buyModalRef.current.submit();
+    }
 
 
 

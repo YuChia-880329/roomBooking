@@ -52,4 +52,9 @@ public abstract class MemoryDb<P, O> {
 		
 		return memory.remove(pk);
 	}
+	
+	public boolean contains(P pk) {
+		
+		return memory.containsKey(pk);
+	}
 }

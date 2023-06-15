@@ -1,10 +1,37 @@
-import React, { Component } from 'react';
-import { Button, Container, Modal, Stack } from 'react-bootstrap';
+import urls from '../../../files/urls.json';
+import config from '../../../files/config.json';
+import React, { Component, createRef } from 'react';
+import { Button, Container, Form, Modal, Stack } from 'react-bootstrap';
 import Date from './buyModal/date';
 import CheckinTime from './buyModal/checkin-time';
 import Num from './buyModal/num';
+import axios from 'axios';
+
+
+const constant = {
+    fetch : {
+        url : {
+            addShoppingCart : urls.frontend.hotelPage.addShoppingCart
+        },
+        config : {
+            timeout : config.fetch.timeout
+        },
+        req : {
+            addShoppingCart : {
+                roomId : 0,
+                checkinDate : "",
+                checkoutDate : "",
+                checkinTime : "",
+                num : 0
+            }
+        }
+    }
+}
+
 
 class BuyModal extends Component {
+
+    buyModalFormRef = createRef();
 
     render() {
 
@@ -37,36 +64,107 @@ class BuyModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Container className='my-2'>
-                        <Stack gap={4}>
-                            <h1 className='fw-bold'>{this.getter('hotelName')}</h1>
-                            <Stack direction='horizontal' className='ms-2 justify-content-between'>
-                                <p className='fs-3'>{this.getter('roomName')}</p>
-                                <p className='fs-5 text-secondary'>
-                                    剩餘 <span>{this.getter('validNum')}</span> 間
-                                </p>
-                                <p className='fs-5 text-danger'>
-                                    $ <span>{this.getter('price')}</span> 元 / 間
-                                </p>
+                        <Form noValidate validated={this.getter('validated')} ref={this.buyModalFormRef}>
+                            <Stack gap={4}>
+                                <h1 className='fw-bold'>{this.getter('hotelName')}</h1>
+                                <Stack direction='horizontal' className='ms-2 justify-content-between'>
+                                    <p className='fs-3'>{this.getter('roomName')}</p>
+                                    <p className='fs-5 text-secondary'>
+                                        剩餘 <span>{this.getter('validNum')}</span> 間
+                                    </p>
+                                    <p className='fs-5 text-danger'>
+                                        $ <span>{this.getter('price')}</span> 元 / 間
+                                    </p>
+                                </Stack>
+                                <div className='ms-2'>
+                                    <Date setter={setter.date} getter={getter.date} />
+                                </div>
+                                <div className='ms-2'>
+                                    <CheckinTime setter={setter.checkinTime} getter={getter.checkinTime} />
+                                </div>
+                                <div className='ms-2'>
+                                    <Num setter={setter.num} getter={getter.num} />
+                                </div>
                             </Stack>
-                            <div className='ms-2'>
-                                <Date setter={setter.date} getter={getter.date} />
-                            </div>
-                            <div className='ms-2'>
-                                <CheckinTime setter={setter.checkinTime} getter={getter.checkinTime} />
-                            </div>
-                            <div className='ms-2'>
-                                <Num setter={setter.num} getter={getter.num} />
-                            </div>
-                        </Stack>
+                        </Form>
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary">取消</Button>
-                    <Button variant="primary">確認</Button>
+                    <Button variant="primary" onClick={this.getter('onClickOkBtn')}>確認</Button>
                 </Modal.Footer>
             </Modal>
         );
     }
+
+
+    // other
+    addShoppingCart = () => {
+
+        const req = constant.fetch.req.addShoppingCart;
+
+        req.roomId = this.getter('roomId');
+        req.checkinDate = this.getter('date').valueCheckinDate;
+        req.checkoutDate = this.getter('date').valueCheckoutDate;
+        req.checkinTime = this.getter('checkinTime').value;
+        req.num = this.getter('num').value;
+        this.addShoppingCartFetch(req);
+    }
+    submit = () => {
+
+        this.setter('validated', true, () => {
+
+            if(this.buyModalFormRef.current.checkValidity() === true){
+    
+                this.addShoppingCart();
+            }
+        });
+    }
+
+
+
+    // fetch
+    addShoppingCartFetch = async (req) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.addShoppingCart;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.post(url, req, {
+                timeout : config.timeout,
+                withCredentials: true
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterAddShoppingCart(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+
+
+    // after fetch
+    afterAddShoppingCart = (data) => {
+
+        const {fctn} = this.props;
+        
+        if(data.success){
+            this.setter('validated', false, () => {
+
+                this.setter('show', false, () => {
+
+                    fctn.showInformModal(data.msg)
+                });
+            });
+        }
+    }
+
 
     // setter getter
     setter = (colName, colVal, onSet) => {

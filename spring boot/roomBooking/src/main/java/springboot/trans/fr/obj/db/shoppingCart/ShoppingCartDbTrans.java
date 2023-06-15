@@ -20,8 +20,10 @@ public class ShoppingCartDbTrans extends MemoryDbTrans<Integer, Item, ItemDto> {
 	protected Item dtoToObjImpl(ItemDto dto) {
 		
 		return Item.builder()
-				.num(dto.getNum())
+				.checkinDate(dto.getCheckinDate())
+				.checkoutDate(dto.getCheckoutDate())
 				.checkinTime(dto.getCheckinTime())
+				.num(dto.getNum())
 				.build();
 	}
 
@@ -30,8 +32,10 @@ public class ShoppingCartDbTrans extends MemoryDbTrans<Integer, Item, ItemDto> {
 		
 		return ItemDto.builder()
 				.roomId(pao.getPk())
-				.num(pao.getObj().getNum())
+				.checkinDate(pao.getObj().getCheckinDate())
+				.checkoutDate(pao.getObj().getCheckoutDate())
 				.checkinTime(pao.getObj().getCheckinTime())
+				.num(pao.getObj().getNum())
 				.build();
 	}
 }

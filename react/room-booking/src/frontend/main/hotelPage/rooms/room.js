@@ -26,7 +26,11 @@ class Room extends Component {
         const fctn = {
             shoppingCartForm : {
                 showInformModal : this.props.fctn.showInformModal,
-                closeInformModal : this.props.fctn.closeInformModal
+                closeInformModal : this.props.fctn.closeInformModal,
+                showBuyModal : this.props.fctn.showBuyModal,
+                closeBuyModal : this.props.fctn.closeBuyModal,
+                setBuyModal : this.setBuyModal,
+                submitBuyModal : this.props.fctn.submitBuyModal
             }
         };
 
@@ -73,6 +77,15 @@ class Room extends Component {
                 </Row>
             </Card>
         );
+    }
+
+
+    // other
+    setBuyModal = (num, onSet) => {
+
+        const {value, fctn} = this.props;
+
+        fctn.setBuyModal(value.roomId, value.name, value.validNum, value.price, num, onSet);
     }
 
 

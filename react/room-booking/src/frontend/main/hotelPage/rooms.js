@@ -22,7 +22,11 @@ class Rooms extends Component {
         const fctn = {
             room : {
                 showInformModal : this.props.fctn.showInformModal,
-                closeInformModal : this.props.fctn.closeInformModal
+                closeInformModal : this.props.fctn.closeInformModal,
+                showBuyModal : this.props.fctn.showBuyModal,
+                closeBuyModal : this.props.fctn.closeBuyModal,
+                setBuyModal : this.props.fctn.setBuyModal,
+                submitBuyModal : this.props.fctn.submitBuyModal
             }
         };
 

@@ -42,5 +42,11 @@ public abstract class MemoryDbDao<P, O, D, M extends MemoryDb<P, O>, T extends M
 	}
 	
 	
+	public boolean contains(D dto) {
+		
+		return memory.contains(trans.dtoToPkImpl(dto));
+	}
+	
+	
 	protected abstract void setTrans(T trans);
 }

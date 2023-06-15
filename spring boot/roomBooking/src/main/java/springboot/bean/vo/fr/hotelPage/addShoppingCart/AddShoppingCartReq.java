@@ -12,6 +12,8 @@ import lombok.experimental.SuperBuilder;
 public class AddShoppingCartReq {
 
 	private int roomId;
-	private int num;
+	private String checkinDate;
+	private String checkoutDate;
 	private String checkinTime;
+	private int num;
 }

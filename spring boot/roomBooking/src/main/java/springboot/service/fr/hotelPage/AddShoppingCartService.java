@@ -25,10 +25,15 @@ public class AddShoppingCartService {
 		
 		ItemDto item = ItemDto.builder()
 				.roomId(addShoppingCartReq.getRoomId())
-				.num(addShoppingCartReq.getNum())
+				.checkinDate(addShoppingCartReq.getCheckinDate())
+				.checkoutDate(addShoppingCartReq.getCheckoutDate())
 				.checkinTime(addShoppingCartReq.getCheckinTime())
+				.num(addShoppingCartReq.getNum())
 				.build();
-		item = shoppingCartDbDao.insert(item);
+		if(shoppingCartDbDao.contains(item))
+			item = shoppingCartDbDao.update(item);
+		else
+			item = shoppingCartDbDao.insert(item);
 		
 		boolean success = item!=null;
 		return AddShoppingCartRespDto.builder()
