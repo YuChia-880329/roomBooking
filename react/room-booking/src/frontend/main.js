@@ -33,7 +33,15 @@ class Main extends Component {
             hotelPage : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
                 checkLogin : this.checkLogin
+            },
+            shoppingCart : {
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal
             }
         };
 
@@ -44,7 +52,7 @@ class Main extends Component {
                     <Route path='/' element={<Navigate to='./home' />} />
                     <Route path='/home' element={<Home fctn={fctn.home} />} />
                     <Route path='/hotelPage/:hotelId' element={<HotelPage fctn={fctn.hotelPage} />} />
-                    <Route path='/shoppingCart' element={<ShoppingCart />} />
+                    <Route path='/shoppingCart' element={<ShoppingCart fctn={fctn.shoppingCart} />} />
                     <Route path='/receipt' element={<Receipt />} />
                 </Routes>
             </Fragment>

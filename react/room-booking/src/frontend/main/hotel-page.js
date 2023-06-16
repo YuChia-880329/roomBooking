@@ -1,3 +1,4 @@
+import {getToday, toDateString} from '../../files/util';
 import urls from '../../files/urls.json';
 import config from '../../files/config.json';
 import houseIcon from '../../image/house-icon.png';
@@ -12,14 +13,21 @@ import BuyModal from './hotelPage/buy-modal';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 
+const today = getToday();
+const todayText = toDateString(today);
+const tomorrow = {
+    year : today.year,
+    month : today.month,
+    day : today.day+1
+}
+const tomorrowText = toDateString(tomorrow);
 
 const constant = {
     fetch : {
         url : {
             getInfo : urls.frontend.hotelPage.getInfo,
             search : urls.frontend.hotelPage.search,
-            turnPage : urls.frontend.hotelPage.turnPage,
-            addShoppingCart : urls.frontend.hotelPage.addShoppingCart
+            turnPage : urls.frontend.hotelPage.turnPage
         },
         config : {
             timeout : config.fetch.timeout
@@ -36,13 +44,6 @@ const constant = {
             },
             turnPage : {
                 page : ''
-            },
-            addShoppingCart : {
-                roomId : 0,
-                checkinDate : "",
-                checkoutDate : "",
-                checkinTime : "",
-                num : 0
             }
         }
     }
@@ -59,11 +60,11 @@ class HotelPageWrapped extends Component {
             filterForm : {
                 validated : false,
                 date : {
-                    valueCheckinDate : this.props.data.checkinDate,
-                    valueCheckoutDate : this.props.data.checkoutDate
+                    valueCheckinDate : this.props.data.checkinDate || todayText,
+                    valueCheckoutDate : this.props.data.checkoutDate || tomorrowText
                 },
                 number : {
-                    value : this.props.data.number
+                    value : this.props.data.number || '1'
                 }
             },
             introduction : {
@@ -184,6 +185,8 @@ class HotelPageWrapped extends Component {
             rooms : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
                 showBuyModal : this.showBuyModal,
                 closeBuyModal : this.closeBuyModal,
                 setBuyModal : this.setBuyModal,
@@ -191,7 +194,9 @@ class HotelPageWrapped extends Component {
             },
             buyModal : {
                 showInformModal : this.props.fctn.showInformModal,
-                closeInformModal : this.props.fctn.closeInformModal
+                closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal
             }
         };
 

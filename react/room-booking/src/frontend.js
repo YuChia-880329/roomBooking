@@ -36,9 +36,9 @@ class Frontend extends Component {
             },
             main : {
                 showInformModal : this.showInformModal,
-                closeInformModal : this.closeInformModal
-                // showConfirmModal : this.showConfirmModal,
-                // closeConfirmModal : this.closeConfirmModal
+                closeInformModal : this.closeInformModal,
+                showConfirmModal : this.showConfirmModal,
+                closeConfirmModal : this.closeConfirmModal
             }
         };
 

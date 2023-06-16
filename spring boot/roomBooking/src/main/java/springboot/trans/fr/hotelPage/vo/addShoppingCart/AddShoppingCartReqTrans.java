@@ -22,6 +22,7 @@ public class AddShoppingCartReqTrans extends VoRiTransChecked<AddShoppingCartReq
 				.checkoutDate(DateTimeUtil.toLocalDateFront(vo.getCheckoutDate()))
 				.checkinTime(DateTimeUtil.toLocalTime(vo.getCheckinTime()))
 				.num(vo.getNum())
+				.price(vo.getPrice())
 				.build();
 	}
 

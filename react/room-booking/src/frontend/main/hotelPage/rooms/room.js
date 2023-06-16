@@ -27,6 +27,8 @@ class Room extends Component {
             shoppingCartForm : {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
                 showBuyModal : this.props.fctn.showBuyModal,
                 closeBuyModal : this.props.fctn.closeBuyModal,
                 setBuyModal : this.setBuyModal,

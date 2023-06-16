@@ -113,7 +113,7 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 		if(pageBounds == null)
 			throw new IllegalPageException(IllegalPageException.MSG);
 		
-		Map<Integer, RoomPage> hotelRoomPageMap = new HashMap<>();
+		Map<Integer, RoomPage> roomPageMap = new HashMap<>();
 		for(int p=pageBounds[0]; p<= pageBounds[1]; p++) {
 			
 			int[] rowBounds = PageUtil.countRow(ROWS_PER_PAGE, p);
@@ -122,7 +122,7 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 			List<RoomDto> rooms = roomDaoInner.queryFrRoomPages(searchParam.getHotelId(), searchParam.getCheckinDate(), 
 					searchParam.getCheckoutDate(), searchParam.getNum(), rowBounds[0]-1, ROWS_PER_PAGE);
 			
-			hotelRoomPageMap.put(p, toRoomPage(rooms, p, searchParam.getCheckinDate(), searchParam.getCheckoutDate()));
+			roomPageMap.put(p, toRoomPage(rooms, p, searchParam.getCheckinDate(), searchParam.getCheckoutDate()));
 		}
 		
 		if(needUpdate)
@@ -130,7 +130,7 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 		
 		return RoomPages.builder()
 				.maxPage(maxPage)
-				.roomPageMap(hotelRoomPageMap)
+				.roomPageMap(roomPageMap)
 				.build();
 	}
 

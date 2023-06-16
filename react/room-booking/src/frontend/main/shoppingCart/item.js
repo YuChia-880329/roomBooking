@@ -1,6 +1,6 @@
 import trashCanIcon from '../../../image/trashCan-icon.png'
 import React, { Component } from 'react';
-import { Card, Col, Image, Row, Stack } from 'react-bootstrap';
+import { Card, Carousel, Col, Image, Row, Stack } from 'react-bootstrap';
 
 class Item extends Component {
 
@@ -13,21 +13,32 @@ class Item extends Component {
         const hotelImgStyle = {
             minHeight : '20rem'
         }
+        const {value} = this.props;
 
         return (
             <Card>
                 <Row>
                     <Col xs={4}>
-                        <Card.Img src="#" style={hotelImgStyle} className='d-block' alt='hotel image' />
+                        <Carousel interval={null}>
+                            {
+                                value.images.map(
+                                    image => (
+                                        <Carousel.Item key={image.imgUrl}>
+                                            <Image className="d-block w-100" style={hotelImgStyle} src={image.imgUrl} alt="room image" />
+                                        </Carousel.Item>
+                                    )
+                                )
+                            }
+                        </Carousel>
                     </Col>
                     <Col xs={8}>
                         <Card.Body className='h-100'>
                             <Stack className='h-100 me-2'>
                                 <div>
                                     <Stack direction='horizontal'>
-                                        <Card.Title className='fs-1 fw-bold mb-0'>XXX飯店</Card.Title>
+                                        <Card.Title className='fs-1 fw-bold mb-0'>{value.hotelName}</Card.Title>
                                         <div className='ms-auto'>
-                                            <a href='#'>
+                                            <a href='.' onClick={e => this.onClickDelete(e, value.itemId)} >
                                                 <Image src={trashCanIcon} style={trashCanIconStyle} />
                                             </a>
                                         </div>
@@ -35,15 +46,15 @@ class Item extends Component {
                                     
                                     <div className='ms-3 mt-5'>
                                         <Card.Text className='fs-4 text-info'>
-                                            <span>1</span> x <span>標準雙人房</span>
+                                            <span>{value.num}</span> x <span>{value.roomName}</span>
                                         </Card.Text>
                                         <Stack direction='horizontal' gap={2}>
                                             <Card.Text className='fs-4 mb-0 text-warning'>
-                                                <span>2023/5/12</span>(預計 <span>16 : 00</span> 入住)
+                                                <span>{value.checkinDate}</span>(預計 <span>{value.checkinTime}</span> 入住)
                                             </Card.Text>
                                             <Card.Text className='fs-4 mb-0 text-warning'> ~ </Card.Text>
                                             <Card.Text className='fs-4 mb-0 text-warning'>
-                                                <span>2023/5/13</span>
+                                                <span>{value.checkoutDate}</span>
                                             </Card.Text>
                                         </Stack>
                                     </div>
@@ -51,7 +62,7 @@ class Item extends Component {
                                 <div className='mt-auto'>
                                     <Stack direction='horizontal' className='justify-content-end'>
                                         <Card.Text className='fs-3 text-secondary'>
-                                            $ <span>1000</span> 元 / 間
+                                            $ <span>{value.price}</span> 元 / 間
                                         </Card.Text>
                                     </Stack>
                                 </div>
@@ -61,6 +72,19 @@ class Item extends Component {
                 </Row>
             </Card>
         );
+    }
+
+    onClickDelete = (event, itemId) => {
+
+        const {fctn} = this.props;
+        
+        event.preventDefault();
+
+        fctn.showConfirmModal('確定要刪除選項 ? ', () => {
+
+            fctn.closeConfirmModal();
+            fctn.delete(itemId);
+        });
     }
 }
 

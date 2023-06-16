@@ -19,4 +19,5 @@ public class AddShoppingCartReqDto {
 	private LocalDate checkoutDate;
 	private LocalTime checkinTime;
 	private int num;
+	private int price;
 }

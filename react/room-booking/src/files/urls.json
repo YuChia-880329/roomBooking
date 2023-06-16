@@ -54,6 +54,11 @@
             "search" : "http://localhost:8086/roomBooking/frontend/hotelPage/search",
             "turnPage" : "http://localhost:8086/roomBooking/frontend/hotelPage/turnPage",
             "addShoppingCart" : "http://localhost:8086/roomBooking/frontend/hotelPage/addShoppingCart"
+        },
+        "shoppingCart" : {
+            "show" : "http://localhost:8086/roomBooking/frontend/shoppingCart/show",
+            "delete" : "http://localhost:8086/roomBooking/frontend/shoppingCart/delete",
+            "payMethodOptions" : "http://localhost:8086/roomBooking/frontend/shoppingCart/payMethodOptions"
         }
     }
 }

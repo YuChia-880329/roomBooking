@@ -18,7 +18,13 @@ public class FrontendPointcuts {
 	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.fr.hotelPage.HotelPageControllerService.*(..))")
 	public void hotelPageControllerService() {}
 	
+	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.fr.shoppingCart.ShoppingCartControllerService.*(..))")
+	public void shoppingCartControllerService() {}
 	
-	@Pointcut("frControllerService() || loginControllerService() || homeControllerService() || hotelPageControllerService()")
+	
+	
+	
+	@Pointcut("frControllerService() || loginControllerService() || homeControllerService() || hotelPageControllerService() || "
+			+ "shoppingCartControllerService()")
 	public void controllerService() {}
 }

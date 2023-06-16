@@ -19,6 +19,7 @@ public class AddShoppingCartReqChecker implements Checker<AddShoppingCartReq> {
 		checkCheckoutDate(vo);
 		checkCheckinTime(vo);
 		checkNum(vo);
+		checkPrice(vo);
 	}
 
 	
@@ -51,5 +52,10 @@ public class AddShoppingCartReqChecker implements Checker<AddShoppingCartReq> {
 		
 		int num = vo.getNum();
 		CheckUtil.checkNumberIsPositiveInteger(num);
+	}
+	private void checkPrice(AddShoppingCartReq vo) {
+		
+		int price = vo.getPrice();
+		CheckUtil.checkNumberIsPositiveInteger(price);
 	}
 }

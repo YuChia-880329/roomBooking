@@ -20,18 +20,18 @@ public class LoginReqChecker implements Checker<LoginReq> {
 		checkPassword(vo);
 	}
 
-	public void checkVo(LoginReq vo) {
+	private void checkVo(LoginReq vo) {
 		
 		CheckUtil.checkOther(vo);
 	}
 	
-	public void checkAccount(LoginReq vo) {
+	private void checkAccount(LoginReq vo) {
 		
 		String account = vo.getAccount();
 		
 		CheckUtil.checkString(account);
 	}
-	public void checkPassword(LoginReq vo) {
+	private void checkPassword(LoginReq vo) {
 		
 		String password = vo.getPassword();
 		

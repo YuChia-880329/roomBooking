@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import springboot.bean.vo.Response;
 import springboot.bean.vo.fr.hotelPage.addShoppingCart.AddShoppingCartReq;
 import springboot.bean.vo.fr.login.login.LoginReq;
+import springboot.bean.vo.fr.shoppingCart.delete.DeleteReq;
 import springboot.service.fr.FrControllerService;
 import springboot.service.fr.home.HomeControllerService;
 import springboot.service.fr.hotelPage.HotelPageControllerService;
 import springboot.service.fr.login.LoginControllerService;
+import springboot.service.fr.shoppingCart.ShoppingCartControllerService;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:8086", "http://localhost:3000"}, allowCredentials = "true")
@@ -37,6 +40,10 @@ public class FrontendController {
 	@Autowired
 	@Qualifier("fr.hotelPage.HotelPageControllerService")
 	private HotelPageControllerService hotelPageControllerService;
+	@Autowired
+	@Qualifier("fr.shoppingCart.ShoppingCartControllerService")
+	private ShoppingCartControllerService shoppingCartControllerService;
+	
 	
 	
 	@GetMapping("/checkLogin")
@@ -104,6 +111,33 @@ public class FrontendController {
 	public ResponseEntity<Response> addShoppingCart(@RequestBody AddShoppingCartReq addShoppingCartReq){
 		
 		Response response = hotelPageControllerService.addShoppingCart(addShoppingCartReq);
+		return ResponseEntity.ok(response);
+	}
+	
+	
+	// shoppingCart
+	@GetMapping("/shoppingCart/show")
+	public ResponseEntity<Response> show(){
+		
+		Response response = shoppingCartControllerService.show();
+		return ResponseEntity.ok(response);
+	}
+	@DeleteMapping("/shoppingCart/delete")
+	public ResponseEntity<Response> delete(@RequestBody DeleteReq deleteReq){
+		
+		Response response = shoppingCartControllerService.delete(deleteReq);
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/shoppingCart/payMethodOptions")
+	public ResponseEntity<Response> payMethodOptions(){
+		
+		Response response = shoppingCartControllerService.payMethodOptions();
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/shoppingCart/checkout")
+	public ResponseEntity<Response> checkout(){
+		
+		Response response = shoppingCartControllerService.checkout();
 		return ResponseEntity.ok(response);
 	}
 }

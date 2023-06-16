@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Stack } from 'react-bootstrap';
 
-const constant = {
-    months : ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-    years : ['2023', '2024', '2025', '2026']
-};
-
 class ExpireDate extends Component {
 
     render() {
@@ -14,21 +9,21 @@ class ExpireDate extends Component {
             <Stack>
                 <Form.Label>信用卡有效期限</Form.Label>
                 <Stack direction='horizontal' gap={3}>
-                    <Form.Control as='select'>
+                    <Form.Control as='select' value={this.getter('valueMonth')} onChange={e => this.onChange(e, 'valueMonth')}>
                         {
-                            constant.months.map(
+                            this.getter('monthOptions').map(
                                 month => (
-                                    <option key={month}>{month}</option>
+                                    <option key={month.id} value={month.id}>{month.name}</option>
                                 )
                             )
                         }
                     </Form.Control>
                     <div>月</div>
-                    <Form.Control as='select'>
+                    <Form.Control as='select' value={this.getter('valueYear')} onChange={e => this.onChange(e, 'valueYear')}>
                         {
-                            constant.years.map(
+                            this.getter('yearOptions').map(
                                 year => (
-                                    <option key={year}>{year}</option>
+                                    <option key={year.id} value={year.id}>{year.name}</option>
                                 )
                             )
                         }
@@ -37,6 +32,30 @@ class ExpireDate extends Component {
                 </Stack>
             </Stack>
         );
+    }
+
+
+    // on
+    onChange = (event, colName) => {
+
+        this.setter(colName, event.target.value);
+    }
+
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setExpireDate({
+            ...getter.getExpireDate(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getExpireDate()[colName];
     }
 }
 

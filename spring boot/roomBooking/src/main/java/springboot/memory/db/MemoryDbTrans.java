@@ -16,6 +16,8 @@ public abstract class MemoryDbTrans<P, O, D> implements Trans<PkAndObj<P, O>, D>
 	}
 	public D paoToDto(PkAndObj<P, O> pao) {
 		
+		if(pao.getObj() == null)
+			return null;
 		return aToB(pao);
 	}
 	public List<D> paoListToDtoList(List<PkAndObj<P, O>> paoList){

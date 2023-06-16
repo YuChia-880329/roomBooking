@@ -1,5 +1,7 @@
 package springboot.dao.fr.memory.db;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -18,6 +20,11 @@ public class ShoppingCartDbDao extends MemoryDbDao<Integer, Item, ItemDto, Shopp
 	protected ShoppingCartDbDao(ShoppingCartDb memory) {
 		
 		super(memory);
+	}
+	
+	public List<ItemDto> searchByRoomId(int roomId){
+		
+		return trans.paoListToDtoList(memory.getPaosByRoomId(roomId));
 	}
 
 	@Autowired

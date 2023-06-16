@@ -16,4 +16,5 @@ public class AddShoppingCartReq {
 	private String checkoutDate;
 	private String checkinTime;
 	private int num;
+	private int price;
 }

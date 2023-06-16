@@ -22,7 +22,8 @@ const constant = {
                 checkinDate : "",
                 checkoutDate : "",
                 checkinTime : "",
-                num : 0
+                num : 0,
+                price : 0
             }
         }
     }
@@ -90,7 +91,7 @@ class BuyModal extends Component {
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary">取消</Button>
+                    <Button variant="secondary" onClick={this.getter('onHide')}>取消</Button>
                     <Button variant="primary" onClick={this.getter('onClickOkBtn')}>確認</Button>
                 </Modal.Footer>
             </Modal>
@@ -108,15 +109,22 @@ class BuyModal extends Component {
         req.checkoutDate = this.getter('date').valueCheckoutDate;
         req.checkinTime = this.getter('checkinTime').value;
         req.num = this.getter('num').value;
+        req.price = this.getter('price');
         this.addShoppingCartFetch(req);
     }
     submit = () => {
+
+        const {fctn} = this.props;
 
         this.setter('validated', true, () => {
 
             if(this.buyModalFormRef.current.checkValidity() === true){
     
-                this.addShoppingCart();
+                fctn.showConfirmModal('確定要新增至購物車 ? ', () => {
+
+                    fctn.closeConfirmModal();
+                    this.addShoppingCart();
+                });
             }
         });
     }
@@ -157,11 +165,20 @@ class BuyModal extends Component {
         if(data.success){
             this.setter('validated', false, () => {
 
-                this.setter('show', false, () => {
+                this.setter('checkinTime', {
+                    ...this.getter('checkinTime'),
+                    value : ''
+                }, () => {
 
-                    fctn.showInformModal(data.msg)
+                    this.setter('show', false, () => {
+
+                        fctn.showInformModal(data.msg);
+                    });
                 });
             });
+        }else {
+
+            fctn.showInformModal(data.msg);
         }
     }
 

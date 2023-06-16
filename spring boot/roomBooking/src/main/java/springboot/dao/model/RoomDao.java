@@ -239,6 +239,33 @@ public class RoomDao {
 				.setMaxResults(maxRowNum)
 				.getResultList();
 	}
+	public Long queryFrItemPagesCount(List<Integer> roomIds){
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+		Root<Room> root = criteriaQuery.from(Room.class);
+		
+		criteriaQuery.select(criteriaBuilder.count(root.get(ID_ATTRIBUTE_NAME)))
+			.where(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(roomIds));
+		
+		TypedQuery<Long> tq = entityManager.createQuery(criteriaQuery);
+		
+		return tq.getSingleResult();
+	}
+	public List<Room> queryFrItemPages(List<Integer> roomIds, int startRow, int maxRowNum){
+		
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Room> criteriaQuery = criteriaBuilder.createQuery(Room.class);
+		Root<Room> root = criteriaQuery.from(Room.class);
+		
+		criteriaQuery.select(root)
+			.where(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(roomIds));
+		
+		return entityManager.createQuery(criteriaQuery)
+				.setFirstResult(startRow)
+				.setMaxResults(maxRowNum)
+				.getResultList();
+	}
 	
 
 	public Room add(Room room) {

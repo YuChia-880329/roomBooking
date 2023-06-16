@@ -13,17 +13,19 @@ public class ShoppingCartDbTrans extends MemoryDbTrans<Integer, Item, ItemDto> {
 	@Override
 	protected Integer dtoToPkImpl(ItemDto dto) {
 		
-		return dto.getRoomId();
+		return dto.getItemId();
 	}
 
 	@Override
 	protected Item dtoToObjImpl(ItemDto dto) {
 		
 		return Item.builder()
+				.roomId(dto.getRoomId())
 				.checkinDate(dto.getCheckinDate())
 				.checkoutDate(dto.getCheckoutDate())
 				.checkinTime(dto.getCheckinTime())
 				.num(dto.getNum())
+				.price(dto.getPrice())
 				.build();
 	}
 
@@ -31,11 +33,13 @@ public class ShoppingCartDbTrans extends MemoryDbTrans<Integer, Item, ItemDto> {
 	protected ItemDto paoToDtoImpl(PkAndObj<Integer, Item> pao) {
 		
 		return ItemDto.builder()
-				.roomId(pao.getPk())
+				.itemId(pao.getPk())
+				.roomId(pao.getObj().getRoomId())
 				.checkinDate(pao.getObj().getCheckinDate())
 				.checkoutDate(pao.getObj().getCheckoutDate())
 				.checkinTime(pao.getObj().getCheckinTime())
 				.num(pao.getObj().getNum())
+				.price(pao.getObj().getPrice())
 				.build();
 	}
 }

@@ -14,9 +14,11 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class ItemDto {
 
+	private int itemId;
 	private int roomId;
 	private LocalDate checkinDate;
 	private LocalDate checkoutDate;
 	private LocalTime checkinTime;
 	private int num;
+	private int price;
 }
