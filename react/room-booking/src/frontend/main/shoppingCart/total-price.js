@@ -31,11 +31,23 @@ class TotalPrice extends Component {
                         </h2>
                     </Stack>
                     <PayMethod setter={setter.payMethod} getter={getter.payMethod} />
-                    <Button variant='outline-primary'>結帳</Button>
+                    <Button variant='outline-primary' onClick={this.onClickCheckoutBtn}>結帳</Button>
                 </Stack>
             </div>
         );
     }
+
+    // on
+    onClickCheckoutBtn = (event) => {
+
+        const {fctn} = this.props;
+
+        fctn.showConfirmModal('確定要結帳 ? ', () => {
+
+            fctn.closeConfirmModal();
+            fctn.checkout();
+        });
+    };
 
 
     // setter getter

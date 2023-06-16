@@ -58,7 +58,9 @@
         "shoppingCart" : {
             "show" : "http://localhost:8086/roomBooking/frontend/shoppingCart/show",
             "delete" : "http://localhost:8086/roomBooking/frontend/shoppingCart/delete",
-            "payMethodOptions" : "http://localhost:8086/roomBooking/frontend/shoppingCart/payMethodOptions"
+            "payMethodOptions" : "http://localhost:8086/roomBooking/frontend/shoppingCart/payMethodOptions",
+            "turnPage" : "http://localhost:8086/roomBooking/frontend/shoppingCart/turnPage",
+            "checkout" : "http://localhost:8086/roomBooking/frontend/shoppingCart/checkout"
         }
     }
 }

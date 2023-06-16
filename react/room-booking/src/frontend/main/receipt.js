@@ -5,6 +5,43 @@ import TotalPrice from './receipt/total-price';
 
 class Receipt extends Component {
 
+    constructor(props){
+
+        super(props);
+        this.state = {
+            rooms : {
+                items : [],
+                pagination : {
+                    first : {
+                        show : true,
+                        toPage : 1
+                    },
+                    prev : {
+                        show : true,
+                        toPage : 1
+                    },
+                    pages : [1, 2, 3],
+                    next : {
+                        show : true,
+                        toPage : 3
+                    },
+                    last : {
+                        show : true,
+                        toPage : 3 
+                    },
+                    currentPage : 2
+                }
+            },
+            totalPrice : {
+                totalPrice : 0,
+                payMethod : '',
+                showCreditCard : false,
+                creditCard : {
+                    cardNumber : ''
+                }
+            }
+        };
+    }
     render() {
 
         return (

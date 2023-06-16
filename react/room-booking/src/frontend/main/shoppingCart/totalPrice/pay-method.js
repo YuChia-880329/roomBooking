@@ -53,10 +53,7 @@ class PayMethod extends Component {
 
         this.setter('value', optionId, () => {
 
-            this.setter('showCreditCard', needCreditCard, () => {
-
-                this.setter('needCreditCard', needCreditCard);
-            });
+            this.setter('showCreditCard', needCreditCard);
         });
     };
 

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,6 @@ import springboot.dao.model.inner.RoomDaoInner;
 import springboot.exception.IllegalPageException;
 import springboot.memory.repo.Repo;
 import springboot.service.fr.shoppingCart.memory.repo.itemPages.SearchParamService;
-import util.LogsUtil;
 import util.PageUtil;
 
 @Component("fr.shoppingCart.ItemPagesRepo")
@@ -45,7 +43,6 @@ public class ItemPagesRepo extends Repo<Input, ItemPages, Output> {
 	private RoomDaoInner roomDaoInner;
 	
 	private boolean needUpdate;
-	private Logger log = LogsUtil.getLogger(ItemPagesRepo.class);
 	
 	
 	public ItemPagesRepo() {
@@ -86,18 +83,10 @@ public class ItemPagesRepo extends Repo<Input, ItemPages, Output> {
 		
 		
 		int page = searchParam.getPage();
-		List<Integer> roomIds = searchParam.getItemIndices().stream()
-				.map(itemIndex -> itemIndex.getRoomId())
-				.collect(Collectors.toList());
-		long totalRows = roomDaoInner.queryFrItemPagesCount(roomIds);
+
+		int totalRows = searchParam.getItemIndices().size();
 		
-		if(totalRows > Integer.MAX_VALUE) {
-			
-			log.warn("資料庫資料過多");
-			totalRows = Integer.MAX_VALUE;
-		}
-		
-		int maxPage = PageUtil.countMaxPage(ROWS_PER_PAGE, (int)totalRows);
+		int maxPage = PageUtil.countMaxPage(ROWS_PER_PAGE, totalRows);
 		int[] pageBounds = PageUtil.countPage(page, PAGES_PER_PAGE_GROUP, maxPage);
 		
 		if(pageBounds == null)
@@ -108,10 +97,17 @@ public class ItemPagesRepo extends Repo<Input, ItemPages, Output> {
 			
 			int[] rowBounds = PageUtil.countRow(ROWS_PER_PAGE, p);
 			
+			List<ItemIndex> pageItemIndices = searchParam.getItemIndices().stream()
+					.skip(rowBounds[0]-1)
+					.limit(ROWS_PER_PAGE)
+					.collect(Collectors.toList());
+			List<Integer> roomIds = pageItemIndices.stream()
+					.map(itemIndex -> itemIndex.getRoomId())
+					.collect(Collectors.toList());
 			
-			List<RoomDto> rooms = roomDaoInner.queryFrItemPages(roomIds, rowBounds[0]-1, ROWS_PER_PAGE);
+			List<RoomDto> rooms = roomDaoInner.queryFrItemPages(roomIds);
 			
-			itemPageMap.put(p, toItemPage(searchParam.getItemIndices(), rooms, p));
+			itemPageMap.put(p, toItemPage(pageItemIndices, rooms, p));
 		}
 		
 		if(needUpdate)

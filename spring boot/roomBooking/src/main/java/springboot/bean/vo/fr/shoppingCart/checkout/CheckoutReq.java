@@ -4,15 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import springboot.bean.vo.Data;
 
 @SuperBuilder
 @NoArgsConstructor
 @Getter
 @Setter
-public class CheckoutResp extends Data {
+public class CheckoutReq {
 
-	private boolean success;
-	private String msg;
-	private int receiptRepoId;
+	private PayMethod payMethod;
 }

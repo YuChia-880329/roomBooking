@@ -21,10 +21,13 @@ public class FrontendPointcuts {
 	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.fr.shoppingCart.ShoppingCartControllerService.*(..))")
 	public void shoppingCartControllerService() {}
 	
+	@Pointcut("execution(public springboot.bean.vo.Response springboot.service.fr.receipt.ReceiptControllerService.*(..))")
+	public void receiptControllerService() {}
+	
 	
 	
 	
 	@Pointcut("frControllerService() || loginControllerService() || homeControllerService() || hotelPageControllerService() || "
-			+ "shoppingCartControllerService()")
+			+ "shoppingCartControllerService() || receiptControllerService()")
 	public void controllerService() {}
 }

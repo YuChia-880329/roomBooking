@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import springboot.bean.vo.Response;
 import springboot.bean.vo.fr.hotelPage.addShoppingCart.AddShoppingCartReq;
 import springboot.bean.vo.fr.login.login.LoginReq;
+import springboot.bean.vo.fr.shoppingCart.checkout.CheckoutReq;
 import springboot.bean.vo.fr.shoppingCart.delete.DeleteReq;
 import springboot.service.fr.FrControllerService;
 import springboot.service.fr.home.HomeControllerService;
 import springboot.service.fr.hotelPage.HotelPageControllerService;
 import springboot.service.fr.login.LoginControllerService;
+import springboot.service.fr.receipt.ReceiptControllerService;
 import springboot.service.fr.shoppingCart.ShoppingCartControllerService;
 
 @RestController
@@ -43,6 +45,9 @@ public class FrontendController {
 	@Autowired
 	@Qualifier("fr.shoppingCart.ShoppingCartControllerService")
 	private ShoppingCartControllerService shoppingCartControllerService;
+	@Autowired
+	@Qualifier("fr.receipt.ReceiptControllerService")
+	private ReceiptControllerService receiptControllerService;
 	
 	
 	
@@ -117,7 +122,7 @@ public class FrontendController {
 	
 	// shoppingCart
 	@GetMapping("/shoppingCart/show")
-	public ResponseEntity<Response> show(){
+	public ResponseEntity<Response> showShoppingCart(){
 		
 		Response response = shoppingCartControllerService.show();
 		return ResponseEntity.ok(response);
@@ -134,10 +139,26 @@ public class FrontendController {
 		Response response = shoppingCartControllerService.payMethodOptions();
 		return ResponseEntity.ok(response);
 	}
-	@GetMapping("/shoppingCart/checkout")
-	public ResponseEntity<Response> checkout(){
+	@GetMapping("/shoppingCart/turnPage")
+	public ResponseEntity<Response> turnPage(@RequestParam(name = "page") String page){
 		
-		Response response = shoppingCartControllerService.checkout();
+		Response response = shoppingCartControllerService.turnPage(page);
+		return ResponseEntity.ok(response);
+	}
+	@PostMapping("/shoppingCart/checkout")
+	public ResponseEntity<Response> checkout(@RequestBody CheckoutReq checkoutReq){
+		
+		Response response = shoppingCartControllerService.checkout(checkoutReq);
+		return ResponseEntity.ok(response);
+	}
+	
+	
+	
+	// receipt
+	@GetMapping("/receipt/show")
+	public ResponseEntity<Response> showReceipt(@RequestParam(name = "receiptId") String receiptId){
+		
+		Response response = receiptControllerService.show(receiptId);
 		return ResponseEntity.ok(response);
 	}
 }

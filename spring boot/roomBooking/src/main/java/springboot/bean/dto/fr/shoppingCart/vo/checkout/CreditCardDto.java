@@ -9,9 +9,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CheckoutRespDto {
+public class CreditCardDto {
 
-	private boolean success;
-	private String msg;
-	private int receiptRepoId;
+	private String cardNumber1;
+	private String cardNumber2;
+	private String cardNumber3;
+	private String cardNumber4;
 }

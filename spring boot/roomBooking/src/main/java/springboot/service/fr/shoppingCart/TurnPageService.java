@@ -6,15 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import springboot.bean.dto.fr.shoppingCart.obj.repo.itemPages.InputDto;
 import springboot.bean.dto.fr.shoppingCart.obj.repo.itemPages.OutputDto;
-import springboot.bean.dto.fr.shoppingCart.vo.show.ShowRespDto;
+import springboot.bean.dto.fr.shoppingCart.vo.turnPage.TurnPageReqDto;
+import springboot.bean.dto.fr.shoppingCart.vo.turnPage.TurnPageRespDto;
 import springboot.dao.fr.memory.db.ShoppingCartDbDao;
 import springboot.dao.fr.shoppingCart.memory.repo.ItemPagesRepoDao;
-import springboot.memory.repo.fr.shoppingCart.ItemPagesRepo;
+import springboot.memory.repo.fr.hotelPage.RoomPagesRepo;
 import springboot.service.PaginationService;
 
-@Service("fr.shoppingCart.ShowService")
-public class ShowService {
+@Service("fr.shoppingCart.TurnPageService")
+public class TurnPageService {
 
 	@Autowired
 	@Qualifier("fr.memory.db.ShoppingCartDbDao")
@@ -29,18 +31,18 @@ public class ShowService {
 	@Qualifier("PaginationService")
 	private PaginationService paginationService;
 	
-	
-	
-	public ShowRespDto show() {
+	public TurnPageRespDto turnPage(TurnPageReqDto turnPageReq) {
 		
 		List<springboot.bean.dto.fr.obj.db.shoppingCart.ItemDto> items = shoppingCartDbDao.searchAll();
-		OutputDto output = itemPagesRepoDao.getObj(repoService.toInputObj(items));
+		InputDto input = repoService.toInputObj(items);
+		input.getSearchParam().setPage(turnPageReq.getPage());
+		OutputDto output = itemPagesRepoDao.getObj(input);
 		
-		return ShowRespDto.builder()
+		return TurnPageRespDto.builder()
 				.itemList(repoService.toItemListVo(output.getItemPage().getItemList()))
 				.totalPrice(repoService.toTotalPrice(items))
 				.pagination(paginationService.getPagination(output.getItemPage().getPage(), 
-						ItemPagesRepo.PAGES_PER_PAGE_GROUP, output.getMaxPage()))
+						RoomPagesRepo.PAGES_PER_PAGE_GROUP, output.getMaxPage()))
 				.build();
 	}
 }

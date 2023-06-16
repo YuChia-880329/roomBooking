@@ -1,4 +1,4 @@
-package springboot.bean.dto.fr.shoppingCart.vo.checkout;
+package springboot.bean.dto.fr.receipt.vo.show;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +9,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CheckoutRespDto {
+public class PayMethodDto {
 
-	private boolean success;
-	private String msg;
-	private int receiptRepoId;
+	private String name;
+	private boolean needCreditCard;
+	private CreditCardDto creditCard;
 }

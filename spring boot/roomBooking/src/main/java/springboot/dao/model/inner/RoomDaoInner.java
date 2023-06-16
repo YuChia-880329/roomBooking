@@ -91,13 +91,9 @@ public class RoomDaoInner {
 		
 		return trans.modelListToDtoList(dao.queryFrRoomPages(hotelId, checkinDate, checkoutDate, num, startRow, maxRowNum));
 	}
-	public Long queryFrItemPagesCount(List<Integer> roomIds){
+	public List<RoomDto> queryFrItemPages(List<Integer> roomIds){
 		
-		return dao.queryFrItemPagesCount(roomIds);
-	}
-	public List<RoomDto> queryFrItemPages(List<Integer> roomIds, int startRow, int maxRowNum){
-		
-		return trans.modelListToDtoList(dao.queryFrItemPages(roomIds, startRow, maxRowNum));
+		return trans.modelListToDtoList(dao.queryFrItemPages(roomIds));
 	}
 	
 	

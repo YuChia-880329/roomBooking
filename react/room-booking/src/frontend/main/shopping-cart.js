@@ -15,7 +15,9 @@ const constant = {
         url : {
             show : urls.frontend.shoppingCart.show,
             delete : urls.frontend.shoppingCart.delete,
-            payMethodOptions : urls.frontend.shoppingCart.payMethodOptions
+            payMethodOptions : urls.frontend.shoppingCart.payMethodOptions,
+            turnPage : urls.frontend.shoppingCart.turnPage,
+            checkout : urls.frontend.shoppingCart.checkout
         },
         config : {
             timeout : config.fetch.timeout
@@ -23,6 +25,21 @@ const constant = {
         req : {
             delete : {
                 itemId : -1
+            },
+            turnPage : {
+                page : ''
+            },
+            checkout : {
+                payMethod : {
+                    name : '',
+                    needCreditCard : false,
+                    creditCard : {
+                        cardNumber1 : '',
+                        cardNumber2 : '',
+                        cardNumber3 : '',
+                        cardNumber4 : '',
+                    }
+                }
             }
         }
     },
@@ -55,7 +72,6 @@ class ShoppingCart extends Component {
                     options : [],
                     value : '',
                     showCreditCard : false,
-                    needCreditCard : false,
                     creditCard : {
                         cardNumber : {
                             value1 : '',
@@ -132,6 +148,11 @@ class ShoppingCart extends Component {
                 showConfirmModal : this.props.fctn.showConfirmModal,
                 closeConfirmModal : this.props.fctn.closeConfirmModal,
                 delete : this.delete
+            },
+            totalPrice : {
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
+                checkout : this.checkout
             }
         }
 
@@ -155,10 +176,10 @@ class ShoppingCart extends Component {
                         </Col>
                         <Col xs={4}>
                             <Stack className='h-100'>
-                                <TotalPrice setter={setter.totalPrice} getter={getter.totalPrice} />
+                                <TotalPrice setter={setter.totalPrice} getter={getter.totalPrice} fctn={fctn.totalPrice} />
                                 <div className='mt-auto ms-auto'>
                                     <div className='mt-5'>
-                                        <Pagn pagn={pagination} />
+                                        <Pagn pagn={pagination} turnPage={this.turnPage} />
                                     </div>
                                 </div>
                             </Stack>
@@ -184,6 +205,27 @@ class ShoppingCart extends Component {
     payMethodOptions = (onSuccess) => {
 
         this.payMethodOptionsFetch(onSuccess);
+    };
+    turnPage = (page) => {
+
+        const req = constant.fetch.req.turnPage;
+
+        req.page = page;
+        this.turnPageFetch(req);
+    };
+    checkout = () => {
+
+        const {totalPrice} = this.state;
+        const req = constant.fetch.req.checkout;
+
+        req.payMethod.name = totalPrice.payMethod.value;
+        req.payMethod.needCreditCard = totalPrice.payMethod.showCreditCard;
+        req.payMethod.creditCard.cardNumber1 = totalPrice.payMethod.creditCard.cardNumber.value1;
+        req.payMethod.creditCard.cardNumber2 = totalPrice.payMethod.creditCard.cardNumber.value2;
+        req.payMethod.creditCard.cardNumber3 = totalPrice.payMethod.creditCard.cardNumber.value3;
+        req.payMethod.creditCard.cardNumber4 = totalPrice.payMethod.creditCard.cardNumber.value4;
+        
+        this.checkoutFetch(req);
     };
 
 
@@ -259,15 +301,117 @@ class ShoppingCart extends Component {
             fctn.showInformModal(serverInfo.msg);
         }
     };
+    turnPageFetch = async (params) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.turnPage;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.get(url, {
+                timeout : config.timeout,
+                withCredentials: true,
+                params : params
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterTurnPage(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+    checkoutFetch = async (req) => {
+
+        const {fctn} = this.props;
+        const {fetch} =  constant;
+        const url = fetch.url.checkout;
+        const config = fetch.config;
+
+        const {serverInfo, data} = await axios.post(url, req, {
+                timeout : config.timeout,
+                withCredentials: true
+            })
+            .then(rs => rs.data)
+            .catch(error => console.error(error));
+
+        const statusCode = serverInfo.statusCode;
+        if(statusCode === 200){
+
+            this.afterCheckout(data);
+        }else if(statusCode===400 || statusCode===500){
+
+            fctn.showInformModal(serverInfo.msg);
+        }
+    };
+
 
     
 
     // after fetch
     afterShow = (data) => {
 
+        this.updateState(data);
+    };
+    afterDelete = (data) => {
+
+        const {fctn} = this.props;
+
+        if(data.success){
+
+            fctn.showInformModal(data.msg, () => {
+
+                fctn.closeInformModal();
+                this.show();
+            });
+        }else{
+
+            fctn.showInformModal(data.msg);
+        }
+    };
+    afterPayMethodOptions = (data, onSuccess) => {
+
+        const {totalPrice} = this.state;
+        
+        this.setter('totalPrice', {
+            ...totalPrice,
+            payMethod : {
+                ...totalPrice.payMethod,
+                options : data.options
+            }
+        }, () => {
+
+            onSuccess && onSuccess();
+        });
+    };
+    afterTurnPage = (data) => {
+
+        this.updateState(data);
+    };
+    afterCheckout = (data) => {
+
+        const {fctn} = this.props;
+
+        if(data.success){
+
+            fctn.showInformModal(data.msg, () => {
+
+                fctn.closeInformModal();
+                this.show();
+            });
+        }else{
+
+            fctn.showInformModal(data.msg);
+        }
+    };
+    updateState = (data) => {
+
         const {totalPrice, pagination} = this.state;
 
-        // console.log('data : ', data);
         this.setter('items', data.itemList.items, () => {
 
             this.setter('totalPrice', {
@@ -302,38 +446,7 @@ class ShoppingCart extends Component {
                 });
             });
         });
-    };
-    afterDelete = (data) => {
-
-        const {fctn} = this.props;
-
-        if(data.success){
-
-            fctn.showInformModal(data.msg, () => {
-
-                fctn.closeInformModal();
-                this.show();
-            });
-        }else{
-
-            fctn.showInformModal(data.msg);
-        }
-    };
-    afterPayMethodOptions = (data, onSuccess) => {
-
-        const {totalPrice} = this.state;
-        
-        this.setter('totalPrice', {
-            ...totalPrice,
-            payMethod : {
-                ...totalPrice.payMethod,
-                options : data.options
-            }
-        }, () => {
-
-            onSuccess && onSuccess();
-        });
-    };
+    }
 
 
 

@@ -9,8 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ItemIndexDto {
+public class CheckoutReqDto {
 
-	private int itemId;
-	private int roomId;
+	private PayMethodDto payMethod;
 }

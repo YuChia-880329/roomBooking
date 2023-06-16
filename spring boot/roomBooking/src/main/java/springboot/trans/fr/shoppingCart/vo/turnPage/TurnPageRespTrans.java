@@ -25,6 +25,7 @@ public class TurnPageRespTrans implements VoWoTrans<TurnPageResp, TurnPageRespDt
 		
 		return TurnPageResp.builder()
 				.itemList(itemListTrans.dtoToVo(dto.getItemList()))
+				.totalPrice(dto.getTotalPrice())
 				.pagination(paginationTrans.dtoToVo(dto.getPagination()))
 				.build();
 	}

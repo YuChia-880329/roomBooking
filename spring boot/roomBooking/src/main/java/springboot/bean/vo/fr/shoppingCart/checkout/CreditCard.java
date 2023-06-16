@@ -9,8 +9,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ItemIndex {
+public class CreditCard {
 
-	private int itemId;
-	private int roomId;
+	private String cardNumber1;
+	private String cardNumber2;
+	private String cardNumber3;
+	private String cardNumber4;
 }
