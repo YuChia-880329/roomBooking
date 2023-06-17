@@ -50,7 +50,7 @@ public class LoginService {
 		
 		loginStatusDao.setStatus(LoginDto.builder()
 				.isLogin(success)
-				.HotelId(member==null ? null : member.getId())
+				.memberId(member==null ? null : member.getId())
 				.build());
 		
 		return LoginRespDto.builder()

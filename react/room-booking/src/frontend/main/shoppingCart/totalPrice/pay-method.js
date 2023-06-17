@@ -24,7 +24,6 @@ class PayMethod extends Component {
                     <Form.Label column xs='auto'>付款方式 : </Form.Label>
                     <Col>
                         <Form.Control as='select' value={this.getter('value')} onChange={e => this.onChange(e, )}>
-                            <option value={-1}>---- 請選擇 ----</option>
                             {
                                 this.getter('options').map(
                                     op => (

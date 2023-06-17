@@ -15,7 +15,7 @@ import springboot.dao.model.inner.PayMethodDaoInner;
 @Service("fr.shoppingCart.PayMethodOptionsService")
 public class PayMethodOptionsService {
 
-	private static final String CREDIT_CARD_NAME = "信用卡";
+	private static final int CREDIT_CARD_ID = 2;
 	
 	@Autowired
 	@Qualifier("model.inner.PayMethodDaoInner")
@@ -42,7 +42,7 @@ public class PayMethodOptionsService {
 		return OptionDto.builder()
 				.id(payMethod.getId())
 				.name(payMethod.getName())
-				.needCreditCard(payMethod.getName().equals(CREDIT_CARD_NAME))
+				.needCreditCard(payMethod.getId() == CREDIT_CARD_ID)
 				.build();
 	}
 }

@@ -14,7 +14,7 @@ public class LoginTrans extends StatusTrans<Login, LoginDto> {
 		
 		return Login.builder()
 				.isLogin(dto.isLogin())
-				.HotelId(dto.getHotelId())
+				.hotelId(dto.getHotelId())
 				.build();
 	}
 
@@ -23,7 +23,7 @@ public class LoginTrans extends StatusTrans<Login, LoginDto> {
 		
 		return LoginDto.builder()
 				.isLogin(status.isLogin())
-				.HotelId(status.getHotelId())
+				.hotelId(status.getHotelId())
 				.build();
 	}
 }

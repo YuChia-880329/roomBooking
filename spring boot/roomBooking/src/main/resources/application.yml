@@ -6,7 +6,7 @@ server:
     
 spring:
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:xe
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
     username: ROOM_BOOKING
     password: root
     driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -23,7 +23,7 @@ spring:
     
   
 attr:
-  imgDirPath: C:\Users\USER\Desktop\java\images\roomBooking
+  imgDirPath: C:\Users\RD04\Desktop\temp\roomBooking
   
   
   

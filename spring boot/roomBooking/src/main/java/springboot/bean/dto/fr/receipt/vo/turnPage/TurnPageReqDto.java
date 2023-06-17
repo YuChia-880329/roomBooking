@@ -1,4 +1,4 @@
-package springboot.bean.vo.fr.receipt.show;
+package springboot.bean.dto.fr.receipt.vo.turnPage;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +9,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PayMethod {
+public class TurnPageReqDto {
 
-	private String name;
-	private boolean needCreditCard;
-	private CreditCard creditCard;
+	private int page;
+	private int receiptId;
 }

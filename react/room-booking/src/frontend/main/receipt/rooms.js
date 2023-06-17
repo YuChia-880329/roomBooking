@@ -5,56 +5,44 @@ import Pagn from '../../../hoc/pagn';
 
 class Rooms extends Component {
 
-    constructor(props){
-
-        super(props);
-        this.state = {
-            pagination : {
-                first : {
-                    show : true,
-                    toPage : 1
-                },
-                prev : {
-                    show : true,
-                    toPage : 1
-                },
-                pages : [1, 2, 3],
-                next : {
-                    show : true,
-                    toPage : 3
-                },
-                last : {
-                    show : true,
-                    toPage : 3 
-                },
-                currentPage : 2
-            }
-        };
-    }
-
-
     render() {
 
-        const {pagination} = this.state;
+        const {fctn} = this.props;
 
         return (
             <Fragment>
-                <Row xs={3}>
-                    <Col>
-                        <Room />
-                    </Col>
-                    <Col>
-                        <Room />
-                    </Col>
-                    <Col>
-                        <Room />
-                    </Col>
+                <Row xs={3} className='g-4'>
+                    {
+                        this.getter('items').map(
+                            item => (
+                                <Col key={item.itemId}>
+                                    <Room value={item} />
+                                </Col>
+                            )
+                        )
+                    }
                 </Row>
                 <Stack direction='horizontal' className='mt-5 justify-content-end'>
-                    <Pagn pagn={pagination} />
+                    <Pagn pagn={this.getter('pagination')} turnPage={fctn.turnPage} />
                 </Stack>
             </Fragment>
         );
+    }
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setRooms({
+            ...getter.getRooms(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getRooms()[colName];
     }
 }
 

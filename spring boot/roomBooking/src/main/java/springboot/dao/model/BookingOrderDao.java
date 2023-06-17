@@ -30,6 +30,7 @@ public class BookingOrderDao {
 	
 	public static final String DATE_TIME_SQL_FORMAT = "YYYY/MM/DD HH24:MI";
 	public static final String DATE_SQL_FORMAT = "YYYY/MM/DD";
+	public static final String TIME_SQL_FORMAT = "HH24:MI";
 	
 	public static final String BOOKING_ORDER_TABLE_SQL_NAME = "BOOKING_ORDER";
 	public static final String ROOM_TABLE_SQL_NAME = "ROOM";
@@ -46,7 +47,8 @@ public class BookingOrderDao {
 	public static final String BOOKING_ORDER_ROOM_ID_SQL_NAME = "ROOM_ID";
 	public static final String BOOKING_ORDER_ROOM_NUM_SQL_NAME = "ROOM_NUM";
 	public static final String BOOKING_ORDER_PAY_METHOD_ID_SQL_NAME = "PAY_METHOD_ID";
-	public static final String BOOKING_ORDER_CHECKIN_DATETIME_SQL_NAME = "CHECKIN_DATETIME";
+	public static final String BOOKING_ORDER_CHECKIN_DATE_SQL_NAME = "CHECKIN_DATE";
+	public static final String BOOKING_ORDER_CHECKIN_TIME_SQL_NAME = "CHECKIN_TIME";
 	public static final String BOOKING_ORDER_CHECKOUT_DATE_SQL_NAME = "CHECKOUT_DATE";
 	public static final String BOOKING_ORDER_USE_DAY_SQL_NAME = "USE_DAY";
 	public static final String BOOKING_ORDER_TOTAL_MONEY_SQL_NAME = "TOTAL_MONEY";
@@ -62,6 +64,7 @@ public class BookingOrderDao {
 	
 	public static final String PAY_METHOD_TABLE_ID_SQL_NAME = "ID";
 	public static final String PAY_METHOD_TABLE_NAME_SQL_NAME = "NAME";
+	
 	
 	
 	@PersistenceContext
@@ -106,6 +109,15 @@ public class BookingOrderDao {
 		
 		return (List<BookingOrder>)query.getResultList();
 	}
+	
+	
+	public BookingOrder add(BookingOrder bookingOrder) {
+		
+		entityManager.persist(bookingOrder);
+		entityManager.flush();
+		return bookingOrder;
+	}
+	
 	
 	private String sqlRowWhere(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
@@ -257,8 +269,6 @@ public class BookingOrderDao {
 		ans = StringConcatUtil.concate(ans, ") ");
 		return ans;
 	}
-	
-
 }
 
 @SuperBuilder

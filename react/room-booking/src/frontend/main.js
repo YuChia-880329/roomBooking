@@ -6,7 +6,7 @@ import Home from './main/home';
 import HotelPage from './main/hotel-page';
 import ShoppingCart from './main/shopping-cart';
 import Receipt from './main/receipt';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -21,7 +21,7 @@ const constant = {
     }
 }
 
-class Main extends Component {
+class MainWrapped extends Component {
     
     render() {
         
@@ -41,7 +41,13 @@ class Main extends Component {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
-                closeConfirmModal : this.props.fctn.closeConfirmModal
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
+                checkLogin : this.checkLogin
+            },
+            receipt : {
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal,
+                checkLogin : this.checkLogin
             }
         };
 
@@ -53,7 +59,7 @@ class Main extends Component {
                     <Route path='/home' element={<Home fctn={fctn.home} />} />
                     <Route path='/hotelPage/:hotelId' element={<HotelPage fctn={fctn.hotelPage} />} />
                     <Route path='/shoppingCart' element={<ShoppingCart fctn={fctn.shoppingCart} />} />
-                    <Route path='/receipt' element={<Receipt />} />
+                    <Route path='/receipt' element={<Receipt fctn={fctn.receipt} />} />
                 </Routes>
             </Fragment>
         );
@@ -62,15 +68,15 @@ class Main extends Component {
 
 
      // other
-    checkLogin = () => {
+    checkLogin = (onSuccess) => {
 
-        this.checkLoginFetch();
+        this.checkLoginFetch(onSuccess);
     };
 
 
 
     // fetch
-    checkLoginFetch = async () => {
+    checkLoginFetch = async (onSuccess) => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
@@ -87,7 +93,7 @@ class Main extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterCheckLogin(data);
+            this.afterCheckLogin(data, onSuccess);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -96,7 +102,7 @@ class Main extends Component {
 
 
     // after fetch
-    afterCheckLogin = (data) => {
+    afterCheckLogin = (data, onSuccess) => {
 
         const {fctn, navigate} = this.props;
 
@@ -104,8 +110,12 @@ class Main extends Component {
 
             fctn.showInformModal(data.msg, () => {
 
+                fctn.closeInformModal();
                 navigate('../login');
             });
+        }else{
+
+            onSuccess && onSuccess();
         }
     };
 
@@ -126,5 +136,12 @@ class Main extends Component {
         return this.state[colName];
     };
 }
+
+const Main = props => {
+
+    const navigate = useNavigate();
+
+    return (<MainWrapped {...props} navigate={navigate} />);
+};
 
 export default Main;

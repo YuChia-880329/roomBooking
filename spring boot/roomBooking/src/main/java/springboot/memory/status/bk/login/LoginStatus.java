@@ -16,7 +16,7 @@ public class LoginStatus extends Status<Login> {
 		
 		return Login.builder()
 				.isLogin(false)
-				.HotelId(null)
+				.hotelId(null)
 				.build();
 	}
 }

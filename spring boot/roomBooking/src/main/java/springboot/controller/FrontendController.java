@@ -140,7 +140,7 @@ public class FrontendController {
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/shoppingCart/turnPage")
-	public ResponseEntity<Response> turnPage(@RequestParam(name = "page") String page){
+	public ResponseEntity<Response> turnPageShoppingCart(@RequestParam(name = "page") String page){
 		
 		Response response = shoppingCartControllerService.turnPage(page);
 		return ResponseEntity.ok(response);
@@ -159,6 +159,12 @@ public class FrontendController {
 	public ResponseEntity<Response> showReceipt(@RequestParam(name = "receiptId") String receiptId){
 		
 		Response response = receiptControllerService.show(receiptId);
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/receipt/turnPage")
+	public ResponseEntity<Response> turnPageReceipt(@RequestParam(name = "page") String page, @RequestParam(name = "receiptId") String receiptId){
+		
+		Response response = receiptControllerService.turnPage(page, receiptId);
 		return ResponseEntity.ok(response);
 	}
 }

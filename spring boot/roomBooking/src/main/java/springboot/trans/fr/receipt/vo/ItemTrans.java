@@ -1,13 +1,13 @@
-package springboot.trans.fr.receipt.vo.show;
+package springboot.trans.fr.receipt.vo;
 
 import org.springframework.stereotype.Component;
 
-import springboot.bean.dto.fr.receipt.vo.show.ItemDto;
-import springboot.bean.vo.fr.receipt.show.Item;
+import springboot.bean.dto.fr.receipt.vo.ItemDto;
+import springboot.bean.vo.fr.receipt.Item;
 import tmpl.trans.bean.vo.VoWoTrans;
 import util.DateTimeUtil;
 
-@Component("fr.receipt.vo.show.ItemTrans")
+@Component("fr.receipt.vo.ItemTrans")
 public class ItemTrans implements VoWoTrans<Item, ItemDto> {
 
 	@Override

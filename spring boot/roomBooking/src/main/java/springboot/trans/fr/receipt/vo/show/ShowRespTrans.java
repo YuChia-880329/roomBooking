@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import springboot.bean.dto.fr.receipt.vo.show.ShowRespDto;
-import springboot.bean.vo.fr.receipt.show.Item;
+import springboot.bean.vo.fr.receipt.Item;
 import springboot.bean.vo.fr.receipt.show.ShowResp;
+import springboot.trans.fr.receipt.vo.ItemTrans;
+import springboot.trans.fr.receipt.vo.PayMethodTrans;
 import springboot.trans.vo.PaginationTrans;
 import tmpl.trans.bean.vo.VoWoTrans;
 
@@ -14,10 +16,10 @@ import tmpl.trans.bean.vo.VoWoTrans;
 public class ShowRespTrans implements VoWoTrans<ShowResp, ShowRespDto> {
 
 	@Autowired
-	@Qualifier("fr.receipt.vo.show.ItemTrans")
+	@Qualifier("fr.receipt.vo.ItemTrans")
 	private ItemTrans itemTrans;
 	@Autowired
-	@Qualifier("fr.receipt.vo.show.PayMethodTrans")
+	@Qualifier("fr.receipt.vo.PayMethodTrans")
 	private PayMethodTrans payMethodTrans;
 	@Autowired
 	@Qualifier("vo.PaginationTrans")

@@ -7,10 +7,26 @@ class CreditCard extends Component {
         return (
             <Fragment>
                 <p>
-                    卡號 : <span>1111-2222-3333-4444</span>
+                    卡號 : <span>{this.getter('cardNumber')}</span>
                 </p>
             </Fragment>
         );
+    }
+
+    // setter getter
+    setter = (colName, colVal, onSet) => {
+
+        const {setter, getter} = this.props;
+
+        setter.setCreditCard({
+            ...getter.getCreditCard(),
+            [colName] : colVal
+        }, onSet);
+    };
+    getter = (colName) => {
+
+        const {getter} = this.props;
+        return getter.getCreditCard()[colName];
     }
 }
 

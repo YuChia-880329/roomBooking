@@ -8,6 +8,7 @@ import Item from './shoppingCart/item';
 import TotalPrice from './shoppingCart/total-price';
 import Pagn from '../../hoc/pagn';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const today = getToday();
 const constant = {
@@ -31,7 +32,7 @@ const constant = {
             },
             checkout : {
                 payMethod : {
-                    name : '',
+                    id : -1,
                     needCreditCard : false,
                     creditCard : {
                         cardNumber1 : '',
@@ -59,7 +60,7 @@ const constant = {
     }
 }
 
-class ShoppingCart extends Component {
+class ShoppingCartWrapped extends Component {
 
     constructor(props){
 
@@ -70,7 +71,7 @@ class ShoppingCart extends Component {
                 totalPrice : 0,
                 payMethod : {
                     options : [],
-                    value : '',
+                    value : '1',
                     showCreditCard : false,
                     creditCard : {
                         cardNumber : {
@@ -116,9 +117,14 @@ class ShoppingCart extends Component {
 
     componentDidMount(){
 
-        this.payMethodOptions(() => {
+        const {fctn} = this.props;
 
-            this.show();
+        fctn.checkLogin(() => {
+
+            this.payMethodOptions(() => {
+
+                this.show();
+            });
         });
     }
 
@@ -150,6 +156,8 @@ class ShoppingCart extends Component {
                 delete : this.delete
             },
             totalPrice : {
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal,
                 showConfirmModal : this.props.fctn.showConfirmModal,
                 closeConfirmModal : this.props.fctn.closeConfirmModal,
                 checkout : this.checkout
@@ -215,10 +223,17 @@ class ShoppingCart extends Component {
     };
     checkout = () => {
 
-        const {totalPrice} = this.state;
+        const {fctn} = this.props;
+        const {items, totalPrice} = this.state;
         const req = constant.fetch.req.checkout;
 
-        req.payMethod.name = totalPrice.payMethod.value;
+        if(items.length <=0){
+
+            fctn.showInformModal('購物車無加入房間');
+            return;
+        }
+
+        req.payMethod.id = totalPrice.payMethod.value;
         req.payMethod.needCreditCard = totalPrice.payMethod.showCreditCard;
         req.payMethod.creditCard.cardNumber1 = totalPrice.payMethod.creditCard.cardNumber.value1;
         req.payMethod.creditCard.cardNumber2 = totalPrice.payMethod.creditCard.cardNumber.value2;
@@ -394,14 +409,18 @@ class ShoppingCart extends Component {
     };
     afterCheckout = (data) => {
 
-        const {fctn} = this.props;
+        const {fctn, navigate} = this.props;
 
         if(data.success){
 
             fctn.showInformModal(data.msg, () => {
 
                 fctn.closeInformModal();
-                this.show();
+                navigate('../receipt', {
+                    state : {
+                        receiptId : data.receiptRepoId
+                    }
+                });
             });
         }else{
 
@@ -465,5 +484,12 @@ class ShoppingCart extends Component {
         return this.state[colName];
     };
 }
+
+const ShoppingCart = props => {
+
+    const navigate = useNavigate();
+
+    return (<ShoppingCartWrapped {...props} navigate={navigate} />)
+};
 
 export default ShoppingCart;

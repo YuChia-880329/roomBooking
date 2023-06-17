@@ -12,5 +12,5 @@ import lombok.experimental.SuperBuilder;
 public class LoginDto {
 
 	private boolean isLogin;
-	private Integer HotelId;
+	private Integer memberId;
 }

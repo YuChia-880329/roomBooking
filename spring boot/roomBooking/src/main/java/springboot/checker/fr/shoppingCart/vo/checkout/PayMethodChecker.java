@@ -22,7 +22,7 @@ public class PayMethodChecker implements Checker<PayMethod> {
 		
 		checkVo(vo);
 		
-		checkName(vo);
+		checkId(vo);
 		checkNeedCreditCard(vo);
 		checkCreditCard(vo);
 	}
@@ -32,11 +32,11 @@ public class PayMethodChecker implements Checker<PayMethod> {
 		CheckUtil.checkOther(vo);
 	}
 	
-	private void checkName(PayMethod vo) {
+	private void checkId(PayMethod vo) {
 		
-		String name = vo.getName();
+		int id = vo.getId();
 		
-		CheckUtil.checkString(name);
+		CheckUtil.checkNumberIsNonNegativeInteger(id);
 	}
 	private void checkNeedCreditCard(PayMethod vo) {
 	}

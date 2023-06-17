@@ -27,4 +27,9 @@ public class PayMethodDaoInner {
 		return trans.modelListToDtoList(
 				dao.queryAllPayMethods());
 	}
+	public PayMethodDto queryPayMethodById(int id) {
+		
+		return trans.modelToDto(
+				dao.queryPayMethodById(id));
+	}
 }

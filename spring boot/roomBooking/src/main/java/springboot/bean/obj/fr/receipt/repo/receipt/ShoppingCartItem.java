@@ -1,4 +1,4 @@
-package springboot.bean.dto.fr.receipt.vo.show;
+package springboot.bean.obj.fr.receipt.repo.receipt;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,11 +12,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ItemDto {
+public class ShoppingCartItem {
 
 	private int itemId;
-	private String hotelName;
-	private String roomName;
+	private int roomId;
 	private LocalDate checkinDate;
 	private LocalDate checkoutDate;
 	private LocalTime checkinTime;

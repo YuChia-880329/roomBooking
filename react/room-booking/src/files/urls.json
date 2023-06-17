@@ -61,6 +61,10 @@
             "payMethodOptions" : "http://localhost:8086/roomBooking/frontend/shoppingCart/payMethodOptions",
             "turnPage" : "http://localhost:8086/roomBooking/frontend/shoppingCart/turnPage",
             "checkout" : "http://localhost:8086/roomBooking/frontend/shoppingCart/checkout"
+        },
+        "receipt" : {
+            "show" : "http://localhost:8086/roomBooking/frontend/receipt/show",
+            "turnPage" : "http://localhost:8086/roomBooking/frontend/receipt/turnPage"
         }
     }
 }

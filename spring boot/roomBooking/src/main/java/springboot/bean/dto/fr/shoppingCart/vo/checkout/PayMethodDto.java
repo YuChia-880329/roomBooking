@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class PayMethodDto {
 
-	private String name;
+	private int id;
 	private boolean needCreditCard;
 	private CreditCardDto creditCard;
 }

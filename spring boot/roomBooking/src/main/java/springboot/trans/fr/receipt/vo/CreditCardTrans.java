@@ -1,12 +1,12 @@
-package springboot.trans.fr.receipt.vo.show;
+package springboot.trans.fr.receipt.vo;
 
 import org.springframework.stereotype.Component;
 
-import springboot.bean.dto.fr.receipt.vo.show.CreditCardDto;
-import springboot.bean.vo.fr.receipt.show.CreditCard;
+import springboot.bean.dto.fr.receipt.vo.CreditCardDto;
+import springboot.bean.vo.fr.receipt.CreditCard;
 import tmpl.trans.bean.vo.VoWoTrans;
 
-@Component("fr.receipt.vo.show.CreditCardTrans")
+@Component("fr.receipt.vo.CreditCardTrans")
 public class CreditCardTrans implements VoWoTrans<CreditCard, CreditCardDto> {
 
 	@Override

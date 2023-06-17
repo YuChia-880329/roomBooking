@@ -21,7 +21,7 @@ public class PayMethodTrans extends VoRiTransChecked<PayMethod, PayMethodDto, Pa
 	public PayMethodDto voToDtoImpl(PayMethod vo) {
 		
 		return PayMethodDto.builder()
-				.name(vo.getName())
+				.id(vo.getId())
 				.needCreditCard(vo.isNeedCreditCard())
 				.creditCard(creditCardTrans.voToDto(vo.getCreditCard()))
 				.build();

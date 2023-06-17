@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import springboot.bean.vo.Data;
 import springboot.bean.vo.Pagination;
+import springboot.bean.vo.fr.receipt.Item;
+import springboot.bean.vo.fr.receipt.PayMethod;
 
 @SuperBuilder
 @NoArgsConstructor

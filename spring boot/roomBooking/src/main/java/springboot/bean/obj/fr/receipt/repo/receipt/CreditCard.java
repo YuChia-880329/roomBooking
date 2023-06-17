@@ -1,4 +1,4 @@
-package springboot.bean.dto.fr.receipt.vo.show;
+package springboot.bean.obj.fr.receipt.repo.receipt;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PayMethodDto {
+public class CreditCard {
 
-	private String name;
-	private boolean needCreditCard;
-	private CreditCardDto creditCard;
+	private String cardNumber;
 }
