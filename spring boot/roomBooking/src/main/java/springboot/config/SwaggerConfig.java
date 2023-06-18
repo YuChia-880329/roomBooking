@@ -14,14 +14,13 @@ public class SwaggerConfig {
     @Bean("Docket")
     Docket testDocket() {
 		
-		return SwaggerUtil.createDocket("Test", testApiInfo(), "springboot.controller");
+		return SwaggerUtil.createDocket("RoomBooking", testApiInfo(), "springboot.controller");
 	}
 
 	private ApiInfo testApiInfo() {
 		
 		return new ApiInfoBuilder()
-				.title("Test Controller")
-				.description("test")
+				.title("RoomBooking")
 				.version("1.0")
 				.build();
 	}

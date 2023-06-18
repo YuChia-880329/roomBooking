@@ -39,6 +39,12 @@ class Frontend extends Component {
                 closeInformModal : this.closeInformModal,
                 showConfirmModal : this.showConfirmModal,
                 closeConfirmModal : this.closeConfirmModal
+            },
+            signup : {
+                showInformModal : this.showInformModal,
+                closeInformModal : this.closeInformModal,
+                showConfirmModal : this.showConfirmModal,
+                closeConfirmModal : this.closeConfirmModal
             }
         };
 
@@ -46,7 +52,7 @@ class Frontend extends Component {
             <Fragment>
                 <Routes>
                     <Route path='/login' element={<Login fctn={fctn.login} />} />
-                    <Route path='/signup' element={<Signup />} />
+                    <Route path='/signup' element={<Signup fctn={fctn.signup} />} />
                     <Route path='/*' element={<Main fctn={fctn.main} />} />
                 </Routes>
                 <InformModal msg={informModal.msg} show={informModal.show} onHide={informModal.onHide} />

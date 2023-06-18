@@ -51,15 +51,13 @@ public class RoomListControllerService {
 	
 	
 	public Response searchTable(String name, String totalNumMin, String totalNumMax, 
-			String usedNumMin, String usedNumMax, String invalidNumMin, String invalidNumMax,
+			String invalidNumMin, String invalidNumMax,
 			String priceMin, String priceMax, String status) {
 		
 		SearchTableReq searchTableReq = SearchTableReq.builder()
 				.name(name)
 				.totalNumMin(totalNumMin)
 				.totalNumMax(totalNumMax)
-				.usedNumMin(usedNumMin)
-				.usedNumMax(usedNumMax)
 				.invalidNumMin(invalidNumMin)
 				.invalidNumMax(invalidNumMax)
 				.priceMin(priceMin)

@@ -20,10 +20,10 @@ import springboot.bean.dto.bk.roomCreate.vo.create.NewImgDto;
 import springboot.bean.dto.model.RoomDto;
 import springboot.bean.dto.model.ShowerDto;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
-import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDao;
 import springboot.dao.model.inner.RoomDaoInner;
 import springboot.dao.model.inner.ShowerDaoInner;
 import springboot.exception.NotLoginException;
+import springboot.service.MemoryClearService;
 import util.ImageUtil;
 
 @Service("bk.roomCreate.CreateService")
@@ -42,8 +42,8 @@ public class CreateService {
 	@Qualifier("model.inner.ShowerDaoInner")
 	private ShowerDaoInner showerDaoInner;
 	@Autowired
-	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDao")
-	private TablePagesRepoDao tablePagesRepoDao;
+	@Qualifier("MemoryClearService")
+	private MemoryClearService memoryClearService;
 	
 	@Value("${attr.imgDirPath}")
 	private String imgDirPath;
@@ -78,8 +78,13 @@ public class CreateService {
 					.forEach(ni -> saveImg(login.getHotelId(), roomId, ni.getImgName(), ni.getFile()));
 		}
 		
-		if(success)
-			tablePagesRepoDao.needUpdate();
+		if(success) {
+			
+			memoryClearService.clearBkRoomListTablePagesRepo();
+			memoryClearService.clearFrHomeHotelRoomPagesRepo();
+			memoryClearService.clearFrHotelPageRoomPagesRepo();
+			memoryClearService.clearFrShoppingCartItemPagesRepoDao();
+		}
 		
 		return CreateRespDto.builder()
 				.success(success)
@@ -95,7 +100,6 @@ public class CreateService {
 				.name(createReq.getName())
 				.totalNum(createReq.getTotalNum())
 				.invalidNum(createReq.getInvalidNum())
-				.usedNum(0)
 				.price(createReq.getPrice())
 				.singleBedNum(createReq.getSingleBedNum())
 				.doubleBedNum(createReq.getDoubleBedNum())

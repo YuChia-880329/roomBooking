@@ -16,8 +16,6 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 
 	public static final String TOTAL_NUM_MIN_FIELD_NAME = "總房數(最小值)";
 	public static final String TOTAL_NUM_MAX_FIELD_NAME = "總房數(最大值)";
-	public static final String USED_NUM_MIN_FIELD_NAME = "使用中房數(最小值)";
-	public static final String USED_NUM_MAX_FIELD_NAME = "使用中房數(最大值)";
 	public static final String INVALID_NUM_MIN_FIELD_NAME = "不開放房數(最小值)";
 	public static final String INVALID_NUM_MAX_FIELD_NAME = "不開放房數(最大值)";
 	public static final String PRICE_MIN_FIELD_NAME = "房間單價(最小值)";
@@ -32,8 +30,6 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 		checkName(vo);
 		checkTotalNumMin(vo);
 		checkTotalNumMax(vo);
-		checkUsedNumMin(vo);
-		checkUsedNumMax(vo);
 		checkInvalidNumMin(vo);
 		checkInvalidNumMax(vo);
 		checkPriceMin(vo);
@@ -79,40 +75,6 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 		}catch(NonIntegerNumberException ex) {
 			
 			throw new RiCheckerException(NonIntegerNumberException.getMsgStr(TOTAL_NUM_MAX_FIELD_NAME));
-		}
-	}
-	private void checkUsedNumMin(SearchTableReq vo) {
-		
-		String usedNumMin = vo.getUsedNumMin();
-		if(usedNumMin == null)
-			return;
-		
-		try {
-			
-			CheckUtil.checkStringIsIntegerNumberString(usedNumMin);
-		}catch(NonNumberStringException ex) {
-			
-			throw new RiCheckerException(NonNumberStringException.getMsgStr(USED_NUM_MIN_FIELD_NAME));
-		}catch(NonIntegerNumberException ex) {
-			
-			throw new RiCheckerException(NonIntegerNumberException.getMsgStr(USED_NUM_MIN_FIELD_NAME));
-		}
-	}
-	private void checkUsedNumMax(SearchTableReq vo) {
-		
-		String usedNumMax = vo.getUsedNumMax();
-		if(usedNumMax == null)
-			return;
-		
-		try {
-			
-			CheckUtil.checkStringIsIntegerNumberString(usedNumMax);
-		}catch(NonNumberStringException ex) {
-			
-			throw new RiCheckerException(NonNumberStringException.getMsgStr(USED_NUM_MAX_FIELD_NAME));
-		}catch(NonIntegerNumberException ex) {
-			
-			throw new RiCheckerException(NonIntegerNumberException.getMsgStr(USED_NUM_MAX_FIELD_NAME));
 		}
 	}
 	private void checkInvalidNumMin(SearchTableReq vo) {

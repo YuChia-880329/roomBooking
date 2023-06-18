@@ -20,7 +20,8 @@ class Room extends Component {
         }
         const getter = {
             shoppingCartForm : {
-                getShoppingCartForm : () => this.getter('shoppingCartForm')
+                getShoppingCartForm : () => this.getter('shoppingCartForm'),
+                getValidNum : () => this.getter('validNum')
             }
         }
         const fctn = {

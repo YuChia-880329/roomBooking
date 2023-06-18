@@ -23,11 +23,11 @@ public class ItemPagesRepoDao extends RepoDao<Input, ItemPages, Output, InputDto
 		
 		super(repo);
 	}
+	
 	public void needUpdate() {
 		
 		repo.needUpdate();
 	}
-
 	
 	@Autowired
 	@Qualifier("fr.shoppingCart.obj.repo.itemPages.InputTrans")

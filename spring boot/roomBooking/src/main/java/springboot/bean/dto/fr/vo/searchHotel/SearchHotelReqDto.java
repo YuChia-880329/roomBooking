@@ -1,4 +1,4 @@
-package springboot.bean.vo.bk.roomUpdate.roomInfo;
+package springboot.bean.dto.fr.vo.searchHotel;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +9,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UsedNum {
+public class SearchHotelReqDto {
 
-	private int[] options;
-	private int value;
+	private String name;
 }

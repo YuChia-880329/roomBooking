@@ -1,7 +1,6 @@
 package springboot.bean.dto.bk.bookingOrderList.obj.repo.tablePages;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +20,7 @@ public class TableRowDto {
 	private int roomNum;
 	private int price;
 	private String payMethod;
-	private LocalDateTime checkinDateTime;
+	private LocalDate checkinDate;
 	private LocalDate checkoutDate;
 	private int useDay;
 	private int totalPrice;

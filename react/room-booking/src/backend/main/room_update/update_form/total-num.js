@@ -28,13 +28,10 @@ class TotalNum extends Component {
         const totalNum = parseInt(event.target.value, 10);
         if(totalNumStr!=='' &&  totalNum>=0){
 
-            let usedNum = parseInt(getter.getUsedNum().value, 10);
             let invalidNum = parseInt(getter.getInValidNum().value, 10);
     
             const invalidNumMax = totalNum;
             invalidNum = invalidNum<invalidNumMax ? invalidNum : invalidNumMax;
-            const usedNumMax = totalNum-invalidNum;
-            usedNum = usedNum<usedNumMax ? usedNum : usedNumMax;
     
             this.setter('value', event.target.value, () => {
     
@@ -42,13 +39,6 @@ class TotalNum extends Component {
                     ...getter.getInValidNum(),
                     options : Array.from({length : invalidNumMax+1}, (v, i) => i),
                     value : `${invalidNum}`
-                }, () => {
-
-                    setter.setUsedNum({
-                        ...getter.getUsedNum(),
-                        options : Array.from({length : usedNumMax+1}, (v, i) => i),
-                        value : `${usedNum}`
-                    });
                 });
             });
         }else{
@@ -59,13 +49,6 @@ class TotalNum extends Component {
                     ...getter.getInValidNum(),
                     options : [],
                     value : ''
-                }, () => {
-
-                    setter.setUsedNum({
-                        ...getter.getUsedNum(),
-                        options : [],
-                        value : ''
-                    });
                 });
             });
         }

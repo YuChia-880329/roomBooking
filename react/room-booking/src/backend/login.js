@@ -3,6 +3,7 @@ import config from '../files/config.json';
 import React, { Component } from 'react';
 import LoginForm from './login/login-form';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const constant = {
     fetch : {
@@ -23,13 +24,12 @@ const constant = {
         }
     }
 }
-class Login extends Component {
+class LoginWrapped extends Component {
 
     constructor(props){
 
         super(props);
         this.state = {
-            isLogin : false,
             loginForm : {
                 validated : false,
                 account : {
@@ -83,10 +83,6 @@ class Login extends Component {
     checkLogin = () => {
 
         this.checkLoginFetch();
-    };
-    toMain = () => {
-
-        window.location.href = './';
     };
 
 
@@ -143,24 +139,25 @@ class Login extends Component {
     // after fetch
     afterLogin = (data) => {
 
-        const {fctn} = this.props;
+        const {fctn, navigate} = this.props;
         const result = data.result;
 
         if(result.result)
             fctn.showInformModal(result.msg, () => {
                 
                 fctn.closeInformModal();
-                this.toMain();
+                navigate('/roomBooking/backend/hotelInfo');
             });
         else
             fctn.showInformModal(result.msg);
     }
     afterCheckLogin = (data) => {
 
+        const {navigate} = this.props;
         const {result} = data;
 
         if(result.login)
-            this.toMain();
+            navigate('/roomBooking/backend/hotelInfo');
     }
 
 
@@ -175,5 +172,11 @@ class Login extends Component {
         });
     }
 }
+
+const Login = props => {
+
+    const navigate = useNavigate();
+    return (<LoginWrapped {...props} navigate={navigate} />);
+};
 
 export default Login;

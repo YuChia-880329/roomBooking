@@ -15,7 +15,6 @@ import Shower from './update_form/shower';
 import RoomImage from './update_form/room-image';
 import ImageOrder from './update_form/image-order';
 import NewImage from './update_form/new-image';
-import UsedNum from './update_form/used-num';
 import Status from './update_form/status';
 import axios from 'axios';
 
@@ -32,7 +31,6 @@ const constant = {
                 id : 0,
                 name : '',
                 totalNum : 0,
-                usedNum : 0,
                 invalidNum : 0,
                 price : 0,
                 singleBedNum : 0,
@@ -65,14 +63,9 @@ class UpdateForm extends Component {
             },
             totalNum : {
                 setTotalNum : (val, onSet) => this.setter('totalNum', val, onSet),
-                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet),
                 setInValidNum : (val, onSet) => this.setter('inValidNum', val, onSet)
             },
-            usedNum : {
-                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet)
-            },
             inValidNum : {
-                setUsedNum : (val, onSet) => this.setter('usedNum', val, onSet),
                 setInValidNum : (val, onSet) => this.setter('inValidNum', val, onSet)
             },
             price : {
@@ -110,12 +103,7 @@ class UpdateForm extends Component {
         };
         const getter = {
             totalNum:{
-                getUsedNum : () => value.usedNum,
                 getInValidNum : () => value.inValidNum
-            },
-            invalidNum : {
-                getTotalNum : () => value.totalNum,
-                getUsedNum : () => value.usedNum
             },
             roomImage : {
                 getImageOrder : () => value.imageOrder
@@ -151,9 +139,6 @@ class UpdateForm extends Component {
                 <Row>
                     <Col>
                         <TotalNum value={value.totalNum} setter={setter.totalNum} getter={getter.totalNum} />
-                    </Col>
-                    <Col>
-                        <UsedNum value={value.usedNum} setter={setter.usedNum} />
                     </Col>
                     <Col>
                         <InvalidNum value={value.inValidNum} setter={setter.inValidNum} getter={getter.invalidNum} />
@@ -259,7 +244,6 @@ class UpdateForm extends Component {
         req.id = value.type.value;
         req.name = value.name.value;
         req.totalNum = value.totalNum.value;
-        req.usedNum = value.usedNum.value;
         req.invalidNum = value.inValidNum.value;
         req.price = value.price.value;
         req.singleBedNum = value.singleBedNum.value;
@@ -285,7 +269,6 @@ class UpdateForm extends Component {
         formData.append('id', req.id);
         formData.append('name', req.name);
         formData.append('totalNum', req.totalNum);
-        formData.append('usedNum', req.usedNum);
         formData.append('invalidNum', req.invalidNum);
         formData.append('price', req.price);
         formData.append('singleBedNum', req.singleBedNum);

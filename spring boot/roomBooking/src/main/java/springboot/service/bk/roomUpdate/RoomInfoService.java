@@ -16,7 +16,6 @@ import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.RoomImgDto;
 import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.RoomImgsDto;
 import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.RoomInfoReqDto;
 import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.RoomInfoRespDto;
-import springboot.bean.dto.bk.roomUpdate.vo.roomInfo.UsedNumDto;
 import springboot.bean.dto.model.RoomDto;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
 import springboot.dao.model.inner.RoomDaoInner;
@@ -54,7 +53,6 @@ public class RoomInfoService {
 				.hasValue(hasValue)
 				.roomName(hasValue ? room.getName() : null)
 				.totalNum(hasValue ? room.getTotalNum() : -1)
-				.usedNum(toUsedNumVo(room, hasValue))
 				.invalidNum(toInvalidNumVo(room, hasValue))
 				.price(hasValue ? room.getPrice() : -1)
 				.singleBedNum(hasValue ? room.getSingleBedNum() : -1)
@@ -70,15 +68,7 @@ public class RoomInfoService {
 				.build();
 	}
 	
-	private UsedNumDto toUsedNumVo(RoomDto room, boolean hasValue) {
-		
-		return UsedNumDto.builder()
-				.options(Stream.iterate(0, v -> v+1)
-						.limit(hasValue ? room.getTotalNum()-room.getInvalidNum()+1 : 0)
-						.collect(Collectors.toList()))
-				.value(hasValue ? room.getUsedNum() : 0)
-				.build();
-	}
+
 	private InvalidNumDto toInvalidNumVo(RoomDto room, boolean hasValue) {
 		
 		return InvalidNumDto.builder()

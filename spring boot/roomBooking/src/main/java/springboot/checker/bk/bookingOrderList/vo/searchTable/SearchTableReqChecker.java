@@ -20,8 +20,8 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 	public static final String PRICE_MIN_FIELD_NAME = "房型單價(最小值)";
 	public static final String PRICE_MAX_FIELD_NAME = "房型單價(最大值)";
 	public static final String PAY_METHOD_FIELD_NAME = "付款方式";
-	public static final String CHECKIN_DATE_TIME_FROM_FIELD_NAME = "預定入住日期時辰(起)";
-	public static final String CHECKIN_DATE_TIME_TO_FIELD_NAME = "預定入住日期時辰(迄)";
+	public static final String CHECKIN_DATE_FROM_FIELD_NAME = "預定入住日期(起)";
+	public static final String CHECKIN_DATE_TO_FIELD_NAME = "預定入住日期(迄)";
 	public static final String CHECKOUT_DATE_FROM_FIELD_NAME = "預定退房日期(起)";
 	public static final String CHECKOUT_DATE_TO_FIELD_NAME = "預定退房日期(迄)";
 	public static final String USE_DAY_MIN_FIELD_NAME = "入住天數(最小值)";
@@ -44,8 +44,8 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 		checkPriceMin(vo);
 		checkPriceMax(vo);
 		checkPayMethod(vo);
-		checkCheckinDateTimeFrom(vo);
-		checkCheckinDateTimeTo(vo);
+		checkCheckinDateFrom(vo);
+		checkCheckinDateTo(vo);
 		checkCheckoutDateFrom(vo);
 		checkCheckoutDateTo(vo);
 		checkUseDayMin(vo);
@@ -184,29 +184,13 @@ public class SearchTableReqChecker implements Checker<SearchTableReq> {
 	}
 	private void checkPayMethod(SearchTableReq vo) {
 	}
-	private void checkCheckinDateTimeFrom(SearchTableReq vo) {
-		
-		String checkinDateTimeFrom = vo.getCheckinDateTimeFrom();
-		if(checkinDateTimeFrom == null)
-			return;
+	private void checkCheckinDateFrom(SearchTableReq vo) {
 	}
-	private void checkCheckinDateTimeTo(SearchTableReq vo) {
-		
-		String checkinDateTimeTo = vo.getCheckinDateTimeTo();
-		if(checkinDateTimeTo == null)
-			return;
+	private void checkCheckinDateTo(SearchTableReq vo) {
 	}
 	private void checkCheckoutDateFrom(SearchTableReq vo) {
-		
-		String checkoutDateFrom = vo.getCheckoutDateFrom();
-		if(checkoutDateFrom == null)
-			return;
 	}
 	private void checkCheckoutDateTo(SearchTableReq vo) {
-		
-		String checkoutDateTo = vo.getCheckoutDateTo();
-		if(checkoutDateTo == null)
-			return;
 	}
 	private void checkUseDayMin(SearchTableReq vo) {
 		

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import springboot.bean.vo.Response;
 import springboot.trans.bk.vo.checkLogin.CheckLoginRespTrans;
-import springboot.trans.bk.vo.hotelName.HotelNameRespTrans;
+import springboot.trans.bk.vo.hotel.HotelRespTrans;
 import springboot.trans.bk.vo.logout.LogoutRespTrans;
 import util.ResponseUtil;
 
@@ -17,8 +17,8 @@ public class BkControllerService {
 	@Qualifier("bk.CheckLoginService")
 	private CheckLoginService checkLoginService;
 	@Autowired
-	@Qualifier("bk.HotelNameService")
-	private HotelNameService hotelNameService;
+	@Qualifier("bk.HotelService")
+	private HotelService hotelService;
 	@Autowired
 	@Qualifier("bk.LogoutService")
 	private LogoutService logoutService;
@@ -28,8 +28,8 @@ public class BkControllerService {
 	@Qualifier("bk.vo.checkLogin.CheckLoginRespTrans")
 	private CheckLoginRespTrans checkLoginRespTrans;
 	@Autowired
-	@Qualifier("bk.vo.hotelName.HotelNameRespTrans")
-	private HotelNameRespTrans hotelNameRespTrans;
+	@Qualifier("bk.vo.hotel.HotelRespTrans")
+	private HotelRespTrans hotelRespTrans;
 	@Autowired
 	@Qualifier("bk.vo.logout.LogoutRespTrans")
 	private LogoutRespTrans logoutRespTrans;
@@ -42,11 +42,11 @@ public class BkControllerService {
 				checkLoginRespTrans.dtoToVo(
 						checkLoginService.checkLogin()));
 	}
-	public Response hotelName() {
+	public Response hotel() {
 		
 		return ResponseUtil.response200(
-				hotelNameRespTrans.dtoToVo(
-						hotelNameService.hotelName()));
+				hotelRespTrans.dtoToVo(
+						hotelService.hotelName()));
 	}
 	public Response logout() {
 		

@@ -7,4 +7,6 @@ import springboot.bean.model.Hotel;
 
 @Repository("model.HotelDao")
 public interface HotelDao extends JpaRepository<Hotel, Integer> {
+	
+	public Hotel findByName(String name);
 }

@@ -3,7 +3,6 @@ import config from '../files/config.json';
 import React, { Component } from 'react';
 import LoginForm from './login/login-form';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 
 const constant = {
@@ -24,7 +23,7 @@ const constant = {
     }
 }
 
-class LoginWrapped extends Component {
+class Login extends Component {
 
     constructor(props){
 
@@ -146,23 +145,21 @@ class LoginWrapped extends Component {
     // after fetch
     afterLogin = (data) => {
 
-        const {fctn, navigate} = this.props;
+        const {fctn} = this.props;
 
         if(data.success)
             fctn.showInformModal(data.msg, () => {
                 
                 fctn.closeInformModal();
-                navigate('../home');
+                window.location.href = './home';
             });
         else
             fctn.showInformModal(data.msg);
     }
     afterCheckLogin = (data) => {
 
-        const {navigate} = this.props;
-
         if(data.login)
-            navigate('../home');
+            window.location.href = './home';
     };
 
 
@@ -180,15 +177,6 @@ class LoginWrapped extends Component {
 
         return this.state[colName];
     };
-}
-
-const Login = props => {
-
-    const navigate = useNavigate();
-
-    return (
-        <LoginWrapped {...props} navigate={navigate} />
-    );
 }
 
 export default Login;

@@ -20,6 +20,7 @@ import springboot.dao.bk.login.memory.status.LoginStatusDao;
 import springboot.dao.model.inner.FeatureDaoInner;
 import springboot.dao.model.inner.HotelDaoInner;
 import springboot.exception.NotLoginException;
+import springboot.service.MemoryClearService;
 import util.ImageUtil;
 
 @Service("bk.hotelInfo.UpdateService")
@@ -37,6 +38,9 @@ public class UpdateService {
 	@Autowired
 	@Qualifier("model.inner.FeatureDaoInner")
 	private FeatureDaoInner featureDaoInner;
+	@Autowired
+	@Qualifier("MemoryClearService")
+	private MemoryClearService memoryClearService;
 	
 	@Value("${attr.imgDirPath}")
 	private String imgDirPath;
@@ -48,7 +52,6 @@ public class UpdateService {
 		if(!login.isLogin())
 			throw new NotLoginException(NotLoginException.MSG);
 		
-		
 		HotelDto hotel = toHotel(updateReq, hotelDaoInner.findById(login.getHotelId()).get());
 		
 		if(updateReq.getUpdateImage().isNeedUpdate())
@@ -59,6 +62,13 @@ public class UpdateService {
 		boolean success = false;
 		if(hotel != null)
 			success = true;
+		
+		if(success) {
+			
+			memoryClearService.clearFrHomeHotelRoomPagesRepo();
+			memoryClearService.clearFrHotelPageRoomPagesRepo();
+			memoryClearService.clearFrShoppingCartItemPagesRepoDao();
+		}
 		
 		return UpdateRespDto.builder()
 				.success(success)

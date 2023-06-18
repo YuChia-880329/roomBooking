@@ -59,10 +59,10 @@ public class BackendController {
 		Response response = bkControllerService.checkLogin();
 		return ResponseEntity.ok(response);
 	}
-	@GetMapping("/hotelName")
-	public ResponseEntity<Response> hotelName(){
+	@GetMapping("/hotel")
+	public ResponseEntity<Response> hotel(){
 		
-		Response response = bkControllerService.hotelName();
+		Response response = bkControllerService.hotel();
 		return ResponseEntity.ok(response);
 	}
 	@PostMapping("/logout")
@@ -86,13 +86,12 @@ public class BackendController {
 	@GetMapping("/roomList/searchTable")
 	public ResponseEntity<Response> searchTableRoomList(@RequestParam(name = "name", required = false) String name, 
 			@RequestParam(name = "totalNumMin", required = false) String totalNumMin, @RequestParam(name = "totalNumMax", required = false) String totalNumMax, 
-			@RequestParam(name = "usedNumMin", required = false) String usedNumMin, @RequestParam(name = "usedNumMax", required = false) String usedNumMax, 
 			@RequestParam(name = "invalidNumMin", required = false) String invalidNumMin, @RequestParam(name = "invalidNumMax", required = false) String invalidNumMax,
 			@RequestParam(name = "priceMin", required = false) String priceMin, @RequestParam(name = "priceMax", required = false) String priceMax, 
 			@RequestParam(name = "status", required = false) String status) {
 		
 
-		Response response = roomListService.searchTable(name, totalNumMin, totalNumMax, usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, status);
+		Response response = roomListService.searchTable(name, totalNumMin, totalNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, status);
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/roomList/turnPage")
@@ -128,15 +127,15 @@ public class BackendController {
 			@RequestParam(name = "clientPhone", required = false) String clientPhone, @RequestParam(name = "roomType", required = false) String roomType, 
 			@RequestParam(name = "roomNumMin", required = false) String roomNumMin, @RequestParam(name = "roomNumMax", required = false) String roomNumMax, 
 			@RequestParam(name = "priceMin", required = false) String priceMin, @RequestParam(name = "priceMax", required = false) String priceMax, 
-			@RequestParam(name = "payMethod", required = false) String[] payMethodIds, @RequestParam(name = "checkinDateTimeFrom", required = false) String checkinDateTimeFrom, 
-			@RequestParam(name = "checkinDateTimeTo", required = false) String checkinDateTimeTo, @RequestParam(name = "checkoutDateFrom", required = false) String checkoutDateFrom, 
+			@RequestParam(name = "payMethod", required = false) String[] payMethodIds, @RequestParam(name = "checkinDateFrom", required = false) String checkinDateFrom, 
+			@RequestParam(name = "checkinDateTo", required = false) String checkinDateTo, @RequestParam(name = "checkoutDateFrom", required = false) String checkoutDateFrom, 
 			@RequestParam(name = "checkoutDateTo", required = false) String checkoutDateTo, @RequestParam(name = "useDayMin", required = false) String useDayMin, 
 			@RequestParam(name = "useDayMax", required = false) String useDayMax, @RequestParam(name = "totalPriceMin", required = false) String totalPriceMin, 
 			@RequestParam(name = "totalPriceMax", required = false) String totalPriceMax) {
 		
 
 		Response response = bookingOrderListService.searchTable(idMin, idMax, clientName, clientPhone, roomType, roomNumMin, roomNumMax, priceMin, priceMax, 
-				payMethodIds, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
+				payMethodIds, checkinDateFrom, checkinDateTo, checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		return ResponseEntity.ok(response);
 	}
 	@GetMapping("/bookingOrderList/turnPage")

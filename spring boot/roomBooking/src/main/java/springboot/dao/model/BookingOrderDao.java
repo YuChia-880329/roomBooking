@@ -1,7 +1,6 @@
 package springboot.dao.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -73,15 +72,15 @@ public class BookingOrderDao {
 	public long queryBkBookingOrderListTablePagesRowNum(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDateTime checkinDateTimeFrom, 
-			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDate checkinDateFrom, 
+			LocalDate checkinDateTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
 		
 		String sqlSelect = String.format("SELECT %s.%s", BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_ID_SQL_NAME);
 		String sqlSelectFrom = sqlSelectFrom(sqlSelect, BOOKING_ORDER_TABLE_SQL_LABEL);
 		String sqlSelectFromJoin = sqlSelectFromJoin(sqlSelectFrom);
 		String sqlSelectFromJoinWhere = sqlSelectFromJoinWhere(sqlSelectFromJoin, hotelId, idMin, idMax, clientName, clientPhone, 
-				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethodIds, checkinDateTimeFrom, checkinDateTimeTo, 
+				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethodIds, checkinDateFrom, checkinDateTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		
 		String sql = String.format("SELECT COUNT(%s) CT FROM (%s)", BOOKING_ORDER_ID_SQL_NAME, sqlSelectFromJoinWhere);
@@ -96,13 +95,13 @@ public class BookingOrderDao {
 	public List<BookingOrder> queryBkBookingOrderListTablePages(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDateTime checkinDateTimeFrom, 
-			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDate checkinDateFrom, 
+			LocalDate checkinDateTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
 			BookingOrderTableOrder bookingOrderTableOrder, int minRow, int maxRow){
 		
 		String sql = sqlRowWhere(hotelId, idMin, idMax, clientName, clientPhone, roomType, roomNumMin, roomNumMax, 
-				priceMin, priceMax, payMethodIds, checkinDateTimeFrom, checkinDateTimeTo, checkoutDateFrom, checkoutDateTo, 
+				priceMin, priceMax, payMethodIds, checkinDateFrom, checkinDateTo, checkoutDateFrom, checkoutDateTo, 
 				useDayMin, useDayMax, totalPriceMin, totalPriceMax, bookingOrderTableOrder, minRow, maxRow);
 		
 		Query query = entityManager.createNativeQuery(sql, BookingOrder.class);
@@ -122,8 +121,8 @@ public class BookingOrderDao {
 	private String sqlRowWhere(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDateTime checkinDateTimeFrom, 
-			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDate checkinDateFrom, 
+			LocalDate checkinDateTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
 			BookingOrderTableOrder bookingOrderTableOrder, int minRow, int maxRow) {
 		
@@ -131,7 +130,7 @@ public class BookingOrderDao {
 		String sqlSelectFrom = sqlSelectFrom(sqlSelect, BOOKING_ORDER_TABLE_SQL_LABEL, bookingOrderTableOrder);
 		String sqlSelectFromJoin = sqlSelectFromJoin(sqlSelectFrom);
 		String sqlSelectFromJoinWhere = sqlSelectFromJoinWhere(sqlSelectFromJoin, hotelId, idMin, idMax, clientName, clientPhone, 
-				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethodIds, checkinDateTimeFrom, checkinDateTimeTo, 
+				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethodIds, checkinDateFrom, checkinDateTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 		String sql = String.format("%s FROM (%s)", sqlSelect(), sqlSelectFromJoinWhere);
 	
@@ -141,8 +140,8 @@ public class BookingOrderDao {
 	private String sqlSelectFromJoinWhere(String sqlSelectFromJoin,
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDateTime checkinDateTimeFrom, 
-			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethodIds, LocalDate checkinDateFrom, 
+			LocalDate checkinDateTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
 		
 		return StringConcatUtil.concate(
@@ -158,10 +157,10 @@ public class BookingOrderDao {
 				ifNotNull(ROOM_TABLE_SQL_LABEL, ROOM_TABLE_PRICE_SQL_NAME, () -> String.format(">=%d", priceMin), priceMin),
 				ifNotNull(ROOM_TABLE_SQL_LABEL, ROOM_TABLE_PRICE_SQL_NAME, () -> String.format("<=%d", priceMax), priceMax),
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_PAY_METHOD_ID_SQL_NAME, () -> getPayMethodWhere(payMethodIds), payMethodIds),
-				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_CHECKIN_DATETIME_SQL_NAME, 
-						() -> String.format(">=TO_DATE('%s', '%s')", DateTimeUtil.toString(checkinDateTimeFrom), DATE_TIME_SQL_FORMAT), checkinDateTimeFrom),
-				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_CHECKIN_DATETIME_SQL_NAME, 
-						() -> String.format("<=TO_DATE('%s', '%s')", DateTimeUtil.toString(checkinDateTimeTo), DATE_TIME_SQL_FORMAT), checkinDateTimeTo),
+				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_CHECKIN_DATE_SQL_NAME, 
+						() -> String.format(">=TO_DATE('%s', '%s')", DateTimeUtil.toString(checkinDateFrom), DATE_SQL_FORMAT), checkinDateFrom),
+				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_CHECKIN_DATE_SQL_NAME, 
+						() -> String.format("<=TO_DATE('%s', '%s')", DateTimeUtil.toString(checkinDateTo), DATE_SQL_FORMAT), checkinDateTo),
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_CHECKOUT_DATE_SQL_NAME, 
 						() -> String.format(">=TO_DATE('%s', '%s')", DateTimeUtil.toString(checkoutDateFrom), DATE_SQL_FORMAT), checkoutDateFrom),
 				ifNotNull(BOOKING_ORDER_TABLE_SQL_LABEL, BOOKING_ORDER_CHECKOUT_DATE_SQL_NAME, 
@@ -214,7 +213,8 @@ public class BookingOrderDao {
 				colNameWithLabel(label, BOOKING_ORDER_ROOM_ID_SQL_NAME), ", ",
 				colNameWithLabel(label, BOOKING_ORDER_ROOM_NUM_SQL_NAME), ", ",
 				colNameWithLabel(label, BOOKING_ORDER_PAY_METHOD_ID_SQL_NAME), ", ",
-				colNameWithLabel(label, BOOKING_ORDER_CHECKIN_DATETIME_SQL_NAME), ", ",
+				colNameWithLabel(label, BOOKING_ORDER_CHECKIN_DATE_SQL_NAME), ", ",
+				colNameWithLabel(label, BOOKING_ORDER_CHECKIN_TIME_SQL_NAME), ", ",
 				colNameWithLabel(label, BOOKING_ORDER_CHECKOUT_DATE_SQL_NAME), ", ",
 				colNameWithLabel(label, BOOKING_ORDER_USE_DAY_SQL_NAME), ", ",
 				colNameWithLabel(label, BOOKING_ORDER_TOTAL_MONEY_SQL_NAME));
@@ -228,7 +228,8 @@ public class BookingOrderDao {
 				BOOKING_ORDER_ROOM_ID_SQL_NAME, ", ",
 				BOOKING_ORDER_ROOM_NUM_SQL_NAME, ", ",
 				BOOKING_ORDER_PAY_METHOD_ID_SQL_NAME, ", ",
-				BOOKING_ORDER_CHECKIN_DATETIME_SQL_NAME, ", ",
+				BOOKING_ORDER_CHECKIN_DATE_SQL_NAME, ", ",
+				BOOKING_ORDER_CHECKIN_TIME_SQL_NAME, ", ",
 				BOOKING_ORDER_CHECKOUT_DATE_SQL_NAME, ", ",
 				BOOKING_ORDER_USE_DAY_SQL_NAME, ", ",
 				BOOKING_ORDER_TOTAL_MONEY_SQL_NAME);

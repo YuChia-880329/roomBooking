@@ -38,18 +38,16 @@ public class RoomDaoInner {
 	public Long queryBkRoomListTablePagesRowNum(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
-			Integer usedNumMin, Integer usedNumMax,
 			Integer invalidNumMin, Integer invalidNumMax,
 			Integer priceMin, Integer priceMax, RoomStatus status) {
 		
 		return dao.queryBkRoomListTablePagesRowNum(hotelId, name, 
-				totalNumMin, totalNumMax, usedNumMin, usedNumMax, 
-				invalidNumMin, invalidNumMax, priceMin, priceMax, status);
+				totalNumMin, totalNumMax, invalidNumMin, invalidNumMax, 
+				priceMin, priceMax, status);
 	}
 	public List<RoomDto> queryBkRoomListTablePages(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
-			Integer usedNumMin, Integer usedNumMax,
 			Integer invalidNumMin, Integer invalidNumMax,
 			Integer priceMin, Integer priceMax, RoomStatus status,
 			RoomTableOrder roomTableOrder,
@@ -57,9 +55,8 @@ public class RoomDaoInner {
 		
 		return trans.modelListToDtoList(
 				dao.queryBkRoomListTablePages(hotelId, name, 
-						totalNumMin, totalNumMax, usedNumMin, usedNumMax, 
-						invalidNumMin, invalidNumMax, priceMin, priceMax, 
-						status, roomTableOrder, startRow, maxRowNum));
+						totalNumMin, totalNumMax, invalidNumMin, invalidNumMax, 
+						priceMin, priceMax, status, roomTableOrder, startRow, maxRowNum));
 	}
 	
 	public List<RoomDto> queryAllRoomsByHotelId(int hotelId){

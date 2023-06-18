@@ -26,7 +26,6 @@ import springboot.dao.model.inner.BookingOrderDaoInner;
 import springboot.exception.IllegalPageException;
 import springboot.exception.NotLoginException;
 import springboot.memory.repo.Repo;
-import springboot.service.bk.bookingOrderList.SearchTableService;
 import springboot.service.bk.bookingOrderList.memory.repo.tablePages.SearchParamService;
 import util.LogsUtil;
 import util.PageUtil;
@@ -34,6 +33,10 @@ import util.PageUtil;
 @Component("bk.bookingOrderList.TablePagesRepo")
 @SessionScope
 public class TablePagesRepo extends Repo<Input, TablePages, Output> {
+	
+	public static final int ROWS_PER_PAGE = 10;
+	public static final int PAGES_PER_PAGE_GROUP = 3;
+	
 	
 	@Autowired
 	@Qualifier("bk.bookingOrderList.memory.repo.tablePages.SearchParamService")
@@ -75,8 +78,8 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 				.priceMin(null)
 				.priceMax(null)
 				.payMethodIds(null)
-				.checkinDateTimeFrom(null)
-				.checkinDateTimeTo(null)
+				.checkinDateFrom(null)
+				.checkinDateTo(null)
 				.checkoutDateFrom(null)
 				.checkoutDateTo(null)
 				.useDayMin(null)
@@ -114,7 +117,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 		long totalRows = bookingOrderDaoInner.queryBkBookingOrderListTablePagesRowNum(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
 				searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomType(), searchParam.getRoomNumMin(),
 				searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethodIds(),
-				searchParam.getCheckinDateTimeFrom(), searchParam.getCheckinDateTimeTo(), searchParam.getCheckoutDateFrom(),
+				searchParam.getCheckinDateFrom(), searchParam.getCheckinDateTo(), searchParam.getCheckoutDateFrom(),
 				searchParam.getCheckoutDateTo(), searchParam.getUseDayMin(), searchParam.getUseDayMax(), searchParam.getTotalPriceMin(), 
 				searchParam.getTotalPriceMax());
 		
@@ -124,8 +127,8 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 			totalRows = Integer.MAX_VALUE;
 		}
 		
-		int maxPage = PageUtil.countMaxPage(SearchTableService.ROWS_PER_PAGE, (int)totalRows);
-		int[] pageBounds = PageUtil.countPage(page, SearchTableService.PAGES_PER_PAGE_GROUP, maxPage);
+		int maxPage = PageUtil.countMaxPage(ROWS_PER_PAGE, (int)totalRows);
+		int[] pageBounds = PageUtil.countPage(page, PAGES_PER_PAGE_GROUP, maxPage);
 		
 		if(pageBounds == null)
 			throw new IllegalPageException(IllegalPageException.MSG);
@@ -133,13 +136,13 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 		Map<Integer, TablePage> tablePageMap = new HashMap<>();
 		for(int p=pageBounds[0]; p<= pageBounds[1]; p++) {
 			
-			int[] rowBounds = PageUtil.countRow(SearchTableService.ROWS_PER_PAGE, p);
+			int[] rowBounds = PageUtil.countRow(ROWS_PER_PAGE, p);
 			
 			
 			List<BookingOrderDto> bookingOrders = bookingOrderDaoInner.queryBkBookingOrderListTablePages(hotelId, searchParam.getIdMin(), searchParam.getIdMax(), 
 					searchParam.getClientName(), searchParam.getClientPhone(), searchParam.getRoomType(), searchParam.getRoomNumMin(),
 					searchParam.getRoomNumMax(), searchParam.getPriceMin(), searchParam.getPriceMax(), searchParam.getPayMethodIds(),
-					searchParam.getCheckinDateTimeFrom(), searchParam.getCheckinDateTimeTo(), searchParam.getCheckoutDateFrom(),
+					searchParam.getCheckinDateFrom(), searchParam.getCheckinDateTo(), searchParam.getCheckoutDateFrom(),
 					searchParam.getCheckoutDateTo(), searchParam.getUseDayMin(), searchParam.getUseDayMax(), searchParam.getTotalPriceMin(), 
 					searchParam.getTotalPriceMax(), bookingOrderTableOrder, rowBounds[0], rowBounds[1]);
 			
@@ -193,7 +196,7 @@ public class TablePagesRepo extends Repo<Input, TablePages, Output> {
 				.roomNum(bookingOrder.getRoomNum())
 				.price(bookingOrder.getRoom().getPrice())
 				.payMethod(bookingOrder.getPayMethod().getName())
-				.checkinDateTime(bookingOrder.getCheckinDateTime())
+				.checkinDate(bookingOrder.getCheckinDate())
 				.checkoutDate(bookingOrder.getCheckoutDate())
 				.useDay(bookingOrder.getUseDay())
 				.totalPrice(bookingOrder.getTotalMoney())

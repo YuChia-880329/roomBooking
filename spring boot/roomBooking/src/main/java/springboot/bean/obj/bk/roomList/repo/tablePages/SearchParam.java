@@ -17,8 +17,6 @@ public class SearchParam {
 	private String name;
 	private Integer totalNumMin;
 	private Integer totalNumMax;
-	private Integer usedNumMin;
-	private Integer usedNumMax;
 	private Integer invalidNumMin;
 	private Integer invalidNumMax;
 	private Integer priceMin;

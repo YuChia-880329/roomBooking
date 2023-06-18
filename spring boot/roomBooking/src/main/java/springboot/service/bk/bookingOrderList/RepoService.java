@@ -33,7 +33,7 @@ public class RepoService {
 				.roomNum(tableRow.getRoomNum())
 				.price(tableRow.getPrice())
 				.payMethod(tableRow.getPayMethod())
-				.checkinDateTime(tableRow.getCheckinDateTime())
+				.checkinDate(tableRow.getCheckinDate())
 				.checkoutDate(tableRow.getCheckoutDate())
 				.useDay(tableRow.getUseDay())
 				.totalPrice(tableRow.getTotalPrice())

@@ -10,6 +10,7 @@ import springboot.bean.dto.bk.roomList.obj.repo.tablePages.TablePageDto;
 import springboot.bean.dto.bk.roomList.vo.changeOrder.ChangeOrderReqDto;
 import springboot.bean.dto.bk.roomList.vo.changeOrder.ChangeOrderRespDto;
 import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDao;
+import springboot.memory.repo.bk.roomList.TablePagesRepo;
 import springboot.service.PaginationService;
 
 @Service("bk.roomList.ChangeOrderService")
@@ -34,7 +35,7 @@ public class ChangeOrderService {
 		
 		return ChangeOrderRespDto.builder()
 				.table(repoService.toTableVo(tablePageDto.getTable()))
-				.pagination(paginationService.getPagination(tablePageDto.getCurrentPage(), SearchTableService.PAGES_PER_PAGE_GROUP, output.getMaxPage()))
+				.pagination(paginationService.getPagination(tablePageDto.getCurrentPage(), TablePagesRepo.PAGES_PER_PAGE_GROUP, output.getMaxPage()))
 				.build();
 	}
 }

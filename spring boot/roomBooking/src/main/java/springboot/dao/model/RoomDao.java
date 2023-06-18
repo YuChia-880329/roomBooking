@@ -35,9 +35,6 @@ public class RoomDao {
 	public static final String NAME_ATTRIBUTE_NAME = "name";
 	public static final String TOTAL_NUM_ATTRIBUTE_NAME = "totalNum";
 	public static final String INVALID_NUM_ATTRIBUTE_NAME = "invalidNum";
-	
-	public static final String USED_NUM_ATTRIBUTE_NAME = "usedNum";
-	
 	public static final String PRICE_ATTRIBUTE_NAME = "price";
 	public static final String SINGLE_BED_NUM_ATTRIBUTE_NAME = "singleBedNum";
 	public static final String DOUBLE_BED_NUM_ATTRIBUTE_NAME = "doubleBedNum";
@@ -65,7 +62,6 @@ public class RoomDao {
 	public Long queryBkRoomListTablePagesRowNum(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
-			Integer usedNumMin, Integer usedNumMax,
 			Integer invalidNumMin, Integer invalidNumMax,
 			Integer priceMin, Integer priceMax,
 			RoomStatus status){
@@ -77,7 +73,7 @@ public class RoomDao {
 		criteriaQuery.select(criteriaBuilder.count(root));
 		
 		Predicate[] predicates = queryBkRoomListTablePagesPredicate(hotelId, name, totalNumMin, totalNumMax, 
-				usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, status, criteriaBuilder, root);
+				invalidNumMin, invalidNumMax, priceMin, priceMax, status, criteriaBuilder, root);
 		criteriaQuery.where(predicates);
 		
 		return entityManager.createQuery(criteriaQuery).getSingleResult();
@@ -85,7 +81,6 @@ public class RoomDao {
 	public List<Room> queryBkRoomListTablePages(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
-			Integer usedNumMin, Integer usedNumMax,
 			Integer invalidNumMin, Integer invalidNumMax,
 			Integer priceMin, Integer priceMax, RoomStatus status,
 			RoomTableOrder roomTableOrder,
@@ -96,7 +91,7 @@ public class RoomDao {
 		Root<Room> root =  criteriaQuery.from(Room.class);
 		
 		Predicate[] predicates = queryBkRoomListTablePagesPredicate(hotelId, name, totalNumMin, totalNumMax, 
-				usedNumMin, usedNumMax, invalidNumMin, invalidNumMax, priceMin, priceMax, status, criteriaBuilder, root);
+				invalidNumMin, invalidNumMax, priceMin, priceMax, status, criteriaBuilder, root);
 		criteriaQuery.where(predicates);
 
 		criteriaQuery.orderBy(queryBkRoomListTablePagesOrder(roomTableOrder, criteriaBuilder, root));
@@ -271,7 +266,6 @@ public class RoomDao {
 	private Predicate[] queryBkRoomListTablePagesPredicate(
 			int hotelId, String name,
 			Integer totalNumMin, Integer totalNumMax,
-			Integer usedNumMin, Integer usedNumMax,
 			Integer invalidNumMin, Integer invalidNumMax,
 			Integer priceMin, Integer priceMax, RoomStatus status,
 			CriteriaBuilder criteriaBuilder, Root<Room> root) {
@@ -285,10 +279,6 @@ public class RoomDao {
 			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(TOTAL_NUM_ATTRIBUTE_NAME), totalNumMin));
 		if(totalNumMax != null)
 			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(TOTAL_NUM_ATTRIBUTE_NAME), totalNumMax));
-		if(usedNumMin != null)
-			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(USED_NUM_ATTRIBUTE_NAME), usedNumMin));
-		if(usedNumMax != null)
-			predicateList.add(criteriaBuilder.lessThanOrEqualTo(root.get(USED_NUM_ATTRIBUTE_NAME), usedNumMax));
 		if(invalidNumMin != null)
 			predicateList.add(criteriaBuilder.greaterThanOrEqualTo(root.get(INVALID_NUM_ATTRIBUTE_NAME), invalidNumMin));
 		if(invalidNumMax != null)

@@ -120,11 +120,17 @@ class BuyModal extends Component {
 
             if(this.buyModalFormRef.current.checkValidity() === true){
     
-                fctn.showConfirmModal('確定要新增至購物車 ? ', () => {
+                if(this.getter('validNum') >= this.getter('num').value){
 
-                    fctn.closeConfirmModal();
-                    this.addShoppingCart();
-                });
+                    fctn.showConfirmModal('確定要新增至購物車 ? ', () => {
+
+                        fctn.closeConfirmModal();
+                        this.addShoppingCart();
+                    });
+                }else {
+
+                    fctn.showInformModal('加入數量不可高於剩餘數量');
+                }
             }
         });
     }

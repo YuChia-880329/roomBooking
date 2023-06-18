@@ -21,8 +21,8 @@ public class SearchTableReq {
 	private String priceMin;
 	private String priceMax;
 	private String[] payMethodIds;
-	private String checkinDateTimeFrom;
-	private String checkinDateTimeTo;
+	private String checkinDateFrom;
+	private String checkinDateTo;
 	private String checkoutDateFrom;
 	private String checkoutDateTo;
 	private String useDayMin;

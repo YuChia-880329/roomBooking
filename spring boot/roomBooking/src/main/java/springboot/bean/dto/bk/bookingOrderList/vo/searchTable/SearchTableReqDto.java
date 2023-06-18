@@ -1,7 +1,6 @@
 package springboot.bean.dto.bk.bookingOrderList.vo.searchTable;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Getter;
@@ -25,8 +24,8 @@ public class SearchTableReqDto {
 	private Integer priceMin;
 	private Integer priceMax;
 	private List<Integer> payMethodIds;
-	private LocalDateTime checkinDateTimeFrom;
-	private LocalDateTime checkinDateTimeTo;
+	private LocalDate checkinDateFrom;
+	private LocalDate checkinDateTo;
 	private LocalDate checkoutDateFrom;
 	private LocalDate checkoutDateTo;
 	private Integer useDayMin;

@@ -18,7 +18,7 @@ public class TableRow {
 	private int roomNum;
 	private int price;
 	private String payMethod;
-	private String checkinDateTime;
+	private String checkinDate;
 	private String checkoutDate;
 	private int useDay;
 	private int totalPrice;

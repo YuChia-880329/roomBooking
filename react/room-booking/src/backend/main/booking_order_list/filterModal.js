@@ -9,7 +9,7 @@ import RoomType from './filter_modal/room-type';
 import RoomNum from './filter_modal/room-num';
 import Price from './filter_modal/price';
 import TotalPrice from './filter_modal/total-price';
-import CheckinDateTime from './filter_modal/checkin-date-time';
+import CheckinDate from './filter_modal/checkin-date';
 import CheckoutDate from './filter_modal/checkout-date';
 import PayMethod from './filter_modal/payMethod';
 import UseDay from './filter_modal/use-day';
@@ -64,8 +64,8 @@ class FilterModal extends Component {
             payMethod : {
                 setPayMethod : (val, onSet) => this.setter('payMethod', val, onSet)
             },
-            checkinDateTime : {
-                setCheckinDateTime : (val, onSet) => this.setter('checkinDateTime', val, onSet)
+            checkinDate : {
+                setCheckinDate : (val, onSet) => this.setter('checkinDate', val, onSet)
             },
             checkoutDate : {
                 setCheckoutDate : (val, onSet) => this.setter('checkoutDate', val, onSet)
@@ -95,7 +95,7 @@ class FilterModal extends Component {
                             <RoomNum value={value.roomNum} setter={setter.roomNum} />
                             <Price value={value.price} setter={setter.price} />
                             <PayMethod value={value.payMethod} setter={setter.payMethod} />
-                            <CheckinDateTime value={value.checkinDateTime} setter={setter.checkinDateTime} />
+                            <CheckinDate value={value.checkinDate} setter={setter.checkinDate} />
                             <CheckoutDate value={value.checkoutDate} setter={setter.checkoutDate} />
                             <UseDay value={value.useDay} setter={setter.useDay} />
                             <TotalPrice value={value.totalPrice} setter={setter.totalPrice} />

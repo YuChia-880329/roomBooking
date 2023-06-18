@@ -21,7 +21,7 @@ public class TableRowTrans implements VoWoTrans<TableRow, TableRowDto> {
 				.roomNum(dto.getRoomNum())
 				.price(dto.getPrice())
 				.payMethod(dto.getPayMethod())
-				.checkinDateTime(DateTimeUtil.toString(dto.getCheckinDateTime()))
+				.checkinDate(DateTimeUtil.toString(dto.getCheckinDate()))
 				.checkoutDate(DateTimeUtil.toString(dto.getCheckoutDate()))
 				.useDay(dto.getUseDay())
 				.totalPrice(dto.getTotalPrice())

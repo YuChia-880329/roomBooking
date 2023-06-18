@@ -12,9 +12,6 @@ const constant = {
         totalNum : {
             text : '總房數'
         },
-        usedNum : {
-            text : '使用中房數'
-        },
         invalidNum : {
             text : '不開放房數'
         },
@@ -41,8 +38,6 @@ class RoomTable extends Component {
                                 descOnClick={e => this.onClickOrder(e, 'name', 1)} />
                         <SortTh text={header.totalNum.text}  ascOnClick={e => this.onClickOrder(e, 'totalNum', 0)} 
                                 descOnClick={e => this.onClickOrder(e, 'totalNum', 1)} />
-                        <SortTh text={header.usedNum.text}  ascOnClick={e => this.onClickOrder(e, 'usedNum', 0)} 
-                                descOnClick={e => this.onClickOrder(e, 'usedNum', 1)} />
                         <SortTh text={header.invalidNum.text}  ascOnClick={e => this.onClickOrder(e, 'invalidNum', 0)} 
                                 descOnClick={e => this.onClickOrder(e, 'invalidNum', 1)} />
                         <SortTh text={header.price.text}  ascOnClick={e => this.onClickOrder(e, 'price', 0)} 
@@ -57,7 +52,6 @@ class RoomTable extends Component {
                             <tr key={tableRow.index}>
                                 <SortTd text={tableRow.name} />
                                 <SortTd text={tableRow.totalNum} />
-                                <SortTd text={tableRow.usedNum} />
                                 <SortTd text={tableRow.invalidNum} />
                                 <SortTd text={tableRow.price} />
                                 <SortTd text={tableRow.status} />

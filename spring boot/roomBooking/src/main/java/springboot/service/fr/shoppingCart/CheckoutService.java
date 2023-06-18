@@ -29,6 +29,7 @@ import springboot.dao.fr.receipt.memory.db.ReceiptsDbDao;
 import springboot.dao.fr.receipt.memory.repo.ReceiptRepoDao;
 import springboot.dao.model.inner.BookingOrderDaoInner;
 import springboot.exception.NotLoginException;
+import springboot.service.MemoryClearService;
 
 @Service("fr.shoppingCart.CheckoutService")
 @RequestScope
@@ -54,6 +55,9 @@ public class CheckoutService {
 	@Autowired
 	@Qualifier("fr.receipt.memory.repo.ReceiptRepoDao")
 	private ReceiptRepoDao receiptRepoDao;
+	@Autowired
+	@Qualifier("MemoryClearService")
+	private MemoryClearService memoryClearService;
 	
 	
 	@Transactional
@@ -70,7 +74,14 @@ public class CheckoutService {
 		boolean success = receiptId>=0;
 		
 		
-		clearShoppingCart(items);
+		if(success) {
+			
+			memoryClearService.clearFrHomeHotelRoomPagesRepo();
+			memoryClearService.clearFrHotelPageRoomPagesRepo();
+			memoryClearService.clearFrShoppingCartDb();
+			memoryClearService.clearBkBookingOrderListTablePagesRepo();
+			memoryClearService.clearBkRoomListTablePagesRepo();
+		}
 		return CheckoutRespDto.builder()
 				.success(success)
 				.msg(success ? SUCCESS_MSG : FAILURE_MSG)
@@ -98,10 +109,7 @@ public class CheckoutService {
 		});
 	}
 	
-	private void clearShoppingCart(List<ItemDto> items) {
-		
-		items.stream().forEach(item -> shoppingCartDbDao.delete(item.getItemId()));
-	}
+
 	private int createReceipt(List<ItemDto> items, PayMethodDto payMethod) {
 		
 		receiptRepoDao.getObj(toInput(items, payMethod));

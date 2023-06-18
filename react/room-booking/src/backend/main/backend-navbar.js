@@ -2,13 +2,13 @@ import urls from '../../files/urls.json';
 import config from '../../files/config.json';
 import React, { Component } from 'react';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const constant = {
     fetch : {
         url : {
-            hotelName : urls.backend.hotelName,
+            hotel : urls.backend.hotel,
             logout : urls.backend.logout
         },
         config : {
@@ -16,13 +16,14 @@ const constant = {
         }
     }
 }
-class BackendNavbar extends Component {
+class BackendNavbarWrapped extends Component {
 
     constructor(props){
 
         super(props);
         this.state = {
-            hotelName : ''
+            hotelName : '',
+            hotelId : -1
         }
     }
     
@@ -33,14 +34,14 @@ class BackendNavbar extends Component {
 
         fctn.checkLogin(() => {
 
-            this.hotelName();
+            this.hotel();
         });
     }
 
     render() {
 
         // state
-        const {hotelName} = this.state;
+        const {hotelName, hotelId} = this.state;
 
         // style
         const brandStyle = {
@@ -61,7 +62,7 @@ class BackendNavbar extends Component {
                             <Nav.Link as={Link} to='./roomUpdate'>房型更新</Nav.Link>
                             <Nav.Link as={Link} to='./roomCreate'>新增房型</Nav.Link>
                             <Nav.Link as={Link} to='./bookingOrderList'>訂房訂單</Nav.Link>
-                            <Nav.Link>前端頁面</Nav.Link>
+                            <Nav.Link as={Link} to={`/roomBooking/hotelPage/${hotelId}`}>前端頁面</Nav.Link>
                         </Nav>
                         <Nav>
                             <Nav.Link>
@@ -88,29 +89,24 @@ class BackendNavbar extends Component {
     };
 
 
-
     // other
-    hotelName = () => {
+    hotel = () => {
 
-        this.hotelNameFetch();
+        this.hotelFetch();
     }
     logout = () => {
 
         this.logoutFetch();
     }
-    toLogin = () => {
-
-        window.location.href = './login';
-    };
 
 
 
     // fetch
-    hotelNameFetch = async () => {
+    hotelFetch = async () => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
-        const url = fetch.url.hotelName;
+        const url = fetch.url.hotel;
         const config = fetch.config;
 
         const {serverInfo, data} = await axios.get(url, {
@@ -123,7 +119,7 @@ class BackendNavbar extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterHotelName(data);
+            this.afterHotel(data);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -155,22 +151,22 @@ class BackendNavbar extends Component {
 
 
     // after fetch
-    afterHotelName = (data) => {
+    afterHotel = (data) => {
 
         this.setState({
-            hotelName : data.hotelName
+            hotelName : data.hotelName,
+            hotelId : data.hotelId
         });
     }
     afterLogout = (data) => {
 
-        const {fctn} = this.props;
+        const {fctn, navigate} = this.props;
 
         fctn.showInformModal(data.msg, () => {
 
+            fctn.closeInformModal();
             if(data.success)
-                this.toLogin();
-            else
-                fctn.closeInformModal();
+                navigate('/roomBooking/backend/login');
         });
     }
 
@@ -186,5 +182,13 @@ class BackendNavbar extends Component {
         });
     }
 }
+
+const BackendNavbar = props => {
+
+    const navigate = useNavigate();
+    const {refs} = props;
+
+    return (<BackendNavbarWrapped ref={refs.backendNavbarRef} {...props} navigate={navigate} />);
+};
 
 export default BackendNavbar;

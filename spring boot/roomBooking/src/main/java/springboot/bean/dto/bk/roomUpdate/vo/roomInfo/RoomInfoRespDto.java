@@ -16,7 +16,6 @@ public class RoomInfoRespDto {
 	private boolean hasValue;
 	private String roomName;
 	private int totalNum;
-	private UsedNumDto usedNum;
 	private InvalidNumDto invalidNum;
 	private int price;
 	private int singleBedNum;

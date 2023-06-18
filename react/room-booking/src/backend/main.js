@@ -6,7 +6,7 @@ import RoomList from './main/room-list';
 import RoomCreate from './main/room-create';
 import RoomUpdate from './main/room-update';
 import BookingOrderList from './main/booking-order-list';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import BackendNavbar from './main/backend-navbar';
 import axios from 'axios';
 
@@ -21,20 +21,17 @@ const constant = {
         }
     }
 }
-class Main extends Component {
+class MainWrapped extends Component {
 
     backendNavbarRef = createRef();
 
-    constructor(props){
-
-        super(props);
-        this.state = {
-            isLogin : true
-        };
-    }
-
     render() {
 
+        const refs = {
+            backendNavbar : {
+                backendNavbarRef : this.backendNavbarRef
+            }
+        }
         const fctn = {
             backendNavbar : {
                 showInformModal : this.props.fctn.showInformModal,
@@ -79,7 +76,7 @@ class Main extends Component {
         
         return (
             <Fragment>
-                <BackendNavbar fctn={fctn.backendNavbar} ref={this.backendNavbarRef} />
+                <BackendNavbar fctn={fctn.backendNavbar} refs={refs.backendNavbar} />
                 <Routes>
                     <Route path='/' element={<Navigate to='./hotelInfo' />} />
                     <Route path='/hotelInfo' element={<HotelInfo fctn={fctn.hotelInfo} />} />
@@ -98,10 +95,6 @@ class Main extends Component {
 
         this.checkLoginFetch(onSuccess);
     }
-    toLogin = () => {
-
-        window.location.href = './login';
-    };
 
 
     // fetch
@@ -133,7 +126,7 @@ class Main extends Component {
     // after fetch
     afterCheckLogin = (data, onSuccess) => {
 
-        const {fctn} = this.props;
+        const {fctn, navigate} = this.props;
         const {result} = data;
 
         if(!result.login){
@@ -141,7 +134,7 @@ class Main extends Component {
             fctn.showInformModal(result.msg, () => {
 
                 fctn.closeInformModal();
-                this.toLogin();
+                navigate('/roomBooking/backend/login');
             });
         }else{
 
@@ -149,5 +142,11 @@ class Main extends Component {
         }
     }
 }
+
+const Main = props => {
+
+    const navigate = useNavigate();
+    return (<MainWrapped {...props} navigate={navigate} />);
+};
 
 export default Main;

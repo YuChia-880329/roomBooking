@@ -15,8 +15,6 @@ public class SearchParamService {
 		return nameEquals(searchParam1.getName(), searchParam2.getName()) && 
 				totalNumMinEquals(searchParam1.getTotalNumMin(), searchParam2.getTotalNumMin()) &&
 				totalNumMaxEquals(searchParam1.getTotalNumMax(), searchParam2.getTotalNumMax()) &&
-				usedNumMinEquals(searchParam1.getUsedNumMin(), searchParam2.getUsedNumMin()) &&
-				usedNumMaxEquals(searchParam1.getUsedNumMax(), searchParam2.getUsedNumMin()) &&
 				invalidNumMinEquals(searchParam1.getInvalidNumMin(), searchParam2.getInvalidNumMin()) &&
 				invalidNumMaxEquals(searchParam1.getInvalidNumMax(), searchParam2.getInvalidNumMax()) &&
 				priceMinEquals(searchParam1.getPriceMin(), searchParam2.getPriceMin()) &&
@@ -36,14 +34,6 @@ public class SearchParamService {
 	private boolean totalNumMaxEquals(Integer totalNumMax1, Integer totalNumMax2) {
 		
 		return SearchParamUtil.equals(totalNumMax1, totalNumMax2, (t1, t2) -> t1.intValue()==t2.intValue());
-	}
-	private boolean usedNumMinEquals(Integer usedNumMin1, Integer usedNumMin2) {
-		
-		return SearchParamUtil.equals(usedNumMin1, usedNumMin2, (t1, t2) -> t1.intValue()==t2.intValue());
-	}
-	private boolean usedNumMaxEquals(Integer usedNumMax1, Integer usedNumMax2) {
-		
-		return SearchParamUtil.equals(usedNumMax1, usedNumMax2, (t1, t2) -> t1.intValue()==t2.intValue());
 	}
 	private boolean invalidNumMinEquals(Integer invalidNumMin1, Integer invalidNumMin2) {
 		

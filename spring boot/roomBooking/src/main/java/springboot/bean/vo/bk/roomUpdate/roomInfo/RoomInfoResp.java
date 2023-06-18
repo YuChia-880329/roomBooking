@@ -15,7 +15,6 @@ public class RoomInfoResp extends Data {
 	private boolean hasValue;
 	private String roomName;
 	private int totalNum;
-	private UsedNum usedNum;
 	private InvalidNum invalidNum;
 	private int price;
 	private int singleBedNum;

@@ -1,7 +1,6 @@
 package springboot.bean.obj.bk.bookingOrderList.repo.tablePages;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import enumeration.bk.bookingOderList.BookingOrderTableOrder;
@@ -27,8 +26,8 @@ public class SearchParam {
 	private Integer priceMin;
 	private Integer priceMax;
 	private List<Integer> payMethodIds;
-	private LocalDateTime checkinDateTimeFrom;
-	private LocalDateTime checkinDateTimeTo;
+	private LocalDate checkinDateFrom;
+	private LocalDate checkinDateTo;
 	private LocalDate checkoutDateFrom;
 	private LocalDate checkoutDateTo;
 	private Integer useDayMin;

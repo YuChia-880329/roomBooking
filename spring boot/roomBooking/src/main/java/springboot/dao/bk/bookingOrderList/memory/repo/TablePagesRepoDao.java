@@ -20,6 +20,7 @@ import springboot.trans.bk.bookingOrderList.obj.repo.tablePages.OutputTrans;
 public class TablePagesRepoDao extends RepoDao<Input, TablePages, Output, InputDto, OutputDto, 
 		TablePagesRepo, InputTrans, OutputTrans> {
 
+
 	public TablePagesRepoDao(TablePagesRepo repo) {
 		
 		super(repo);

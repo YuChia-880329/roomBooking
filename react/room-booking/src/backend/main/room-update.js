@@ -22,22 +22,6 @@ const constant = {
         req : {
             roomInfo : {
                 roomId : -1
-            },
-            update : {
-                id : 0,
-                name : '',
-                totalNum : 0,
-                usedNum : 0,
-                invalidNum : 0,
-                price : 0,
-                singleBedNum : 0,
-                doubleBedNum : 0,
-                area : 0,
-                sceneId : 0,
-                showerIds : [],
-                statusId : 0,
-                roomImgs : [],
-                newImgs : []
             }
         }
     }
@@ -60,11 +44,6 @@ class RoomUpdate extends Component {
                 },
                 totalNum : {
                     disabled : true,
-                    value : ''
-                },
-                usedNum : {
-                    disabled : true,
-                    options : [],
                     value : ''
                 },
                 inValidNum : {
@@ -375,12 +354,6 @@ class RoomUpdate extends Component {
                 ...updateForm.totalNum,
                 disabled : !data.hasValue,
                 value : data.hasValue ? data.totalNum : ''
-            },
-            usedNum : {
-                ...updateForm.usedNum,
-                disabled : !data.hasValue,
-                options : data.hasValue ? data.usedNum.options : [],
-                value : data.hasValue ? `${data.usedNum.value}` : '-1'
             },
             inValidNum : {
                 ...updateForm.inValidNum,

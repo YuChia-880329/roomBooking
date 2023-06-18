@@ -17,6 +17,11 @@ import springboot.trans.model.HotelTrans;
 @Repository("model.inner.HotelDaoInner")
 public class HotelDaoInner extends DaoInner<Hotel, Integer, HotelDto, HotelTrans, HotelDao> {
 
+	public HotelDto findByName(String name) {
+		
+		return trans.modelToDto(
+				dao.findByName(name));
+	}
 	public HotelDto save(HotelDto dto) {
 		
 		return super.saveImpl(dto, dto.getId());

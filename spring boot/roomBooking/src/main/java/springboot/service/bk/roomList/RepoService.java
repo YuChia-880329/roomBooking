@@ -32,7 +32,6 @@ public class RepoService {
 				.index(index)
 				.name(tableRow.getName())
 				.totalNum(tableRow.getTotalNum())
-				.usedNum(tableRow.getUsedNum())
 				.invalidNum(tableRow.getInvalidNum())
 				.price(tableRow.getPrice())
 				.status(tableRow.getStatus())

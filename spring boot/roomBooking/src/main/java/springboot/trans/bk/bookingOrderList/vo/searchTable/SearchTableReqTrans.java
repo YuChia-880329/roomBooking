@@ -27,8 +27,8 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 		String priceMin = vo.getPriceMin();
 		String priceMax = vo.getPriceMax();
 		String[] payMethodIds = vo.getPayMethodIds();
-		String checkinDateTimeFrom = vo.getCheckinDateTimeFrom();
-		String checkinDateTimeTo = vo.getCheckinDateTimeTo();
+		String checkinDateFrom = vo.getCheckinDateFrom();
+		String checkinDateTo = vo.getCheckinDateTo();
 		String checkoutDateFrom = vo.getCheckoutDateFrom();
 		String checkoutDateTo = vo.getCheckoutDateTo();
 		String useDayMin = vo.getUseDayMin();
@@ -49,8 +49,8 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 				.priceMax(priceMax==null ? null : Integer.parseInt(priceMax))
 				.payMethodIds(payMethodIds==null ? null : Arrays.stream(payMethodIds)
 						.map(payMethodId -> Integer.parseInt(payMethodId)).collect(Collectors.toList()))
-				.checkinDateTimeFrom(checkinDateTimeFrom==null ? null : DateTimeUtil.toLocalDateTimeFront(checkinDateTimeFrom))
-				.checkinDateTimeTo(checkinDateTimeTo==null ? null : DateTimeUtil.toLocalDateTimeFront(checkinDateTimeTo))
+				.checkinDateFrom(checkinDateFrom==null ? null : DateTimeUtil.toLocalDateFront(checkinDateFrom))
+				.checkinDateTo(checkinDateTo==null ? null : DateTimeUtil.toLocalDateFront(checkinDateTo))
 				.checkoutDateFrom(checkoutDateFrom==null ? null : DateTimeUtil.toLocalDateFront(checkoutDateFrom))
 				.checkoutDateTo(checkoutDateTo==null ? null : DateTimeUtil.toLocalDateFront(checkoutDateTo))
 				.useDayMin(useDayMin==null ? null : Integer.parseInt(useDayMin))

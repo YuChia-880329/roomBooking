@@ -9,17 +9,17 @@ class CheckoutDate extends Component {
 
         return (
             <Form.Group>
-                <Form.Label htmlFor='filter_checkoutDateMin'>預定退房日期 : </Form.Label>
+                <Form.Label htmlFor='filter_checkoutDateFrom'>預定退房日期 : </Form.Label>
                 <Row>
                     <Col>
-                        <Form.Control id='filter_checkoutDateMin' type='date' value={value.valueFrom} 
+                        <Form.Control id='filter_checkoutDateFrom' type='date' value={value.valueFrom} 
                                 onChange={e => this.onChange(e, 'valueFrom')} />
                     </Col>
                     <Col xs='auto' className='px-3 align-self-center'>
                         <p className='mb-0'>~</p>
                     </Col>
                     <Col>
-                        <Form.Control id='filter_checkoutDateMax' type='date' value={value.valueTo} 
+                        <Form.Control id='filter_checkoutDateTo' type='date' value={value.valueTo} 
                                 onChange={e => this.onChange(e, 'valueTo')} />
                     </Col>
                 </Row>

@@ -12,13 +12,11 @@ import springboot.bean.dto.bk.bookingOrderList.obj.repo.tablePages.TablePageDto;
 import springboot.bean.dto.bk.bookingOrderList.vo.searchTable.SearchTableReqDto;
 import springboot.bean.dto.bk.bookingOrderList.vo.searchTable.SearchTableRespDto;
 import springboot.dao.bk.bookingOrderList.memory.repo.TablePagesRepoDao;
+import springboot.memory.repo.bk.bookingOrderList.TablePagesRepo;
 import springboot.service.PaginationService;
 
 @Service("bk.bookingOrderList.SearchTableService")
 public class SearchTableService {
-	
-	public static final int ROWS_PER_PAGE = 10;
-	public static final int PAGES_PER_PAGE_GROUP = 3;
 	
 	@Autowired
 	@Qualifier("bk.bookingOrderList.memory.repo.TablePagesRepoDao")
@@ -42,7 +40,7 @@ public class SearchTableService {
 		
 		return SearchTableRespDto.builder()
 				.table(repoService.toTableVo(tablePageDto.getTable()))
-				.pagination(paginationService.getPagination(tablePageDto.getCurrentPage(), PAGES_PER_PAGE_GROUP, output.getMaxPage()))
+				.pagination(paginationService.getPagination(tablePageDto.getCurrentPage(), TablePagesRepo.PAGES_PER_PAGE_GROUP, output.getMaxPage()))
 				.build();
 	}
 	
@@ -61,8 +59,8 @@ public class SearchTableService {
 				.priceMin(searchTableReq.getPriceMin())
 				.priceMax(searchTableReq.getPriceMax())
 				.payMethodIds(searchTableReq.getPayMethodIds())
-				.checkinDateTimeFrom(searchTableReq.getCheckinDateTimeFrom())
-				.checkinDateTimeTo(searchTableReq.getCheckinDateTimeTo())
+				.checkinDateFrom(searchTableReq.getCheckinDateFrom())
+				.checkinDateTo(searchTableReq.getCheckinDateTo())
 				.checkoutDateFrom(searchTableReq.getCheckoutDateFrom())
 				.checkoutDateTo(searchTableReq.getCheckoutDateTo())
 				.useDayMin(searchTableReq.getUseDayMin())

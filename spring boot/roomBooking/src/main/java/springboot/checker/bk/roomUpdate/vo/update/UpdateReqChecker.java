@@ -31,7 +31,6 @@ public class UpdateReqChecker implements Checker<UpdateReq> {
 		checkId(vo);
 		checkName(vo);
 		checkTotalNum(vo);
-		checkUsedNum(vo);
 		checkInvalidNum(vo);
 		checkPrice(vo);
 		checkSingleBedNum(vo);
@@ -66,12 +65,6 @@ public class UpdateReqChecker implements Checker<UpdateReq> {
 		int totalNum = vo.getTotalNum();
 		
 		CheckUtil.checkNumberIsNonNegativeInteger(totalNum);
-	}
-	private void checkUsedNum(UpdateReq vo) {
-		
-		int usedNum = vo.getUsedNum();
-		
-		CheckUtil.checkNumberIsNonNegativeInteger(usedNum);
 	}
 	private void checkInvalidNum(UpdateReq vo) {
 		

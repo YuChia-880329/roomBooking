@@ -24,8 +24,6 @@ const constant = {
                 name : undefined,
                 totalNumMin : undefined,
                 totalNumMax : undefined,
-                usedNumMin : undefined,
-                usedNumMax : undefined,
                 invalidNumMin : undefined,
                 invalidNumMax : undefined,
                 priceMin : undefined,
@@ -49,21 +47,17 @@ const constant = {
             asc : 3,
             desc : 4
         },
-        usedNum : {
+        invalidNum : {
             asc : 5,
             desc : 6
         },
-        invalidNum : {
+        price : {
             asc : 7,
             desc : 8
         },
-        price : {
+        status : {
             asc : 9,
             desc : 10
-        },
-        status : {
-            asc : 11,
-            desc : 12
         }
     }
 }
@@ -202,8 +196,6 @@ class RoomList extends Component {
         const name = filterModal.name.value;
         const totalNumMin = filterModal.totalRoomNum.valueMin;
         const totalNumMax = filterModal.totalRoomNum.valueMax;
-        const usedNumMin = filterModal.usedRoomNum.valueMin;
-        const usedNumMax = filterModal.usedRoomNum.valueMax;
         const invalidNumMin = filterModal.invalidRoomNum.valueMin;
         const invalidNumMax = filterModal.invalidRoomNum.valueMax;
         const priceMin = filterModal.price.valueMin;
@@ -213,8 +205,6 @@ class RoomList extends Component {
         req.name = (name==='' ? undefined : name);
         req.totalNumMin = (totalNumMin==='' ? undefined : totalNumMin);
         req.totalNumMax = (totalNumMax==='' ? undefined : totalNumMax);
-        req.usedNumMin = (usedNumMin==='' ? undefined : usedNumMin);
-        req.usedNumMax = (usedNumMax==='' ? undefined : usedNumMax);
         req.invalidNumMin = (invalidNumMin==='' ? undefined : invalidNumMin);
         req.invalidNumMax = (invalidNumMax==='' ? undefined : invalidNumMax);
         req.priceMin = (priceMin==='' ? undefined : priceMin);

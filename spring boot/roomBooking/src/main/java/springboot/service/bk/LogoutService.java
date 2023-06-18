@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import springboot.bean.dto.bk.vo.logout.LogoutRespDto;
-import springboot.dao.bk.bookingOrderList.memory.repo.TablePagesRepoDao;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
+import springboot.service.MemoryClearService;
 
 @Service("bk.LogoutService")
 public class LogoutService {
@@ -18,23 +18,19 @@ public class LogoutService {
 	@Qualifier("bk.login.memory.status.LoginStatusDao")
 	private LoginStatusDao loginStatusDao;
 	@Autowired
-	@Qualifier("bk.bookingOrderList.memory.repo.TablePagesRepoDao")
-	private TablePagesRepoDao tablePagesRepoDaoBookingOrderList;
-	@Autowired
-	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDao")
-	private springboot.dao.bk.roomList.memory.repo.TablePagesRepoDao tablePagesRepoDaoRoomList;
+	@Qualifier("MemoryClearService")
+	private MemoryClearService memoryClearService;
 	
 	
 	public LogoutRespDto logout() {
 		
+		memoryClearService.clearBkBookingOrderListTablePagesRepo();
+		memoryClearService.clearBkRoomListTablePagesRepo();
+		
 		loginStatusDao.clearStatus();
 		boolean success = true;
 		
-		if(success) {
-			
-			tablePagesRepoDaoBookingOrderList.needUpdate();
-			tablePagesRepoDaoRoomList.needUpdate();
-		}
+
 		return LogoutRespDto.builder()
 				.success(success)
 				.msg(success ? SUCCESS_MSG : FAILURE_MSG)

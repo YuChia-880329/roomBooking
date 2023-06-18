@@ -9,7 +9,7 @@ class Num extends Component {
             <Stack direction='horizontal' gap={3}>
                 <Form.Label className='mb-0'>房間數量 : </Form.Label>
                 <div>
-                    <Form.Control type='number' min={0} value={this.getter('value')} onChange={this.onChange} required />
+                    <Form.Control type='number' min={1} value={this.getter('value')} onChange={this.onChange} required />
                     <Form.Control.Feedback type='invalid'>請輸入房間數量</Form.Control.Feedback>
                 </div>
             </Stack>

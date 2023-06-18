@@ -69,15 +69,8 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 	@Override
 	protected Input initialInput() {
 		
-		SearchParam searchParam = SearchParam.builder()
-				.page(-1)
-				.hotelId(-1)
-				.checkinDate(null)
-				.checkoutDate(null)
-				.num(null)
-				.build();
 		return Input.builder()
-				.searchParam(searchParam)
+				.searchParam(null)
 				.build();
 	}
 
@@ -93,7 +86,7 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 	protected RoomPages update(Input input) {
 		
 		SearchParam searchParam = input.getSearchParam();
-		if(needDefault(searchParam))
+		if(searchParam == null)
 			return getDefault();
 		
 		
@@ -241,14 +234,6 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 				.build();
 	}
 	
-	private boolean needDefault(SearchParam searchParam) {
-		
-		return searchParam.getPage()<0 ||
-				searchParam.getHotelId()<0 ||
-				searchParam.getCheckinDate()==null ||
-				searchParam.getCheckoutDate()==null ||
-				searchParam.getNum()==null;
-	}
 	private RoomPages getDefault() {
 		
 		Map<Integer, RoomPage> roomPageMap = new HashMap<>();

@@ -4,7 +4,6 @@ import Name from './filter_modal/name';
 import TotalRoomNum from './filter_modal/total-room-num';
 import InvalidRoomNum from './filter_modal/invalid-room-num';
 import Price from './filter_modal/price';
-import UsedRoomNum from './filter_modal/used-room-num';
 import Status from './filter_modal/status';
 
 class FilterModal extends Component {
@@ -18,9 +17,6 @@ class FilterModal extends Component {
             },
             totalRoomNum : {
                 setTotalRoomNum : (val, onSet) => this.setter('totalRoomNum', val, onSet)
-            },
-            usedRoomNum : {
-                setUsedRoomNum : (val, onSet) => this.setter('usedRoomNum', val, onSet)
             },
             invalidRoomNum : {
                 setInvalidRoomNum : (val, onSet) => this.setter('invalidRoomNum', val, onSet)
@@ -45,7 +41,6 @@ class FilterModal extends Component {
                         <Stack gap={4}>
                             <Name value={value.name} setter={setter.name} />
                             <TotalRoomNum value={value.totalRoomNum} setter={setter.totalRoomNum} />
-                            <UsedRoomNum value={value.usedRoomNum} setter={setter.usedRoomNum} />
                             <InvalidRoomNum value={value.invalidRoomNum} setter={setter.invalidRoomNum} />
                             <Price value={value.price} setter={setter.price} />
                             <Status value={value.status} setter={setter.status} />

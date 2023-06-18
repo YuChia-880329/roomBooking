@@ -17,8 +17,6 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 		
 		String totalNumMin = vo.getTotalNumMin();
 		String totalNumMax = vo.getTotalNumMax();
-		String usedNumMin = vo.getUsedNumMin();
-		String usedNumMax = vo.getUsedNumMax();
 		String invalidNumMin = vo.getInvalidNumMin();
 		String invalidNumMax = vo.getInvalidNumMax();
 		String priceMin = vo.getPriceMin();
@@ -29,8 +27,6 @@ public class SearchTableReqTrans extends VoRiTransChecked<SearchTableReq, Search
 				.name(vo.getName())
 				.totalNumMin(totalNumMin==null ? null : Integer.parseInt(totalNumMin))
 				.totalNumMax(totalNumMax==null ? null : Integer.parseInt(totalNumMax))
-				.usedNumMin(usedNumMin==null ? null : Integer.parseInt(usedNumMin))
-				.usedNumMax(usedNumMax==null ? null : Integer.parseInt(usedNumMax))
 				.invalidNumMin(invalidNumMin==null ? null : Integer.parseInt(invalidNumMin))
 				.invalidNumMax(invalidNumMax==null ? null : Integer.parseInt(invalidNumMax))
 				.priceMin(priceMin==null ? null : Integer.parseInt(priceMin))

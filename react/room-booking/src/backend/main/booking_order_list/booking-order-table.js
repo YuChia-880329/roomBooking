@@ -27,8 +27,8 @@ const constant = {
         payMethod : {
             text : '付款方式'
         },
-        checkinDateTime : {
-            text : '預定入住日期時辰'
+        checkinDate : {
+            text : '預定入住日期'
         },
         checkoutDate : {
             text : '預定退房日期'
@@ -66,8 +66,8 @@ class OrderTable extends Component {
                                 descOnClick={e => this.onClickOrder(e, 'price', 1)} />
                         <SortTh text={header.payMethod.text} ascOnClick={e => this.onClickOrder(e, 'payMethod', 0)} 
                                 descOnClick={e => this.onClickOrder(e, 'payMethod', 1)} />
-                        <SortTh text={header.checkinDateTime.text} ascOnClick={e => this.onClickOrder(e, 'checkinDateTime', 0)} 
-                                descOnClick={e => this.onClickOrder(e, 'checkinDateTime', 1)} />
+                        <SortTh text={header.checkinDate.text} ascOnClick={e => this.onClickOrder(e, 'checkinDate', 0)} 
+                                descOnClick={e => this.onClickOrder(e, 'checkinDate', 1)} />
                         <SortTh text={header.checkoutDate.text} ascOnClick={e => this.onClickOrder(e, 'checkoutDate', 0)} 
                                 descOnClick={e => this.onClickOrder(e, 'checkoutDate', 1)} />
                         <SortTh text={header.useDay.text} ascOnClick={e => this.onClickOrder(e, 'useDay', 0)} 
@@ -87,7 +87,7 @@ class OrderTable extends Component {
                                 <SortTd text={tableRow.roomNum} />
                                 <SortTd text={tableRow.price} />
                                 <SortTd text={tableRow.payMethod} />
-                                <SortTd text={tableRow.checkinDateTime} />
+                                <SortTd text={tableRow.checkinDate} />
                                 <SortTd text={tableRow.checkoutDate} />
                                 <SortTd text={tableRow.useDay} />
                                 <SortTd text={tableRow.totalPrice} />

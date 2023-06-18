@@ -1,7 +1,6 @@
 package springboot.service.bk.bookingOrderList.memory.repo.tablePages;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -25,8 +24,8 @@ public class SearchParamService {
 				priceMinEquals(searchParam1.getPriceMin(), searchParam2.getPriceMin()) &&
 				priceMaxEquals(searchParam1.getPriceMax(), searchParam2.getPriceMax()) &&
 				payMethodIdsEquals(searchParam1.getPayMethodIds(), searchParam2.getPayMethodIds()) &&
-				checkinDateTimeFromEquals(searchParam1.getCheckinDateTimeFrom(), searchParam2.getCheckinDateTimeFrom()) &&
-				checkinDateTimeToEquals(searchParam1.getCheckinDateTimeTo(), searchParam2.getCheckinDateTimeTo()) &&
+				checkinDateFromEquals(searchParam1.getCheckinDateFrom(), searchParam2.getCheckinDateFrom()) &&
+				checkinDateToEquals(searchParam1.getCheckinDateTo(), searchParam2.getCheckinDateTo()) &&
 				checkoutDateFromEquals(searchParam1.getCheckoutDateFrom(), searchParam2.getCheckoutDateFrom()) &&
 				checkoutDateToEquals(searchParam1.getCheckoutDateTo(), searchParam2.getCheckoutDateTo()) &&
 				useDayMinEquals(searchParam1.getUseDayMin(), searchParam2.getUseDayMin()) &&
@@ -88,13 +87,13 @@ public class SearchParamService {
 			return true;
 		});
 	}
-	private boolean checkinDateTimeFromEquals(LocalDateTime checkinDateTimeFrom1, LocalDateTime checkinDateTimeFrom2) {
+	private boolean checkinDateFromEquals(LocalDate checkinDateFrom1, LocalDate checkinDateFrom2) {
 		
-		return SearchParamUtil.equals(checkinDateTimeFrom1, checkinDateTimeFrom2, (t1, t2) -> t1.equals(t2));
+		return SearchParamUtil.equals(checkinDateFrom1, checkinDateFrom2, (t1, t2) -> t1.equals(t2));
 	}
-	private boolean checkinDateTimeToEquals(LocalDateTime checkinDateTimeTo1, LocalDateTime checkinDateTimeTo2) {
+	private boolean checkinDateToEquals(LocalDate checkinDateTo1, LocalDate checkinDateTo2) {
 		
-		return SearchParamUtil.equals(checkinDateTimeTo1, checkinDateTimeTo2, (t1, t2) -> t1.equals(t2));
+		return SearchParamUtil.equals(checkinDateTo1, checkinDateTo2, (t1, t2) -> t1.equals(t2));
 	}
 	private boolean checkoutDateFromEquals(LocalDate checkoutDateFrom1, LocalDate checkoutDateFrom2) {
 		

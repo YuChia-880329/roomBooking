@@ -31,7 +31,6 @@ public class UpdateReqTrans extends VoRiTransChecked<UpdateReq, UpdateReqDto, Up
 				.id(vo.getId())
 				.name(vo.getName())
 				.totalNum(vo.getTotalNum())
-				.usedNum(vo.getUsedNum())
 				.invalidNum(vo.getInvalidNum())
 				.price(vo.getPrice())
 				.singleBedNum(vo.getSingleBedNum())

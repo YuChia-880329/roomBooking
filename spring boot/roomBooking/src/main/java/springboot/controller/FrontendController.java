@@ -17,12 +17,14 @@ import springboot.bean.vo.fr.hotelPage.addShoppingCart.AddShoppingCartReq;
 import springboot.bean.vo.fr.login.login.LoginReq;
 import springboot.bean.vo.fr.shoppingCart.checkout.CheckoutReq;
 import springboot.bean.vo.fr.shoppingCart.delete.DeleteReq;
+import springboot.bean.vo.fr.signup.signup.SignupReq;
 import springboot.service.fr.FrControllerService;
 import springboot.service.fr.home.HomeControllerService;
 import springboot.service.fr.hotelPage.HotelPageControllerService;
 import springboot.service.fr.login.LoginControllerService;
 import springboot.service.fr.receipt.ReceiptControllerService;
 import springboot.service.fr.shoppingCart.ShoppingCartControllerService;
+import springboot.service.fr.signup.SignupControllerService;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:8086", "http://localhost:3000"}, allowCredentials = "true")
@@ -36,6 +38,9 @@ public class FrontendController {
 	@Autowired
 	@Qualifier("fr.login.LoginControllerService")
 	private LoginControllerService loginControllerService;
+	@Autowired
+	@Qualifier("fr.signup.SignupControllerService")
+	private SignupControllerService signupControllerService;
 	@Autowired
 	@Qualifier("fr.home.HomeControllerService")
 	private HomeControllerService homeControllerService;
@@ -57,6 +62,25 @@ public class FrontendController {
 		Response response = frControllerService.checkLogin();
 		return ResponseEntity.ok(response);
 	}
+	@PostMapping("/logout")
+	public ResponseEntity<Response> logout(){
+		
+		Response response = frControllerService.logout();
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/searchHotel")
+	public ResponseEntity<Response> searchHotel(@RequestParam(name = "name") String name){
+		
+		Response response = frControllerService.searchHotel(name);
+		return ResponseEntity.ok(response);
+	}
+	@GetMapping("/memberName")
+	public ResponseEntity<Response> memberName(){
+		
+		Response response = frControllerService.memberName();
+		return ResponseEntity.ok(response);
+	}
+	
 	
 	
 	// login
@@ -64,6 +88,15 @@ public class FrontendController {
 	public ResponseEntity<Response> login(@RequestBody LoginReq loginReq){
 		
 		Response response = loginControllerService.login(loginReq);
+		return ResponseEntity.ok(response);
+	}
+	
+	
+	// signup
+	@PostMapping("/signup/signup")
+	public ResponseEntity<Response> signup(@RequestBody SignupReq signupReq){
+		
+		Response response = signupControllerService.signup(signupReq);
 		return ResponseEntity.ok(response);
 	}
 	

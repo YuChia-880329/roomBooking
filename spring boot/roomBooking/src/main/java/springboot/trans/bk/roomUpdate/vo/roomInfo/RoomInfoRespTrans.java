@@ -12,9 +12,6 @@ import tmpl.trans.bean.vo.VoWoTrans;
 public class RoomInfoRespTrans implements VoWoTrans<RoomInfoResp, RoomInfoRespDto> {
 
 	@Autowired
-	@Qualifier("bk.roomUpdate.vo.roomInfo.UsedNumTrans")
-	private UsedNumTrans usedNumTrans;
-	@Autowired
 	@Qualifier("bk.roomUpdate.vo.roomInfo.InvalidNumTrans")
 	private InvalidNumTrans invalidNumTrans;
 	@Autowired
@@ -31,7 +28,6 @@ public class RoomInfoRespTrans implements VoWoTrans<RoomInfoResp, RoomInfoRespDt
 				.hasValue(dto.isHasValue())
 				.roomName(dto.getRoomName())
 				.totalNum(dto.getTotalNum())
-				.usedNum(usedNumTrans.dtoToVo(dto.getUsedNum()))
 				.invalidNum(invalidNumTrans.dtoToVo(dto.getInvalidNum()))
 				.price(dto.getPrice())
 				.singleBedNum(dto.getSingleBedNum())

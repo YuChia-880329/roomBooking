@@ -16,7 +16,6 @@ public class UpdateReqDto {
 	private int id;
 	private String name;
 	private int totalNum;
-	private int usedNum;
 	private int invalidNum;
 	private int price;
 	private int singleBedNum;

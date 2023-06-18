@@ -48,12 +48,19 @@ class MainWrapped extends Component {
                 showInformModal : this.props.fctn.showInformModal,
                 closeInformModal : this.props.fctn.closeInformModal,
                 checkLogin : this.checkLogin
+            },
+            frontendNavbar : {
+                showInformModal : this.props.fctn.showInformModal,
+                closeInformModal : this.props.fctn.closeInformModal,
+                showConfirmModal : this.props.fctn.showConfirmModal,
+                closeConfirmModal : this.props.fctn.closeConfirmModal,
+                checkLogin : this.checkLoginOnFail
             }
         };
 
         return (
             <Fragment>
-                <FrontendNavbar />
+                <FrontendNavbar fctn={fctn.frontendNavbar} />
                 <Routes>
                     <Route path='/' element={<Navigate to='./home' />} />
                     <Route path='/home' element={<Home fctn={fctn.home} />} />
@@ -68,15 +75,28 @@ class MainWrapped extends Component {
 
 
      // other
+    checkLoginOnFail = (onFail, onSuccess) => {
+
+        this.checkLoginFetch(onFail, onSuccess);
+    };
     checkLogin = (onSuccess) => {
 
-        this.checkLoginFetch(onSuccess);
+        const {fctn, navigate} = this.props;
+
+        this.checkLoginOnFail((failMsg) => {
+
+            fctn.showInformModal(failMsg, () => {
+
+                fctn.closeInformModal();
+                navigate('/roomBooking/home');
+            });
+        }, onSuccess);
     };
 
 
 
     // fetch
-    checkLoginFetch = async (onSuccess) => {
+    checkLoginFetch = async (onFail, onSuccess) => {
 
         const {fctn} = this.props;
         const {fetch} =  constant;
@@ -93,7 +113,7 @@ class MainWrapped extends Component {
         const statusCode = serverInfo.statusCode;
         if(statusCode === 200){
 
-            this.afterCheckLogin(data, onSuccess);
+            this.afterCheckLogin(data, onFail, onSuccess);
         }else if(statusCode===400 || statusCode===500){
 
             fctn.showInformModal(serverInfo.msg);
@@ -102,17 +122,11 @@ class MainWrapped extends Component {
 
 
     // after fetch
-    afterCheckLogin = (data, onSuccess) => {
-
-        const {fctn, navigate} = this.props;
+    afterCheckLogin = (data, onFail, onSuccess) => {
 
         if(!data.login){
 
-            fctn.showInformModal(data.msg, () => {
-
-                fctn.closeInformModal();
-                navigate('../login');
-            });
+            onFail(data.msg);
         }else{
 
             onSuccess && onSuccess();

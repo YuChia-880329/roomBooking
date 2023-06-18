@@ -1,7 +1,6 @@
 package springboot.dao.model.inner;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,25 +28,25 @@ public class BookingOrderDaoInner {
 	public long queryBkBookingOrderListTablePagesRowNum(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, List<Integer> payMethods, LocalDateTime checkinDateTimeFrom, 
-			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethods, LocalDate checkinDateFrom, 
+			LocalDate checkinDateTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax) {
 		
 		return dao.queryBkBookingOrderListTablePagesRowNum(hotelId, idMin, idMax, clientName, clientPhone, roomType, 
-				roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
+				roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateFrom, checkinDateTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax);
 	}
 	
 	public List<BookingOrderDto> queryBkBookingOrderListTablePages(
 			int hotelId, Integer idMin, Integer idMax, String clientName,
 			String clientPhone, Integer roomType, Integer roomNumMin, Integer roomNumMax,
-			Integer priceMin, Integer priceMax, List<Integer> payMethods, LocalDateTime checkinDateTimeFrom, 
-			LocalDateTime checkinDateTimeTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
+			Integer priceMin, Integer priceMax, List<Integer> payMethods, LocalDate checkinDateFrom, 
+			LocalDate checkinDateTo, LocalDate checkoutDateFrom, LocalDate checkoutDateTo, 
 			Integer useDayMin, Integer useDayMax, Integer totalPriceMin, Integer totalPriceMax,
 			BookingOrderTableOrder bookingOrderTableOrder, int minRow, int maxRow){
 		
 		return trans.modelListToDtoList(dao.queryBkBookingOrderListTablePages(hotelId, idMin, idMax, clientName, clientPhone, 
-				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateTimeFrom, checkinDateTimeTo, 
+				roomType, roomNumMin, roomNumMax, priceMin, priceMax, payMethods, checkinDateFrom, checkinDateTo, 
 				checkoutDateFrom, checkoutDateTo, useDayMin, useDayMax, totalPriceMin, totalPriceMax, bookingOrderTableOrder, 
 				minRow, maxRow));
 	}

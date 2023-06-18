@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import springboot.bean.dto.bk.login.obj.status.login.LoginDto;
-import springboot.bean.dto.bk.vo.hotelName.HotelNameRespDto;
+import springboot.bean.dto.bk.vo.hotel.HotelRespDto;
 import springboot.bean.dto.model.HotelDto;
 import springboot.dao.bk.login.memory.status.LoginStatusDao;
 import springboot.dao.model.inner.HotelDaoInner;
 import springboot.exception.NotLoginException;
 
-@Service("bk.HotelNameService")
-public class HotelNameService {
+@Service("bk.HotelService")
+public class HotelService {
 
 	@Autowired
 	@Qualifier("bk.login.memory.status.LoginStatusDao")
@@ -22,14 +22,15 @@ public class HotelNameService {
 	private HotelDaoInner hotelDaoInner;
 	
 	
-	public HotelNameRespDto hotelName() {
+	public HotelRespDto hotelName() {
 		
 		LoginDto login = loginStatusDao.getStatus();
 		if(!login.isLogin())
 			throw new NotLoginException(NotLoginException.MSG);
 		
 		HotelDto hotel = hotelDaoInner.findById(login.getHotelId()).get();
-		return HotelNameRespDto.builder()
+		return HotelRespDto.builder()
+				.hotelId(hotel.getId())
 				.hotelName(hotel.getName())
 				.build();
 	}

@@ -12,14 +12,11 @@ import springboot.bean.dto.bk.roomList.obj.repo.tablePages.TablePageDto;
 import springboot.bean.dto.bk.roomList.vo.searchTable.SearchTableReqDto;
 import springboot.bean.dto.bk.roomList.vo.searchTable.SearchTableRespDto;
 import springboot.dao.bk.roomList.memory.repo.TablePagesRepoDao;
+import springboot.memory.repo.bk.roomList.TablePagesRepo;
 import springboot.service.PaginationService;
 
 @Service("bk.roomList.SearchTableService")
 public class SearchTableService {
-	
-	public static final int ROWS_PER_PAGE = 10;
-	public static final int PAGES_PER_PAGE_GROUP = 3;
-	
 	
 	@Autowired
 	@Qualifier("bk.roomList.memory.repo.TablePagesRepoDao")
@@ -43,7 +40,7 @@ public class SearchTableService {
 		
 		return SearchTableRespDto.builder()
 				.table(repoService.toTableVo(tablePageDto.getTable()))
-				.pagination(paginationService.getPagination(tablePageDto.getCurrentPage(), PAGES_PER_PAGE_GROUP, output.getMaxPage()))
+				.pagination(paginationService.getPagination(tablePageDto.getCurrentPage(), TablePagesRepo.PAGES_PER_PAGE_GROUP, output.getMaxPage()))
 				.build();
 	}
 	
@@ -55,8 +52,6 @@ public class SearchTableService {
 				.name(searchTableReq.getName())
 				.totalNumMin(searchTableReq.getTotalNumMin())
 				.totalNumMax(searchTableReq.getTotalNumMax())
-				.usedNumMin(searchTableReq.getUsedNumMin())
-				.usedNumMax(searchTableReq.getUsedNumMax())
 				.invalidNumMin(searchTableReq.getInvalidNumMin())
 				.invalidNumMax(searchTableReq.getInvalidNumMax())
 				.priceMin(searchTableReq.getPriceMin())

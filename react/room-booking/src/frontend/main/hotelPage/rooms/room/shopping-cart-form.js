@@ -11,7 +11,7 @@ class ShoppingCartForm extends Component {
                     <Form.Group as={Row}>
                         <Form.Label column xs='auto' htmlFor='room_num'>數量 : </Form.Label>
                         <Col xs='auto'>
-                            <Form.Control id='room_num' type='number' min={0} 
+                            <Form.Control id='room_num' type='number' min={1} 
                                     value={this.getter('value')} onChange={this.onChange} required />
                             <Form.Control.Feedback type='invalid'>請輸入數量</Form.Control.Feedback>
                         </Col>
@@ -32,23 +32,30 @@ class ShoppingCartForm extends Component {
     };
     onSubmit = (event) => {
 
-        const {fctn} = this.props;
+        const {fctn, getter} = this.props;
+        const value = this.getter('value');
 
         event.preventDefault();
         this.setter('validated', true, () => {
 
             if(event.target.checkValidity() === true){
+                
+                if(getter.getValidNum() >= value){
+
+                    this.setter('validated', false, () => {
+
+                        fctn.setBuyModal(value, () => {
     
-                this.setter('validated', false, () => {
-
-                    fctn.setBuyModal(this.getter('value'), () => {
-
-                        fctn.showBuyModal((event) => {
-
-                            fctn.submitBuyModal();
+                            fctn.showBuyModal((event) => {
+    
+                                fctn.submitBuyModal();
+                            });
                         });
                     });
-                });
+                }else {
+
+                    fctn.showInformModal('加入數量不可高於剩餘數量');
+                }
             }
         });
     };

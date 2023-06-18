@@ -1,7 +1,7 @@
 {
     "backend" : {
         "checkLogin" : "http://localhost:8086/roomBooking/backend/checkLogin",
-        "hotelName" : "http://localhost:8086/roomBooking/backend/hotelName",
+        "hotel" : "http://localhost:8086/roomBooking/backend/hotel",
         "logout" : "http://localhost:8086/roomBooking/backend/logout",
         "login" : {
             "login" : "http://localhost:8086/roomBooking/backend/login/login"
@@ -41,8 +41,14 @@
     },
     "frontend" : {
         "checkLogin" : "http://localhost:8086/roomBooking/frontend/checkLogin",
+        "logout" : "http://localhost:8086/roomBooking/frontend/logout",
+        "searchHotel" : "http://localhost:8086/roomBooking/frontend/searchHotel",
+        "memberName" : "http://localhost:8086/roomBooking/frontend/memberName",
         "login" : {
             "login" : "http://localhost:8086/roomBooking/frontend/login/login"
+        },
+        "signup" : {
+            "signup" : "http://localhost:8086/roomBooking/frontend/signup/signup"
         },
         "home" : {
             "allSections" : "http://localhost:8086/roomBooking/frontend/home/allSections",

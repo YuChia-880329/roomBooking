@@ -31,8 +31,8 @@ const constant = {
                 priceMin : undefined,
                 priceMax : undefined,
                 payMethod : undefined,
-                checkinDateTimeFrom : undefined,
-                checkinDateTimeTo : undefined,
+                checkinDateFrom : undefined,
+                checkinDateTo : undefined,
                 checkoutDateFrom : undefined,
                 checkoutDateTo : undefined,
                 useDayMin : undefined,
@@ -77,7 +77,7 @@ const constant = {
             asc : 13,
             desc : 14
         },
-        checkinDateTime : {
+        checkinDate : {
             asc : 15,
             desc : 16
         },
@@ -132,7 +132,7 @@ class BookingOrderList extends Component {
                     options : [],
                     values : []
                 },
-                checkinDateTime : {
+                checkinDate : {
                     valueFrom : '',
                     valueTo : ''
                 },
@@ -257,8 +257,8 @@ class BookingOrderList extends Component {
         const priceMin = filterModal.price.valueMin;
         const priceMax = filterModal.price.valueMax;
         const payMethod = filterModal.payMethod.values;
-        const checkinDateTimeFrom = filterModal.checkinDateTime.valueFrom;
-        const checkinDateTimeTo = filterModal.checkinDateTime.valueTo;
+        const checkinDateFrom = filterModal.checkinDate.valueFrom;
+        const checkinDateTo = filterModal.checkinDate.valueTo;
         const checkoutDateFrom = filterModal.checkoutDate.valueFrom;
         const checkoutDateTo = filterModal.checkoutDate.valueTo;
         const useDayMin = filterModal.useDay.valueMin;
@@ -276,8 +276,8 @@ class BookingOrderList extends Component {
         req.priceMin = (priceMin==='' ? undefined : priceMin);
         req.priceMax = (priceMax==='' ? undefined : priceMax);
         req.payMethod = (payMethod===[] ? undefined : payMethod);
-        req.checkinDateTimeFrom = (checkinDateTimeFrom==='' ? undefined : checkinDateTimeFrom);
-        req.checkinDateTimeTo = (checkinDateTimeTo==='' ? undefined : checkinDateTimeTo);
+        req.checkinDateFrom = (checkinDateFrom==='' ? undefined : checkinDateFrom);
+        req.checkinDateTo = (checkinDateTo==='' ? undefined : checkinDateTo);
         req.checkoutDateFrom = (checkoutDateFrom==='' ? undefined : checkoutDateFrom);
         req.checkoutDateTo = (checkoutDateTo==='' ? undefined : checkoutDateTo);
         req.useDayMin = (useDayMin==='' ? undefined : useDayMin);
