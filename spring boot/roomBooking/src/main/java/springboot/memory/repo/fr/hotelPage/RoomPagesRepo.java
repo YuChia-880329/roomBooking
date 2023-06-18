@@ -70,7 +70,7 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 	protected Input initialInput() {
 		
 		return Input.builder()
-				.searchParam(null)
+				.searchParam(SearchParam.builder().build())
 				.build();
 	}
 
@@ -86,7 +86,7 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 	protected RoomPages update(Input input) {
 		
 		SearchParam searchParam = input.getSearchParam();
-		if(searchParam == null)
+		if(needDefault(searchParam))
 			return getDefault();
 		
 		
@@ -232,6 +232,13 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 				.id(shower.getId())
 				.name(shower.getName())
 				.build();
+	}
+	
+	private boolean needDefault(SearchParam searchParam) {
+		
+		return searchParam.getPage()<0 ||
+				searchParam.getCheckinDate()==null ||
+						searchParam.getCheckoutDate()==null;
 	}
 	
 	private RoomPages getDefault() {

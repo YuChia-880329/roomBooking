@@ -62,7 +62,8 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 	protected Input initialInput() {
 		
 		return Input.builder()
-				.searchParam(null)
+				.searchParam(SearchParam.builder()
+						.build())
 				.build();
 	}
 
@@ -78,7 +79,7 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 	protected HotelRoomPages update(Input input) {
 		
 		SearchParam searchParam = input.getSearchParam();
-		if(searchParam == null)
+		if(needDefault(searchParam))
 			return getDefault();
 		
 		
@@ -171,6 +172,13 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 					return !(!bookingOrder.getCheckoutDate().isAfter(checkinDate) || 
 							!bookingOrder.getCheckinDate().isBefore(checkoutDate));
 				}).collect(Collectors.counting());
+	}
+	
+	private boolean needDefault(SearchParam searchParam) {
+		
+		return searchParam.getPage()<0 ||
+				searchParam.getCheckinDate()==null ||
+						searchParam.getCheckoutDate()==null;
 	}
 	
 	private HotelRoomPages getDefault() {
