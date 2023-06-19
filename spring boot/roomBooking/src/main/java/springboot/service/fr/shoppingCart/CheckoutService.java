@@ -79,8 +79,6 @@ public class CheckoutService {
 			memoryClearService.clearFrHomeHotelRoomPagesRepo();
 			memoryClearService.clearFrHotelPageRoomPagesRepo();
 			memoryClearService.clearFrShoppingCartDb();
-			memoryClearService.clearBkBookingOrderListTablePagesRepo();
-			memoryClearService.clearBkRoomListTablePagesRepo();
 		}
 		return CheckoutRespDto.builder()
 				.success(success)
@@ -93,6 +91,7 @@ public class CheckoutService {
 		
 		items.forEach(item -> {
 			
+			int useDay = (int)item.getCheckinDate().until(item.getCheckoutDate(), ChronoUnit.DAYS);
 			BookingOrderDto bookingOrder = BookingOrderDto.builder()
 					.id(0)
 					.clientId(memberId)
@@ -102,8 +101,8 @@ public class CheckoutService {
 					.checkinDate(item.getCheckinDate())
 					.checkoutDate(item.getCheckoutDate())
 					.checkinTime(item.getCheckinTime())
-					.useDay((int)item.getCheckinDate().until(item.getCheckoutDate(), ChronoUnit.DAYS))
-					.totalMoney(item.getNum() * item.getPrice())
+					.useDay(useDay)
+					.totalMoney(item.getNum() * item.getPrice() * useDay)
 					.build();
 			bookingOrderDaoInner.add(bookingOrder);
 		});
@@ -152,7 +151,7 @@ public class CheckoutService {
 				.checkoutDate(item.getCheckoutDate())
 				.checkinTime(item.getCheckinTime())
 				.num(item.getNum())
-				.price(item.getPrice())
+				.price(item.getPrice()*item.getNum()*(int)item.getCheckinDate().until(item.getCheckoutDate(), ChronoUnit.DAYS))
 				.build();
 	}
 	private PayMethodInputDto toPayMethodInput(PayMethodDto payMethod) {
@@ -176,6 +175,6 @@ public class CheckoutService {
 	
 	private int toTotalPrice(List<ItemDto> items) {
 		
-		return items.stream().collect(Collectors.summingInt(item -> item.getPrice()*item.getNum()));
+		return items.stream().collect(Collectors.summingInt(item -> item.getPrice()*item.getNum()*(int)item.getCheckinDate().until(item.getCheckoutDate(), ChronoUnit.DAYS)));
 	}
 }

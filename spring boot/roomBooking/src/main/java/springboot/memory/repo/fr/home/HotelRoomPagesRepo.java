@@ -159,19 +159,21 @@ public class HotelRoomPagesRepo extends Repo<Input, HotelRoomPages, Output> {
 				.sectionName(room.getHotel().getSection().getName())
 				.roomId(room.getId())
 				.roomName(room.getName())
-				.validNum(room.getTotalNum()-room.getInvalidNum()-(int)toUsedNum(room.getBookingOrders(), checkinDate, checkoutDate))
+				.validNum(room.getTotalNum()-room.getInvalidNum()-toUsedNum(room.getBookingOrders(), checkinDate, checkoutDate))
 				.price(room.getPrice())
 				.build();
 	}
 	
-	private long toUsedNum(List<BookingOrderDto> bookingOrders, LocalDate checkinDate, LocalDate checkoutDate) {
+	private int toUsedNum(List<BookingOrderDto> bookingOrders, LocalDate checkinDate, LocalDate checkoutDate) {
 		
 		return bookingOrders.stream()
 				.filter(bookingOrder -> {
 			
 					return !(!bookingOrder.getCheckoutDate().isAfter(checkinDate) || 
 							!bookingOrder.getCheckinDate().isBefore(checkoutDate));
-				}).collect(Collectors.counting());
+				})
+				.map(bookingOrder -> bookingOrder.getRoomNum())
+				.collect(Collectors.summingInt(n -> n));
 	}
 	
 	private boolean needDefault(SearchParam searchParam) {

@@ -161,21 +161,23 @@ public class RoomPagesRepo extends Repo<Input, RoomPages, Output> {
 		return Room.builder()
 				.roomId(room.getId())
 				.name(room.getName())
-				.validNum(room.getTotalNum()-room.getInvalidNum()-(int)toUsedNum(room.getBookingOrders(), checkinDate, checkoutDate))
+				.validNum(room.getTotalNum()-room.getInvalidNum()-toUsedNum(room.getBookingOrders(), checkinDate, checkoutDate))
 				.price(room.getPrice())
 				.features(toFeatures(room))
 				.images(toImages(room.getRoomImgs()))
 				.build();
 	}
 	
-	private long toUsedNum(List<BookingOrderDto> bookingOrders, LocalDate checkinDate, LocalDate checkoutDate) {
+	private int toUsedNum(List<BookingOrderDto> bookingOrders, LocalDate checkinDate, LocalDate checkoutDate) {
 		
 		return bookingOrders.stream()
 				.filter(bookingOrder -> {
 			
 					return !(!bookingOrder.getCheckoutDate().isAfter(checkinDate) || 
 							!bookingOrder.getCheckinDate().isBefore(checkoutDate));
-				}).collect(Collectors.counting());
+				})
+				.map(bookingOrder -> bookingOrder.getRoomNum())
+				.collect(Collectors.summingInt(n -> n));
 	}
 	private Features toFeatures(RoomDto room) {
 		

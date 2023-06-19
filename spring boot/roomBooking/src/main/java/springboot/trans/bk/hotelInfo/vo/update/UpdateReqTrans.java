@@ -1,5 +1,6 @@
 package springboot.trans.bk.hotelInfo.vo.update;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,9 @@ public class UpdateReqTrans extends VoRiTransChecked<UpdateReq, UpdateReqDto, Up
 				.sectionCode(vo.getSectionCode())
 				.address(vo.getAddress())
 				.description(vo.getDescription())
-				.featureIds(Arrays.stream(vo.getFeatureIds()).mapToObj(fi -> fi).collect(Collectors.toList()))
+				.featureIds(vo.getFeatureIds()!=null ? 
+						Arrays.stream(vo.getFeatureIds()).mapToObj(fi -> fi).collect(Collectors.toList()) : 
+							new ArrayList<>())
 				.newFeatures(newFeatureTrans.voArrayToDtoList(vo.getNewFeatures()))
 				.updateImage(updateImageTrans.voToDto(vo.getUpdateImage()))
 				.build();

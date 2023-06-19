@@ -51,6 +51,7 @@ public class RoomDao {
 	
 	
 	public static final String ID_ATTRIBUTE_NAME_BOOKING_ORDER = "id";
+	public static final String ROOM_NUM_ATTRIBUTE_NAME_BOOKING_ORDER = "roomNum";
 	public static final String CHECKIN_DATE_ATTRIBUTE_NAME_BOOKING_ORDER = "checkinDate";
 	public static final String CHECKOUT_DATE_ATTRIBUTE_NAME_BOOKING_ORDER = "checkoutDate";
 	public static final String SECTION_CODE_ATTRIBUTE_NAME_HOTEL = "sectionCode";
@@ -319,7 +320,7 @@ public class RoomDao {
 
 		Expression<Number> totalNumEx = criteriaBuilder.max(root.get(TOTAL_NUM_ATTRIBUTE_NAME));
 		Expression<Number> invalidNumEx = criteriaBuilder.max(root.get(INVALID_NUM_ATTRIBUTE_NAME));
-		Expression<Long> bookingOrderNumEx = criteriaBuilder.count(joinBookingOrder.get(ID_ATTRIBUTE_NAME_BOOKING_ORDER));
+		Expression<Long> bookingOrderNumEx = criteriaBuilder.sum(joinBookingOrder.get(ROOM_NUM_ATTRIBUTE_NAME_BOOKING_ORDER));
 
 		return criteriaBuilder.le(criteriaBuilder.diff(criteriaBuilder.diff(totalNumEx, invalidNumEx), bookingOrderNumEx), 0);
 	}
@@ -329,8 +330,9 @@ public class RoomDao {
 		Predicate subqueryPredicate = criteriaBuilder.not(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(subquery));
 		Predicate numPredicate = criteriaBuilder.ge(root.get(PEOPLE_NUM_ATTRIBUTE_NAME), num.getNumber());
 		Predicate sectionCodePredicate = criteriaBuilder.equal(joinHotel.get(SECTION_CODE_ATTRIBUTE_NAME_HOTEL), sectionCode);
+		Predicate statusPredicate = criteriaBuilder.equal(root.get(STATUS_ATTRIBUTE_NAME), "1");
 		
-		return criteriaBuilder.and(subqueryPredicate, numPredicate, sectionCodePredicate);
+		return criteriaBuilder.and(subqueryPredicate, numPredicate, sectionCodePredicate, statusPredicate);
 	}
 	
 
@@ -347,7 +349,7 @@ public class RoomDao {
 
 		Expression<Number> totalNumEx = criteriaBuilder.max(root.get(TOTAL_NUM_ATTRIBUTE_NAME));
 		Expression<Number> invalidNumEx = criteriaBuilder.max(root.get(INVALID_NUM_ATTRIBUTE_NAME));
-		Expression<Long> bookingOrderNumEx = criteriaBuilder.count(joinBookingOrder.get(ID_ATTRIBUTE_NAME_BOOKING_ORDER));
+		Expression<Long> bookingOrderNumEx = criteriaBuilder.sum(joinBookingOrder.get(ROOM_NUM_ATTRIBUTE_NAME_BOOKING_ORDER));
 
 		return criteriaBuilder.le(criteriaBuilder.diff(criteriaBuilder.diff(totalNumEx, invalidNumEx), bookingOrderNumEx), 0);
 	}
@@ -357,8 +359,9 @@ public class RoomDao {
 		Predicate subqueryPredicate = criteriaBuilder.not(criteriaBuilder.in(root.get(ID_ATTRIBUTE_NAME)).value(subquery));
 		Predicate numPredicate = criteriaBuilder.ge(root.get(PEOPLE_NUM_ATTRIBUTE_NAME), num.getNumber());
 		Predicate hotelIdPredicate = criteriaBuilder.equal(root.get(HOTEL_ID_ATTRIBUTE_NAME), hotelId);
+		Predicate statusPredicate = criteriaBuilder.equal(root.get(STATUS_ATTRIBUTE_NAME), "1");
 		
-		return criteriaBuilder.and(subqueryPredicate, numPredicate, hotelIdPredicate);
+		return criteriaBuilder.and(subqueryPredicate, numPredicate, hotelIdPredicate, statusPredicate);
 	}
 }
 

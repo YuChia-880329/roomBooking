@@ -1,5 +1,6 @@
 package springboot.service.fr.shoppingCart;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ public class RepoService {
 	}
 	public int toTotalPrice(List<springboot.bean.dto.fr.obj.db.shoppingCart.ItemDto> items) {
 		
-		return items.stream().collect(Collectors.summingInt(item -> item.getNum()*item.getPrice()));
+		return items.stream().collect(Collectors.summingInt(item -> item.getNum()*item.getPrice()*(int)item.getCheckinDate().until(item.getCheckoutDate(), ChronoUnit.DAYS)));
 	}
 	
 	
