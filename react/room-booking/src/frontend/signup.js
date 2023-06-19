@@ -47,7 +47,7 @@ class Signup extends Component {
                 },
                 validation : {
                     value : '',
-                    number : '1234'
+                    number : Math.floor(Math.random() * 9000)+1000
                 }
             }
         };

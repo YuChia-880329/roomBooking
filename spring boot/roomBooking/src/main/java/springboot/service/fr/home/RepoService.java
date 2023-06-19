@@ -26,7 +26,7 @@ public class RepoService {
 		
 		return HotelRoomDto.builder()
 				.roomId(hotelRoom.getRoomId())
-				.imgUrl(ImageUtil.getImgUrl(hotelRoom.getHotelId(), hotelRoom.getRoomId(), hotelRoom.getImgName()))
+				.imgUrl(ImageUtil.getImgUrl(hotelRoom.getHotelId(), hotelRoom.getImgName()))
 				.hotelName(hotelRoom.getHotelName())
 				.sectionName(hotelRoom.getSectionName())
 				.roomName(hotelRoom.getRoomName())
